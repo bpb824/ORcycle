@@ -2,7 +2,6 @@
 /** ORCycle, Copyright 2014
  *
  *   @author Bryan.Blanc <bryanpblanc@gmail.com>
- *   @author Robin Murray <robin5@pdx.edu>
  *
  *   Updated/Modified for Oregon Department of Transportation application deployment. Based on the
  *   RenoTracks repository available on GitHub
