@@ -1,4 +1,11 @@
-/** Reno Tracks, Copyright 2012, 2013 Hack4Reno
+/** ORCycle, Copyright 2014
+ *
+ *   @author Bryan.Blanc <bryanpblanc@gmail.com>
+ *
+ *   Updated/Modified for Oregon Department of Transportation application deployment. Based on the
+ *   RenoTracks repository available on GitHub
+ *
+ ** Reno Tracks, Copyright 2012, 2013 Hack4Reno
  *
  *   @author Brad.Hellyar <bradhellyar@gmail.com>
  *

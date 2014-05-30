@@ -91,7 +91,7 @@
 #define kInstructionsURL	@"http://renotracks.nevadabike.org/RenoTrackshelp.html"
 
 //#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
-#define kSaveURL            @"http://rtstage.nevadabike.org/post/"
+#define kSaveURL            @"http://orcycle.cecs.pdx.edu/post/"
 
 //Reno Tracks Green
 #define renoGreen [UIColor colorWithRed:0.231 green:0.545 blue:0.220 alpha:1.000]
