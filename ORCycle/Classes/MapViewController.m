@@ -190,7 +190,7 @@
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent; 
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setBackgroundColor:renoGreen];
+    [[UINavigationBar appearance] setBackgroundColor:bikeRouteGreen];
     
     
     self.navigationController.navigationBarHidden = NO;
@@ -619,7 +619,7 @@ UIImage *shrinkImage(UIImage *original, CGSize size) {
 - (MKOverlayView*)mapView:(MKMapView*)theMapView viewForOverlay:(id <MKOverlay>)overlay
 {
     MKPolylineView* lineView = [[[MKPolylineView alloc] initWithPolyline:self.routeLine] autorelease];
-    lineView.strokeColor = renoGreen;
+    lineView.strokeColor = bikeRouteGreen;
     lineView.lineWidth = 5;
     return lineView;
 }

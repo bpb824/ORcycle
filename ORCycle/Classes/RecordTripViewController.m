@@ -241,7 +241,7 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setBackgroundColor:renoGreen];
+    [[UINavigationBar appearance] setBackgroundColor:bikeRouteGreen];
     
     self.navigationController.navigationBarHidden = YES;
 	
