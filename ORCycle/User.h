@@ -14,9 +14,15 @@
 
 @property (nonatomic, retain) NSNumber * age;
 @property (nonatomic, retain) NSNumber * cyclingFreq;
-@property (nonatomic, retain) NSNumber * rider_history;
-@property (nonatomic, retain) NSNumber * rider_type;
+@property (nonatomic, retain) NSNumber * cyclingWeather;
+@property (nonatomic, retain) NSNumber * riderHistory;
+@property (nonatomic, retain) NSNumber * riderAbility;
+@property (nonatomic, retain) NSNumber * riderType;
+@property (nonatomic, retain) NSNumber * occupation;
 @property (nonatomic, retain) NSNumber * income;
+@property (nonatomic, retain) NSNumber * hhWorkers;
+@property (nonatomic, retain) NSNumber * hhVehicles;
+@property (nonatomic, retain) NSNumber * numBikes;
 @property (nonatomic, retain) NSNumber * ethnicity;
 @property (nonatomic, retain) NSString * homeZIP;
 @property (nonatomic, retain) NSString * schoolZIP;

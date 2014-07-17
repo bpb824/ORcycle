@@ -32,7 +32,7 @@
 //
 //  Copyright 2009-2010 SFCTA. All rights reserved.
 //  Written by Matt Paul <mattpaul@mopimp.com> on 9/23/09.
-//	For more information on the project, 
+//	For more information on the project,
 //	e-mail Billy Charlton at the SFCTA <billy.charlton@sfcta.org>
 
 #import <UIKit/UIKit.h>
@@ -47,16 +47,22 @@
 	id <PersonalInfoDelegate> delegate;
 	NSManagedObjectContext *managedObjectContext;
 	User *user;
-
+    
 	UITextField *age;
 	UITextField *email;
 	UITextField *gender;
     UITextField *ethnicity;
+    UITextField *occupation;
     UITextField *income;
+    UITextField *hhWorkers;
+    UITextField *hhVehicles;
+    UITextField *numBikes;
 	UITextField *homeZIP;
 	UITextField *workZIP;
 	UITextField *schoolZIP;
     UITextField *cyclingFreq;
+    UITextField *cyclingWeather;
+    UITextField *riderAbility;
     UITextField *riderType;
     UITextField *riderHistory;
     UIToolbar *doneToolbar;
@@ -67,16 +73,28 @@
     NSArray *genderArray;
     NSArray *ageArray;
     NSArray *ethnicityArray;
+    NSArray *occupationArray;
     NSArray *incomeArray;
+    NSArray *hhWorkersArray;
+    NSArray *hhVehiclesArray;
+    NSArray *numBikesArray;
     NSArray *cyclingFreqArray;
+    NSArray *cyclingWeatherArray;
+    NSArray *riderAbilityArray;
     NSArray *riderTypeArray;
     NSArray *riderHistoryArray;
     
     NSInteger ageSelectedRow;
     NSInteger genderSelectedRow;
     NSInteger ethnicitySelectedRow;
+    NSInteger occupationSelectedRow;
     NSInteger incomeSelectedRow;
+    NSInteger hhWorkersSelectedRow;
+    NSInteger hhVehiclesSelectedRow;
+    NSInteger numBikesSelectedRow;
     NSInteger cyclingFreqSelectedRow;
+    NSInteger cyclingWeatherRow;
+    NSInteger riderAbilityRow;
     NSInteger riderTypeSelectedRow;
     NSInteger riderHistorySelectedRow;
     NSInteger selectedItem;
@@ -91,20 +109,32 @@
 @property (nonatomic, retain) UITextField	*email;
 @property (nonatomic, retain) UITextField	*gender;
 @property (nonatomic, retain) UITextField   *ethnicity;
+@property (nonatomic, retain) UITextField   *occupation;
 @property (nonatomic, retain) UITextField   *income;
+@property (nonatomic, retain) UITextField   *hhWorkers;
+@property (nonatomic, retain) UITextField   *hhVehicles;
+@property (nonatomic, retain) UITextField   *numBikes;
 @property (nonatomic, retain) UITextField	*homeZIP;
 @property (nonatomic, retain) UITextField	*workZIP;
 @property (nonatomic, retain) UITextField	*schoolZIP;
 
 @property (nonatomic, retain) UITextField   *cyclingFreq;
+@property (nonatomic, retain) UITextField   *cyclingWeather;
+@property (nonatomic, retain) UITextField   *riderAbility;
 @property (nonatomic, retain) UITextField   *riderType;
 @property (nonatomic, retain) UITextField   *riderHistory;
 
 @property (nonatomic) NSInteger ageSelectedRow;
 @property (nonatomic) NSInteger genderSelectedRow;
 @property (nonatomic) NSInteger ethnicitySelectedRow;
+@property (nonatomic) NSInteger occupationSelectedRow;
 @property (nonatomic) NSInteger incomeSelectedRow;
+@property (nonatomic) NSInteger hhWorkersSelectedRow;
+@property (nonatomic) NSInteger hhVehiclesSelectedRow;
+@property (nonatomic) NSInteger numBikesSelectedRow;
 @property (nonatomic) NSInteger cyclingFreqSelectedRow;
+@property (nonatomic) NSInteger cyclingWeatherSelectedRow;
+@property (nonatomic) NSInteger riderAbilitySelectedRow;
 @property (nonatomic) NSInteger riderTypeSelectedRow;
 @property (nonatomic) NSInteger riderHistorySelectedRow;
 @property (nonatomic) NSInteger selectedItem;

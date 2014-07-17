@@ -245,8 +245,8 @@
     
     self.navigationController.navigationBarHidden = YES;
 	
-	// init map region to Reno
-	MKCoordinateRegion region = { { 39.519933, -119.78964}, { 0.0078, 0.0068 } };
+	// init map region to Portland, OR
+	MKCoordinateRegion region = { { 45.5424364, -122.654422}, { 0.0078, 0.0068 } };
 	[mapView setRegion:region animated:NO];
 	
 	// setup info button used when showing recorded trips

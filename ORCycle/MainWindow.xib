@@ -30,7 +30,7 @@
             <nil key="simulatedBottomBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <nil key="simulatedDestinationMetrics"/>
-            <tabBar key="tabBar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="18">
+            <tabBar key="tabBar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" selectedItem="34" id="18">
                 <rect key="frame" x="0.0" y="431" width="320" height="49"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -49,7 +49,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.231372565" green="0.54509806630000002" blue="0.2196078598" alpha="1" colorSpace="deviceRGB"/>
                         <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.231372565" green="0.54509806630000002" blue="0.2196078598" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.41960784309999999" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <viewControllers>
                         <viewController title="Record" nibName="RecordMap" id="31" customClass="RecordTripViewController">
@@ -74,7 +74,7 @@
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translucent="NO" id="37">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.231372565" green="0.54509806630000002" blue="0.2196078598" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.41960784309999999" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <viewControllers>
                         <viewController title="Trips" id="36" customClass="SavedTripsViewController">
@@ -99,7 +99,7 @@
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translucent="NO" id="110">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.231372565" green="0.54509806630000002" blue="0.2196078598" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.41960784309999999" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <viewControllers>
                         <tableViewController title="My Notes" id="115" customClass="SavedNotesViewController">
@@ -133,7 +133,7 @@
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translucent="NO" id="47">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.231372565" green="0.54509806630000002" blue="0.2196078598" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.41960784309999999" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <viewControllers>
                         <viewController title="Personal Info" nibName="PersonalInfo" id="46" customClass="PersonalInfoViewController">

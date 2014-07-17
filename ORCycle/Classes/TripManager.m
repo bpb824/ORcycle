@@ -367,10 +367,16 @@
 			[userDict setValue:user.workZIP         forKey:@"workZIP"];
 			[userDict setValue:user.schoolZIP       forKey:@"schoolZIP"];
 			[userDict setValue:user.cyclingFreq     forKey:@"cyclingFreq"];
+            [userDict setValue:user.cyclingFreq     forKey:@"cyclingWeather"];
             [userDict setValue:user.ethnicity       forKey:@"ethnicity"];
+            [userDict setValue:user.occupation      forKey:@"occupation"];
             [userDict setValue:user.income          forKey:@"income"];
-            [userDict setValue:user.rider_type      forKey:@"rider_type"];
-            [userDict setValue:user.rider_history	forKey:@"rider_history"];
+            [userDict setValue:user.hhWorkers        forKey:@"hhWorkers "];
+            [userDict setValue:user.hhVehicles       forKey:@"hhVehicles"];
+            [userDict setValue:user.numBikes       forKey:@"numBikes"];
+            [userDict setValue:user.riderType      forKey:@"riderType"];
+            [userDict setValue:user.riderAbility    forKey:@"riderAbility"];
+            [userDict setValue:user.riderHistory	forKey:@"riderHistory"];
             [userDict setValue:appVersion           forKey:@"app_version"];
 		}
 		else
@@ -507,6 +513,23 @@
 		purpose = trip.purpose;
 	else
 		purpose = @"unknown";
+    
+    NSString *routeFreq;
+    NSString *routePrefs;
+    NSString *routeComfort;
+    NSString *routeSafety;
+    NSString *ridePassengers;
+    NSString *rideSpecial;
+    NSString *rideConflict;
+    NSString *routeStressors;
+    routeFreq = NULL;
+    routePrefs = NULL;
+    routeComfort = NULL;
+    routeSafety = NULL;
+    ridePassengers = NULL;
+    rideSpecial = NULL;
+    rideConflict = NULL;
+    routeStressors = NULL;
 	
 	// get trip notes
 	NSString *notes = @"";
@@ -538,6 +561,14 @@
 							  tripJson, @"coords",
 							  purpose, @"purpose",
 							  notes, @"notes",
+                              routeFreq, @"routeFreq",
+                              routePrefs, @"routePrefs",
+                              routeComfort,@"routeComfort",
+                              routeSafety, @"routeSafety",
+                              ridePassengers, @"ridePassengers",
+                              rideSpecial, @"rideSpecial",
+                              rideConflict, @"rideConflict",
+                              routeStressors, @"routeStressors",
 							  start, @"start",
 							  userJson, @"user",
                               

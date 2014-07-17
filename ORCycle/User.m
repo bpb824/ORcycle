@@ -14,9 +14,15 @@
 
 @dynamic age;
 @dynamic cyclingFreq;
-@dynamic rider_history;
-@dynamic rider_type;
+@dynamic cyclingWeather;
+@dynamic riderHistory;
+@dynamic riderAbility;
+@dynamic riderType;
+@dynamic occupation;
 @dynamic income;
+@dynamic hhWorkers;
+@dynamic hhVehicles;
+@dynamic numBikes;
 @dynamic ethnicity;
 @dynamic homeZIP;
 @dynamic schoolZIP;

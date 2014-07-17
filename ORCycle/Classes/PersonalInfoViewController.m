@@ -32,7 +32,7 @@
 //
 //  Copyright 2009-2010 SFCTA. All rights reserved.
 //  Written by Matt Paul <mattpaul@mopimp.com> on 9/23/09.
-//	For more information on the project, 
+//	For more information on the project,
 //	e-mail Billy Charlton at the SFCTA <billy.charlton@sfcta.org>
 
 
@@ -45,9 +45,9 @@
 @implementation PersonalInfoViewController
 
 @synthesize delegate, managedObjectContext, user;
-@synthesize age, email, gender, ethnicity, income, homeZIP, workZIP, schoolZIP;
-@synthesize cyclingFreq, riderType, riderHistory;
-@synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, incomeSelectedRow, cyclingFreqSelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem;
+@synthesize age, email, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
+@synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
+@synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem;
 
 
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -146,21 +146,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
 	// Set the title.
 	// self.title = @"Personal Info";
     
-    genderArray = [[NSArray alloc]initWithObjects: @" ", @"Female",@"Male", nil];
+    genderArray = [[NSArray alloc]initWithObjects: @" ", @"Female",@"Male", @"Other", nil];
     
     ageArray = [[NSArray alloc]initWithObjects: @" ", @"Less than 18", @"18-24", @"25-34", @"35-44", @"45-54", @"55-64", @"65+", nil];
     
-    ethnicityArray = [[NSArray alloc]initWithObjects: @" ", @"White", @"African American", @"Asian", @"Native American", @"Pacific Islander", @"Multi-racial", @"Hispanic / Mexican / Latino", @"Other", nil];
+    ethnicityArray = [[NSArray alloc]initWithObjects: @" ", @"White", @"African American", @"Asian", @"Hispanic", @"American Indian, Alaskan Native", @"Other", nil];
     
-    incomeArray = [[NSArray alloc]initWithObjects: @" ", @"Less than $20,000", @"$20,000 to $39,999", @"$40,000 to $59,999", @"$60,000 to $74,999", @"$75,000 to $99,999", @"$100,000 or greater", nil];
+    occupationArray = [[NSArray alloc]initWithObjects: @" ", @"Employed", @"Student", @"Retired", @"Homemaker", @"Other",nil];
     
-    cyclingFreqArray = [[NSArray alloc]initWithObjects: @" ", @"Less than once a month", @"Several times per month", @"Several times per week", @"Daily", nil];
+    incomeArray = [[NSArray alloc]initWithObjects: @" ", @"Less than $14,999", @"$15,000 to $24,999", @"$25,000 to $34,999", @"$35,000 to $49,999", @"$50,000 to $74,999", @"$75,000 to $99,999", @"$100,000 to $149,999", @"$150,000 or more", nil];
     
-    riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"Strong & fearless", @"Enthused & confident", @"Comfortable, but cautious", @"Interested, but concerned", nil];
+    hhWorkersArray = [[NSArray alloc]initWithObjects: @" ", @"0", @"1", @"2", @"3 or more", nil];
+    
+    hhVehiclesArray = [[NSArray alloc]initWithObjects: @" ", @"0 Vehicles", @"1 Vehicle", @"2 Vehicles", @"3 or more Vehicles", nil];
+    
+    numBikesArray = [[NSArray alloc]initWithObjects: @" ", @"0 Bicycles", @"1 Bicycle", @"2 Bicycles", @"3 Bicycles", @"4 or more Bicycles", nil];
+    
+    cyclingFreqArray = [[NSArray alloc]initWithObjects: @" ", @"A few times per year", @"A few times per month", @"A few times per week", @"Nearly every day", nil];
+    
+    cyclingWeatherArray = [[NSArray alloc]initWithObjects: @" ", @"In any kind of weather", @"When it does not rain", @"Usually with warm and dry weather", @"Only with warm and dry weather", nil];
+    
+    riderAbilityArray = [[NSArray alloc]initWithObjects: @" ", @"Very Low", @"Low", @"Average",  @"High", @"Very High",  nil];
+    
+    riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"For nearly all my trips", @"To & from work", @"For recreation and/or excercise in my free time", @"For shopping, errands, or visiting friends", @"Mainly to & from work, but occasionally for other purposes", @"Other", nil];
     
     riderHistoryArray = [[NSArray alloc]initWithObjects: @" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started", nil];
     
@@ -177,14 +189,20 @@
 	self.email		= [self initTextFieldEmail];
 	self.gender		= [self initTextFieldAlpha];
     self.ethnicity  = [self initTextFieldAlpha];
+    self.occupation    = [self initTextFieldAlpha];
     self.income     = [self initTextFieldAlpha];
+    self.hhWorkers   = [self initTextFieldAlpha];
+    self.hhVehicles   = [self initTextFieldAlpha];
+    self.numBikes   = [self initTextFieldAlpha];
 	self.homeZIP	= [self initTextFieldNumeric];
 	self.workZIP	= [self initTextFieldNumeric];
 	self.schoolZIP	= [self initTextFieldNumeric];
     self.cyclingFreq = [self initTextFieldBeta];
+    self.cyclingWeather = [self initTextFieldBeta];
+    self.riderAbility  =  [self initTextFieldBeta];
     self.riderType  =  [self initTextFieldBeta];
     self.riderHistory =[self initTextFieldBeta];
-
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
@@ -196,7 +214,7 @@
 	// Set up the buttons.
     // this is actually the Save button.
     UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(done)];
-
+    
     //Initial Save button state is disabled. will be enabled if a change has been made to any of the fields.
 	done.enabled = NO;
 	self.navigationItem.rightBarButtonItem = done;
@@ -229,12 +247,25 @@
 		age.text            = [ageArray objectAtIndex:[user.age integerValue]];
         ageSelectedRow      = [user.age integerValue];
 		email.text          = user.email;
-		gender.text         = [genderArray objectAtIndex:[user.gender integerValue]];;
+		gender.text         = [genderArray objectAtIndex:[user.gender integerValue]];
         genderSelectedRow   = [user.gender integerValue];
         ethnicity.text      = [ethnicityArray objectAtIndex:[user.ethnicity integerValue]];
         ethnicitySelectedRow= [user.ethnicity integerValue];
+        
+        occupation.text         = [occupationArray objectAtIndex:[user.occupation integerValue]];
+        occupationSelectedRow   = [user.occupation integerValue];
+        
         income.text         = [incomeArray objectAtIndex:[user.income integerValue]];
         incomeSelectedRow   = [user.income integerValue];
+        
+        hhWorkers.text         = [hhWorkersArray objectAtIndex:[user.hhWorkers integerValue]];
+        hhWorkersSelectedRow   = [user.hhWorkers integerValue];
+        
+        hhVehicles.text         = [hhVehiclesArray objectAtIndex:[user.hhVehicles integerValue]];
+        hhVehiclesSelectedRow   = [user.hhVehicles integerValue];
+        
+        numBikes.text         = [numBikesArray objectAtIndex:[user.numBikes integerValue]];
+        numBikesSelectedRow   = [user.numBikes integerValue];
 		
         homeZIP.text        = user.homeZIP;
 		workZIP.text        = user.workZIP;
@@ -242,10 +273,14 @@
         
         cyclingFreq.text        = [cyclingFreqArray objectAtIndex:[user.cyclingFreq integerValue]];
         cyclingFreqSelectedRow  = [user.cyclingFreq integerValue];
-        riderType.text          = [riderTypeArray objectAtIndex:[user.rider_type integerValue]];
-        riderTypeSelectedRow    = [user.rider_type integerValue];
-        riderHistory.text       = [riderHistoryArray objectAtIndex:[user.rider_history integerValue]];
-        riderHistorySelectedRow = [user.rider_history integerValue];
+        cyclingWeather.text        = [cyclingWeatherArray objectAtIndex:[user.cyclingWeather integerValue]];
+        cyclingWeatherSelectedRow  = [user.cyclingWeather integerValue];
+        riderAbility.text          = [riderAbilityArray objectAtIndex:[user.riderAbility integerValue]];
+        riderAbilitySelectedRow    = [user.riderAbility integerValue];
+        riderType.text          = [riderTypeArray objectAtIndex:[user.riderType integerValue]];
+        riderTypeSelectedRow    = [user.riderType integerValue];
+        riderHistory.text       = [riderHistoryArray objectAtIndex:[user.riderHistory integerValue]];
+        riderHistorySelectedRow = [user.riderHistory integerValue];
 		
 		// init cycling frequency
 		//NSLog(@"init cycling freq: %d", [user.cyclingFreq intValue]);
@@ -277,14 +312,14 @@
 - (void)textFieldDidBeginEditing:(UITextField *)myTextField{
     
     /*if(currentTextField == email || currentTextField == workZIP || currentTextField == homeZIP || currentTextField == schoolZIP){
-        NSLog(@"currentTextField: text");
-        [currentTextField resignFirstResponder];
-        [myTextField resignFirstResponder];
-    }
-    NSLog(@"currentTextfield: picker");*/
+     NSLog(@"currentTextField: text");
+     [currentTextField resignFirstResponder];
+     [myTextField resignFirstResponder];
+     }
+     NSLog(@"currentTextfield: picker");*/
     currentTextField = myTextField;
     
-    if(myTextField == gender || myTextField == age || myTextField == ethnicity || myTextField == income || myTextField == cyclingFreq || myTextField == riderType || myTextField == riderHistory){
+    if(myTextField == gender || myTextField == age || myTextField == ethnicity || myTextField == occupation || myTextField == income || myTextField == hhWorkers || myTextField == hhVehicles || myTextField == numBikes || myTextField == cyclingFreq || myTextField == cyclingWeather|| myTextField == riderAbility || myTextField == riderType || myTextField == riderHistory){
         
         [myTextField resignFirstResponder];
         
@@ -322,14 +357,26 @@
             selectedItem = [user.age integerValue];
         }else if (myTextField == ethnicity){
             selectedItem = [user.ethnicity integerValue];
+        }else if (myTextField == occupation){
+            selectedItem = [user.occupation integerValue];
         }else if (myTextField == income){
             selectedItem = [user.income integerValue];
+        }else if (myTextField == hhWorkers){
+            selectedItem = [user.hhWorkers integerValue];
+        }else if (myTextField == hhVehicles){
+            selectedItem = [user.hhVehicles integerValue];
+        }else if (myTextField == numBikes){
+            selectedItem = [user.numBikes integerValue];
         }else if (myTextField == cyclingFreq){
             selectedItem = [user.cyclingFreq integerValue];
+        }else if (myTextField == cyclingWeather){
+            selectedItem = [user.cyclingWeather integerValue];
+        }else if (myTextField == riderAbility){
+            selectedItem = [user.riderAbility integerValue];
         }else if (myTextField == riderType){
-            selectedItem = [user.rider_type integerValue];
+            selectedItem = [user.riderType integerValue];
         }else if (myTextField == riderHistory){
-            selectedItem = [user.rider_history integerValue];
+            selectedItem = [user.riderHistory integerValue];
         }
         
         [pickerView selectRow:selectedItem inComponent:0 animated:NO];
@@ -341,7 +388,7 @@
         [actionSheet showInView:self.view];
         
         [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
-
+        
     }
 }
 
@@ -361,7 +408,7 @@
 	
 	// save value
 	if ( user != nil )
-	{		
+	{
 		if ( textField == email )
 		{
             //enable save button if value has been changed.
@@ -370,7 +417,7 @@
             }
 			NSLog(@"saving email: %@", email.text);
 			[user setEmail:email.text];
-		}		
+		}
 		if ( textField == homeZIP )
 		{
             if (homeZIP.text != user.homeZIP){
@@ -395,7 +442,7 @@
 			NSLog(@"saving workZIP: %@", workZIP.text);
 			[user setWorkZIP:workZIP.text];
 		}
-       
+        
 		
 		NSError *error;
 		if (![managedObjectContext save:&error]) {
@@ -418,40 +465,58 @@
 	{
 		[user setAge:[NSNumber numberWithInt:ageSelectedRow]];
         NSLog(@"saved age index: %@ and text: %@", user.age, age.text);
-
+        
 		[user setEmail:email.text];
         NSLog(@"saved email: %@", user.email);
-
+        
 		[user setGender:[NSNumber numberWithInt:genderSelectedRow]];
 		NSLog(@"saved gender index: %@ and text: %@", user.gender, gender.text);
         
         [user setEthnicity:[NSNumber numberWithInt:ethnicitySelectedRow]];
         NSLog(@"saved ethnicity index: %@ and text: %@", user.ethnicity, ethnicity.text);
         
+        [user setOccupation:[NSNumber numberWithInt:occupationSelectedRow]];
+        NSLog(@"saved occupation index: %@ and text: %@", user.occupation, occupation.text);
+        
         [user setIncome:[NSNumber numberWithInt:incomeSelectedRow]];
         NSLog(@"saved income index: %@ and text: %@", user.income, income.text);
         
+        [user sethhWorkers:[NSNumber numberWithInt:hhWorkersSelectedRow]];
+        NSLog(@"saved hhWorkers index: %@ and text: %@", user.hhWorkers, hhWorkers.text);
+        
+        [user sethhVehicles:[NSNumber numberWithInt:hhVehiclesSelectedRow]];
+        NSLog(@"saved hhVehicles index: %@ and text: %@", user.hhVehicles, hhVehicles.text);
+        
+        [user setNumBikes:[NSNumber numberWithInt:numBikesSelectedRow]];
+        NSLog(@"saved numBikes index: %@ and text: %@", user.numBikes, numBikes.text);
+        
 		[user setHomeZIP:homeZIP.text];
         NSLog(@"saved homeZIP: %@", homeZIP.text);
-
+        
 		[user setSchoolZIP:schoolZIP.text];
         NSLog(@"saved schoolZIP: %@", schoolZIP.text);
-
+        
 		[user setWorkZIP:workZIP.text];
         NSLog(@"saved workZIP: %@", workZIP.text);
-                
+        
         [user setCyclingFreq:[NSNumber numberWithInt:cyclingFreqSelectedRow]];
         NSLog(@"saved cycle freq index: %@ and text: %@", user.cyclingFreq, cyclingFreq.text);
         
-        [user setRider_type:[NSNumber numberWithInt:riderTypeSelectedRow]];
-        NSLog(@"saved rider type index: %@ and text: %@", user.rider_type, riderType.text);
+        [user setCyclingWeather:[NSNumber numberWithInt:cyclingWeatherSelectedRow]];
+        NSLog(@"saved cycling weather index: %@ and text: %@", user.cyclingWeather, cyclingWeather.text);
         
-        [user setRider_history:[NSNumber numberWithInt:riderHistorySelectedRow]];
-        NSLog(@"saved rider history index: %@ and text: %@", user.rider_history, riderHistory.text);
+        [user setRiderAbility:[NSNumber numberWithInt:riderAbilitySelectedRow]];
+        NSLog(@"saved rider ability index: %@ and text: %@", user.riderAbility, riderAbility.text);
+        
+        [user setRiderType:[NSNumber numberWithInt:riderTypeSelectedRow]];
+        NSLog(@"saved rider type index: %@ and text: %@", user.riderType, riderType.text);
+        
+        [user setRiderHistory:[NSNumber numberWithInt:riderHistorySelectedRow]];
+        NSLog(@"saved rider history index: %@ and text: %@", user.riderHistory, riderHistory.text);
 		
 		//NSLog(@"saving cycling freq: %d", [cyclingFreq intValue]);
 		//[user setCyclingFreq:cyclingFreq];
-
+        
 		NSError *error;
 		if (![managedObjectContext save:&error]) {
 			// Handle the error.
@@ -481,7 +546,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 6;
+    return 8;
 }
 
 
@@ -500,9 +565,15 @@
 			return @"How often do you cycle?";
 			break;
         case 4:
-			return @"What kind of rider are you?";
+			return @"What type of weather do you ride in?";
 			break;
         case 5:
+			return @"How would you rate your overall skill and experience level regarding cycling?";
+			break;
+        case 6:
+			return @"I cycle mostly...";
+			break;
+        case 7:
 			return @"How long have you been a cyclist?";
 			break;
 	}
@@ -515,9 +586,9 @@
 //    sectionHead.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
 //    sectionHead.userInteractionEnabled = YES;
 //    sectionHead.tag = section;
-//    
+//
 //    UILabel *sectionText = [[UILabel alloc] initWithFrame:CGRectMake(18, 8, tbl.bounds.size.width - 10, 18)];
-//    
+//
 //    switch (section) {
 //		case 0:
 //			sectionText.text = @"Tell us about yourself";
@@ -540,10 +611,10 @@
 //    //sectionText.shadowColor = [UIColor grayColor];
 //    //sectionText.shadowOffset = CGSizeMake(0,0.001);
 //    sectionText.font = [UIFont boldSystemFontOfSize:16];
-//    
+//
 //    [sectionHead addSubview:sectionText];
 //    [sectionText release];
-//    
+//
 //    return [sectionHead autorelease];
 //}
 //
@@ -561,7 +632,7 @@
             return 1;
             break;
 		case 1:
-			return 5;
+			return 9;
 			break;
 		case 2:
 			return 3;
@@ -575,6 +646,12 @@
         case 5:
 			return 1;
 			break;
+        case 6:
+			return 1;
+			break;
+        case 7:
+			return 1;
+			break;
 		default:
 			return 0;
 	}
@@ -584,7 +661,7 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{    
+{
     // Set up the cell...
 	UITableViewCell *cell = nil;
 	
@@ -603,14 +680,14 @@
 			switch ([indexPath indexAtPosition:1])
 			{
 				case 0:
-					cell.textLabel.text = @"Getting started with Reno Tracks";
+					cell.textLabel.text = @"Getting started with ORcycle";
 					break;
 			}
 			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
 			break;
-
+            
 		case 1:
 		{
 			static NSString *CellIdentifier = @"CellPersonalInfo";
@@ -618,7 +695,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-
+            
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -639,15 +716,31 @@
 					[cell.contentView addSubview:ethnicity];
 					break;
                 case 4:
+					cell.textLabel.text = @"Occupation";
+					[cell.contentView addSubview:occupation];
+					break;
+                case 5:
 					cell.textLabel.text = @"Home Income";
 					[cell.contentView addSubview:income];
+					break;
+                case 6:
+					cell.textLabel.text = @"# HH Workers";
+					[cell.contentView addSubview:hhWorkers];
+					break;
+                case 7:
+					cell.textLabel.text = @"# HH Vehicles";
+					[cell.contentView addSubview:hhVehicles];
+					break;
+                case 8:
+					cell.textLabel.text = @"# Bicycles";
+					[cell.contentView addSubview:numBikes];
 					break;
 			}
 			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
 			break;
-	
+            
 		case 2:
 		{
 			static NSString *CellIdentifier = @"CellZip";
@@ -655,7 +748,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-
+            
 			switch ([indexPath indexAtPosition:1])
 			{
 				case 0:
@@ -698,6 +791,47 @@
             
         case 4:
 		{
+			static NSString *CellIdentifier = @"CellWeather";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+                    cell.textLabel.text = @"I cycle...";
+					[cell.contentView addSubview:cyclingWeather];
+					break;
+            }
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
+			break;
+            
+        case 5:
+		{
+			static NSString *CellIdentifier = @"CellAbility";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+                    cell.textLabel.text = @"Rider Ability";
+					[cell.contentView addSubview:riderAbility];
+					break;
+            }
+			
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
+			break;
+            
+        case 6:
+		{
 			static NSString *CellIdentifier = @"CellType";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
@@ -717,7 +851,7 @@
 		}
 			break;
             
-        case 5:
+        case 7:
 		{
 			static NSString *CellIdentifier = @"CellHistory";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -749,7 +883,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-
+    
 	// outer switch statement identifies section
     NSURL *url = [NSURL URLWithString:kInstructionsURL];
     NSURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -845,11 +979,29 @@
     else if(currentTextField == ethnicity){
         return [ethnicityArray count];
     }
+    else if(currentTextField == occupation){
+        return [occupationArray count];
+    }
     else if(currentTextField == income){
         return [incomeArray count];
     }
+    else if(currentTextField == hhWorkers){
+        return [hhWorkersArray count];
+    }
+    else if(currentTextField == hhVehicles){
+        return [hhVehiclesArray count];
+    }
+    else if(currentTextField == numBikes){
+        return [numBikesArray count];
+    }
     else if(currentTextField == cyclingFreq){
         return [cyclingFreqArray count];
+    }
+    else if(currentTextField == cyclingWeather){
+        return [cyclingWeatherArray count];
+    }
+    else if(currentTextField == riderAbility){
+        return [riderAbilityArray count];
     }
     else if(currentTextField == riderType){
         return [riderTypeArray count];
@@ -870,11 +1022,29 @@
     else if(currentTextField == ethnicity){
         return [ethnicityArray objectAtIndex:row];
     }
+    else if(currentTextField == occupation){
+        return [occupationArray objectAtIndex:row];
+    }
     else if(currentTextField == income){
         return [incomeArray objectAtIndex:row];
     }
+    else if(currentTextField == hhWorkers){
+        return [hhWorkersArray objectAtIndex:row];
+    }
+    else if(currentTextField == hhVehicles){
+        return [hhVehiclesArray objectAtIndex:row];
+    }
+    else if(currentTextField == numBikes){
+        return [numBikesArray objectAtIndex:row];
+    }
     else if(currentTextField == cyclingFreq){
         return [cyclingFreqArray objectAtIndex:row];
+    }
+    else if(currentTextField == cyclingWeather){
+        return [cyclingWeatherArray objectAtIndex:row];
+    }
+    else if(currentTextField == riderAbility){
+        return [riderAbilityArray objectAtIndex:row];
     }
     else if(currentTextField == riderType){
         return [riderTypeArray objectAtIndex:row];
@@ -903,7 +1073,7 @@
         if (selectedRow != [user.age integerValue]){
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-
+        
         ageSelectedRow = selectedRow;
         NSString *ageSelect = [ageArray objectAtIndex:selectedRow];
         age.text = ageSelect;
@@ -913,47 +1083,107 @@
         if (selectedRow != [user.ethnicity integerValue]){
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-
+        
         ethnicitySelectedRow = selectedRow;
         NSString *ethnicitySelect = [ethnicityArray objectAtIndex:selectedRow];
         ethnicity.text = ethnicitySelect;
+    }
+    if(currentTextField == occupation){
+        //enable save button if value has been changed.
+        if (selectedRow != [user.occupation integerValue]){
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        
+        occupationSelectedRow = selectedRow;
+        NSString *occupationSelect = [occupationArray objectAtIndex:selectedRow];
+        occupation.text = occupationSelect;
     }
     if(currentTextField == income){
         //enable save button if value has been changed.
         if (selectedRow != [user.income integerValue]){
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-
+        
         incomeSelectedRow = selectedRow;
         NSString *incomeSelect = [incomeArray objectAtIndex:selectedRow];
         income.text = incomeSelect;
+    }
+    if(currentTextField == hhWorkers){
+        //enable save button if value has been changed.
+        if (selectedRow != [user.hhWorkers integerValue]){
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        
+        hhWorkersSelectedRow = selectedRow;
+        NSString *hhWorkersSelect = [hhWorkersArray objectAtIndex:selectedRow];
+        hhWorkers.text = hhWorkersSelect;
+    }
+    if(currentTextField == hhVehicles){
+        //enable save button if value has been changed.
+        if (selectedRow != [user.hhVehicles integerValue]){
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        
+        hhVehiclesSelectedRow = selectedRow;
+        NSString *hhVehiclesSelect = [hhVehiclesArray objectAtIndex:selectedRow];
+        hhVehicles.text = hhVehiclesSelect;
+    }
+    if(currentTextField == numBikes){
+        //enable save button if value has been changed.
+        if (selectedRow != [user.numBikes integerValue]){
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        
+        numBikesSelectedRow = selectedRow;
+        NSString *numBikesSelect = [numBikesArray objectAtIndex:selectedRow];
+        numBikes.text = numBikesSelect;
     }
     if(currentTextField == cyclingFreq){
         //enable save button if value has been changed.
         if (selectedRow != [user.cyclingFreq integerValue]){
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-
+        
         cyclingFreqSelectedRow = selectedRow;
         NSString *cyclingFreqSelect = [cyclingFreqArray objectAtIndex:selectedRow];
         cyclingFreq.text = cyclingFreqSelect;
     }
-    if(currentTextField == riderType){
+    if(currentTextField == cyclingWeather){
         //enable save button if value has been changed.
-        if (selectedRow != [user.rider_type integerValue]){
+        if (selectedRow != [user.cyclingWeather integerValue]){
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-
+        
+        cyclingWeatherSelectedRow = selectedRow;
+        NSString *cyclingWeatherSelect = [cyclingWeatherArray objectAtIndex:selectedRow];
+        cyclingWeather.text = cyclingWeatherSelect;
+    }
+    if(currentTextField == riderAbility){
+        //enable save button if value has been changed.
+        if (selectedRow != [user.riderAbility integerValue]){
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        
+        riderAbilitySelectedRow = selectedRow;
+        NSString *riderAbilitySelect = [riderAbilityArray objectAtIndex:selectedRow];
+        riderAbility.text = riderAbilitySelect;
+    }
+    if(currentTextField == riderType){
+        //enable save button if value has been changed.
+        if (selectedRow != [user.riderType integerValue]){
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        
         riderTypeSelectedRow = selectedRow;
         NSString *riderTypeSelect = [riderTypeArray objectAtIndex:selectedRow];
         riderType.text = riderTypeSelect;
     }
     if(currentTextField == riderHistory){
         //enable save button if value has been changed.
-        if (selectedRow != [user.rider_history integerValue]){
+        if (selectedRow != [user.riderHistory integerValue]){
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-
+        
         riderHistorySelectedRow = selectedRow;
         NSString *riderHistorySelect = [riderHistoryArray objectAtIndex:selectedRow];
         riderHistory.text = riderHistorySelect;
@@ -973,18 +1203,30 @@
     self.email = nil;
     self.gender = nil;
     self.ethnicity = nil;
+    self.occupation = nil;
     self.income = nil;
+    self.hhWorkers = nil;
+    self.hhVehicles = nil;
+    self.numBikes = nil;
     self.homeZIP = nil;
     self.workZIP = nil;
     self.schoolZIP = nil;
     self.cyclingFreq = nil;
+    self.cyclingWeather = nil;
     self.riderType = nil;
+    self.riderAbility = nil;
     self.riderHistory = nil;
     self.ageSelectedRow = nil;
     self.genderSelectedRow = nil;
     self.ethnicitySelectedRow = nil;
+    self.occupationSelectedRow = nil;
     self.incomeSelectedRow = nil;
+    self.hhWorkersSelectedRow = nil;
+    self.hhVehiclesSelectedRow = nil;
+    self.numBikesSelectedRow = nil;
     self.cyclingFreqSelectedRow = nil;
+    self.cyclingWeatherSelectedRow = nil;
+    self.riderAbilitySelectedRow = nil;
     self.riderTypeSelectedRow = nil;
     self.riderHistorySelectedRow = nil;
     self.selectedItem = nil;
@@ -996,11 +1238,17 @@
     [email release];
     [gender release];
     [ethnicity release];
+    [occupation release];
     [income release];
+    [hhWorkers release];
+    [hhVehicles release];
+    [numBikes release];
     [homeZIP release];
     [workZIP release];
     [schoolZIP release];
     [cyclingFreq release];
+    [cyclingWeather release];
+    [riderAbility release];
     [riderType release];
     [riderHistory release];
     
