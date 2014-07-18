@@ -481,12 +481,12 @@
         [user setIncome:[NSNumber numberWithInt:incomeSelectedRow]];
         NSLog(@"saved income index: %@ and text: %@", user.income, income.text);
         
-        [user sethhWorkers:[NSNumber numberWithInt:hhWorkersSelectedRow]];
+        [user setHhWorkers:[NSNumber numberWithInt:hhWorkersSelectedRow]];
         NSLog(@"saved hhWorkers index: %@ and text: %@", user.hhWorkers, hhWorkers.text);
         
-        [user sethhVehicles:[NSNumber numberWithInt:hhVehiclesSelectedRow]];
+        [user setHhVehicles:[NSNumber numberWithInt:hhVehiclesSelectedRow]];
         NSLog(@"saved hhVehicles index: %@ and text: %@", user.hhVehicles, hhVehicles.text);
-        
+
         [user setNumBikes:[NSNumber numberWithInt:numBikesSelectedRow]];
         NSLog(@"saved numBikes index: %@ and text: %@", user.numBikes, numBikes.text);
         

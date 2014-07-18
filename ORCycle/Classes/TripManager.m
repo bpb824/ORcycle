@@ -371,7 +371,7 @@
             [userDict setValue:user.ethnicity       forKey:@"ethnicity"];
             [userDict setValue:user.occupation      forKey:@"occupation"];
             [userDict setValue:user.income          forKey:@"income"];
-            [userDict setValue:user.hhWorkers        forKey:@"hhWorkers "];
+            [userDict setValue:user.hhWorkers        forKey:@"hhWorkers"];
             [userDict setValue:user.hhVehicles       forKey:@"hhVehicles"];
             [userDict setValue:user.numBikes       forKey:@"numBikes"];
             [userDict setValue:user.riderType      forKey:@"riderType"];
@@ -513,29 +513,21 @@
 		purpose = trip.purpose;
 	else
 		purpose = @"unknown";
-    
-    NSString *routeFreq;
-    NSString *routePrefs;
-    NSString *routeComfort;
-    NSString *routeSafety;
-    NSString *ridePassengers;
-    NSString *rideSpecial;
-    NSString *rideConflict;
-    NSString *routeStressors;
-    routeFreq = NULL;
-    routePrefs = NULL;
-    routeComfort = NULL;
-    routeSafety = NULL;
-    ridePassengers = NULL;
-    rideSpecial = NULL;
-    rideConflict = NULL;
-    routeStressors = NULL;
 	
 	// get trip notes
 	NSString *notes = @"";
 	if ( trip.notes )
 		notes = trip.notes;
-	
+    
+	NSString *routeFreq = @"";
+    NSString *routePrefs = @"";
+    NSString *routeComfort = @"";
+    NSString *routeSafety = @"";
+    NSString *ridePassengers = @"";
+    NSString *rideSpecial = @"";
+    NSString *rideConflict = @"";
+    NSString *routeStressors = @"";
+    
 	// get start date
 	NSString *start = [outputFormatter stringFromDate:trip.start];
 	NSLog(@"start: %@", start);
@@ -574,6 +566,10 @@
                               
 							  [NSString stringWithFormat:@"%d", kSaveProtocolVersion], @"version",
 							  nil];
+    
+    NSData *tripInfoJsonData = [NSJSONSerialization dataWithJSONObject:postVars options:0 error:&writeError];
+    NSString *tripInfoJson = [[[NSString alloc] initWithData:tripInfoJsonData encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"trip info data %@",tripInfoJson);
 	// create save request
 	SaveRequest *saveRequest = [[[SaveRequest alloc] initWithPostVars:postVars with:3 image:NULL] autorelease];
 	

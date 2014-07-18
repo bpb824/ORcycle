@@ -17,6 +17,14 @@
 @property (nonatomic, retain) NSString * notes;
 @property (nonatomic, retain) NSDate * uploaded;
 @property (nonatomic, retain) NSString * purpose;
+@property (nonatomic, retain) NSString *routeFreq;
+@property (nonatomic, retain) NSString *routePrefs;
+@property (nonatomic, retain) NSString *routeComfort;
+@property (nonatomic, retain) NSString *routeSafety;
+@property (nonatomic, retain) NSString *ridePassengers;
+@property (nonatomic, retain) NSString *rideSpecial;
+@property (nonatomic, retain) NSString *rideConflict;
+@property (nonatomic, retain) NSString *routeStressors;
 @property (nonatomic, retain) NSNumber * duration;
 @property (nonatomic, retain) NSDate * saved;
 @property (nonatomic, retain) NSSet *coords;
