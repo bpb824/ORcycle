@@ -868,6 +868,7 @@
 				PRODUCT_NAME = ORCycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -886,6 +887,7 @@
 				PRODUCT_NAME = ORCycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -917,6 +919,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "803E7958-869D-4D96-8433-216B0F29D0B3";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
 		};
@@ -951,6 +954,7 @@
 				PRODUCT_NAME = ORCycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Beta;
 		};
@@ -982,6 +986,7 @@
 				PRODUCT_NAME = ORCycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Release Beta";
 		};
