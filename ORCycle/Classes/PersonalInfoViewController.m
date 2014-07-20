@@ -48,7 +48,8 @@
 @synthesize age, email, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
 @synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
 @synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem;
-
+@synthesize bikeTypes;
+@synthesize commuterGearedCheckbox, commuterFixieCheckbox, racingCheckbox, cyclecrossCheckbox, cargoCheckbox, recumbentCheckbox, otherCheckbox;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -546,7 +547,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 8;
+    return 9;
 }
 
 
@@ -576,6 +577,10 @@
         case 7:
 			return @"How long have you been a cyclist?";
 			break;
+        case 8:
+            return @"What types of bicycles do you own?";
+            break;
+        
 	}
     return nil;
 }
@@ -652,6 +657,8 @@
         case 7:
 			return 1;
 			break;
+        case 8:
+            return 7;
 		default:
 			return 0;
 	}
@@ -871,6 +878,53 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
             break;
+            
+        case 8:
+		{
+			static NSString *CellIdentifier = @"CellBikeTypes";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+					cell.textLabel.text = @"Commuter (with gears)";
+                    break;
+				case 1:
+					cell.textLabel.text = @"Commuter (single speed)";
+					break;
+				case 2:
+					cell.textLabel.text = @"Racing or Road";
+					break;
+                case 3:
+					cell.textLabel.text = @"Cycle Cross or Mountain";
+					break;
+                case 4:
+					cell.textLabel.text = @"Cargo Bike";
+                    break;
+                case 5:
+					cell.textLabel.text = @"Recumbent";
+                    break;
+                case 6:
+					cell.textLabel.text = @"Other";
+                    break;
+			}
+            
+            if (cell.accessoryView == nil) {
+                // Only configure the Checkbox control once.
+                cell.accessoryView = [[Checkbox alloc] initWithFrame:CGRectMake(0, 0, 25, 43)];
+                cell.accessoryView.opaque = NO;
+                
+                //[(Checkbox*)cell.accessoryView addTarget:self action:@selector(checkBoxTapped:forEvent:) forControlEvents:UIControlEventValueChanged];
+            }
+            
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
+			break;
+
             
 	}
 	

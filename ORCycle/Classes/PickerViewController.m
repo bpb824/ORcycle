@@ -369,10 +369,7 @@
                 description.text = kDescErrand;
                 break;
             case 7:
-                description.text = kDescBikeEvent;
-                break;
-            case 8:
-                description.text = kDescScalleyCat;
+                description.text = kDescTranspoAccess;
                 break;
             default:
                 description.text = kDescOther;

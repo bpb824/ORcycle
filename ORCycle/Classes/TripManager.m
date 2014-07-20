@@ -1065,10 +1065,8 @@
 		return kTripPurposeShopping;
     else if ( [string isEqualToString:kTripPurposeErrandString] )
 		return kTripPurposeErrand;
-    else if ( [string isEqualToString:kTripPurposeBikeEventString] )
-		return kTripPurposeBikeEvent;
-    else if ( [string isEqualToString:kTripPurposeScalleyCatString] )
-		return kTripPurposeScalleyCat;
+    else if ( [string isEqualToString:kTripPurposeTranspoAccessString] )
+		return kTripPurposeTranspoAccess;
     else
 //	else ( [string isEqualToString:kTripPurposeErrandString] )
 		return kTripPurposeOther;
@@ -1100,11 +1098,8 @@
 		case kTripPurposeErrand:
 			return @"Errand";
 			break;
-        case kTripPurposeBikeEvent:
-			return @"Bike Event";
-			break;
-        case kTripPurposeScalleyCat:
-			return @"ScalleyCat";
+        case kTripPurposeTranspoAccess:
+			return @"Transpo Access";
 			break;
 		case kTripPurposeOther:
 		default:

@@ -137,15 +137,8 @@
             
             //Bike events
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Bike Event";
-            view.image = [UIImage imageNamed:kTripPurposeBikeEventIcon];
-            [viewArray addObject:view];
-            [view release];
-            
-            //ScalleyCat
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"ScalleyCat";
-            view.image = [UIImage imageNamed:kTripPurposeScalleyCatIcon];
+            view.title = @"Transport Access";
+            view.image = [UIImage imageNamed:kTripPurposeTranspoAccessIcon];
             [viewArray addObject:view];
             [view release];
             

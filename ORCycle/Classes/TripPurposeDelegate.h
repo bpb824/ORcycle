@@ -43,9 +43,8 @@
 #define kTripPurposeSocial		4
 #define kTripPurposeShopping	5
 #define kTripPurposeErrand		6
-#define kTripPurposeBikeEvent	7
-#define kTripPurposeScalleyCat	8
-#define kTripPurposeOther		9
+#define kTripPurposeTranspoAccess	7
+#define kTripPurposeOther		8
 //#define kTripPurposeRecording   8
 
 #define kTripPurposeCommuteIcon         @"commute.png"
@@ -55,8 +54,7 @@
 #define kTripPurposeSocialIcon          @"social.png"
 #define kTripPurposeShoppingIcon        @"shopping.png"
 #define kTripPurposeErrandIcon          @"errands.png"
-#define kTripPurposeBikeEventIcon       @"bikeEvent.png"
-#define kTripPurposeScalleyCatIcon      @"scalleyCat.png"
+#define kTripPurposeTranspoAccessIcon   @"bikeEvent.png"
 #define kTripPurposeOtherIcon           @"other.png"
 #define kTripPurposeOtherRedIcon        @"otherRed.png"
 
@@ -73,8 +71,7 @@
 #define kTripPurposeSocialString        @"Social"
 #define kTripPurposeShoppingString      @"Shopping"
 #define kTripPurposeErrandString        @"Errand"
-#define kTripPurposeBikeEventString     @"Bike Event"
-#define kTripPurposeScalleyCatString    @"ScalleyCat"
+#define kTripPurposeTranspoAccessString @"Transpo Access"
 #define kTripPurposeOtherString         @"Other"
 #define kTripPurposeRecordingString     @"Recording..."
 
