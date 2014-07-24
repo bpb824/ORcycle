@@ -49,7 +49,6 @@
 @synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
 @synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem;
 @synthesize bikeTypes;
-@synthesize commuterGearedCheckbox, commuterFixieCheckbox, racingCheckbox, cyclecrossCheckbox, cargoCheckbox, recumbentCheckbox, otherCheckbox;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -659,6 +658,7 @@
 			break;
         case 8:
             return 7;
+            break;
 		default:
 			return 0;
 	}
@@ -1108,6 +1108,7 @@
     }
     return nil;
 }
+
 
 - (void)doneButtonPressed:(id)sender{
     

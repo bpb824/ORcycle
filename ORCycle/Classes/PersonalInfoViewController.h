@@ -145,22 +145,6 @@
 
 @property (nonatomic,retain) NSString *bikeTypes;
 
-@property (strong,nonatomic) Checkbox *commuterGearedCheckbox;
-@property (strong,nonatomic) Checkbox *commuterFixieCheckbox;
-@property (strong,nonatomic) Checkbox *racingCheckbox;
-@property (strong,nonatomic) Checkbox *cyclecrossCheckbox;
-@property (strong,nonatomic) Checkbox *cargoCheckbox;
-@property (strong,nonatomic) Checkbox *recumbentCheckbox;
-@property (strong,nonatomic) Checkbox *otherCheckbox;
-
--(void)commuterGearedCheckboxSelected:(id)sender;
--(void)commuterFixieCheckboxSelected:(id)sender;
--(void)racingCheckboxSelected:(id)sender;
--(void)cyclecrossCheckboxSelected:(id)sender;
--(void)cargoCheckboxSelected:(id)sender;
--(void)recumbentCheckboxSelected:(id)sender;
--(void)otherCheckboxSelected:(id)sender;
-
 // DEPRECATED
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
 

@@ -12,16 +12,19 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "TripPurposeDelegate.h"
+#import "TripInfoDelegate.h"
 
 @interface TripDetailViewController : UIViewController<UINavigationControllerDelegate, UITextViewDelegate>
 {
     id <TripPurposeDelegate> delegate;
+    id <TripInfoDelegate> tripInfoDelegate;
     UITextView *detailTextView;
     NSInteger pickerCategory;
     NSString *details;
 }
 
 @property (nonatomic, retain) id <TripPurposeDelegate> delegate;
+@property (nonatomic, retain) id <TripInfoDelegate> tripInfoDelegate;
 
 @property (nonatomic, retain) IBOutlet UITextView *detailTextView;
 

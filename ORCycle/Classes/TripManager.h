@@ -65,6 +65,8 @@ UITextViewDelegate>
 	
 	NSMutableArray *coords;
     NSManagedObjectContext *managedObjectContext;
+    
+   // NSMutableArray *tripResponses;
 
 	NSMutableData *receivedData;
 	
@@ -90,6 +92,8 @@ UITextViewDelegate>
 
 @property (nonatomic, retain) NSMutableArray *coords;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+
+//@property (nonatomic, retain) NSMutableArray *tripResponses;
 
 @property (nonatomic, retain) NSMutableData *receivedData;
 

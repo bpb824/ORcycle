@@ -28,11 +28,20 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		1F2798AF197601FD00204876 /* RenoTracks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F2798AB197601FD00204876 /* RenoTracks.xcdatamodeld */; };
 		1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */; };
-		1F2798C11978649600204876 /* RenoTracks_To_ORcycle.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F2798C01978649600204876 /* RenoTracks_To_ORcycle.xcmappingmodel */; };
+		1FC294C4197D8E8900225AAD /* TripInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294C2197D8E8900225AAD /* TripInfoViewController.m */; };
+		1FC294C5197D8E8900225AAD /* TripInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC294C3197D8E8900225AAD /* TripInfoViewController.xib */; };
+		1FC294CD197DFB5000225AAD /* TripResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CC197DFB5000225AAD /* TripResponse.m */; };
+		1FC294D0197F461100225AAD /* ORcycle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CE197F461100225AAD /* ORcycle.xcdatamodeld */; };
 		1FC3737C1979CD3300332B0C /* Checkbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC3737B1979CD3300332B0C /* Checkbox.m */; };
 		1FC37386197B446C00332B0C /* TripDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37385197B446C00332B0C /* TripDetailViewController.xib */; };
+		1FC37394197B495A00332B0C /* check_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC3738D197B495A00332B0C /* check_selected@2x.png */; };
+		1FC37395197B495A00332B0C /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC3738E197B495A00332B0C /* check@2x.png */; };
+		1FC37396197B495A00332B0C /* frame_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC3738F197B495A00332B0C /* frame_left@2x.png */; };
+		1FC37397197B495A00332B0C /* frame_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37390197B495A00332B0C /* frame_middle@2x.png */; };
+		1FC37398197B495A00332B0C /* frame_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37391197B495A00332B0C /* frame_right@2x.png */; };
+		1FC37399197B495A00332B0C /* wheel_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37392197B495A00332B0C /* wheel_bg@2x.png */; };
+		1FC3739A197B495A00332B0C /* wheel_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37393197B495A00332B0C /* wheel_shadow@2x.png */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
 		6411996210683D7500C201F0 /* RecordTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6411996110683D7500C201F0 /* RecordTripViewController.m */; };
@@ -179,15 +188,25 @@
 		1D3623250D0F684500981E51 /* RenoTracksAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RenoTracksAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1D6058910D05DD3D006BFB54 /* ORCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1F2798AC197601FD00204876 /* ORcycle1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ORcycle1.xcdatamodel; sourceTree = "<group>"; };
-		1F2798AD197601FD00204876 /* RenoTracks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RenoTracks.xcdatamodel; sourceTree = "<group>"; };
-		1F2798AE197601FD00204876 /* RenoTracks2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RenoTracks2.xcdatamodel; sourceTree = "<group>"; };
 		1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalInfoViewController.h; sourceTree = "<group>"; };
 		1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalInfoViewController.m; sourceTree = "<group>"; };
-		1F2798C01978649600204876 /* RenoTracks_To_ORcycle.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = RenoTracks_To_ORcycle.xcmappingmodel; sourceTree = "<group>"; };
+		1FC294C1197D8E8900225AAD /* TripInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TripInfoViewController.h; path = ../TripInfoViewController.h; sourceTree = "<group>"; };
+		1FC294C2197D8E8900225AAD /* TripInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TripInfoViewController.m; path = ../TripInfoViewController.m; sourceTree = "<group>"; };
+		1FC294C3197D8E8900225AAD /* TripInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripInfoViewController.xib; sourceTree = "<group>"; };
+		1FC294C7197D8F9C00225AAD /* TripInfoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TripInfoDelegate.h; path = ../TripInfoDelegate.h; sourceTree = "<group>"; };
+		1FC294CB197DFB5000225AAD /* TripResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripResponse.h; sourceTree = "<group>"; };
+		1FC294CC197DFB5000225AAD /* TripResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripResponse.m; sourceTree = "<group>"; };
+		1FC294CF197F461100225AAD /* ORcycle1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ORcycle1.xcdatamodel; sourceTree = "<group>"; };
 		1FC3737A1979CD3300332B0C /* Checkbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkbox.h; sourceTree = "<group>"; };
 		1FC3737B1979CD3300332B0C /* Checkbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkbox.m; sourceTree = "<group>"; };
 		1FC37385197B446C00332B0C /* TripDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripDetailViewController.xib; sourceTree = "<group>"; };
+		1FC3738D197B495A00332B0C /* check_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check_selected@2x.png"; sourceTree = "<group>"; };
+		1FC3738E197B495A00332B0C /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
+		1FC3738F197B495A00332B0C /* frame_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_left@2x.png"; sourceTree = "<group>"; };
+		1FC37390197B495A00332B0C /* frame_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_middle@2x.png"; sourceTree = "<group>"; };
+		1FC37391197B495A00332B0C /* frame_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_right@2x.png"; sourceTree = "<group>"; };
+		1FC37392197B495A00332B0C /* wheel_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel_bg@2x.png"; sourceTree = "<group>"; };
+		1FC37393197B495A00332B0C /* wheel_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel_shadow@2x.png"; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -392,8 +411,11 @@
 				8FBCD3C816E0E58100C11EBE /* NoteViewController.m */,
 				8F5E60621602CBE000D8F85D /* NSString+MD5Addition.h */,
 				8F5E60631602CBE000D8F85D /* NSString+MD5Addition.m */,
-				6433E5C5106D62ED00C27387 /* PersonalInfoDelegate.h */,
 				64119ABD10689ED800C201F0 /* PickerViewController.h */,
+				1FC294C7197D8F9C00225AAD /* TripInfoDelegate.h */,
+				1FC294C1197D8E8900225AAD /* TripInfoViewController.h */,
+				1FC294C2197D8E8900225AAD /* TripInfoViewController.m */,
+				6433E5C5106D62ED00C27387 /* PersonalInfoDelegate.h */,
 				1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */,
 				1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */,
 				64119ABE10689ED800C201F0 /* PickerViewController.m */,
@@ -479,6 +501,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1FC3738D197B495A00332B0C /* check_selected@2x.png */,
+				1FC3738E197B495A00332B0C /* check@2x.png */,
+				1FC3738F197B495A00332B0C /* frame_left@2x.png */,
+				1FC37390197B495A00332B0C /* frame_middle@2x.png */,
+				1FC37391197B495A00332B0C /* frame_right@2x.png */,
+				1FC37392197B495A00332B0C /* wheel_bg@2x.png */,
+				1FC37393197B495A00332B0C /* wheel_shadow@2x.png */,
 				1C94195A1825F0F600D5925A /* TabBarIcons */,
 				9D4648201604EF2F00A4F9CB /* UI Elements */,
 				9D4647FB1604EF2600A4F9CB /* TripPurposePickerIcons */,
@@ -495,6 +524,7 @@
 				64119A9B1068665B00C201F0 /* TripPurposePicker.xib */,
 				8F1B1D40164B94E90022B776 /* DetailView.xib */,
 				64FCC5B311352242000FA1B6 /* PersonalInfo.xib */,
+				1FC294C3197D8E8900225AAD /* TripInfoViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -520,10 +550,11 @@
 		6411992B1068371B00C201F0 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				1F2798C01978649600204876 /* RenoTracks_To_ORcycle.xcmappingmodel */,
-				1F2798AB197601FD00204876 /* RenoTracks.xcdatamodeld */,
+				1FC294CE197F461100225AAD /* ORcycle.xcdatamodeld */,
 				8F9C086B16DC947A003EA308 /* Coord.h */,
 				8F9C086C16DC947A003EA308 /* Coord.m */,
+				1FC294CB197DFB5000225AAD /* TripResponse.h */,
+				1FC294CC197DFB5000225AAD /* TripResponse.m */,
 				8F9C086816DC9479003EA308 /* User.h */,
 				8F9C086916DC947A003EA308 /* User.m */,
 				8F9C086516DC9479003EA308 /* Trip.h */,
@@ -714,6 +745,7 @@
 				64577E29106DC2FD003ACBFD /* dist.plist in Resources */,
 				642F150C1071D9910050BCB9 /* MapViewController.xib in Resources */,
 				A20B63151801E06A0039391D /* AppIcon57x57.png in Resources */,
+				1FC3739A197B495A00332B0C /* wheel_shadow@2x.png in Resources */,
 				6458114E107AA4D30075DABD /* bicycle-bell-normalized.aiff in Resources */,
 				64210F29113508B800415F1A /* MainWindow.xib in Resources */,
 				64FCC5B411352242000FA1B6 /* PersonalInfo.xib in Resources */,
@@ -730,6 +762,7 @@
 				A2B263271801C8140015F89B /* noteIssueMapGlyph.png in Resources */,
 				A20B63211801E5160039391D /* AppIcon40x40@2x.png in Resources */,
 				9D4647BA1604EBF400A4F9CB /* blueButtonHighlight@2x.png in Resources */,
+				1FC37395197B495A00332B0C /* check@2x.png in Resources */,
 				1C77FC1918B276B400E1E30F /* scalleyCat.png in Resources */,
 				9D4647BB1604EBF400A4F9CB /* greenButton.png in Resources */,
 				A20B632B1801E5230039391D /* Default.png in Resources */,
@@ -744,6 +777,7 @@
 				1FC37386197B446C00332B0C /* TripDetailViewController.xib in Resources */,
 				9D4647BF1604EBF400A4F9CB /* greyButton.png in Resources */,
 				A2B2631E1801C8140015F89B /* exercise@2x.png in Resources */,
+				1FC37397197B495A00332B0C /* frame_middle@2x.png in Resources */,
 				9D4647C01604EBF400A4F9CB /* greyButton@2x.png in Resources */,
 				1C77FC1A18B276B400E1E30F /* scalleyCat@2x.png in Resources */,
 				9D4647C11604EBF400A4F9CB /* redButton.png in Resources */,
@@ -752,6 +786,7 @@
 				1C77FC1518B26BE900E1E30F /* bikeEvent.png in Resources */,
 				A2B263211801C8140015F89B /* noteAssetMapGlyph.png in Resources */,
 				9D4647C21604EBF400A4F9CB /* redButton@2x.png in Resources */,
+				1FC37399197B495A00332B0C /* wheel_bg@2x.png in Resources */,
 				9D4647C31604EBF400A4F9CB /* redButtonHighlight.png in Resources */,
 				9D4647C41604EBF400A4F9CB /* redButtonHighlight@2x.png in Resources */,
 				1CCF0DC0183809390047129B /* tabBarSelected.png in Resources */,
@@ -775,13 +810,16 @@
 				A2B263301801C8140015F89B /* shopping@2x.png in Resources */,
 				1C94196E1825F0F600D5925A /* tabbar_view@2x.png in Resources */,
 				A20B63201801E5160039391D /* AppIcon40x40.png in Resources */,
+				1FC37398197B495A00332B0C /* frame_right@2x.png in Resources */,
 				A20B63241801E5160039391D /* AppIcon76x76.png in Resources */,
+				1FC37396197B495A00332B0C /* frame_left@2x.png in Resources */,
 				1C94196A1825F0F600D5925A /* tabbar_record@2x.png in Resources */,
 				9D4648291604EF2F00A4F9CB /* MapCoord.png in Resources */,
 				9D46482A1604EF2F00A4F9CB /* record-map-frame-288x141.png in Resources */,
 				A21F08141800DCD600638A15 /* yellowButton.png in Resources */,
 				A2B263231801C8140015F89B /* noteAssetPicker.png in Resources */,
 				A2B2633B1801D6460015F89B /* greyButtonHighlight.png in Resources */,
+				1FC37394197B495A00332B0C /* check_selected@2x.png in Resources */,
 				8F1B1D41164B94E90022B776 /* DetailView.xib in Resources */,
 				9D3CDAD416D6F7A900F423B8 /* lcdScreen.png in Resources */,
 				9D3CDAD516D6F7A900F423B8 /* lcdScreen@2x.png in Resources */,
@@ -797,6 +835,7 @@
 				9D3CDAE316D7056F00F423B8 /* whiteButtonHighlight@2x.png in Resources */,
 				A2B263371801C8140015F89B /* workRelated.png in Resources */,
 				1C94196C1825F0F600D5925A /* tabbar_settings@2x.png in Resources */,
+				1FC294C5197D8E8900225AAD /* TripInfoViewController.xib in Resources */,
 				A20B631F1801E5160039391D /* AppIcon29x29@2x.png in Resources */,
 				1C77FC1618B26BE900E1E30F /* bikeEvent@2x.png in Resources */,
 				A2B263331801C8140015F89B /* tripEnd.png in Resources */,
@@ -823,6 +862,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FC294C4197D8E8900225AAD /* TripInfoViewController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* RenoTracksAppDelegate.m in Sources */,
 				6411996210683D7500C201F0 /* RecordTripViewController.m in Sources */,
@@ -830,9 +870,9 @@
 				64119AAD1068672100C201F0 /* CustomView.m in Sources */,
 				64119AAE1068672100C201F0 /* CustomPickerDataSource.m in Sources */,
 				64119ABF10689ED800C201F0 /* PickerViewController.m in Sources */,
+				1FC294D0197F461100225AAD /* ORcycle.xcdatamodeld in Sources */,
 				64119F041069ACF800C201F0 /* TripManager.m in Sources */,
 				64F823E1106AC151001413F8 /* SaveRequest.m in Sources */,
-				1F2798AF197601FD00204876 /* RenoTracks.xcdatamodeld in Sources */,
 				642F15271071DA700050BCB9 /* MapViewController.m in Sources */,
 				642F161D1071ED1C0050BCB9 /* MapCoord.m in Sources */,
 				1FC3737C1979CD3300332B0C /* Checkbox.m in Sources */,
@@ -846,11 +886,11 @@
 				8FB7C20D16C55EB9001A8A48 /* NoteManager.m in Sources */,
 				8F9C086416DC9479003EA308 /* Note.m in Sources */,
 				1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */,
-				1F2798C11978649600204876 /* RenoTracks_To_ORcycle.xcmappingmodel in Sources */,
 				8F9C086716DC9479003EA308 /* Trip.m in Sources */,
 				8F9C086A16DC947A003EA308 /* User.m in Sources */,
 				8F9C086D16DC947A003EA308 /* Coord.m in Sources */,
 				8FBCD3CA16E0E58100C11EBE /* NoteViewController.m in Sources */,
+				1FC294CD197DFB5000225AAD /* TripResponse.m in Sources */,
 				8F25EC7916E13E7C004263D4 /* SavedNotesViewController.m in Sources */,
 				8F20B0AC16F0F08A00031712 /* TripDetailViewController.m in Sources */,
 				8FAD930516F189EE00082B6F /* UIImageViewResizable.m in Sources */,
@@ -1055,15 +1095,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		1F2798AB197601FD00204876 /* RenoTracks.xcdatamodeld */ = {
+		1FC294CE197F461100225AAD /* ORcycle.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				1F2798AC197601FD00204876 /* ORcycle1.xcdatamodel */,
-				1F2798AD197601FD00204876 /* RenoTracks.xcdatamodel */,
-				1F2798AE197601FD00204876 /* RenoTracks2.xcdatamodel */,
+				1FC294CF197F461100225AAD /* ORcycle1.xcdatamodel */,
 			);
-			currentVersion = 1F2798AC197601FD00204876 /* ORcycle1.xcdatamodel */;
-			path = RenoTracks.xcdatamodeld;
+			currentVersion = 1FC294CF197F461100225AAD /* ORcycle1.xcdatamodel */;
+			path = ORcycle.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

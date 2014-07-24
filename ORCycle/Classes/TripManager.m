@@ -42,6 +42,7 @@
 #import "Trip.h"
 #import "TripManager.h"
 #import "User.h"
+#import "TripResponse.h"
 #import "LoadingView.h"
 #import "RecordTripViewController.h"
 
@@ -72,6 +73,7 @@
 	{
 		self.activityDelegate		= self;
 		self.coords					= [[[NSMutableArray alloc] initWithCapacity:1000] autorelease];
+        //self.tripResponses			= [[[NSMutableArray alloc] initWithCapacity:100] autorelease];
 		distance					= 0.0;
 		self.managedObjectContext	= context;
 		self.trip					= nil;
@@ -391,6 +393,51 @@
     return userDict;
 }
 
+- (NSDictionary*)encodeTripResponseData
+{
+	NSLog(@"encodeTripResponseData");
+	NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:7];
+	
+	NSFetchRequest		*request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"TripResponse" inManagedObjectContext:managedObjectContext];
+	[request setEntity:entity];
+	
+	NSError *error;
+	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+	//NSLog(@"saved user count  = %d", count);
+	
+	if ( count )
+	{
+		NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+		if (mutableFetchResults == nil) {
+			// Handle the error.
+			NSLog(@"no saved trip response");
+			if ( error != nil ){
+				NSLog(@"TripManager fetch saved trip response data error %@, %@", error, [error localizedDescription]);
+            }
+		}
+        
+		TripResponse  *tripResponse = [mutableFetchResults objectAtIndex:0];
+		if ( tripResponse != nil )
+		{
+			// initialize text fields to saved personal info
+			[tripResponseDict setValue:tripResponse.question_id forKey:@"question_id"];
+			[tripResponseDict setValue:tripResponse.answer_id   forKey:@"answer_id"];
+        }
+        else
+        {
+			NSLog(@"TripManager fetch user FAIL");
+        }
+        [mutableFetchResults release];
+    }
+    else
+    {
+		NSLog(@"TripManager WARNING no saved user data to encode");
+    }
+	[request release];
+    return tripResponseDict;
+}
+
 
 - (void)saveNotes:(NSString*)notes
 {
@@ -519,15 +566,6 @@
 	if ( trip.notes )
 		notes = trip.notes;
     
-	NSString *routeFreq = @"";
-    NSString *routePrefs = @"";
-    NSString *routeComfort = @"";
-    NSString *routeSafety = @"";
-    NSString *ridePassengers = @"";
-    NSString *rideSpecial = @"";
-    NSString *rideConflict = @"";
-    NSString *routeStressors = @"";
-    
 	// get start date
 	NSString *start = [outputFormatter stringFromDate:trip.start];
 	NSLog(@"start: %@", start);
@@ -547,29 +585,24 @@
     NSString *tripJson = [[[NSString alloc] initWithData:tripJsonData encoding:NSUTF8StringEncoding] autorelease];
     //NSLog(@"trip data %@", tripJson);
 
+    //encode trip response data
+    NSDictionary *tripResponseDict = [self encodeTripResponseData];
+    
+    // JSON encode the trip response data
+    NSData *tripResponseJsonData = [NSJSONSerialization dataWithJSONObject:tripResponseDict options:0 error:&writeError];
+    NSString *tripResponseJson = [[[NSString alloc] initWithData:tripResponseJsonData encoding:NSUTF8StringEncoding] autorelease];
         
 	// NOTE: device hash added by SaveRequest initWithPostVars
 	NSDictionary *postVars = [NSDictionary dictionaryWithObjectsAndKeys:
 							  tripJson, @"coords",
 							  purpose, @"purpose",
 							  notes, @"notes",
-                              routeFreq, @"routeFreq",
-                              routePrefs, @"routePrefs",
-                              routeComfort,@"routeComfort",
-                              routeSafety, @"routeSafety",
-                              ridePassengers, @"ridePassengers",
-                              rideSpecial, @"rideSpecial",
-                              rideConflict, @"rideConflict",
-                              routeStressors, @"routeStressors",
 							  start, @"start",
 							  userJson, @"user",
+                              tripResponseJson, @"tripResponse",
                               
 							  [NSString stringWithFormat:@"%d", kSaveProtocolVersion], @"version",
 							  nil];
-    
-    NSData *tripInfoJsonData = [NSJSONSerialization dataWithJSONObject:postVars options:0 error:&writeError];
-    NSString *tripInfoJson = [[[NSString alloc] initWithData:tripInfoJsonData encoding:NSUTF8StringEncoding] autorelease];
-    NSLog(@"trip info data %@",tripInfoJson);
 	// create save request
 	SaveRequest *saveRequest = [[[SaveRequest alloc] initWithPostVars:postVars with:3 image:NULL] autorelease];
 	
@@ -757,12 +790,12 @@
 - (void)createTrip
 {
 	NSLog(@"createTrip");
-	
+    
 	// Create and configure a new instance of the Trip entity
-	trip = (Trip *)[[NSEntityDescription insertNewObjectForEntityForName:@"Trip" 
+	trip = (Trip *)[[NSEntityDescription insertNewObjectForEntityForName:@"Trip"
 												  inManagedObjectContext:managedObjectContext] retain];
 	[trip setStart:[NSDate date]];
-	
+    
 	NSError *error;
 	if (![managedObjectContext save:&error]) {
 		// Handle the error.
