@@ -138,7 +138,7 @@
 	if ( count == 0 )
 	{
 		// create an empty User entity
-		[self setTripResponse:[self createTripResponse]];
+		//[self setTripResponse:[self createTripResponse]];
 	}
 	
 	NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
