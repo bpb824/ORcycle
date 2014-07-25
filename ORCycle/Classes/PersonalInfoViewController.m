@@ -1314,6 +1314,16 @@
     [genderArray release];
     [ageArray release];
     [ethnicityArray release];
+    [occupationArray release];
+    [incomeArray release];
+    [hhWorkersArray release];
+    [hhVehiclesArray release];
+    [numBikesArray release];
+    [cyclingFreqArray release];
+    [cyclingWeatherArray release];
+    [riderAbilityArray release];
+    [riderTypeArray release];
+    [riderHistoryArray release];
     
     [super dealloc];
 }

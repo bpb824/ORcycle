@@ -780,7 +780,7 @@
 		}
 	}
 	else
-		[self createTrip:index];
+		//[self createTrip:index];
 
 	dirty = YES;
 	return purpose;

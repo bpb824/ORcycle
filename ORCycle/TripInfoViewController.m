@@ -83,8 +83,8 @@
 {
     [super viewDidLoad];
     
-    routeFreqArray = [[NSArray alloc]initWithObjects:@" ", @"Several times per week", @"Several times per month", @"Several times per year", @"Once per year or less", @"First time ever", nil];
-    routePrefsArray = [[NSArray alloc] initWithObjects: @" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few intersections", @"It has few/easy hills", @"I has other riders/people (I am not alone)", @"It has beautiful scenery", @"I have no other reasonable alternative", @"I do not know anohter route", @"I found it online or using my phone", "Other", nil];
+    routeFreqArray = [[NSArray alloc] initWithObjects:@" ", @"Several times per week", @"Several times per month", @"Several times per year", @"Once per year or less", @"First time ever", nil];
+    routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few intersections", @"It has few/easy hills", @"It has other riders/people (I am not alone)", @"It has beautiful scenery", @"I have no other reasonable alternative", @"I do not know anohter route", @"I found it online or using my phone", @"Other", nil];
     routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Bad", @"Bad", @"Average", @"Good", @"Very Good" , nil];
     routeSafetyArray = [[NSArray alloc] initWithObjects:@" ", @"Safe/comfortable for families, children, or new riders", @"Safe/comfortable for most riders", @"Safe/comfortable for the average confident rider", @"Only for the highly experienced and/or confident riders (not neccesarily comfortable)", @"Unacceptable", nil];
     ridePassengersArray = [[NSArray alloc] initWithObjects:@" ", @"Alone", @"With a child under 2", @" With a child between 2 and 10", @"With a child/teen over 10", @"With 1 adult", @"With 2+ adults", nil];
@@ -127,7 +127,7 @@
     //Initial Save button state is disabled. will be enabled if a change has been made to any of the fields.
 	done.enabled = NO;
 	self.navigationItem.rightBarButtonItem = done;
-	
+	/*
 	NSFetchRequest		*request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
 	[request setEntity:entity];
@@ -151,12 +151,13 @@
     
     [mutableFetchResults release];
 	[request release];
+     */
 }
 
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == routeFreq){
+    if(currentTextField == routeFreq || currentTextField == routePrefs || currentTextField == routeComfort || currentTextField == routeSafety || currentTextField == ridePassengers || currentTextField == rideSpecial || currentTextField == rideConflict || currentTextField == routeStressors){
         NSLog(@"currentTextField: text2");
         [currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -355,7 +356,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 8;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -388,6 +389,14 @@
     return nil;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Text Color
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor whiteColor]];
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	switch ( section )
@@ -396,7 +405,7 @@
             return 1;
             break;
         case 1:
-            return 12;
+            return 13;
             break;
         case 2:
             return 1;
@@ -414,7 +423,7 @@
             return 1;
             break;
         case 7:
-            return 8;
+            return 7;
             break;
         default:
             return 0;
@@ -462,8 +471,56 @@
 			switch ([indexPath indexAtPosition:1])
 			{
 				case 0:
-                    //TODO
+					cell.textLabel.text = routePrefsArray[1];
+                    break;
+				case 1:
+					cell.textLabel.text = routePrefsArray[2];
 					break;
+				case 2:
+					cell.textLabel.text = routePrefsArray[3];
+					break;
+                case 3:
+					cell.textLabel.text = routePrefsArray[4];
+					break;
+                case 4:
+					cell.textLabel.text = routePrefsArray[5];
+                    break;
+                case 5:
+					cell.textLabel.text = routePrefsArray[6];
+                    break;
+                case 6:
+					cell.textLabel.text = routePrefsArray[7];
+                    break;
+                case 7:
+					cell.textLabel.text = routePrefsArray[8];
+                    break;
+                case 8:
+					cell.textLabel.text = routePrefsArray[9];
+                    break;
+                case 9:
+					cell.textLabel.text = routePrefsArray[10];
+                    break;
+                case 10:
+					cell.textLabel.text = routePrefsArray[11];
+                    break;
+                case 11:
+					cell.textLabel.text = routePrefsArray[12];
+                    break;
+                case 12:
+					cell.textLabel.text = routePrefsArray[13];
+                    break;
+                case 13:
+					cell.textLabel.text = routePrefsArray[14];
+                    break;
+
+			}
+            
+            if (cell.accessoryView == nil) {
+                // Only configure the Checkbox control once.
+                cell.accessoryView = [[Checkbox alloc] initWithFrame:CGRectMake(0, 0, 25, 43)];
+                cell.accessoryView.opaque = NO;
+                
+                //[(Checkbox*)cell.accessoryView addTarget:self action:@selector(checkBoxTapped:forEvent:) forControlEvents:UIControlEventValueChanged];
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
@@ -517,9 +574,31 @@
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
-				case 0:
-                    //TODO
+                case 0:
+					cell.textLabel.text = ridePassengersArray[1];
+                    break;
+				case 1:
+					cell.textLabel.text = ridePassengersArray[2];
 					break;
+				case 2:
+					cell.textLabel.text = ridePassengersArray[3];
+					break;
+                case 3:
+					cell.textLabel.text = ridePassengersArray[4];
+					break;
+                case 4:
+					cell.textLabel.text = ridePassengersArray[5];
+                    break;
+                case 5:
+					cell.textLabel.text = ridePassengersArray[6];
+                    break;
+            }
+            if (cell.accessoryView == nil) {
+                // Only configure the Checkbox control once.
+                cell.accessoryView = [[Checkbox alloc] initWithFrame:CGRectMake(0, 0, 25, 43)];
+                cell.accessoryView.opaque = NO;
+                
+                //[(Checkbox*)cell.accessoryView addTarget:self action:@selector(checkBoxTapped:forEvent:) forControlEvents:UIControlEventValueChanged];
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
@@ -535,9 +614,22 @@
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
-				case 0:
-                    //TODO
+                case 0:
+					cell.textLabel.text = rideSpecialArray[1];
+                    break;
+				case 1:
+					cell.textLabel.text = rideSpecialArray[2];
 					break;
+				case 2:
+					cell.textLabel.text = rideSpecialArray[3];
+					break;
+            }
+            if (cell.accessoryView == nil) {
+                // Only configure the Checkbox control once.
+                cell.accessoryView = [[Checkbox alloc] initWithFrame:CGRectMake(0, 0, 25, 43)];
+                cell.accessoryView.opaque = NO;
+                
+                //[(Checkbox*)cell.accessoryView addTarget:self action:@selector(checkBoxTapped:forEvent:) forControlEvents:UIControlEventValueChanged];
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
@@ -572,9 +664,34 @@
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
-				case 0:
-                    //TODO
+                case 0:
+					cell.textLabel.text = routeStressorsArray[1];
+                    break;
+				case 1:
+					cell.textLabel.text = routeStressorsArray[2];
 					break;
+				case 2:
+					cell.textLabel.text = routeStressorsArray[3];
+					break;
+                case 3:
+					cell.textLabel.text = routeStressorsArray[4];
+					break;
+                case 4:
+					cell.textLabel.text = routeStressorsArray[5];
+                    break;
+                case 5:
+					cell.textLabel.text = routeStressorsArray[6];
+                    break;
+                case 6:
+					cell.textLabel.text = routeStressorsArray[7];
+                    break;
+            }
+            if (cell.accessoryView == nil) {
+                // Only configure the Checkbox control once.
+                cell.accessoryView = [[Checkbox alloc] initWithFrame:CGRectMake(0, 0, 25, 43)];
+                cell.accessoryView.opaque = NO;
+                
+                //[(Checkbox*)cell.accessoryView addTarget:self action:@selector(checkBoxTapped:forEvent:) forControlEvents:UIControlEventValueChanged];
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}

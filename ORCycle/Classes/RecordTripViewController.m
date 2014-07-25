@@ -48,6 +48,8 @@
 #import "Trip.h"
 #import "User.h"
 
+#import "TripInfoViewController.h"
+
 //TODO: Fix incomplete implementation
 @implementation RecordTripViewController
 
@@ -553,6 +555,15 @@
 	// go directly to TripPurpose, user can cancel from there
 	if ( YES )
 	{
+        //Trip Information
+        NSLog(@"INIT + PUSH");
+        TripInfoViewController *tripInfoVC = [[TripInfoViewController alloc]
+                                              initWithNibName: @"TripInfoViewController" bundle: nil];
+        [tripInfoVC setDelegate: self];
+        [self.navigationController presentViewController: tripInfoVC animated: YES completion: nil];
+        [tripInfoVC release];
+       
+        /*
 		// Trip Purpose
 		NSLog(@"INIT + PUSH");
 		PickerViewController *tripPurposePickerView = [[PickerViewController alloc]
@@ -562,6 +573,7 @@
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
 		[self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
 		[tripPurposePickerView release];
+         */
 	}
 	
 	// prompt to confirm first

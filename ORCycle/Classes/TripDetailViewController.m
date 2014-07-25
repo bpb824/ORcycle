@@ -16,7 +16,7 @@
 @end
 
 @implementation TripDetailViewController
-@synthesize delegate, tripInfoDelegate;
+@synthesize delegate;
 @synthesize detailTextView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
