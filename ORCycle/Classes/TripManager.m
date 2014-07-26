@@ -64,7 +64,7 @@
 @implementation TripManager
 
 @synthesize saving, tripNotes, tripNotesText;
-@synthesize coords, dirty, trip, managedObjectContext, receivedData;
+@synthesize coords, tripResponses, dirty, trip, managedObjectContext, receivedData;
 @synthesize uploadingView, parent;
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context
@@ -73,7 +73,7 @@
 	{
 		self.activityDelegate		= self;
 		self.coords					= [[[NSMutableArray alloc] initWithCapacity:1000] autorelease];
-        //self.tripResponses			= [[[NSMutableArray alloc] initWithCapacity:100] autorelease];
+        self.tripResponses          = [[[NSMutableArray alloc] initWithCapacity:50] autorelease];
 		distance					= 0.0;
 		self.managedObjectContext	= context;
 		self.trip					= nil;
@@ -99,6 +99,8 @@
 																		ascending:NO] autorelease];
 		NSArray *sortDescriptors	= [NSArray arrayWithObjects:dateDescriptor, nil];
 		self.coords					= [[[[_trip.coords allObjects] sortedArrayUsingDescriptors:sortDescriptors] mutableCopy] autorelease];
+        
+        // sort trip responses by question_ids TODO
 		
 		//NSLog(@"loading %d coords completed.", [self.coords count]);
 
@@ -333,7 +335,7 @@
 - (NSDictionary*)encodeUserData
 {
 	NSLog(@"encodeUserData");
-	NSMutableDictionary *userDict = [NSMutableDictionary dictionaryWithCapacity:7];
+	NSMutableDictionary *userDict = [NSMutableDictionary dictionaryWithCapacity:5];
 	
 	NSFetchRequest		*request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
@@ -362,23 +364,10 @@
 		if ( user != nil )
 		{
 			// initialize text fields to saved personal info
-			[userDict setValue:user.age             forKey:@"age"];
 			[userDict setValue:user.email           forKey:@"email"];
-			[userDict setValue:user.gender          forKey:@"gender"];
 			[userDict setValue:user.homeZIP         forKey:@"homeZIP"];
 			[userDict setValue:user.workZIP         forKey:@"workZIP"];
 			[userDict setValue:user.schoolZIP       forKey:@"schoolZIP"];
-			[userDict setValue:user.cyclingFreq     forKey:@"cyclingFreq"];
-            [userDict setValue:user.cyclingFreq     forKey:@"cyclingWeather"];
-            [userDict setValue:user.ethnicity       forKey:@"ethnicity"];
-            [userDict setValue:user.occupation      forKey:@"occupation"];
-            [userDict setValue:user.income          forKey:@"income"];
-            [userDict setValue:user.hhWorkers        forKey:@"hhWorkers"];
-            [userDict setValue:user.hhVehicles       forKey:@"hhVehicles"];
-            [userDict setValue:user.numBikes       forKey:@"numBikes"];
-            [userDict setValue:user.riderType      forKey:@"riderType"];
-            [userDict setValue:user.riderAbility    forKey:@"riderAbility"];
-            [userDict setValue:user.riderHistory	forKey:@"riderHistory"];
             [userDict setValue:appVersion           forKey:@"app_version"];
 		}
 		else
@@ -391,6 +380,65 @@
 	
 	[request release];
     return userDict;
+}
+
+- (NSDictionary*)encodeUserResponseData
+{
+	NSLog(@"encodeUserResponseData");
+	NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:3];
+	
+	NSFetchRequest		*request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"UserResponse" inManagedObjectContext:managedObjectContext];
+	[request setEntity:entity];
+	
+	NSError *error;
+	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+	//NSLog(@"saved user count  = %d", count);
+	
+	if ( count )
+	{
+		NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+		if (mutableFetchResults == nil) {
+			// Handle the error.
+			NSLog(@"no saved user");
+			if ( error != nil )
+				NSLog(@"TripManager fetch saved user response data error %@, %@", error, [error localizedDescription]);
+		}
+        
+		User *user = [mutableFetchResults objectAtIndex:0];
+		if ( user != nil )
+		{
+            NSArray *answers = @[@[[NSNumber numberWithInt:[user.age intValue]+1]],
+                                 @[[NSNumber numberWithInt:[user.gender intValue] + 9]],
+                                 @[[NSNumber numberWithInt:[user.ethnicity intValue]+13]],
+                                 @[[NSNumber numberWithInt:[user.occupation intValue] +20]],
+                                 @[[NSNumber numberWithInt:[user.income intValue]+26]],
+                                 @[[NSNumber numberWithInt:[user.hhWorkers intValue]+35]],
+                                 @[[NSNumber numberWithInt:[user.hhVehicles intValue]+40]],
+                                 @[[NSNumber numberWithInt:[user.numBikes intValue] +45 ]],
+                                 @[[NSNumber numberWithInt:[user.cyclingFreq intValue]+51 ]],
+                                 @[[NSNumber numberWithInt:[user.cyclingWeather intValue]+56]],
+                                 @[[NSNumber numberWithInt:[user.riderAbility intValue]+61]],
+                                 @[[NSNumber numberWithInt:[user.riderType intValue] +67 ]],
+                                 @[[NSNumber numberWithInt:[user.riderHistory intValue] +74]]];
+            
+            NSArray *questions = @[@1,@3,@4,@5,@6,@7,@8,@9,@14,@15,@16,@17,@18];
+            
+            for(int i = 0; i < [questions count];i++){
+                [userResponseDict setValue:questions[i] forKey:@"question_id"];
+                [userResponseDict setValue:answers[i] forKey:@"answer_id"];
+            }
+        }
+		else
+			NSLog(@"TripManager fetch user FAIL");
+		
+		[mutableFetchResults release];
+	}
+	else
+		NSLog(@"TripManager WARNING no saved user response data to encode");
+	
+	[request release];
+    return userResponseDict;
 }
 
 - (NSDictionary*)encodeTripResponseData
@@ -426,13 +474,13 @@
         }
         else
         {
-			NSLog(@"TripManager fetch user FAIL");
+			NSLog(@"TripManager fetch trip response FAIL");
         }
         [mutableFetchResults release];
     }
     else
     {
-		NSLog(@"TripManager WARNING no saved user data to encode");
+		NSLog(@"TripManager WARNING no saved trip response data to encode");
     }
 	[request release];
     return tripResponseDict;
@@ -443,6 +491,11 @@
 {
 	if ( trip && notes )
 		[trip setNotes:notes];
+}
+
+-(void)saveTripResponse
+{
+    NSLog(@"about to save trip response with x total responses");
 }
 
 
@@ -580,6 +633,12 @@
     NSString *userJson = [[[NSString alloc] initWithData:userJsonData encoding:NSUTF8StringEncoding] autorelease];
     NSLog(@"user data %@", userJson);
     
+    // encode user response data
+	NSDictionary *userResponseDict = [self encodeUserResponseData];
+    NSData *userResponseJsonData = [NSJSONSerialization dataWithJSONObject:userResponseDict options:0 error:&writeError];
+    NSString *userResponseJson = [[[NSString alloc] initWithData:userResponseJsonData encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"user response data %@", userResponseJson);
+    
     // JSON encode the trip data
     NSData *tripJsonData = [NSJSONSerialization dataWithJSONObject:tripDict options:0 error:&writeError];
     NSString *tripJson = [[[NSString alloc] initWithData:tripJsonData encoding:NSUTF8StringEncoding] autorelease];
@@ -599,7 +658,8 @@
 							  notes, @"notes",
 							  start, @"start",
 							  userJson, @"user",
-                              tripResponseJson, @"tripResponse",
+                              userResponseJson, @"userResponses",
+                              tripResponseJson, @"tripResponses",
                               
 							  [NSString stringWithFormat:@"%d", kSaveProtocolVersion], @"version",
 							  nil];

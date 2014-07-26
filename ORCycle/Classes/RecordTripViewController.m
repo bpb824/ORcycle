@@ -180,15 +180,8 @@
 		if ( fetchResults != nil )
 		{
 			User *user = (User*)[fetchResults objectAtIndex:0];
-			if (user			!= nil &&
-				(user.age		!= nil ||
-				 user.gender	!= nil ||
-				 user.email		!= nil ||
-				 user.homeZIP	!= nil ||
-				 user.workZIP	!= nil ||
-				 user.schoolZIP	!= nil ||
-				 ([user.cyclingFreq intValue] < 4 )))
-			{
+			if (user!=nil)
+            {
 				NSLog(@"found saved user info");
 				self.userInfoSaved = YES;
 				response = YES;
@@ -562,7 +555,7 @@
         [tripInfoVC setDelegate: self];
         [self.navigationController presentViewController: tripInfoVC animated: YES completion: nil];
         [tripInfoVC release];
-       
+
         /*
 		// Trip Purpose
 		NSLog(@"INIT + PUSH");
@@ -574,7 +567,7 @@
 		[self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
 		[tripPurposePickerView release];
          */
-	}
+    }
 	
 	// prompt to confirm first
 	else
@@ -832,6 +825,13 @@ shouldSelectViewController:(UIViewController *)viewController
 	NSLog(@"setSaved");
 	// no-op
 
+}
+
+#pragma mark TripInfoDelegate methods
+- (void)saveTripResponse{
+    
+    [tripManager saveTripResponse];
+    NSLog(@"Save trip response");
 }
 
 

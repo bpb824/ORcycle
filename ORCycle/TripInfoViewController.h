@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "TripInfoDelegate.h"
 #import "Checkbox.h"
+#import "RenoTracksAppDelegate.h"
 
-@interface TripInfoViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, UIWebViewDelegate>
+@interface TripInfoViewController : UIViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
     id <TripInfoDelegate> delegate;
+    RenoTracksAppDelegate *appDelegate;
+    UITableView *infoTableView;
 	NSManagedObjectContext *managedObjectContext;
 
     UITextField *routeFreq;
@@ -50,6 +53,7 @@
 }
 
 @property (nonatomic, retain) id <TripInfoDelegate> delegate;
+@property (nonatomic, retain) RenoTracksAppDelegate *appDelegate;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 @property (nonatomic,retain) UITextField *routeFreq;
@@ -71,6 +75,12 @@
 @property (nonatomic,retain) NSMutableArray *routeStressorsSelectedRows;
 @property (nonatomic) NSInteger selectedItem;
 @property (nonatomic,retain) NSMutableArray *selectedItems;
+
+@property (nonatomic, retain) IBOutlet UITableView *infoTableView;
+
+
+-(IBAction)skip:(id)sender;
+-(IBAction)saveInfo:(id)sender;
 
 // DEPRECATED
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;

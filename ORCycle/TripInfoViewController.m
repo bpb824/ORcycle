@@ -12,10 +12,24 @@
 
 @implementation TripInfoViewController
 
-@synthesize delegate, managedObjectContext;
+@synthesize delegate, appDelegate, managedObjectContext, infoTableView;
 @synthesize routeFreq, routePrefs, routeComfort, routeSafety, ridePassengers, rideSpecial, rideConflict, routeStressors;
 @synthesize routeFreqSelectedRow, routePrefsSelectedRows, routeComfortSelectedRow, routeSafetySelectedRow, ridePassengersSelectedRows, rideSpecialSelectedRows, rideConflictSelectedRow, routeStressorsSelectedRows, selectedItem, selectedItems;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+/*
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:UITableViewStyleGrouped]) {
@@ -32,13 +46,11 @@
     return self;
 }
 
+ */
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context
 {
-    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		NSLog(@"PersonalInfoViewController::initWithManagedObjectContext");
-		self.managedObjectContext = context;
-    }
+    self.managedObjectContext = context;
     return self;
 }
 
@@ -81,6 +93,7 @@
 
 - (void)viewDidLoad
 {
+    [self.infoTableView becomeFirstResponder];
     [super viewDidLoad];
     
     routeFreqArray = [[NSArray alloc] initWithObjects:@" ", @"Several times per week", @"Several times per month", @"Several times per year", @"Once per year or less", @"First time ever", nil];
@@ -154,6 +167,19 @@
      */
 }
 
+-(IBAction)skip:(id)sender{
+    NSLog(@"Skip");
+    
+}
+
+-(IBAction)saveInfo:(id)sender{
+    NSLog(@"Save Info");
+    
+    [infoTableView resignFirstResponder];
+    
+    [delegate saveTripResponse];
+    
+}
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
@@ -336,6 +362,8 @@
 	
 	// update UI
 	 */
+    
+    NSLog(@"Saving trip response data");
     
 	[delegate setSaved:YES];
     //disable the save button after saving
