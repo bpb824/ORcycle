@@ -85,6 +85,6 @@
 // DEPRECATED
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
     
-- (void)done;
+//- (void)done;
 
 @end

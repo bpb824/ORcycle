@@ -548,6 +548,7 @@
 	// go directly to TripPurpose, user can cancel from there
 	if ( YES )
 	{
+        
         //Trip Information
         NSLog(@"INIT + PUSH");
         TripInfoViewController *tripInfoVC = [[TripInfoViewController alloc]
@@ -555,7 +556,7 @@
         [tripInfoVC setDelegate: self];
         [self.navigationController presentViewController: tripInfoVC animated: YES completion: nil];
         [tripInfoVC release];
-
+         
         /*
 		// Trip Purpose
 		NSLog(@"INIT + PUSH");
@@ -828,10 +829,9 @@ shouldSelectViewController:(UIViewController *)viewController
 }
 
 #pragma mark TripInfoDelegate methods
-- (void)saveTripResponse{
-    
-    [tripManager saveTripResponse];
-    NSLog(@"Save trip response");
+- (void)popController
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

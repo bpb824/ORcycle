@@ -93,6 +93,9 @@
 
 - (void)viewDidLoad
 {
+    id objectDelegate = [[UIApplication sharedApplication] delegate];
+    self.managedObjectContext = [objectDelegate managedObjectContext];
+    
     [self.infoTableView becomeFirstResponder];
     [super viewDidLoad];
     
@@ -175,10 +178,11 @@
 -(IBAction)saveInfo:(id)sender{
     NSLog(@"Save Info");
     
-    [infoTableView resignFirstResponder];
-    
-    [delegate saveTripResponse];
-    
+    [self saveTripResponses];
+    [self resignFirstResponder];
+    [self release];
+    [self.navigationController popViewControllerAnimated:YES];
+
 }
 #pragma mark UITextFieldDelegate methods
 
@@ -279,12 +283,12 @@
 	return YES;
 }
 
-- (void)done
+- (void)saveTripResponses
 {
     NSArray *questions = @[@19, @21, @22, @23, @24, @25, @26, @27];
     for (int i = 0; i < [questions count]; i++){
         NSInteger question = questions[i];
-    TripResponse *tripResponse = (TripResponse *)[NSEntityDescription insertNewObjectForEntityForName:@"TripResponse" inManagedObjectContext:managedObjectContext];
+    TripResponse *tripResponse = [(TripResponse *)[NSEntityDescription insertNewObjectForEntityForName:@"TripResponse" inManagedObjectContext:managedObjectContext]retain];
         if(question == 19){
             [tripResponse setQuestion_id: question];
             [tripResponse setAnswer_id:87 + routeFreqSelectedRow];
@@ -364,11 +368,9 @@
 	 */
     
     NSLog(@"Saving trip response data");
-    
-	[delegate setSaved:YES];
     //disable the save button after saving
-	self.navigationItem.rightBarButtonItem.enabled = NO;
-	[self.navigationController popViewControllerAnimated:YES];
+	//self.navigationItem.rightBarButtonItem.enabled = NO;
+	
 }
 
 

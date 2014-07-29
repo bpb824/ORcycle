@@ -496,6 +496,7 @@
 -(void)saveTripResponse
 {
     NSLog(@"about to save trip response with x total responses");
+    
 }
 
 
