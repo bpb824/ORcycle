@@ -15,14 +15,6 @@
 @dynamic distance;
 @dynamic start;
 @dynamic notes;
-@dynamic routeFreq;
-@dynamic routePrefs;
-@dynamic routeComfort;
-@dynamic routeSafety;
-@dynamic ridePassengers;
-@dynamic rideSpecial;
-@dynamic rideConflict;
-@dynamic routeStressors;
 @dynamic uploaded;
 @dynamic purpose;
 @dynamic duration;

@@ -42,9 +42,8 @@
 #define kTripPurposeExercise	3
 #define kTripPurposeSocial		4
 #define kTripPurposeShopping	5
-#define kTripPurposeErrand		6
-#define kTripPurposeTranspoAccess	7
-#define kTripPurposeOther		8
+#define kTripPurposeTranspoAccess	6
+#define kTripPurposeOther		7
 //#define kTripPurposeRecording   8
 
 #define kTripPurposeCommuteIcon         @"commute.png"
@@ -53,8 +52,7 @@
 #define kTripPurposeExerciseIcon        @"exercise.png"
 #define kTripPurposeSocialIcon          @"social.png"
 #define kTripPurposeShoppingIcon        @"shopping.png"
-#define kTripPurposeErrandIcon          @"errands.png"
-#define kTripPurposeTranspoAccessIcon   @"bikeEvent.png"
+#define kTripPurposeTranspoAccessIcon   @"errands.png"
 #define kTripPurposeOtherIcon           @"other.png"
 #define kTripPurposeOtherRedIcon        @"otherRed.png"
 
@@ -69,8 +67,8 @@
 #define kTripPurposeWorkString          @"Work-Related"
 #define kTripPurposeExerciseString      @"Exercise"
 #define kTripPurposeSocialString        @"Social"
-#define kTripPurposeShoppingString      @"Shopping"
-#define kTripPurposeErrandString        @"Errand"
+#define kTripPurposeShoppingString      @"Shopping/Errand"
+//#define kTripPurposeErrandString        @"Errand"
 #define kTripPurposeTranspoAccessString @"Transpo Access"
 #define kTripPurposeOtherString         @"Other"
 #define kTripPurposeRecordingString     @"Recording..."
@@ -81,6 +79,7 @@
 @required
 - (NSString *)getPurposeString:(unsigned int)index;
 - (NSString *)setPurpose:(unsigned int)index;
+- (void)setSaved:(BOOL)value;
 
 @optional
 - (void)didCancelPurpose;

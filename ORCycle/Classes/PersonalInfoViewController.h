@@ -84,6 +84,7 @@
     NSArray *riderAbilityArray;
     NSArray *riderTypeArray;
     NSArray *riderHistoryArray;
+    NSArray *bikeTypesArray;
     
     NSInteger ageSelectedRow;
     NSInteger genderSelectedRow;
@@ -100,7 +101,8 @@
     NSInteger riderHistorySelectedRow;
     NSInteger selectedItem;
     
-    NSString *bikeTypes;
+    NSMutableArray *selectedItems;
+    NSMutableArray *bikeTypesSelectedRows;
     
 }
 
@@ -143,7 +145,8 @@
 @property (nonatomic) NSInteger riderHistorySelectedRow;
 @property (nonatomic) NSInteger selectedItem;
 
-@property (nonatomic,retain) NSString *bikeTypes;
+@property (nonatomic,retain) NSMutableArray *selectedItems;
+@property (nonatomic,retain) NSMutableArray *bikeTypesSelectedRows;
 
 // DEPRECATED
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;

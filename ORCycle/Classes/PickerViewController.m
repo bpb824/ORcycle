@@ -161,6 +161,7 @@
         
         NSLog(@"pickedNotedType is %d", pickedNotedType);
     }
+    /*
     else if (pickerCategory == 2){
         NSLog(@"Asset Save button pressed");
         NSLog(@"detail");
@@ -183,6 +184,7 @@
         NSLog(@"pickedNotedType is %d", pickedNotedType);
         
     }
+     */
     else if (pickerCategory == 3){
         NSLog(@"Note This Save button pressed");
         NSLog(@"detail");
@@ -197,15 +199,16 @@
         //Note: get index of type
         NSInteger row = [customPickerView selectedRowInComponent:0];
         
-        NSNumber *tempType = 0;
+        NSNumber *tempType = [NSNumber numberWithInt:row];
 
-        
+        /*
         if(row>=7){
             tempType = [NSNumber numberWithInt:row-7];
         }
         else if (row<=5){
             tempType = [NSNumber numberWithInt:11-row];
         }
+         */
         
         NSLog(@"tempType: %d", [tempType intValue]);
         
@@ -273,20 +276,25 @@
         navBarItself.topItem.title = @"Boo this...";
         self.descriptionText.text = @"Please select the issue type & tap Save";
     }
+    /*
     else if (pickerCategory == 2){
         navBarItself.topItem.title = @"This is rad!";
         self.descriptionText.text = @"Please select the asset type & tap Save";
     }
+     */
     else if (pickerCategory == 3){
         navBarItself.topItem.title = @"Mark";
         self.descriptionText.text = @"Please select the type & tap Save";
-        [self.customPickerView selectRow:6 inComponent:0 animated:NO];
+        [self.customPickerView selectRow:0 inComponent:0 animated:NO];
+        navBarItself.topItem.rightBarButtonItem.enabled = YES;
+        /*
         if ([self.customPickerView selectedRowInComponent:0] == 6) {
             navBarItself.topItem.rightBarButtonItem.enabled = NO;
         }
         else{
             navBarItself.topItem.rightBarButtonItem.enabled = YES;
         }
+         */
     }
 
 	[super viewDidLoad];
@@ -380,25 +388,44 @@
     else if (pickerCategory == 1){
         switch (row) {
             case 0:
-                description.text = kIssueDescPavementIssue;
+                description.text = kIssueDescNarrowBikeLane;
                 break;
             case 1:
-                description.text = kIssueDescTrafficSignal;
+                description.text = kIssueDescNoBikeLane;
                 break;
             case 2:
-                description.text = kIssueDescEnforcement;
+                description.text = kIssueDescHighVehicleSpeeds;
                 break;
             case 3:
-                description.text = kIssueDescNeedParking;
+                description.text = kIssueDescHighTrafficVolume;
                 break;
             case 4:
-                description.text = kIssueDescBikeLaneIssue;
+                description.text = kIssueDescTurningVehicles;
                 break;
-            default:
-                description.text = kIssueDescNoteThisSpot;
+            case 5:
+                description.text = kIssueDescSignalTiming;
+                break;
+            case 6:
+                description.text = kIssueDescSignalDetection;
+                break;
+            case 7:
+                description.text = kIssueDescTruckTraffic;
+                break;
+            case 8:
+                description.text = kIssueDescBusTrafficStop;
+                break;
+            case 9:
+                description.text = kIssueDescParkedVehicles;
+                break;
+            case 10:
+                description.text = kIssueDescPavementCondition;
+                break;
+            case 11:
+                description.text = kIssueDescOther;
                 break;
         }
     }
+    /*
     else if (pickerCategory == 2){
         switch (row) {
             case 0:
@@ -421,52 +448,45 @@
                 break;
         }
     }
+     */
     else if (pickerCategory == 3){
         switch (row) {
-            case 6:
-                description.text = kDescNoteThis;
-                break;
-                
             case 0:
-                description.text = kAssetDescNoteThisSpot;
+                description.text = kIssueDescNarrowBikeLane;
                 break;
             case 1:
-                description.text = kAssetDescWaterFountains;
+                description.text = kIssueDescNoBikeLane;
                 break;
             case 2:
-                description.text = kAssetDescSecretPassage;
+                description.text = kIssueDescHighVehicleSpeeds;
                 break;
             case 3:
-                description.text = kAssetDescPublicRestrooms;
+                description.text = kIssueDescHighTrafficVolume;
                 break;
             case 4:
-                description.text = kAssetDescBikeShops;
+                description.text = kIssueDescTurningVehicles;
                 break;
             case 5:
-                description.text = kAssetDescBikeParking;
+                description.text = kIssueDescSignalTiming;
                 break;
-        
-            
-            
+            case 6:
+                description.text = kIssueDescSignalDetection;
+                break;
             case 7:
-                description.text = kIssueDescPavementIssue;
+                description.text = kIssueDescTruckTraffic;
                 break;
             case 8:
-                description.text = kIssueDescTrafficSignal;
+                description.text = kIssueDescBusTrafficStop;
                 break;
             case 9:
-                description.text = kIssueDescEnforcement;
+                description.text = kIssueDescParkedVehicles;
                 break;
             case 10:
-                description.text = kIssueDescNeedParking;
+                description.text = kIssueDescPavementCondition;
                 break;
             case 11:
-                description.text = kIssueDescBikeLaneIssue;
+                description.text = kIssueDescOther;
                 break;
-            case 12:
-                description.text = kIssueDescNoteThisSpot;
-                break;
-
         }
     }
 }

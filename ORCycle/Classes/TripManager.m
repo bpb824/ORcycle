@@ -382,13 +382,14 @@
     return userDict;
 }
 
-- (NSDictionary*)encodeUserResponseData
+- (NSMutableArray*)encodeUserResponseData
 {
 	NSLog(@"encodeUserResponseData");
-	NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:3];
 	
+    NSMutableArray *userResponsesCollection = [[NSMutableArray alloc]init];
+    
 	NSFetchRequest		*request = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"UserResponse" inManagedObjectContext:managedObjectContext];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
 	[request setEntity:entity];
 	
 	NSError *error;
@@ -402,31 +403,50 @@
 			// Handle the error.
 			NSLog(@"no saved user");
 			if ( error != nil )
-				NSLog(@"TripManager fetch saved user response data error %@, %@", error, [error localizedDescription]);
+				NSLog(@"TripManager fetch saved user data error %@, %@", error, [error localizedDescription]);
 		}
         
 		User *user = [mutableFetchResults objectAtIndex:0];
 		if ( user != nil )
 		{
-            NSArray *answers = @[@[[NSNumber numberWithInt:[user.age intValue]+1]],
-                                 @[[NSNumber numberWithInt:[user.gender intValue] + 9]],
-                                 @[[NSNumber numberWithInt:[user.ethnicity intValue]+13]],
-                                 @[[NSNumber numberWithInt:[user.occupation intValue] +20]],
-                                 @[[NSNumber numberWithInt:[user.income intValue]+26]],
-                                 @[[NSNumber numberWithInt:[user.hhWorkers intValue]+35]],
-                                 @[[NSNumber numberWithInt:[user.hhVehicles intValue]+40]],
-                                 @[[NSNumber numberWithInt:[user.numBikes intValue] +45 ]],
-                                 @[[NSNumber numberWithInt:[user.cyclingFreq intValue]+51 ]],
-                                 @[[NSNumber numberWithInt:[user.cyclingWeather intValue]+56]],
-                                 @[[NSNumber numberWithInt:[user.riderAbility intValue]+61]],
-                                 @[[NSNumber numberWithInt:[user.riderType intValue] +67 ]],
-                                 @[[NSNumber numberWithInt:[user.riderHistory intValue] +74]]];
+            NSArray *answers = @[[NSNumber numberWithInt:[user.age intValue]+1],
+                                 [NSNumber numberWithInt:[user.gender intValue] + 9],
+                                 [NSNumber numberWithInt:[user.ethnicity intValue]+13],
+                                 [NSNumber numberWithInt:[user.occupation intValue] +20],
+                                 [NSNumber numberWithInt:[user.income intValue]+26],
+                                 [NSNumber numberWithInt:[user.hhWorkers intValue]+35],
+                                 [NSNumber numberWithInt:[user.hhVehicles intValue]+40],
+                                 [NSNumber numberWithInt:[user.numBikes intValue] +45 ],
+                                 [NSNumber numberWithInt:[user.cyclingFreq intValue]+59 ],
+                                 [NSNumber numberWithInt:[user.cyclingWeather intValue]+64],
+                                 [NSNumber numberWithInt:[user.riderAbility intValue]+69],
+                                 [NSNumber numberWithInt:[user.riderType intValue] + 75 ],
+                                 [NSNumber numberWithInt:[user.riderHistory intValue] +82]];
             
             NSArray *questions = @[@1,@3,@4,@5,@6,@7,@8,@9,@14,@15,@16,@17,@18];
             
             for(int i = 0; i < [questions count];i++){
-                [userResponseDict setValue:questions[i] forKey:@"question_id"];
-                [userResponseDict setValue:answers[i] forKey:@"answer_id"];
+                NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [userResponseDict setObject:questions[i] forKey:@"question_id"];
+                [userResponseDict setObject:answers[i] forKey:@"answer_id"];
+                NSLog(@"%@", userResponseDict);
+                userResponsesCollection[i] = userResponseDict;
+            }
+            
+            NSMutableArray *bikeTypesTemp = [[user.bikeTypes componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *bikeTypes = [[NSMutableArray alloc] init];
+            for (NSString *s in bikeTypesTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [bikeTypes addObject:num];
+            }
+            for (int i = 0; i < [bikeTypes count];i++){
+                if([bikeTypes[i] integerValue] == 1){
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject: [NSNumber numberWithInt:10] forKey:@"question_id"];
+                    [userResponseDict setObject: [NSNumber numberWithInt:i + 52] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                }
             }
         }
 		else
@@ -438,13 +458,13 @@
 		NSLog(@"TripManager WARNING no saved user response data to encode");
 	
 	[request release];
-    return userResponseDict;
+    return userResponsesCollection;
 }
 
-- (NSDictionary*)encodeTripResponseData
+- (NSMutableArray*)encodeTripResponseData
 {
 	NSLog(@"encodeTripResponseData");
-	NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:7];
+	NSMutableArray *tripResponsesCollection = [[NSMutableArray alloc]init];
 	
 	NSFetchRequest		*request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"TripResponse" inManagedObjectContext:managedObjectContext];
@@ -452,7 +472,160 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	//NSLog(@"saved user count  = %d", count);
+	NSLog(@"saved trip response count  = %ld", (long)count);
+    
+    if ( count )
+	{
+		NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+		if (mutableFetchResults == nil) {
+			// Handle the error.
+			NSLog(@"no saved trip");
+			if ( error != nil )
+				NSLog(@"TripManager fetch saved trip data error %@, %@", error, [error localizedDescription]);
+		}
+		TripResponse *tripResponse = [mutableFetchResults objectAtIndex:0];
+        NSLog(@"Route prefs sent to encoder as %@",tripResponse.routePrefs);
+		if ( tripResponse != nil )
+		{
+            NSArray *sAnswers = @[[NSNumber numberWithInt:[tripResponse.routeFreq intValue]+87],
+                                 [NSNumber numberWithInt:[tripResponse.routeComfort intValue] + 116],
+                                 [NSNumber numberWithInt:[tripResponse.routeSafety intValue]+122],
+                                 [NSNumber numberWithInt:[tripResponse.rideConflict intValue] + 139]];
+            
+            NSArray *sQuestions = @[@19,@22,@23,@26];
+            
+            for(int i = 0; i < [sQuestions count];i++){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:sQuestions[i] forKey:@"question_id"];
+                [tripResponseDict setObject:sAnswers[i] forKey:@"answer_id"];
+                NSLog(@"%@", tripResponseDict);
+                [tripResponsesCollection addObject:tripResponseDict];
+            }
+            
+            //SET PURPOSE TRIP RESPONSE
+            NSString *tripPurpose = trip.purpose;
+            if([tripPurpose  isEqual: kTripPurposeCommuteString]){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:[NSNumber numberWithInt:20] forKey:@"question_id"];
+                [tripResponseDict setObject:[NSNumber numberWithInt:94] forKey:@"answer_id"];
+                [tripResponsesCollection addObject:tripResponseDict];
+            }else if([tripPurpose isEqual:kTripPurposeSchoolString]){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:[NSNumber numberWithInt:20] forKey:@"question_id"];
+                [tripResponseDict setObject:[NSNumber numberWithInt:95] forKey:@"answer_id"];
+                [tripResponsesCollection addObject:tripResponseDict];
+            }else if([tripPurpose isEqual:kTripPurposeWorkString]){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:[NSNumber numberWithInt:20] forKey:@"question_id"];
+                [tripResponseDict setObject:[NSNumber numberWithInt:96] forKey:@"answer_id"];
+                [tripResponsesCollection addObject:tripResponseDict];
+            }else if([tripPurpose isEqual:kTripPurposeExerciseString]){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:[NSNumber numberWithInt:20] forKey:@"question_id"];
+                [tripResponseDict setObject:[NSNumber numberWithInt:97] forKey:@"answer_id"];
+                [tripResponsesCollection addObject:tripResponseDict];
+            }else if([tripPurpose isEqual:kTripPurposeSocialString]){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:[NSNumber numberWithInt:20] forKey:@"question_id"];
+                [tripResponseDict setObject:[NSNumber numberWithInt:98] forKey:@"answer_id"];
+                [tripResponsesCollection addObject:tripResponseDict];
+            }else if([tripPurpose isEqual:kTripPurposeShoppingString]){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:[NSNumber numberWithInt:20] forKey:@"question_id"];
+                [tripResponseDict setObject:[NSNumber numberWithInt:99] forKey:@"answer_id"];
+                [tripResponsesCollection addObject:tripResponseDict];
+            }else if([tripPurpose isEqual:kTripPurposeTranspoAccessString]){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:[NSNumber numberWithInt:20] forKey:@"question_id"];
+                [tripResponseDict setObject:[NSNumber numberWithInt:100] forKey:@"answer_id"];
+                [tripResponsesCollection addObject:tripResponseDict];
+            }
+            
+            
+            NSMutableArray *routePrefsTemp = [[tripResponse.routePrefs componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *routePrefs = [[NSMutableArray alloc] init];
+            for (NSString *s in routePrefsTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [routePrefs addObject:num];
+            }
+            NSLog(@"route prefs temp = %@",routePrefsTemp);
+            NSLog(@"route prefs for conditional test = %@",routePrefs);
+            
+            NSMutableArray *ridePassengersTemp = [[tripResponse.ridePassengers componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *ridePassengers= [[NSMutableArray alloc] init];
+            for (NSString *s in ridePassengersTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [ridePassengers addObject:num];
+            }
+
+            NSMutableArray *rideSpecialTemp = [[tripResponse.rideSpecial componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *rideSpecial = [[NSMutableArray alloc] init];
+            for (NSString *s in rideSpecialTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [rideSpecial addObject:num];
+            }
+
+            NSMutableArray *routeStressorsTemp = [[tripResponse.routeStressors componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *routeStressors = [[NSMutableArray alloc] init];
+            for (NSString *s in routeStressorsTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [routeStressors addObject:num];
+            }
+
+            NSLog(@"route Prefs = %@", routePrefs);
+            NSLog(@"ride passengers = %@", ridePassengers);
+            NSLog(@"ride special = %@", rideSpecial);
+            NSLog(@"route stressors = %@", routeStressors);
+            
+            for (int i = 0; i < [routePrefs count];i++){
+                if([routePrefs[i] integerValue] == 1){
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:21] forKey:@"question_id"];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 88] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                }
+            }
+            
+            for (int i = 0; i < [ridePassengers count];i++){
+                if([ridePassengers[i] integerValue] == 1){
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:24]  forKey:@"question_id"];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 129] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                }
+            }
+            
+            for (int i = 0; i < [rideSpecial count];i++){
+                if([rideSpecial[i] integerValue] == 1){
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:25]  forKey:@"question_id"];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 136] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                }
+            }
+            
+            for (int i = 0; i < [routeStressors count];i++){
+                if([routeStressors[i] integerValue] == 1){
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:27]  forKey:@"question_id"];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 144] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                }
+            }
+        }
+		else
+			NSLog(@"TripManager fetch user FAIL");
+		
+		[mutableFetchResults release];
+	}
+	else
+		NSLog(@"TripManager WARNING no saved user response data to encode");
+	
+    /*
 	
 	if ( count )
 	{
@@ -482,8 +655,9 @@
     {
 		NSLog(@"TripManager WARNING no saved trip response data to encode");
     }
+    */
 	[request release];
-    return tripResponseDict;
+    return tripResponsesCollection;
 }
 
 
@@ -502,7 +676,7 @@
 
 - (void)saveTrip
 {
-	NSLog(@"about to save trip with %d coords...", [coords count]);
+	NSLog(@"about to save trip with %lu coords...", (unsigned long)[coords count]);
 //	[activityDelegate updateSavingMessage:kPreparingData];
 	//NSLog(@"%@", trip);
 
@@ -635,8 +809,8 @@
     NSLog(@"user data %@", userJson);
     
     // encode user response data
-	NSDictionary *userResponseDict = [self encodeUserResponseData];
-    NSData *userResponseJsonData = [NSJSONSerialization dataWithJSONObject:userResponseDict options:0 error:&writeError];
+	NSMutableArray *userResponsesCollection = [self encodeUserResponseData];
+    NSData *userResponseJsonData = [NSJSONSerialization dataWithJSONObject:userResponsesCollection options:0 error:&writeError];
     NSString *userResponseJson = [[[NSString alloc] initWithData:userResponseJsonData encoding:NSUTF8StringEncoding] autorelease];
     NSLog(@"user response data %@", userResponseJson);
     
@@ -646,7 +820,7 @@
     //NSLog(@"trip data %@", tripJson);
 
     //encode trip response data
-    NSDictionary *tripResponseDict = [self encodeTripResponseData];
+    NSMutableArray *tripResponseDict = [self encodeTripResponseData];
     
     // JSON encode the trip response data
     NSData *tripResponseJsonData = [NSJSONSerialization dataWithJSONObject:tripResponseDict options:0 error:&writeError];
@@ -665,6 +839,7 @@
 							  [NSString stringWithFormat:@"%d", kSaveProtocolVersion], @"version",
 							  nil];
 	// create save request
+    NSLog(@"Post Variables = %@",postVars);
 	SaveRequest *saveRequest = [[[SaveRequest alloc] initWithPostVars:postVars with:3 image:NULL] autorelease];
 	
 	// create the connection with the request and start loading the data
@@ -799,7 +974,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
 	// do something with the data
-    NSLog(@"+++++++DEBUG: Received %d bytes of data", [receivedData length]);
+    NSLog(@"+++++++DEBUG: Received %lu bytes of data", (unsigned long)[receivedData length]);
 	NSLog(@"%@", [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease] );
 
     // release the connection, and the data object
@@ -810,7 +985,7 @@
 
 - (NSInteger)getPurposeIndex
 {
-	NSLog(@"%d", purposeIndex);
+	NSLog(@"%ld", (long)purposeIndex);
 	return purposeIndex;
 }
 
@@ -887,7 +1062,7 @@
  totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
 	if ( saving )
-		saving.message = [NSString stringWithFormat:@"Sent %d of %d bytes", totalBytesWritten, totalBytesExpectedToWrite];
+		saving.message = [NSString stringWithFormat:@"Sent %ld of %ld bytes", (long)totalBytesWritten, (long)totalBytesExpectedToWrite];
 }
 
 
@@ -920,7 +1095,7 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"countUnSavedTrips = %d", count);
+	NSLog(@"countUnSavedTrips = %ld", (long)count);
 	
 	[request release];
 	return count;
@@ -945,7 +1120,8 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"countUnSyncedTrips = %d", count);
+	NSLog(@"countUnSyncedTrips = %ld", (long)
+          count);
 	
 	[request release];
 	return count;
@@ -970,7 +1146,7 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"countZeroDistanceTrips = %d", count);
+	NSLog(@"countZeroDistanceTrips = %ld", (long)count);
 	
 	[request release];
 	return count;
@@ -1018,7 +1194,7 @@
 // filter and sort all trip coords before calculating distance in post-processing
 - (CLLocationDistance)calculateTripDistance:(Trip*)_trip
 {
-	NSLog(@"calculateTripDistance for trip started %@ having %d coords", _trip.start, [_trip.coords count]);
+	NSLog(@"calculateTripDistance for trip started %@ having %lu coords", _trip.start, (unsigned long)[_trip.coords count]);
 	
 	CLLocationDistance newDist = 0.;
 
@@ -1028,7 +1204,7 @@
 	// filter coords by hAccuracy
 	NSPredicate *filterByAccuracy	= [NSPredicate predicateWithFormat:@"hAccuracy < 100.0"];
 	NSArray		*filteredCoords		= [[_trip.coords allObjects] filteredArrayUsingPredicate:filterByAccuracy];
-	NSLog(@"count of filtered coords = %d", [filteredCoords count]);
+	NSLog(@"count of filtered coords = %lu", (unsigned long)[filteredCoords count]);
 	
 	if ( [filteredCoords count] )
 	{
@@ -1157,15 +1333,10 @@
 		return kTripPurposeSocial;
 	else if ( [string isEqualToString:kTripPurposeShoppingString] )
 		return kTripPurposeShopping;
-    else if ( [string isEqualToString:kTripPurposeErrandString] )
-		return kTripPurposeErrand;
     else if ( [string isEqualToString:kTripPurposeTranspoAccessString] )
 		return kTripPurposeTranspoAccess;
     else
-//	else ( [string isEqualToString:kTripPurposeErrandString] )
 		return kTripPurposeOther;
-//	else
-//		return kTripPurposeRecording;
 }
 
 + (NSString *)getPurposeString:(unsigned int)index
@@ -1187,10 +1358,7 @@
 			return @"Social";
 			break;
 		case kTripPurposeShopping:
-			return @"Shopping";
-			break;
-		case kTripPurposeErrand:
-			return @"Errand";
+			return @"Shopping/Errand";
 			break;
         case kTripPurposeTranspoAccess:
 			return @"Transpo Access";

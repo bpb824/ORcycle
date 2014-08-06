@@ -14,8 +14,14 @@
 
 @interface TripResponse : NSManagedObject
 
-@property (nonatomic, retain) NSNumber *question_id;
-@property (nonatomic, retain) NSNumber *answer_id;
+@property (nonatomic, retain) NSNumber *routeFreq;
+@property (nonatomic, retain) NSString *routePrefs;
+@property (nonatomic, retain) NSNumber *routeComfort;
+@property (nonatomic, retain) NSNumber *routeSafety;
+@property (nonatomic, retain) NSString *ridePassengers;
+@property (nonatomic, retain) NSString *rideSpecial;
+@property (nonatomic, retain) NSNumber *rideConflict;
+@property (nonatomic, retain) NSString *routeStressors;
 @property (nonatomic, retain) Trip *trip;
 
 @end

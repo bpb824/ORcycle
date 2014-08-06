@@ -48,8 +48,6 @@
 #import "Trip.h"
 #import "User.h"
 
-#import "TripInfoViewController.h"
-
 //TODO: Fix incomplete implementation
 @implementation RecordTripViewController
 
@@ -389,7 +387,7 @@
 //- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	NSLog(@"actionSheet clickedButtonAtIndex %d", buttonIndex);
+	NSLog(@"actionSheet clickedButtonAtIndex %ld", (long)buttonIndex);
 	switch ( buttonIndex )
 	{			
         case 0:
@@ -429,7 +427,7 @@
 	switch (alertView.tag) {
 		case 101:
 		{
-			NSLog(@"recording interrupted didDismissWithButtonIndex: %d", buttonIndex);
+			NSLog(@"recording interrupted didDismissWithButtonIndex: %ld", (long)buttonIndex);
 			switch (buttonIndex) {
 				case 0:
 					// new trip => do nothing
@@ -452,7 +450,7 @@
 			break;
 		default:
 		{
-			NSLog(@"saving didDismissWithButtonIndex: %d", buttonIndex);
+			NSLog(@"saving didDismissWithButtonIndex: %ld", (long)buttonIndex);
 			
 			// keep a pointer to our trip to pass to map view below
 			Trip *trip = tripManager.trip;
@@ -548,7 +546,7 @@
 	// go directly to TripPurpose, user can cancel from there
 	if ( YES )
 	{
-        
+        /*
         //Trip Information
         NSLog(@"INIT + PUSH");
         TripInfoViewController *tripInfoVC = [[TripInfoViewController alloc]
@@ -556,8 +554,9 @@
         [tripInfoVC setDelegate: self];
         [self.navigationController presentViewController: tripInfoVC animated: YES completion: nil];
         [tripInfoVC release];
+         */
          
-        /*
+        
 		// Trip Purpose
 		NSLog(@"INIT + PUSH");
 		PickerViewController *tripPurposePickerView = [[PickerViewController alloc]
@@ -567,7 +566,7 @@
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
 		[self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
 		[tripPurposePickerView release];
-         */
+        
     }
 	
 	// prompt to confirm first
@@ -903,7 +902,7 @@ shouldSelectViewController:(UIViewController *)viewController
 
 - (void)didPickNoteType:(NSNumber *)index
 {	
-	[noteManager.note setNote_type:index];
+	[noteManager.note setNote_type:[NSNumber numberWithInt:[index integerValue]]];
     NSLog(@"Added note type: %d", [noteManager.note.note_type intValue]);
     //do something here: may change to be the save as a separate view. Not prompt.
 }
@@ -915,18 +914,18 @@ shouldSelectViewController:(UIViewController *)viewController
 
 - (void)didSaveImage:(NSData *)imgData{
     [noteManager.note setImage_data:imgData];
-    NSLog(@"Added image, Size of Image(bytes):%d", [imgData length]);
+    NSLog(@"Added image, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
     [imgData release];
 }
 
 - (void)getTripThumbnail:(NSData *)imgData{
     [tripManager.trip setThumbnail:imgData];
-    NSLog(@"Trip Thumbnail, Size of Image(bytes):%d", [imgData length]);
+    NSLog(@"Trip Thumbnail, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
 }
 
 - (void)getNoteThumbnail:(NSData *)imgData{
     [noteManager.note setThumbnail:imgData];
-    NSLog(@"Note Thumbnail, Size of Image(bytes):%d", [imgData length]);
+    NSLog(@"Note Thumbnail, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
 }
 
 - (void)saveNote{

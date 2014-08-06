@@ -508,9 +508,6 @@
             case kTripPurposeShopping:
                 image = [UIImage imageNamed:kTripPurposeShoppingIcon];
                 break;
-            case kTripPurposeErrand:
-                image = [UIImage imageNamed:kTripPurposeErrandIcon];
-                break;
             case kTripPurposeTranspoAccess:
                 image = [UIImage imageNamed:kTripPurposeTranspoAccessIcon];
                 break;

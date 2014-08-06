@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSNumber * hhWorkers;
 @property (nonatomic, retain) NSNumber * hhVehicles;
 @property (nonatomic, retain) NSNumber * numBikes;
+@property (nonatomic, retain) NSMutableString * bikeTypes;
 @property (nonatomic, retain) NSNumber * ethnicity;
 @property (nonatomic, retain) NSString * homeZIP;
 @property (nonatomic, retain) NSString * schoolZIP;

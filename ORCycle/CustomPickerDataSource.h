@@ -54,6 +54,21 @@
 #define kDescTranspoAccess  @"The primary reason for this bike trip was to access public transit or some other vehicle (private vehicle, car share, etc.)."
 #define kDescOther		@"If none of the other reasons apply to this trip, you can enter trip comments after saving your trip to tell us more."
 
+//Issue descriptions
+#define kIssueDescNarrowBikeLane @"placeholder"
+#define kIssueDescNoBikeLane @"placeholder"
+#define kIssueDescHighVehicleSpeeds @"placeholder"
+#define kIssueDescHighTrafficVolume @"placeholder"
+#define kIssueDescTurningVehicles @"placeholder"
+#define kIssueDescSignalTiming @"placeholder"
+#define kIssueDescSignalDetection @"placeholder"
+#define kIssueDescTruckTraffic @"placeholder"
+#define kIssueDescBusTrafficStop @"placeholder"
+#define kIssueDescParkedVehicles @"placeholder"
+#define kIssueDescPavementCondition @"placeholder"
+#define kIssueDescOther @"placeholder"
+
+/*
 // Issue descriptions
 #define kIssueDescPavementIssue  @"Here’s a spot where the road needs to be repaired (pothole, rough concrete, gravel in the road, manhole cover, sewer grate)."
 #define kIssueDescTrafficSignal  @"Here’s a signal that you can’t activate with your bike."
@@ -71,7 +86,7 @@
 #define kAssetDescSecretPassage @"Here's an access point under the tracks, through the park, onto a trail, or over a ravine."
 #define kAssetDescWaterFountains    @"Here’s a spot to fill your bottle on those hot summer days… stay hydrated, people. We need you."
 #define kAssetDescNoteThisSpot  @"Anything else we should map to help your fellow cyclists? Share the details."
-
+*/
 
 @interface CustomPickerDataSource : NSObject <UIPickerViewDataSource, UIPickerViewDelegate>
 {

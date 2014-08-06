@@ -255,7 +255,7 @@
         return managedObjectModel;
     }
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"RenoTracks" ofType:@"momd"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ORcycle" ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
     

@@ -23,6 +23,7 @@
 @dynamic hhWorkers;
 @dynamic hhVehicles;
 @dynamic numBikes;
+@dynamic bikeTypes;
 @dynamic ethnicity;
 @dynamic homeZIP;
 @dynamic schoolZIP;

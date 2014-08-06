@@ -29,10 +29,10 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */; };
-		1FC294C4197D8E8900225AAD /* TripInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294C2197D8E8900225AAD /* TripInfoViewController.m */; };
 		1FC294C5197D8E8900225AAD /* TripInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC294C3197D8E8900225AAD /* TripInfoViewController.xib */; };
 		1FC294CD197DFB5000225AAD /* TripResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CC197DFB5000225AAD /* TripResponse.m */; };
 		1FC294D0197F461100225AAD /* ORcycle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CE197F461100225AAD /* ORcycle.xcdatamodeld */; };
+		1FC294E2198B136E00225AAD /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294E1198B136E00225AAD /* CustomCell.m */; };
 		1FC3737C1979CD3300332B0C /* Checkbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC3737B1979CD3300332B0C /* Checkbox.m */; };
 		1FC37386197B446C00332B0C /* TripDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37385197B446C00332B0C /* TripDetailViewController.xib */; };
 		1FC37394197B495A00332B0C /* check_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC3738D197B495A00332B0C /* check_selected@2x.png */; };
@@ -190,13 +190,12 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalInfoViewController.h; sourceTree = "<group>"; };
 		1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalInfoViewController.m; sourceTree = "<group>"; };
-		1FC294C1197D8E8900225AAD /* TripInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TripInfoViewController.h; path = ../TripInfoViewController.h; sourceTree = "<group>"; };
-		1FC294C2197D8E8900225AAD /* TripInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TripInfoViewController.m; path = ../TripInfoViewController.m; sourceTree = "<group>"; };
 		1FC294C3197D8E8900225AAD /* TripInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripInfoViewController.xib; sourceTree = "<group>"; };
-		1FC294C7197D8F9C00225AAD /* TripInfoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TripInfoDelegate.h; path = ../TripInfoDelegate.h; sourceTree = "<group>"; };
 		1FC294CB197DFB5000225AAD /* TripResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripResponse.h; sourceTree = "<group>"; };
 		1FC294CC197DFB5000225AAD /* TripResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripResponse.m; sourceTree = "<group>"; };
 		1FC294CF197F461100225AAD /* ORcycle1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ORcycle1.xcdatamodel; sourceTree = "<group>"; };
+		1FC294E0198B135D00225AAD /* CustomCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		1FC294E1198B136E00225AAD /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		1FC3737A1979CD3300332B0C /* Checkbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkbox.h; sourceTree = "<group>"; };
 		1FC3737B1979CD3300332B0C /* Checkbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkbox.m; sourceTree = "<group>"; };
 		1FC37385197B446C00332B0C /* TripDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripDetailViewController.xib; sourceTree = "<group>"; };
@@ -412,9 +411,6 @@
 				8F5E60621602CBE000D8F85D /* NSString+MD5Addition.h */,
 				8F5E60631602CBE000D8F85D /* NSString+MD5Addition.m */,
 				64119ABD10689ED800C201F0 /* PickerViewController.h */,
-				1FC294C7197D8F9C00225AAD /* TripInfoDelegate.h */,
-				1FC294C1197D8E8900225AAD /* TripInfoViewController.h */,
-				1FC294C2197D8E8900225AAD /* TripInfoViewController.m */,
 				6433E5C5106D62ED00C27387 /* PersonalInfoDelegate.h */,
 				1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */,
 				1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */,
@@ -422,6 +418,8 @@
 				64581198107AC1080075DABD /* RecordingInProgressDelegate.h */,
 				1FC3737A1979CD3300332B0C /* Checkbox.h */,
 				1FC3737B1979CD3300332B0C /* Checkbox.m */,
+				1FC294E0198B135D00225AAD /* CustomCell.h */,
+				1FC294E1198B136E00225AAD /* CustomCell.m */,
 				6411996010683D7500C201F0 /* RecordTripViewController.h */,
 				6411996110683D7500C201F0 /* RecordTripViewController.m */,
 				6426476C1073FEC300E43DEF /* ReminderManager.h */,
@@ -862,7 +860,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FC294C4197D8E8900225AAD /* TripInfoViewController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* RenoTracksAppDelegate.m in Sources */,
 				6411996210683D7500C201F0 /* RecordTripViewController.m in Sources */,
@@ -878,6 +875,7 @@
 				1FC3737C1979CD3300332B0C /* Checkbox.m in Sources */,
 				6426476E1073FEC300E43DEF /* ReminderManager.m in Sources */,
 				64210F6111350C8500415F1A /* AboutViewController.m in Sources */,
+				1FC294E2198B136E00225AAD /* CustomCell.m in Sources */,
 				645E4EDC1200C1C800EFF0E6 /* LoadingView.m in Sources */,
 				8F5E60661602CBE000D8F85D /* NSString+MD5Addition.m in Sources */,
 				8F5E60671602CBE000D8F85D /* UIDevice+IdentifierAddition.m in Sources */,

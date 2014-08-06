@@ -142,6 +142,7 @@
 - (void)saveNote
 {
     NSMutableDictionary *noteDict;
+    NSMutableDictionary *noteResponseDict;
 	
 	// format date as a string
 	NSDateFormatter *outputFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -159,13 +160,18 @@
     [noteDict setValue:note.speed     forKey:@"s"];  //speed
     [noteDict setValue:note.hAccuracy forKey:@"h"];  //haccuracy
     [noteDict setValue:note.vAccuracy forKey:@"v"];  //vaccuracy
-    
-    [noteDict setValue:note.note_type     forKey:@"t"];  //note_type
     [noteDict setValue:note.details forKey:@"d"];  //details
     
     NSString *newDateString = [outputFormatter stringFromDate:note.recorded];
     NSString *newDateStringURL = [outputFormatterURL stringFromDate:note.recorded];
     [noteDict setValue:newDateString forKey:@"r"];    //recorded timestamp
+    
+    noteResponseDict =[[[NSMutableDictionary alloc] initWithCapacity:2]autorelease];
+     [noteResponseDict setValue:[NSString stringWithFormat:@"%d",30]      forKey:@"question_id"];  //note_type
+     [noteResponseDict setValue:[NSNumber numberWithInt:[note.note_type intValue]+164 ]     forKey:@"answer_id"];  //note_type
+    
+    NSMutableArray *noteResponseArray = [[NSMutableArray alloc]init];
+    noteResponseArray[0] = noteResponseDict;
     
     RenoTracksAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.deviceUniqueIdHash1 = delegate.uniqueIDHash;
@@ -208,13 +214,20 @@
     
     NSString *noteJson = [[NSString alloc] initWithData:noteJsonData encoding:NSUTF8StringEncoding];
     
+    // JSON encode the Note Response data
+    NSData *noteResponseJsonData = [[NSData alloc] initWithData:[NSJSONSerialization dataWithJSONObject:noteResponseArray options:0 error:&writeError]];
+    
+    NSString *noteResponseJson = [[NSString alloc] initWithData:noteResponseJsonData encoding:NSUTF8StringEncoding];
+    
 	// NOTE: device hash added by SaveRequest initWithPostVars
 	NSDictionary *postVars = [NSDictionary dictionaryWithObjectsAndKeys: 
                               noteJson, @"note",
+                              noteResponseJson, @"noteResponses",
 							  [NSString stringWithFormat:@"%d", kSaveNoteProtocolVersion], @"version",
 //                              [NSData dataWithData:note.image_data], @"image_data",
 							  nil];
-	// create save request
+	NSLog(@"%@", postVars);
+    // create save request
 	SaveRequest *saveRequest = [[SaveRequest alloc] initWithPostVars:postVars with:4 image:uploadData];
 	
 	// create the connection with the request and start loading the data
@@ -253,8 +266,8 @@
 
 
 - (void)saveNote:(Note*)_note
-{
-    NSMutableDictionary *noteDict;
+{NSMutableDictionary *noteDict;
+    NSMutableDictionary *noteResponseDict;
 	
 	// format date as a string
 	NSDateFormatter *outputFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -266,19 +279,21 @@
 	
     // create a noteDict for each note
     noteDict = [[[NSMutableDictionary alloc] initWithCapacity:10] autorelease];
-    [noteDict setValue:_note.altitude  forKey:@"a"];  //altitude
-    [noteDict setValue:_note.latitude  forKey:@"l"];  //latitude
-    [noteDict setValue:_note.longitude forKey:@"n"];  //longitude
-    [noteDict setValue:_note.speed     forKey:@"s"];  //speed
-    [noteDict setValue:_note.hAccuracy forKey:@"h"];  //haccuracy
-    [noteDict setValue:_note.vAccuracy forKey:@"v"];  //vaccuracy
+    [noteDict setValue:note.altitude  forKey:@"a"];  //altitude
+    [noteDict setValue:note.latitude  forKey:@"l"];  //latitude
+    [noteDict setValue:note.longitude forKey:@"n"];  //longitude
+    [noteDict setValue:note.speed     forKey:@"s"];  //speed
+    [noteDict setValue:note.hAccuracy forKey:@"h"];  //haccuracy
+    [noteDict setValue:note.vAccuracy forKey:@"v"];  //vaccuracy
+    [noteDict setValue:note.details forKey:@"d"];  //details
     
-    [noteDict setValue:_note.note_type     forKey:@"t"];  //note_type
-    [noteDict setValue:_note.details forKey:@"d"];  //details
-    
-    NSString *newDateString = [outputFormatter stringFromDate:_note.recorded];
-    NSString *newDateStringURL = [outputFormatterURL stringFromDate:_note.recorded];
+    NSString *newDateString = [outputFormatter stringFromDate:note.recorded];
+    NSString *newDateStringURL = [outputFormatterURL stringFromDate:note.recorded];
     [noteDict setValue:newDateString forKey:@"r"];    //recorded timestamp
+    
+    noteResponseDict =[[[NSMutableDictionary alloc] initWithCapacity:2]autorelease];
+    [noteResponseDict setValue:[NSString stringWithFormat:@"%d",30]      forKey:@"question_id"];  //note_type
+    [noteResponseDict setValue:note.note_type     forKey:@"answer_id"];  //note_type
     
     RenoTracksAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.deviceUniqueIdHash1 = delegate.uniqueIDHash;
@@ -317,18 +332,24 @@
     
     // JSON encode user data and trip data, return to strings
     NSError *writeError = nil;
-    
     // JSON encode the Note data
     NSData *noteJsonData = [[NSData alloc] initWithData:[NSJSONSerialization dataWithJSONObject:noteDict options:0 error:&writeError]];
     
     NSString *noteJson = [[NSString alloc] initWithData:noteJsonData encoding:NSUTF8StringEncoding];
     
+    // JSON encode the Note Response data
+    NSData *noteResponseJsonData = [[NSData alloc] initWithData:[NSJSONSerialization dataWithJSONObject:noteResponseDict options:0 error:&writeError]];
+    
+    NSString *noteResponseJson = [[NSString alloc] initWithData:noteResponseJsonData encoding:NSUTF8StringEncoding];
+    
 	// NOTE: device hash added by SaveRequest initWithPostVars
 	NSDictionary *postVars = [NSDictionary dictionaryWithObjectsAndKeys:
                               noteJson, @"note",
+                              noteResponseJson, @"noteResponses",
 							  [NSString stringWithFormat:@"%d", kSaveNoteProtocolVersion], @"version",
                               //                              [NSData dataWithData:note.image_data], @"image_data",
 							  nil];
+	NSLog(@"%@", postVars);
 	// create save request
 	SaveRequest *saveRequest = [[SaveRequest alloc] initWithPostVars:postVars with:4 image:uploadData];
 	
@@ -360,6 +381,8 @@
     }
     
     [noteJson release];
+    [noteResponseJson release];
+    [noteResponseJsonData release];
     [noteJsonData release];
     [castedImage release];
     [uploadData release];

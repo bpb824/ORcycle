@@ -124,18 +124,11 @@
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Shopping";
+            view.title = @"Shopping/Errand";
             view.image = [UIImage imageNamed:kTripPurposeShoppingIcon];
             [viewArray addObject:view];
             [view release];
             
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Errand";
-            view.image = [UIImage imageNamed:kTripPurposeErrandIcon];
-            [viewArray addObject:view];
-            [view release];
-            
-            //Bike events
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Transport Access";
             view.image = [UIImage imageNamed:kTripPurposeTranspoAccessIcon];
@@ -150,41 +143,81 @@
         }
         else if (pickerCategory == 1){
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Pavement issue";
+            view.title = @"Narrow Bike Lane";
             //view.image = [UIImage imageNamed:kIssuePavementIssueIcon];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Traffic signal";
+            view.title = @"No bike lane/seperation";
             //view.image = [UIImage imageNamed:kIssueTrafficSignalIcon];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Enforcement";
+            view.title = @"High vehicle speeds";
             //view.image = [UIImage imageNamed:kIssueEnforcementIcon];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Rack'em Up Bike Rack";
+            view.title = @"High traffic volume";
             //view.image = [UIImage imageNamed:kIssueNeedParkingIcon];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Bike lane issue";
+            view.title = @"Turning vehicles";
             //view.image = [UIImage imageNamed:kIssueBikeLaneIssueIcon];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Note this spot";
+            view.title = @"Signal Timing";
             //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
             [viewArray addObject:view];
             [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Signal Detection";
+            //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Truck Traffic";
+            //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Bus traffic/stop";
+            //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
+            [viewArray addObject:view];
+            [view release];
+            
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Parked vehicles";
+            //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Pavement Condtion";
+            //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Other";
+            //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
+            [viewArray addObject:view];
+            [view release];
+
         }
+        
+        /*
         else if (pickerCategory == 2){
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Rack'em Up possible rack location";
@@ -222,84 +255,76 @@
             [viewArray addObject:view];
             [view release];
         }
+         */
         else if (pickerCategory == 3){
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Note this asset";
-            view.image = [UIImage imageNamed:kNoteThisAsset];
-            [viewArray addObject:view];
-            [view release];
-            
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Water fountains";
-            view.image = [UIImage imageNamed:kNoteThisAsset];
-            [viewArray addObject:view];
-            [view release];
-            
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Secret passage";
-            view.image = [UIImage imageNamed:kNoteThisAsset];
-            [viewArray addObject:view];
-            [view release];
-            
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Public restrooms";
-            view.image = [UIImage imageNamed:kNoteThisAsset];
-            [viewArray addObject:view];
-            [view release];
-            
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Bike shops";
-            view.image = [UIImage imageNamed:kNoteThisAsset];
-            [viewArray addObject:view];
-            [view release];
-            
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Rack'em Up";
-            view.image = [UIImage imageNamed:kNoteThisAsset];
-            [viewArray addObject:view];
-            [view release];
-            
-            
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @" ";
-            view.image = [UIImage imageNamed:kNoteBlank];
-            [viewArray addObject:view];
-            [view release];
-            
-            
-            
-            view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Pavement issue";
+            view.title = @"Narrow Bike Lane";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Traffic signal";
+            view.title = @"No bike lane/seperation";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Enforcement";
+            view.title = @"High vehicle speeds";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Rack'em Up";
+            view.title = @"High traffic volume";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Bike lane issue";
+            view.title = @"Turning vehicles";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Note this issue";
+            view.title = @"Signal Timing";
+            view.image = [UIImage imageNamed:kNoteThisIssue];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Signal Detection";
+            view.image = [UIImage imageNamed:kNoteThisIssue];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Truck Traffic";
+            view.image = [UIImage imageNamed:kNoteThisIssue];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Bus traffic/stop";
+            view.image = [UIImage imageNamed:kNoteThisIssue];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Parked vehicles";
+            view.image = [UIImage imageNamed:kNoteThisIssue];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Pavement Condtion";
+            view.image = [UIImage imageNamed:kNoteThisIssue];
+            [viewArray addObject:view];
+            [view release];
+            
+            view = [[CustomView alloc] initWithFrame:CGRectZero];
+            view.title = @"Other";
             view.image = [UIImage imageNamed:kNoteThisIssue];
             [viewArray addObject:view];
             [view release];

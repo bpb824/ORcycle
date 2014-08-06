@@ -44,7 +44,6 @@
 #import "TripPurposeDelegate.h"
 #import "RenoTracksAppDelegate.h"
 #import "Note.h"
-#import "TripInfoDelegate.h"
 
 
 @class ReminderManager;
@@ -59,7 +58,6 @@
 	UINavigationControllerDelegate, 
 	UITabBarControllerDelegate, 
 	PersonalInfoDelegate,
-    TripInfoDelegate,
 	RecordingInProgressDelegate,
 	TripPurposeDelegate,
 	UIActionSheetDelegate,

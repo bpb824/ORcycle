@@ -290,40 +290,40 @@
     NSString *title = [[[NSString alloc] init] autorelease] ;
     switch ([note.note_type intValue]) {
         case 0:
-            title = @"Pavement issue";
+            title = @"Narrow Bike Lane";
             break;
         case 1:
-            title = @"Traffic signal";
+            title = @"No bike lane/seperation";
             break;
         case 2:
-            title = @"Enforcement";
+            title = @"High vehicle speeds";
             break;
         case 3:
-            title = @"Rack'em Up";
+            title = @"High traffic volume";
             break;
         case 4:
-            title = @"Bike lane issue";
+            title = @"Turning vehicles";
             break;
         case 5:
-            title = @"Note this issue";
+            title = @"Signal Timing";
             break;
         case 6:
-            title = @"Rack'em Up";
+            title = @"Signal Detection";
             break;
         case 7:
-            title = @"Bike shops";
+            title = @"Truck Traffic";
             break;
         case 8:
-            title = @"Public restrooms";
+            title = @"Bus traffic/stop";
             break;
         case 9:
-            title = @"Secret passage";
+            title = @"Parked vehicles";
             break;
         case 10:
-            title = @"Water fountains";
+            title = @"Pavement Condtion";
             break;
         case 11:
-            title = @"Note this asset";
+            title = @"Other";
             break;
         default:
             break;

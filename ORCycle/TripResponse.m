@@ -11,8 +11,14 @@
 
 @implementation TripResponse
 
-@dynamic question_id;
-@dynamic answer_id;
+@dynamic routeFreq;
+@dynamic routePrefs;
+@dynamic routeComfort;
+@dynamic routeSafety;
+@dynamic ridePassengers;
+@dynamic rideSpecial;
+@dynamic rideConflict;
+@dynamic routeStressors;
 @dynamic trip;
 
 @end

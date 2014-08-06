@@ -48,7 +48,7 @@
 @synthesize age, email, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
 @synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
 @synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem;
-@synthesize bikeTypes;
+@synthesize bikeTypesSelectedRows, selectedItems;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -175,13 +175,16 @@
     riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"For nearly all my trips", @"To & from work", @"For recreation and/or excercise in my free time", @"For shopping, errands, or visiting friends", @"Mainly to & from work, but occasionally for other purposes", @"Other", nil];
     
     riderHistoryArray = [[NSArray alloc]initWithObjects: @" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started", nil];
+    bikeTypesArray = [[NSArray alloc]initWithObjects:@" ",@"Commuter (with gears)", @"Commuter (single speed)", @"Racing or Road", @"Cycle cross or mountain", @"Cargo bike", @"Recumbent", @"Other", nil];
     
+    bikeTypesSelectedRows = [[NSMutableArray alloc] init];
     
     CGRect pickerFrame = CGRectMake(0, 40, 0, 0);
     pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
     pickerView.showsSelectionIndicator = YES;
     pickerView.dataSource = self;
     pickerView.delegate = self;
+   
     
     
 	// initialize text fields
@@ -225,7 +228,7 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"saved user count  = %d", count);
+	NSLog(@"saved user count  = %ld", (long)count);
 	if ( count == 0 )
 	{
 		// create an empty User entity
@@ -281,7 +284,22 @@
         riderTypeSelectedRow    = [user.riderType integerValue];
         riderHistory.text       = [riderHistoryArray objectAtIndex:[user.riderHistory integerValue]];
         riderHistorySelectedRow = [user.riderHistory integerValue];
-		
+        
+        NSMutableArray *bikeTypesParse = [[user.bikeTypes componentsSeparatedByString:@","] mutableCopy];
+        NSMutableArray *bikeTypesLoaded = [[NSMutableArray alloc] init];
+        NSIndexPath *tempIndexPath = [[NSIndexPath alloc] init];
+        [tempIndexPath retain];
+        for (NSString *s in bikeTypesParse)
+        {
+            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+            [bikeTypesLoaded addObject:num];
+        }
+        for (int i = 0; i <[bikeTypesLoaded count];i++){
+            if([bikeTypesLoaded[i] intValue] == 1){
+                tempIndexPath = [[NSIndexPath indexPathForRow:i inSection:8]retain];
+                [bikeTypesSelectedRows addObject:tempIndexPath];
+            }
+        }
 		// init cycling frequency
 		//NSLog(@"init cycling freq: %d", [user.cyclingFreq intValue]);
 		//cyclingFreq		= [NSNumber numberWithInt:[user.cyclingFreq intValue]];
@@ -384,6 +402,8 @@
         [pickerView reloadAllComponents];
         
         [actionSheet addSubview:pickerView];
+        
+        
         
         [actionSheet showInView:self.view];
         
@@ -516,6 +536,25 @@
 		
 		//NSLog(@"saving cycling freq: %d", [cyclingFreq intValue]);
 		//[user setCyclingFreq:cyclingFreq];
+        NSMutableArray *checks = [[NSMutableArray alloc]init];
+        for (int i = 0;i<[bikeTypesSelectedRows count];i++){
+            NSIndexPath *indexpath = bikeTypesSelectedRows[i];
+            [checks addObject:[NSNumber numberWithInt:indexpath.row]];
+        }
+        NSMutableString *bikeTypesString = [[NSMutableString alloc] init];
+        for (int i = 0;i<[bikeTypesArray count];i++){
+            if ([checks containsObject:[NSNumber numberWithInt:i]]){
+                [bikeTypesString appendString:[NSString stringWithFormat:@"%i", 1]];
+            }
+            else {
+                [bikeTypesString appendString:[NSString stringWithFormat:@"%i", 0]];
+            }
+            [bikeTypesString appendString:@","];
+        }
+        [bikeTypesString deleteCharactersInRange:NSMakeRange([bikeTypesString length]-1, 1)];
+        [user setBikeTypes:bikeTypesString];
+        NSLog(@"saved bike types array: %@", user.bikeTypes);
+
         
 		NSError *error;
 		if (![managedObjectContext save:&error]) {
@@ -577,7 +616,7 @@
 			return @"How long have you been a cyclist?";
 			break;
         case 8:
-            return @"What types of bicycles do you own?";
+            return @"What types of bicycles do you own? (touch to add to selection)";
             break;
         
 	}
@@ -886,6 +925,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            if([bikeTypesSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -913,14 +953,25 @@
                     break;
 			}
             
+            /*
             if (cell.accessoryView == nil) {
                 // Only configure the Checkbox control once.
                 cell.accessoryView = [[Checkbox alloc] initWithFrame:CGRectMake(0, 0, 25, 43)];
                 cell.accessoryView.opaque = NO;
                 
-                //[(Checkbox*)cell.accessoryView addTarget:self action:@selector(checkBoxTapped:forEvent:) forControlEvents:UIControlEventValueChanged];
+                [(Checkbox*)cell.accessoryView addTarget:self action:@selector(checkBoxTapped:forEvent:) forControlEvents:UIControlEventValueChanged];
             }
-            
+             */
+            /*
+            if(cell.accessoryType == UITableViewCellAccessoryNone) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [bikeTypesSelectedRows addObject:indexPath];
+            }
+            else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                [bikeTypesSelectedRows removeObject:indexPath];
+            }
+             */
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
 			break;
@@ -1016,6 +1067,42 @@
 			}
 			break;
 		}
+        case 6:
+		{
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+					break;
+				case 1:
+					break;
+			}
+			break;
+		}
+        case 7:
+		{
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+					break;
+				case 1:
+					break;
+			}
+			break;
+		}
+        case 8:
+		{
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            if(cell.accessoryType == UITableViewCellAccessoryNone) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [bikeTypesSelectedRows addObject:indexPath];
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+            }
+            else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                [bikeTypesSelectedRows removeObject:indexPath];
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+            }
+		}
 	}
 }
 
@@ -1066,6 +1153,64 @@
     return 0;
 }
 
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel* tView = (UILabel*)view;
+    if (!tView)
+    {
+        
+        CGRect frame = CGRectMake(0.0, 0.0, 320, 200);
+        tView = [[UILabel alloc] initWithFrame:frame];
+        [tView setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+        [tView setTextAlignment:UITextAlignmentCenter];
+        tView.lineBreakMode = NSLineBreakByWordWrapping;
+        //tView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+        [tView setNumberOfLines:0];
+    }
+    if(currentTextField == gender){
+        tView.text = [genderArray objectAtIndex:row];
+    }
+    else if(currentTextField == age){
+        tView.text =  [ageArray objectAtIndex:row];
+    }
+    else if(currentTextField == ethnicity){
+        tView.text =  [ethnicityArray objectAtIndex:row];
+    }
+    else if(currentTextField == occupation){
+        tView.text =  [occupationArray objectAtIndex:row];
+    }
+    else if(currentTextField == income){
+        tView.text = [incomeArray objectAtIndex:row];
+    }
+    else if(currentTextField == hhWorkers){
+        tView.text =  [hhWorkersArray objectAtIndex:row];
+    }
+    else if(currentTextField == hhVehicles){
+        tView.text = [hhVehiclesArray objectAtIndex:row];
+    }
+    else if(currentTextField == numBikes){
+        tView.text = [numBikesArray objectAtIndex:row];
+    }
+    else if(currentTextField == cyclingFreq){
+        tView.text = [cyclingFreqArray objectAtIndex:row];
+    }
+    else if(currentTextField == cyclingWeather){
+        tView.text =  [cyclingWeatherArray objectAtIndex:row];
+    }
+    else if(currentTextField == riderAbility){
+        tView.text =  [riderAbilityArray objectAtIndex:row];
+    }
+    else if(currentTextField == riderType){
+        tView.text =  [riderTypeArray objectAtIndex:row];
+    }
+    else if(currentTextField == riderHistory){
+        tView.text =  [riderHistoryArray objectAtIndex:row];
+    }
+
+    return tView;
+}
+
+/*
 - (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if(currentTextField == gender){
         return [genderArray objectAtIndex:row];
@@ -1108,6 +1253,7 @@
     }
     return nil;
 }
+*/
 
 
 - (void)doneButtonPressed:(id)sender{
@@ -1243,6 +1389,8 @@
         NSString *riderHistorySelect = [riderHistoryArray objectAtIndex:selectedRow];
         riderHistory.text = riderHistorySelect;
     }
+    
+    
     [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
 }
 
@@ -1306,6 +1454,7 @@
     [riderAbility release];
     [riderType release];
     [riderHistory release];
+    
     
     [doneToolbar release];
     [actionSheet release];
