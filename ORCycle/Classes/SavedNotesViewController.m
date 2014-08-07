@@ -126,7 +126,7 @@
 	
 	NSError *error;
 	NSInteger count = [noteManager.managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"count = %d", count);
+	NSLog(@"count = %ld", (long)count);
 	
 	NSMutableArray *mutableFetchResults = [[noteManager.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
 	if (mutableFetchResults == nil) {
@@ -262,7 +262,7 @@
             image = [UIImage imageNamed:kNoteThisIssue];
         }
         else if (index>=6 && index<=11) {
-            image = [UIImage imageNamed:kNoteThisAsset];
+            image = [UIImage imageNamed:kNoteThisIssue];
         }
         else{
             image = [UIImage imageNamed:@"GreenCheckMark2.png"];
@@ -377,7 +377,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	NSLog(@"actionSheet clickedButtonAtIndex %d", buttonIndex);
+	NSLog(@"actionSheet clickedButtonAtIndex %ld", (long)buttonIndex);
 	switch ( buttonIndex )
 	{
 		case 0:

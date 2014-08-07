@@ -371,13 +371,13 @@
                 description.text = kDescSocial;
                 break;
             case 5:
-                description.text = kDescShopping;
-                break;
-            case 6:
                 description.text = kDescErrand;
                 break;
-            case 7:
+            case 6:
                 description.text = kDescTranspoAccess;
+                break;
+            case 7:
+                description.text = kDescOther;
                 break;
             default:
                 description.text = kDescOther;

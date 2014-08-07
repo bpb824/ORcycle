@@ -377,16 +377,16 @@
 		}
 		else
 		{
-			// init map region to Reno
-			MKCoordinateRegion region = { { 39.519933, -119.78964}, { 0.10825, 0.10825 } };
+			// init map region to Portland
+			MKCoordinateRegion region = { { 45.5424364, -122.654422}, { 0.10825, 0.10825 } };
 			[mapView setRegion:region animated:NO];
 		}
         free(routePath);
 	}
 	else
 	{
-		// error: init map region to Reno
-		MKCoordinateRegion region = { { 39.519933, -119.78964 }, { 0.10825, 0.10825 } };
+		// error: init map region to Portland
+		MKCoordinateRegion region = { { 45.5424364, -122.654422 }, { 0.10825, 0.10825 } };
 		[mapView setRegion:region animated:NO];
 	}
     

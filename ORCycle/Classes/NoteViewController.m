@@ -254,7 +254,7 @@
         
     }
     else{
-        MKCoordinateRegion region = { { 39.519933, -119.78964 }, { 0.10825, 0.10825 } };
+        MKCoordinateRegion region = { { 45.5424364, -122.654422 }, { 0.10825, 0.10825 } };
 		[noteView setRegion:region animated:NO];
     }
     

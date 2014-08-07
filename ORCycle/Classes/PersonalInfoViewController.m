@@ -173,8 +173,9 @@
     riderAbilityArray = [[NSArray alloc]initWithObjects: @" ", @"Very Low", @"Low", @"Average",  @"High", @"Very High",  nil];
     
     riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"For nearly all my trips", @"To & from work", @"For recreation and/or excercise in my free time", @"For shopping, errands, or visiting friends", @"Mainly to & from work, but occasionally for other purposes", @"Other", nil];
-    
+    /*
     riderHistoryArray = [[NSArray alloc]initWithObjects: @" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started", nil];
+     */
     bikeTypesArray = [[NSArray alloc]initWithObjects:@" ",@"Commuter (with gears)", @"Commuter (single speed)", @"Racing or Road", @"Cycle cross or mountain", @"Cargo bike", @"Recumbent", @"Other", nil];
     
     bikeTypesSelectedRows = [[NSMutableArray alloc] init];
@@ -197,14 +198,10 @@
     self.hhWorkers   = [self initTextFieldAlpha];
     self.hhVehicles   = [self initTextFieldAlpha];
     self.numBikes   = [self initTextFieldAlpha];
-	self.homeZIP	= [self initTextFieldNumeric];
-	self.workZIP	= [self initTextFieldNumeric];
-	self.schoolZIP	= [self initTextFieldNumeric];
     self.cyclingFreq = [self initTextFieldBeta];
     self.cyclingWeather = [self initTextFieldBeta];
     self.riderAbility  =  [self initTextFieldBeta];
     self.riderType  =  [self initTextFieldBeta];
-    self.riderHistory =[self initTextFieldBeta];
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -270,9 +267,11 @@
         numBikes.text         = [numBikesArray objectAtIndex:[user.numBikes integerValue]];
         numBikesSelectedRow   = [user.numBikes integerValue];
 		
+        /*
         homeZIP.text        = user.homeZIP;
 		workZIP.text        = user.workZIP;
 		schoolZIP.text      = user.schoolZIP;
+         */
         
         cyclingFreq.text        = [cyclingFreqArray objectAtIndex:[user.cyclingFreq integerValue]];
         cyclingFreqSelectedRow  = [user.cyclingFreq integerValue];
@@ -282,8 +281,6 @@
         riderAbilitySelectedRow    = [user.riderAbility integerValue];
         riderType.text          = [riderTypeArray objectAtIndex:[user.riderType integerValue]];
         riderTypeSelectedRow    = [user.riderType integerValue];
-        riderHistory.text       = [riderHistoryArray objectAtIndex:[user.riderHistory integerValue]];
-        riderHistorySelectedRow = [user.riderHistory integerValue];
         
         NSMutableArray *bikeTypesParse = [[user.bikeTypes componentsSeparatedByString:@","] mutableCopy];
         NSMutableArray *bikeTypesLoaded = [[NSMutableArray alloc] init];
@@ -319,7 +316,7 @@
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == email || currentTextField == workZIP || currentTextField == homeZIP || currentTextField == schoolZIP || textField != email || textField != workZIP || textField != homeZIP || textField != schoolZIP){
+    if(currentTextField == email ||textField != email){
         NSLog(@"currentTextField: text2");
         [currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -337,7 +334,7 @@
      NSLog(@"currentTextfield: picker");*/
     currentTextField = myTextField;
     
-    if(myTextField == gender || myTextField == age || myTextField == ethnicity || myTextField == occupation || myTextField == income || myTextField == hhWorkers || myTextField == hhVehicles || myTextField == numBikes || myTextField == cyclingFreq || myTextField == cyclingWeather|| myTextField == riderAbility || myTextField == riderType || myTextField == riderHistory){
+    if(myTextField == gender || myTextField == age || myTextField == ethnicity || myTextField == occupation || myTextField == income || myTextField == hhWorkers || myTextField == hhVehicles || myTextField == numBikes || myTextField == cyclingFreq || myTextField == cyclingWeather|| myTextField == riderAbility || myTextField == riderType ){
         
         [myTextField resignFirstResponder];
         
@@ -393,8 +390,6 @@
             selectedItem = [user.riderAbility integerValue];
         }else if (myTextField == riderType){
             selectedItem = [user.riderType integerValue];
-        }else if (myTextField == riderHistory){
-            selectedItem = [user.riderHistory integerValue];
         }
         
         [pickerView selectRow:selectedItem inComponent:0 animated:NO];
@@ -438,6 +433,7 @@
 			NSLog(@"saving email: %@", email.text);
 			[user setEmail:email.text];
 		}
+        /*
 		if ( textField == homeZIP )
 		{
             if (homeZIP.text != user.homeZIP){
@@ -463,7 +459,7 @@
 			[user setWorkZIP:workZIP.text];
 		}
         
-		
+		*/
 		NSError *error;
 		if (![managedObjectContext save:&error]) {
 			// Handle the error.
@@ -476,9 +472,11 @@
 - (void)done
 {
     [email resignFirstResponder];
+    /*
     [homeZIP resignFirstResponder];
     [workZIP resignFirstResponder];
     [schoolZIP resignFirstResponder];
+     */
     
     NSLog(@"Saving User Data");
 	if ( user != nil )
@@ -510,6 +508,7 @@
         [user setNumBikes:[NSNumber numberWithInt:numBikesSelectedRow]];
         NSLog(@"saved numBikes index: %@ and text: %@", user.numBikes, numBikes.text);
         
+        /*
 		[user setHomeZIP:homeZIP.text];
         NSLog(@"saved homeZIP: %@", homeZIP.text);
         
@@ -518,6 +517,7 @@
         
 		[user setWorkZIP:workZIP.text];
         NSLog(@"saved workZIP: %@", workZIP.text);
+         */
         
         [user setCyclingFreq:[NSNumber numberWithInt:cyclingFreqSelectedRow]];
         NSLog(@"saved cycle freq index: %@ and text: %@", user.cyclingFreq, cyclingFreq.text);
@@ -531,9 +531,6 @@
         [user setRiderType:[NSNumber numberWithInt:riderTypeSelectedRow]];
         NSLog(@"saved rider type index: %@ and text: %@", user.riderType, riderType.text);
         
-        [user setRiderHistory:[NSNumber numberWithInt:riderHistorySelectedRow]];
-        NSLog(@"saved rider history index: %@ and text: %@", user.riderHistory, riderHistory.text);
-		
 		//NSLog(@"saving cycling freq: %d", [cyclingFreq intValue]);
 		//[user setCyclingFreq:cyclingFreq];
         NSMutableArray *checks = [[NSMutableArray alloc]init];
@@ -585,7 +582,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 9;
+    return 7;
 }
 
 
@@ -595,28 +592,22 @@
 			return nil;
 			break;
 		case 1:
-			return @"Tell us about yourself";
-			break;
+			return @"How would you rate your overall skill and experience level regarding cycling?";
+            break;
 		case 2:
-			return @"Your typical commute";
+			return @"I cycle mostly...";
 			break;
-		case 3:
+        case 3:
 			return @"How often do you cycle?";
 			break;
         case 4:
 			return @"What type of weather do you ride in?";
 			break;
         case 5:
-			return @"How would you rate your overall skill and experience level regarding cycling?";
+			return @"What types of bicycles do you own? (touch to add to selection)";
 			break;
         case 6:
-			return @"I cycle mostly...";
-			break;
-        case 7:
-			return @"How long have you been a cyclist?";
-			break;
-        case 8:
-            return @"What types of bicycles do you own? (touch to add to selection)";
+            return @"Tell us about yourself";
             break;
         
 	}
@@ -675,28 +666,27 @@
             return 1;
             break;
 		case 1:
-			return 9;
+			return 1;
 			break;
+            /*
 		case 2:
 			return 3;
 			break;
-		case 3:
+             */
+		case 2:
+			return 1;
+			break;
+        case 3:
 			return 1;
 			break;
         case 4:
 			return 1;
 			break;
         case 5:
-			return 1;
+			return 7;
 			break;
         case 6:
-			return 1;
-			break;
-        case 7:
-			return 1;
-			break;
-        case 8:
-            return 7;
+            return 9;
             break;
 		default:
 			return 0;
@@ -736,127 +726,6 @@
             
 		case 1:
 		{
-			static NSString *CellIdentifier = @"CellPersonalInfo";
-			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			}
-            
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					cell.textLabel.text = @"Age";
-					[cell.contentView addSubview:age];
-					break;
-				case 1:
-					cell.textLabel.text = @"Email";
-					[cell.contentView addSubview:email];
-					break;
-				case 2:
-					cell.textLabel.text = @"Gender";
-					[cell.contentView addSubview:gender];
-					break;
-                case 3:
-					cell.textLabel.text = @"Ethnicity";
-					[cell.contentView addSubview:ethnicity];
-					break;
-                case 4:
-					cell.textLabel.text = @"Occupation";
-					[cell.contentView addSubview:occupation];
-					break;
-                case 5:
-					cell.textLabel.text = @"Home Income";
-					[cell.contentView addSubview:income];
-					break;
-                case 6:
-					cell.textLabel.text = @"# HH Workers";
-					[cell.contentView addSubview:hhWorkers];
-					break;
-                case 7:
-					cell.textLabel.text = @"# HH Vehicles";
-					[cell.contentView addSubview:hhVehicles];
-					break;
-                case 8:
-					cell.textLabel.text = @"# Bicycles";
-					[cell.contentView addSubview:numBikes];
-					break;
-			}
-			
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		}
-			break;
-            
-		case 2:
-		{
-			static NSString *CellIdentifier = @"CellZip";
-			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			}
-            
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					cell.textLabel.text = @"Home ZIP";
-					[cell.contentView addSubview:homeZIP];
-					break;
-				case 1:
-					cell.textLabel.text = @"Work ZIP";
-					[cell.contentView addSubview:workZIP];
-					break;
-				case 2:
-					cell.textLabel.text = @"School ZIP";
-					[cell.contentView addSubview:schoolZIP];
-					break;
-			}
-			
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		}
-			break;
-            
-        case 3:
-		{
-			static NSString *CellIdentifier = @"CellFrequecy";
-			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			}
-            
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-                    cell.textLabel.text = @"Cycle Frequency";
-					[cell.contentView addSubview:cyclingFreq];
-					break;
-            }
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		}
-			break;
-            
-        case 4:
-		{
-			static NSString *CellIdentifier = @"CellWeather";
-			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			}
-            
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-                    cell.textLabel.text = @"I cycle...";
-					[cell.contentView addSubview:cyclingWeather];
-					break;
-            }
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		}
-			break;
-            
-        case 5:
-		{
 			static NSString *CellIdentifier = @"CellAbility";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
@@ -875,10 +744,10 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
 			break;
-            
-        case 6:
+         
+        case 2:
 		{
-			static NSString *CellIdentifier = @"CellType";
+            static NSString *CellIdentifier = @"CellType";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -894,12 +763,13 @@
             }
 			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
 		}
 			break;
             
-        case 7:
+        case 3:
 		{
-			static NSString *CellIdentifier = @"CellHistory";
+            static NSString *CellIdentifier = @"CellFrequecy";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -909,17 +779,39 @@
 			switch ([indexPath indexAtPosition:1])
 			{
 				case 0:
-                    cell.textLabel.text = @"Rider History";
-                    [cell.contentView addSubview:riderHistory];
+                    cell.textLabel.text = @"Cycle Frequency";
+					[cell.contentView addSubview:cyclingFreq];
 					break;
-			}
-			
+            }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		}
-            break;
             
-        case 8:
+        }
+			break;
+            
+        case 4:
 		{
+            static NSString *CellIdentifier = @"CellWeather";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+                    cell.textLabel.text = @"I cycle...";
+					[cell.contentView addSubview:cyclingWeather];
+					break;
+            }
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+		}
+			break;
+            
+        case 5:
+		{
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			static NSString *CellIdentifier = @"CellBikeTypes";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
@@ -952,28 +844,61 @@
 					cell.textLabel.text = @"Other";
                     break;
 			}
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        }
+			break;
             
-            /*
-            if (cell.accessoryView == nil) {
-                // Only configure the Checkbox control once.
-                cell.accessoryView = [[Checkbox alloc] initWithFrame:CGRectMake(0, 0, 25, 43)];
-                cell.accessoryView.opaque = NO;
-                
-                [(Checkbox*)cell.accessoryView addTarget:self action:@selector(checkBoxTapped:forEvent:) forControlEvents:UIControlEventValueChanged];
-            }
-             */
-            /*
-            if(cell.accessoryType == UITableViewCellAccessoryNone) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                [bikeTypesSelectedRows addObject:indexPath];
-            }
-            else {
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                [bikeTypesSelectedRows removeObject:indexPath];
-            }
-             */
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		}
+        case 6:
+		{
+            static NSString *CellIdentifier = @"CellPersonalInfo";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+                case 0:
+					cell.textLabel.text = @"Email";
+					[cell.contentView addSubview:email];
+					break;
+                case 1:
+					cell.textLabel.text = @"Occupation";
+					[cell.contentView addSubview:occupation];
+					break;
+				case 2:
+					cell.textLabel.text = @"Age";
+					[cell.contentView addSubview:age];
+					break;
+				case 3:
+					cell.textLabel.text = @"Gender";
+					[cell.contentView addSubview:gender];
+					break;
+                case 4:
+					cell.textLabel.text = @"Ethnicity";
+					[cell.contentView addSubview:ethnicity];
+					break;
+                case 5:
+					cell.textLabel.text = @"Home Income";
+					[cell.contentView addSubview:income];
+					break;
+                case 6:
+					cell.textLabel.text = @"# HH Workers";
+					[cell.contentView addSubview:hhWorkers];
+					break;
+                case 7:
+					cell.textLabel.text = @"# HH Vehicles";
+					[cell.contentView addSubview:hhVehicles];
+					break;
+                case 8:
+					cell.textLabel.text = @"# Bicycles";
+					[cell.contentView addSubview:numBikes];
+					break;
+			}
+			
+        }
 			break;
 
             
@@ -1020,7 +945,7 @@
 			}
 			break;
 		}
-            
+
         case 2:
 		{
 			switch ([indexPath indexAtPosition:1])
@@ -1044,7 +969,6 @@
 			}
 			break;
 		}
-            
         case 4:
 		{
 			switch ([indexPath indexAtPosition:1])
@@ -1056,40 +980,8 @@
 			}
 			break;
 		}
+        
         case 5:
-		{
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					break;
-				case 1:
-					break;
-			}
-			break;
-		}
-        case 6:
-		{
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					break;
-				case 1:
-					break;
-			}
-			break;
-		}
-        case 7:
-		{
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					break;
-				case 1:
-					break;
-			}
-			break;
-		}
-        case 8:
 		{
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
@@ -1102,6 +994,17 @@
                 [bikeTypesSelectedRows removeObject:indexPath];
                 self.navigationItem.rightBarButtonItem.enabled = YES;
             }
+		}
+        case 6:
+		{
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+					break;
+				case 1:
+					break;
+			}
+			break;
 		}
 	}
 }
@@ -1146,9 +1049,6 @@
     }
     else if(currentTextField == riderType){
         return [riderTypeArray count];
-    }
-    else if(currentTextField == riderHistory){
-        return [riderHistoryArray count];
     }
     return 0;
 }
@@ -1203,58 +1103,9 @@
     else if(currentTextField == riderType){
         tView.text =  [riderTypeArray objectAtIndex:row];
     }
-    else if(currentTextField == riderHistory){
-        tView.text =  [riderHistoryArray objectAtIndex:row];
-    }
 
     return tView;
 }
-
-/*
-- (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    if(currentTextField == gender){
-        return [genderArray objectAtIndex:row];
-    }
-    else if(currentTextField == age){
-        return [ageArray objectAtIndex:row];
-    }
-    else if(currentTextField == ethnicity){
-        return [ethnicityArray objectAtIndex:row];
-    }
-    else if(currentTextField == occupation){
-        return [occupationArray objectAtIndex:row];
-    }
-    else if(currentTextField == income){
-        return [incomeArray objectAtIndex:row];
-    }
-    else if(currentTextField == hhWorkers){
-        return [hhWorkersArray objectAtIndex:row];
-    }
-    else if(currentTextField == hhVehicles){
-        return [hhVehiclesArray objectAtIndex:row];
-    }
-    else if(currentTextField == numBikes){
-        return [numBikesArray objectAtIndex:row];
-    }
-    else if(currentTextField == cyclingFreq){
-        return [cyclingFreqArray objectAtIndex:row];
-    }
-    else if(currentTextField == cyclingWeather){
-        return [cyclingWeatherArray objectAtIndex:row];
-    }
-    else if(currentTextField == riderAbility){
-        return [riderAbilityArray objectAtIndex:row];
-    }
-    else if(currentTextField == riderType){
-        return [riderTypeArray objectAtIndex:row];
-    }
-    else if(currentTextField == riderHistory){
-        return [riderHistoryArray objectAtIndex:row];
-    }
-    return nil;
-}
-*/
-
 
 - (void)doneButtonPressed:(id)sender{
     
@@ -1379,17 +1230,6 @@
         NSString *riderTypeSelect = [riderTypeArray objectAtIndex:selectedRow];
         riderType.text = riderTypeSelect;
     }
-    if(currentTextField == riderHistory){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.riderHistory integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        riderHistorySelectedRow = selectedRow;
-        NSString *riderHistorySelect = [riderHistoryArray objectAtIndex:selectedRow];
-        riderHistory.text = riderHistorySelect;
-    }
-    
     
     [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
 }

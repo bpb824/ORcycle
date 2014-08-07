@@ -98,12 +98,15 @@
     ridePassengersArray = [[NSArray alloc] initWithObjects:@" ", @"Alone", @"With a child under 2", @"With a child between 2 and 10", @"With a child/teen over 10", @"With 1 adult", @"With 2+ adults", nil];
     rideSpecialArray = [[NSArray alloc] initWithObjects:@" ", @"child seat(s)", @"electric-assist", @"the cargo area", nil];
     rideConflictArray = [[NSArray alloc] initWithObjects:@" ", @"I have had a crash/accident", @"I have had a near crash/accident", @"I did not have a near crash/accident, but do not feel safe", @"I feel safe", nil];
-    routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Auto Traffic", @"Large Commercial Vehicles (trucks)", @"Public Transport (buses, light rail, streetcar)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", nil];
+    routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Auto Traffic", @"Large Commercial Vehicles (trucks)", @"Public Transport (buses, light rail, streetcar)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", @"Not concerned about conflicts or crashes along this route", nil];
     
     routePrefsSelectedRows = [[NSMutableArray alloc] init];
+    NSLog(@"Inital value of route prefs selected rows = %@",routePrefsSelectedRows);
+    NSLog(@"Inital value of saved route prefs = %@", tripResponse.routePrefs);
     ridePassengersSelectedRows = [[NSMutableArray alloc] init];
     rideSpecialSelectedRows = [[NSMutableArray alloc] init];
     routeStressorsSelectedRows = [[NSMutableArray alloc] init];
+    
     
     //NSLog(@"Route Prefs initialized as = %@",routePrefsSelectedRows);
     CGRect pickerFrame = CGRectMake(0, 40, 0, 0);
@@ -420,7 +423,7 @@
             return 1;
             break;
         case 7:
-            return 7;
+            return 8;
             break;
         default:
             return 0;
@@ -454,6 +457,10 @@
 					break;
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
 		}
 			break;
         case 1:
@@ -463,7 +470,9 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            
             if([routePrefsSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
+            
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -513,6 +522,10 @@
                     
 			}
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
 		}
 			break;
         case 2:
@@ -532,6 +545,10 @@
 					break;
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
 		}
 			break;
         case 3:
@@ -551,6 +568,10 @@
 					break;
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
 		}
 			break;
         case 4:
@@ -560,7 +581,9 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            
             if([ridePassengersSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
+            
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -585,6 +608,10 @@
                     break;
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
 		}
 			break;
         case 5:
@@ -594,7 +621,9 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            
             if([rideSpecialSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
+            
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -610,6 +639,10 @@
 					break;
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
 		}
 			break;
         case 6:
@@ -629,6 +662,10 @@
 					break;
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
 		}
 			break;
         case 7:
@@ -638,7 +675,9 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            
             if([routeStressorsSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
+            
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -663,8 +702,15 @@
                 case 6:
 					cell.textLabel.text = routeStressorsArray[7];
                     break;
+                case 7:
+					cell.textLabel.text = routeStressorsArray[8];
+                    break;
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
 		}
 			break;
     }

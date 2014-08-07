@@ -50,7 +50,7 @@
 #define kDescExercise	@"The primary reason for this bike trip is exercise or biking for the sake of biking."
 #define kDescSocial		@"The primary reason for this bike trip is going to or from a social activity (e.g. at a friend's house, the park, a restaurant, the movies)."
 #define kDescShopping	@"The primary reason for this bike trip is to purchase or bring home goods or groceries."
-#define kDescErrand		@"The primary reason for this bike trip is to attend to personal business such as banking, doctor visit, going to the gym, etc."
+#define kDescErrand		@"This bike trip was primarily to attend to personal business such as buying groceries, banking, a doctor  visit, going to the gym, etc. "
 #define kDescTranspoAccess  @"The primary reason for this bike trip was to access public transit or some other vehicle (private vehicle, car share, etc.)."
 #define kDescOther		@"If none of the other reasons apply to this trip, you can enter trip comments after saving your trip to tell us more."
 

@@ -365,9 +365,11 @@
 		{
 			// initialize text fields to saved personal info
 			[userDict setValue:user.email           forKey:@"email"];
+            /*
 			[userDict setValue:user.homeZIP         forKey:@"homeZIP"];
 			[userDict setValue:user.workZIP         forKey:@"workZIP"];
 			[userDict setValue:user.schoolZIP       forKey:@"schoolZIP"];
+             */
             [userDict setValue:appVersion           forKey:@"app_version"];
 		}
 		else
@@ -420,10 +422,9 @@
                                  [NSNumber numberWithInt:[user.cyclingFreq intValue]+59 ],
                                  [NSNumber numberWithInt:[user.cyclingWeather intValue]+64],
                                  [NSNumber numberWithInt:[user.riderAbility intValue]+69],
-                                 [NSNumber numberWithInt:[user.riderType intValue] + 75 ],
-                                 [NSNumber numberWithInt:[user.riderHistory intValue] +82]];
+                                 [NSNumber numberWithInt:[user.riderType intValue] + 75 ]];
             
-            NSArray *questions = @[@1,@3,@4,@5,@6,@7,@8,@9,@14,@15,@16,@17,@18];
+            NSArray *questions = @[@1,@3,@4,@5,@6,@7,@8,@9,@14,@15,@16,@17];
             
             for(int i = 0; i < [questions count];i++){
                 NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
@@ -483,7 +484,8 @@
 			if ( error != nil )
 				NSLog(@"TripManager fetch saved trip data error %@, %@", error, [error localizedDescription]);
 		}
-		TripResponse *tripResponse = [mutableFetchResults objectAtIndex:0];
+        NSInteger last = [mutableFetchResults count] -1 ;
+		TripResponse *tripResponse = [mutableFetchResults objectAtIndex:last];
         NSLog(@"Route prefs sent to encoder as %@",tripResponse.routePrefs);
 		if ( tripResponse != nil )
 		{
@@ -585,7 +587,7 @@
                 if([routePrefs[i] integerValue] == 1){
                     NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                     [tripResponseDict setObject: [NSNumber numberWithInt:21] forKey:@"question_id"];
-                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 88] forKey:@"answer_id"];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 103] forKey:@"answer_id"];
                     [tripResponsesCollection addObject:tripResponseDict];
                 }
             }
@@ -612,7 +614,7 @@
                 if([routeStressors[i] integerValue] == 1){
                     NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                     [tripResponseDict setObject: [NSNumber numberWithInt:27]  forKey:@"question_id"];
-                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 144] forKey:@"answer_id"];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 143] forKey:@"answer_id"];
                     [tripResponsesCollection addObject:tripResponseDict];
                 }
             }

@@ -41,7 +41,7 @@
 
 @synthesize title, image;
 
-const CGFloat kViewWidth = 240;
+const CGFloat kViewWidth = 280;
 const CGFloat kViewHeight = 44;
 
 + (CGFloat)viewWidth
