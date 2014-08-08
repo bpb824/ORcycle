@@ -88,7 +88,8 @@
 #define kSaveError			@"Your trip has been saved. Please try uploading again later."
 
 #define kInfoURL			@"http://renotracks.nevadabike.org/"
-#define kInstructionsURL	@"http://renotracks.nevadabike.org/RenoTrackshelp.html"
+#define kInstructionsURL	@"http://orcycle.cecs.pdx.edu/ORcycleHelp.html"
+#define kMainURL            @"http://orcycle.cecs.pdx.edu/Web/"
 
 //#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
 #define kSaveURL            @"http://orcycle.cecs.pdx.edu/post/"

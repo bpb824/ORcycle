@@ -582,7 +582,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 7;
+    return 8;
 }
 
 
@@ -609,6 +609,9 @@
         case 6:
             return @"Tell us about yourself";
             break;
+        case 7:
+			return nil;
+			break;
         
 	}
     return nil;
@@ -656,6 +659,13 @@
 //    return UITableViewAutomaticDimension;
 //}
 
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Text Color
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor whiteColor]];
+    
+}
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -688,6 +698,9 @@
         case 6:
             return 9;
             break;
+        case 7:
+            return 1;
+            break;
 		default:
 			return 0;
 	}
@@ -717,6 +730,12 @@
 			{
 				case 0:
 					cell.textLabel.text = @"Getting started with ORcycle";
+                    [cell.textLabel setTextColor:[UIColor blueColor]];
+                    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
+                    NSInteger len = cell.textLabel.text.length;
+                    // Add attribute NSUnderlineStyleAttributeName
+                    [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, len)];
+                    [cell.textLabel setAttributedText:attributedString];
 					break;
 			}
 			
@@ -900,6 +919,31 @@
 			
         }
 			break;
+        case 7:
+		{
+			static NSString *CellIdentifier = @"CellMoreInfo";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+					cell.textLabel.text = @"More info about ORcycle";
+                    [cell.textLabel setTextColor:[UIColor blueColor]];
+                    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
+                    NSInteger len = cell.textLabel.text.length;
+                    // Add attribute NSUnderlineStyleAttributeName
+                    [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, len)];
+                    [cell.textLabel setAttributedText:attributedString];
+					break;
+			}
+			
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
+			break;
 
             
 	}
@@ -917,6 +961,9 @@
 	// outer switch statement identifies section
     NSURL *url = [NSURL URLWithString:kInstructionsURL];
     NSURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    NSURL *mainURL = [NSURL URLWithString:kMainURL];
+    NSURLRequest *mainRequest = [NSMutableURLRequest requestWithURL:mainURL];
     
 	switch ([indexPath indexAtPosition:0])
 	{
@@ -1000,6 +1047,19 @@
 			switch ([indexPath indexAtPosition:1])
 			{
 				case 0:
+					break;
+				case 1:
+					break;
+			}
+			break;
+		}
+        case 7:
+		{
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+                    [[UIApplication sharedApplication] openURL:[mainRequest URL]];
 					break;
 				case 1:
 					break;

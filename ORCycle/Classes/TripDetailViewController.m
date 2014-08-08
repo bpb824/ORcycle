@@ -101,14 +101,10 @@
     routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Auto Traffic", @"Large Commercial Vehicles (trucks)", @"Public Transport (buses, light rail, streetcar)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", @"Not concerned about conflicts or crashes along this route", nil];
     
     routePrefsSelectedRows = [[NSMutableArray alloc] init];
-    NSLog(@"Inital value of route prefs selected rows = %@",routePrefsSelectedRows);
-    NSLog(@"Inital value of saved route prefs = %@", tripResponse.routePrefs);
     ridePassengersSelectedRows = [[NSMutableArray alloc] init];
     rideSpecialSelectedRows = [[NSMutableArray alloc] init];
     routeStressorsSelectedRows = [[NSMutableArray alloc] init];
     
-    
-    //NSLog(@"Route Prefs initialized as = %@",routePrefsSelectedRows);
     CGRect pickerFrame = CGRectMake(0, 40, 0, 0);
     pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
     pickerView.showsSelectionIndicator = YES;
@@ -116,13 +112,9 @@
     pickerView.delegate = self;
     
     self.routeFreq = [self initTextFieldAlpha];
-    self.routePrefs =[self initTextFieldAlpha];
     self.routeComfort =[self initTextFieldAlpha];
     self.routeSafety =[self initTextFieldAlpha];
-    self.ridePassengers =[self initTextFieldAlpha];
-    self.rideSpecial =[self initTextFieldAlpha];
     self.rideConflict =[self initTextFieldAlpha];
-    self.routeStressors =[self initTextFieldAlpha];
     
     [self setTripResponse:[self createTripResponse]];
     
@@ -174,7 +166,7 @@
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == routeFreq || currentTextField == routePrefs || currentTextField == routeComfort || currentTextField == routeSafety || currentTextField == ridePassengers || currentTextField == rideSpecial || currentTextField == rideConflict || currentTextField == routeStressors){
+    if(currentTextField == routeFreq ||  currentTextField == routeComfort || currentTextField == routeSafety || currentTextField == rideConflict ){
         NSLog(@"currentTextField: text2");
         [currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -186,7 +178,7 @@
     
     currentTextField = myTextField;
     
-    if(myTextField == routeFreq || myTextField == routePrefs || myTextField == routeComfort || myTextField == routeSafety || myTextField == ridePassengers || myTextField == rideSpecial || myTextField == rideConflict || myTextField == routeStressors){
+    if(myTextField == routeFreq || myTextField == routeComfort || myTextField == routeSafety ||  myTextField == rideConflict ){
         
         [myTextField resignFirstResponder];
         
@@ -383,7 +375,7 @@
             return @"On this route, indicate which best fits your experience";
             break;
         case 7:
-            return @"Along this route, you are mostly concerned about conflicts/crashes with... (more than one option available)";
+            return @"Along this route, you are mostly concerned about conflicts/crashes with... (can select more than one)";
             break;
     }
     return nil;
@@ -581,9 +573,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            
             if([ridePassengersSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
-            
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -827,26 +817,14 @@
     if(currentTextField == routeFreq){
         return [routeFreqArray count];
     }
-    else if(currentTextField == routePrefs){
-        return [routePrefsArray count];
-    }
     else if(currentTextField == routeComfort){
         return [routeComfortArray count];
     }
     else if(currentTextField == routeSafety){
         return [routeSafetyArray count];
     }
-    else if(currentTextField == ridePassengers){
-        return [ridePassengersArray count];
-    }
-    else if(currentTextField == rideSpecial){
-        return [rideSpecialArray count];
-    }
     else if(currentTextField == rideConflict){
         return [rideConflictArray count];
-    }
-    else if(currentTextField == routeStressors){
-        return [routeStressorsArray count];
     }
     return 0;
 }
@@ -869,26 +847,14 @@
     if(currentTextField == routeFreq){
         tView.text =  [routeFreqArray objectAtIndex:row];
     }
-    else if(currentTextField == routePrefs){
-        tView.text =  [routePrefsArray objectAtIndex:row];
-    }
     else if(currentTextField == routeComfort){
         tView.text =  [routeComfortArray objectAtIndex:row];
     }
     else if(currentTextField == routeSafety){
         tView.text =  [routeSafetyArray objectAtIndex:row];
     }
-    else if(currentTextField == ridePassengers){
-        tView.text =  [ridePassengersArray objectAtIndex:row];
-    }
-    else if(currentTextField == rideSpecial){
-        tView.text =  [rideSpecialArray objectAtIndex:row];
-    }
     else if(currentTextField == rideConflict){
         tView.text =  [rideConflictArray objectAtIndex:row];
-    }
-    else if(currentTextField == routeStressors){
-        tView.text =  [routeStressorsArray objectAtIndex:row];
     }
     return tView;
 }
