@@ -1,9 +1,10 @@
-/** ORCycle, Copyright 2014
+/**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
- *   @author Bryan.Blanc <bryanpblanc@gmail.com>
+ * @author Bryan.Blanc <bryanpblanc@gmail.com>
+ * For more info on the project, e-mail figliozzi@pdx.edu
  *
- *   Updated/Modified for Oregon Department of Transportation application deployment. Based on the
- *   RenoTracks repository available on GitHub
+ * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
+ * Cycle Atlanta, and RenoTracks.
  *
  ** Reno Tracks, Copyright 2012, 2013 Hack4Reno
  *

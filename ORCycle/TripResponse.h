@@ -1,10 +1,11 @@
-//
-//  TripResponse.h
-//  ORCycle
-//
-//  Created by orcycle on 7/21/14.
-//
-//
+/**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
+ *
+ * @author Bryan.Blanc <bryanpblanc@gmail.com>
+ * For more info on the project, e-mail figliozzi@pdx.edu
+ *
+ * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
+ * Cycle Atlanta, and RenoTracks.
+ */
 
 
 #import <Foundation/Foundation.h>
