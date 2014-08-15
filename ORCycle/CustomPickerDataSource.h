@@ -56,18 +56,18 @@
 #define kDescOther		@"If none of the other reasons apply to this trip, you can enter trip comments after saving your trip to tell us more."
 
 //Issue descriptions
-#define kIssueDescNarrowBikeLane @"placeholder"
-#define kIssueDescNoBikeLane @"placeholder"
-#define kIssueDescHighVehicleSpeeds @"placeholder"
-#define kIssueDescHighTrafficVolume @"placeholder"
-#define kIssueDescTurningVehicles @"placeholder"
-#define kIssueDescSignalTiming @"placeholder"
-#define kIssueDescSignalDetection @"placeholder"
-#define kIssueDescTruckTraffic @"placeholder"
-#define kIssueDescBusTrafficStop @"placeholder"
-#define kIssueDescParkedVehicles @"placeholder"
-#define kIssueDescPavementCondition @"placeholder"
-#define kIssueDescOther @"placeholder"
+#define kIssueDescNarrowBikeLane @"The bicycle lane is too narrow."
+#define kIssueDescNoBikeLane @"Bicycles are too close to motorized traffic."
+#define kIssueDescHighVehicleSpeeds @"High vehicle speeds make me feel uncomfortable/unsafe."
+#define kIssueDescHighTrafficVolume @"Too many vehicles on the road"
+#define kIssueDescTurningVehicles @"Turning vehicles do not yield or see cyclists."
+#define kIssueDescSignalTiming @"The green light here is too short or the red light is too long."
+#define kIssueDescSignalDetection @"The signal here is not detecting me."
+#define kIssueDescTruckTraffic @"Too many heavy vehicles on the road"
+#define kIssueDescBusTrafficStop @"Bus traffic passing or stopping makes me feel uncomfortable/unsafe."
+#define kIssueDescParkedVehicles @"Danger of doors opening or parking vehicle blocking bicycle path."
+#define kIssueDescPavementCondition @"Pothole, rough, or uneven pavement."
+#define kIssueDescOther @"This location is uncomfortable/unsafe (tell us more in the details)."
 
 /*
 // Issue descriptions

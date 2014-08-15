@@ -35,13 +35,6 @@
 		1FC294E2198B136E00225AAD /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294E1198B136E00225AAD /* CustomCell.m */; };
 		1FC3737C1979CD3300332B0C /* Checkbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC3737B1979CD3300332B0C /* Checkbox.m */; };
 		1FC37386197B446C00332B0C /* TripDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37385197B446C00332B0C /* TripDetailViewController.xib */; };
-		1FC37394197B495A00332B0C /* check_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC3738D197B495A00332B0C /* check_selected@2x.png */; };
-		1FC37395197B495A00332B0C /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC3738E197B495A00332B0C /* check@2x.png */; };
-		1FC37396197B495A00332B0C /* frame_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC3738F197B495A00332B0C /* frame_left@2x.png */; };
-		1FC37397197B495A00332B0C /* frame_middle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37390197B495A00332B0C /* frame_middle@2x.png */; };
-		1FC37398197B495A00332B0C /* frame_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37391197B495A00332B0C /* frame_right@2x.png */; };
-		1FC37399197B495A00332B0C /* wheel_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37392197B495A00332B0C /* wheel_bg@2x.png */; };
-		1FC3739A197B495A00332B0C /* wheel_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC37393197B495A00332B0C /* wheel_shadow@2x.png */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
 		6411996210683D7500C201F0 /* RecordTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6411996110683D7500C201F0 /* RecordTripViewController.m */; };
@@ -199,13 +192,6 @@
 		1FC3737A1979CD3300332B0C /* Checkbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkbox.h; sourceTree = "<group>"; };
 		1FC3737B1979CD3300332B0C /* Checkbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkbox.m; sourceTree = "<group>"; };
 		1FC37385197B446C00332B0C /* TripDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripDetailViewController.xib; sourceTree = "<group>"; };
-		1FC3738D197B495A00332B0C /* check_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check_selected@2x.png"; sourceTree = "<group>"; };
-		1FC3738E197B495A00332B0C /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
-		1FC3738F197B495A00332B0C /* frame_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_left@2x.png"; sourceTree = "<group>"; };
-		1FC37390197B495A00332B0C /* frame_middle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_middle@2x.png"; sourceTree = "<group>"; };
-		1FC37391197B495A00332B0C /* frame_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "frame_right@2x.png"; sourceTree = "<group>"; };
-		1FC37392197B495A00332B0C /* wheel_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel_bg@2x.png"; sourceTree = "<group>"; };
-		1FC37393197B495A00332B0C /* wheel_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel_shadow@2x.png"; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -499,13 +485,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1FC3738D197B495A00332B0C /* check_selected@2x.png */,
-				1FC3738E197B495A00332B0C /* check@2x.png */,
-				1FC3738F197B495A00332B0C /* frame_left@2x.png */,
-				1FC37390197B495A00332B0C /* frame_middle@2x.png */,
-				1FC37391197B495A00332B0C /* frame_right@2x.png */,
-				1FC37392197B495A00332B0C /* wheel_bg@2x.png */,
-				1FC37393197B495A00332B0C /* wheel_shadow@2x.png */,
 				1C94195A1825F0F600D5925A /* TabBarIcons */,
 				9D4648201604EF2F00A4F9CB /* UI Elements */,
 				9D4647FB1604EF2600A4F9CB /* TripPurposePickerIcons */,
@@ -743,7 +722,6 @@
 				64577E29106DC2FD003ACBFD /* dist.plist in Resources */,
 				642F150C1071D9910050BCB9 /* MapViewController.xib in Resources */,
 				A20B63151801E06A0039391D /* AppIcon57x57.png in Resources */,
-				1FC3739A197B495A00332B0C /* wheel_shadow@2x.png in Resources */,
 				6458114E107AA4D30075DABD /* bicycle-bell-normalized.aiff in Resources */,
 				64210F29113508B800415F1A /* MainWindow.xib in Resources */,
 				64FCC5B411352242000FA1B6 /* PersonalInfo.xib in Resources */,
@@ -760,7 +738,6 @@
 				A2B263271801C8140015F89B /* noteIssueMapGlyph.png in Resources */,
 				A20B63211801E5160039391D /* AppIcon40x40@2x.png in Resources */,
 				9D4647BA1604EBF400A4F9CB /* blueButtonHighlight@2x.png in Resources */,
-				1FC37395197B495A00332B0C /* check@2x.png in Resources */,
 				1C77FC1918B276B400E1E30F /* scalleyCat.png in Resources */,
 				9D4647BB1604EBF400A4F9CB /* greenButton.png in Resources */,
 				A20B632B1801E5230039391D /* Default.png in Resources */,
@@ -775,7 +752,6 @@
 				1FC37386197B446C00332B0C /* TripDetailViewController.xib in Resources */,
 				9D4647BF1604EBF400A4F9CB /* greyButton.png in Resources */,
 				A2B2631E1801C8140015F89B /* exercise@2x.png in Resources */,
-				1FC37397197B495A00332B0C /* frame_middle@2x.png in Resources */,
 				9D4647C01604EBF400A4F9CB /* greyButton@2x.png in Resources */,
 				1C77FC1A18B276B400E1E30F /* scalleyCat@2x.png in Resources */,
 				9D4647C11604EBF400A4F9CB /* redButton.png in Resources */,
@@ -784,7 +760,6 @@
 				1C77FC1518B26BE900E1E30F /* bikeEvent.png in Resources */,
 				A2B263211801C8140015F89B /* noteAssetMapGlyph.png in Resources */,
 				9D4647C21604EBF400A4F9CB /* redButton@2x.png in Resources */,
-				1FC37399197B495A00332B0C /* wheel_bg@2x.png in Resources */,
 				9D4647C31604EBF400A4F9CB /* redButtonHighlight.png in Resources */,
 				9D4647C41604EBF400A4F9CB /* redButtonHighlight@2x.png in Resources */,
 				1CCF0DC0183809390047129B /* tabBarSelected.png in Resources */,
@@ -808,16 +783,13 @@
 				A2B263301801C8140015F89B /* shopping@2x.png in Resources */,
 				1C94196E1825F0F600D5925A /* tabbar_view@2x.png in Resources */,
 				A20B63201801E5160039391D /* AppIcon40x40.png in Resources */,
-				1FC37398197B495A00332B0C /* frame_right@2x.png in Resources */,
 				A20B63241801E5160039391D /* AppIcon76x76.png in Resources */,
-				1FC37396197B495A00332B0C /* frame_left@2x.png in Resources */,
 				1C94196A1825F0F600D5925A /* tabbar_record@2x.png in Resources */,
 				9D4648291604EF2F00A4F9CB /* MapCoord.png in Resources */,
 				9D46482A1604EF2F00A4F9CB /* record-map-frame-288x141.png in Resources */,
 				A21F08141800DCD600638A15 /* yellowButton.png in Resources */,
 				A2B263231801C8140015F89B /* noteAssetPicker.png in Resources */,
 				A2B2633B1801D6460015F89B /* greyButtonHighlight.png in Resources */,
-				1FC37394197B495A00332B0C /* check_selected@2x.png in Resources */,
 				8F1B1D41164B94E90022B776 /* DetailView.xib in Resources */,
 				9D3CDAD416D6F7A900F423B8 /* lcdScreen.png in Resources */,
 				9D3CDAD516D6F7A900F423B8 /* lcdScreen@2x.png in Resources */,

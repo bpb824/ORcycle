@@ -609,13 +609,19 @@
                 }
             }
             
-            for (int i = 0; i < [rideSpecial count];i++){
+            for (int i = 0; i < [rideSpecial count] -1 ;i++){
                 if([rideSpecial[i] integerValue] == 1){
                     NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                     [tripResponseDict setObject: [NSNumber numberWithInt:25]  forKey:@"question_id"];
-                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 136] forKey:@"answer_id"];
+                    [tripResponseDict setObject: [NSNumber numberWithInt:i + 135] forKey:@"answer_id"];
                     [tripResponsesCollection addObject:tripResponseDict];
                 }
+            }
+            if([rideSpecial[4] integerValue] == 1){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject: [NSNumber numberWithInt:25]  forKey:@"question_id"];
+                [tripResponseDict setObject: [NSNumber numberWithInt:176] forKey:@"answer_id"];
+                [tripResponsesCollection addObject:tripResponseDict];
             }
             
             for (int i = 0; i < [routeStressors count];i++){

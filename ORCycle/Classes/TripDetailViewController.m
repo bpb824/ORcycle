@@ -100,13 +100,13 @@
     detailTextView.layer.borderColor = [[UIColor blackColor] CGColor];
     
     routeFreqArray = [[NSArray alloc] initWithObjects:@" ", @"Several times per week", @"Several times per month", @"Several times per year", @"Once per year or less", @"First time ever", nil];
-    routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few intersections", @"It has few/easy hills", @"It has other riders/people (I am not alone)", @"It has beautiful scenery", @"I have no other reasonable alternative", @"I do not know anohter route", @"I found it online or using my phone", @"Other", nil];
+    routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few intersections", @"It has few/easy hills", @"It has other riders/people (I am not alone)", @"It has beautiful scenery", @"I have no other reasonable alternative", @"I do not know another route", @"I found it online or using my phone", @"Other", nil];
     routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Bad", @"Bad", @"Average", @"Good", @"Very Good" , nil];
     routeSafetyArray = [[NSArray alloc] initWithObjects:@" ", @"Safe/comfortable for families, children, or new riders", @"Safe/comfortable for most riders", @"Safe/comfortable for the average confident rider", @"Only for the highly experienced and/or confident riders (not neccesarily comfortable)", @"Unacceptable", nil];
     ridePassengersArray = [[NSArray alloc] initWithObjects:@" ", @"Alone", @"With a child under 2", @"With a child between 2 and 10", @"With a child/teen over 10", @"With 1 adult", @"With 2+ adults", nil];
-    rideSpecialArray = [[NSArray alloc] initWithObjects:@" ", @"child seat(s)", @"electric-assist", @"the cargo area", nil];
-    rideConflictArray = [[NSArray alloc] initWithObjects:@" ", @"I have had a crash/accident", @"I have had a near crash/accident", @"I did not have a near crash/accident, but do not feel safe", @"I feel safe", nil];
-    routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Auto Traffic", @"Large Commercial Vehicles (trucks)", @"Public Transport (buses, light rail, streetcar)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", @"Not concerned about conflicts or crashes along this route", nil];
+    rideSpecialArray = [[NSArray alloc] initWithObjects: @"None",@"Child seat(s)", @"Electric-assist", @"The cargo area", @"Other",nil];
+    rideConflictArray = [[NSArray alloc] initWithObjects:@" ", @"I have had a crash/accident", @"I have had a near crash/accident", @"I did not have a near crash/accident, but did not feel safe", @"I did feel safe", nil];
+    routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Not concerned about conflicts or crashes along this route",@"Auto Traffic", @"Large Commercial Vehicles (trucks)", @"Public Transport (buses, light rail, streetcar)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", nil];
     
     routePrefsSelectedRows = [[NSMutableArray alloc] init];
     ridePassengersSelectedRows = [[NSMutableArray alloc] init];
@@ -129,7 +129,7 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setBackgroundColor:bikeRouteGreen];
+    [[UINavigationBar appearance] setBackgroundColor:psuGreen];
     
     
 	// Set up the buttons.
@@ -377,7 +377,7 @@
             return @"I rode this route... (can select more than one)";
             break;
         case 5:
-            return @"On this ride, I used ... (can select more than one)";
+            return @"On this ride, did you use any acessories? (can select more than one)";
             break;
         case 6:
             return @"On this route, indicate which best fits your experience";
@@ -417,7 +417,7 @@
             return 6;
             break;
         case 5:
-            return 3;
+            return 5;
             break;
         case 6:
             return 1;
@@ -581,7 +581,11 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            if([ridePassengersSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
+            if([ridePassengersSelectedRows containsObject:indexPath]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -627,14 +631,21 @@
 			switch ([indexPath indexAtPosition:1])
 			{
                 case 0:
-					cell.textLabel.text = rideSpecialArray[1];
+					cell.textLabel.text = rideSpecialArray[0];
                     break;
 				case 1:
-					cell.textLabel.text = rideSpecialArray[2];
+					cell.textLabel.text = rideSpecialArray[1];
 					break;
 				case 2:
+					cell.textLabel.text = rideSpecialArray[2];
+					break;
+                case 3:
 					cell.textLabel.text = rideSpecialArray[3];
 					break;
+                case 4:
+					cell.textLabel.text = rideSpecialArray[4];
+					break;
+                    
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
@@ -815,6 +826,7 @@
             }
         }
     }
+    [tableView reloadData];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {

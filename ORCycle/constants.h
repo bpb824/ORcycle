@@ -103,7 +103,7 @@
 #define kSaveURL            @"http://orcycle.cecs.pdx.edu/post/"
 
 //Reno Tracks Green
-#define bikeRouteGreen [UIColor colorWithRed:0.0f/255.0f green:107.0f/255.0f blue:84.0f/255.0f alpha:1.000]
+#define psuGreen [UIColor colorWithRed:106.0f/255.0f green:127.0f/255.0f blue:16.0f/255.0f alpha:1.000]
 #define plainWhite [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:1.000]
 #define unSelected [UIColor colorWithRed:207.0f/255.0f green:207.0f/255.0f blue:207.0f/255.0f alpha:1.000]
 

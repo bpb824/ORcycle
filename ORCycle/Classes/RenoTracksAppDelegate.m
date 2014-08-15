@@ -80,7 +80,7 @@
  
     UITabBar *tabBar = tabBarController.tabBar;
     //set TabBarColor
-    //[[UITabBar appearance] setBarTintColor:bikeRouteGreen];
+    //[[UITabBar appearance] setBarTintColor:psuGreen];
     tabBarController.tabBar.translucent = false;
     
     // set color of selected icons and text to white
@@ -115,13 +115,13 @@
 	//[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
     
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        [[UINavigationBar appearance] setTintColor:bikeRouteGreen];
-        [[UITabBar appearance] setTintColor:bikeRouteGreen];
+        [[UINavigationBar appearance] setTintColor:psuGreen];
+        [[UITabBar appearance] setTintColor:psuGreen];
     }
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         [[UINavigationBar appearance] setTintColor:plainWhite];
         //[[UITabBar appearance] setTintColor:plainWhite];
-        [[UITabBar appearance] setBarTintColor:bikeRouteGreen];
+        [[UITabBar appearance] setBarTintColor:psuGreen];
         //[[UITabBar appearance] setSelectedImageTintColor:plainWhite];
         [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:plainWhite, NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
         

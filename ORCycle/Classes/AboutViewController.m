@@ -73,7 +73,7 @@
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     // Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setBackgroundColor:bikeRouteGreen];
+    [[UINavigationBar appearance] setBackgroundColor:psuGreen];
    
     
 	NSLog(@"About viewDidLoad");

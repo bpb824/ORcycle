@@ -240,7 +240,7 @@
         }
         else if (pickerCategory == 3){
             // picker defaults to top-most item => update the description
-            [self pickerView:customPickerView didSelectRow:6 inComponent:0];
+            [self pickerView:customPickerView didSelectRow:0 inComponent:0];
         }
         
 		

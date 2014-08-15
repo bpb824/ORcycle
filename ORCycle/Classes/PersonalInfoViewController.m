@@ -86,7 +86,7 @@
 
 - (UITextField*)initTextFieldAlpha
 {
-	CGRect frame = CGRectMake( 152, 7, 138, 29 );
+	CGRect frame = CGRectMake( 195, 7, 110, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 	textField.borderStyle = UITextBorderStyleRoundedRect;
 	textField.textAlignment = NSTextAlignmentRight;
@@ -97,7 +97,7 @@
 
 - (UITextField*)initTextFieldBeta
 {
-	CGRect frame = CGRectMake( 152, 7, 138, 29 );
+	CGRect frame = CGRectMake( 195, 7, 110, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 	textField.borderStyle = UITextBorderStyleRoundedRect;
 	textField.textAlignment = NSTextAlignmentRight;
@@ -109,7 +109,7 @@
 
 - (UITextField*)initTextFieldEmail
 {
-	CGRect frame = CGRectMake( 152, 7, 138, 29 );
+	CGRect frame = CGRectMake( 195, 7, 110, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 	textField.autocapitalizationType = UITextAutocapitalizationTypeNone,
 	textField.borderStyle = UITextBorderStyleRoundedRect;
@@ -124,7 +124,7 @@
 
 - (UITextField*)initTextFieldNumeric
 {
-	CGRect frame = CGRectMake( 152, 7, 138, 29 );
+	CGRect frame = CGRectMake( 195, 7, 110, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 	textField.borderStyle = UITextBorderStyleRoundedRect;
 	textField.textAlignment = NSTextAlignmentRight;
@@ -162,7 +162,7 @@
     
     ageArray = [[NSArray alloc]initWithObjects: @" ", @"Less than 18", @"18-24", @"25-34", @"35-44", @"45-54", @"55-64", @"65+", nil];
     
-    ethnicityArray = [[NSArray alloc]initWithObjects: @" ", @"White", @"African American", @"Asian", @"Hispanic", @"American Indian, Alaskan Native", @"Other", nil];
+    ethnicityArray = [[NSArray alloc]initWithObjects: @" ",  @"African American", @"Asian", @"Hispanic", @"Native American", @"White American",@"Other", nil];
     
     occupationArray = [[NSArray alloc]initWithObjects: @" ", @"Employed", @"Student", @"Retired", @"Homemaker", @"Other",nil];
     
@@ -216,7 +216,7 @@
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setBackgroundColor:bikeRouteGreen];
+    [[UINavigationBar appearance] setBackgroundColor:psuGreen];
     
     
 	// Set up the buttons.
@@ -301,7 +301,7 @@
         }
         for (int i = 0; i <[bikeTypesLoaded count];i++){
             if([bikeTypesLoaded[i] intValue] == 1){
-                tempIndexPath = [[NSIndexPath indexPathForRow:i inSection:8]retain];
+                tempIndexPath = [[NSIndexPath indexPathForRow:i inSection:6]retain];
                 [bikeTypesSelectedRows addObject:tempIndexPath];
             }
         }
@@ -597,7 +597,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch (section) {
         case 0:
-			return nil;
+			return @"Links";
 			break;
 		case 1:
 			return @"How would you rate your overall skill and experience level regarding cycling?";
@@ -612,60 +612,21 @@
 			return @"What type of weather do you ride in?";
 			break;
         case 5:
+            return @"How many bicycles do you own/ride?";
+            break;
+        case 6:
 			return @"What types of bicycles do you own? (touch to add to selection)";
 			break;
-        case 6:
+        case 7:
             return @"Tell us about yourself";
             break;
-        case 7:
+        case 8:
 			return nil;
 			break;
         
 	}
     return nil;
 }
-
-//- (UIView *)tableView:(UITableView *)tbl viewForHeaderInSection:(NSInteger)section
-//{
-//    UIView* sectionHead = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tbl.bounds.size.width, 18)];
-//    sectionHead.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
-//    sectionHead.userInteractionEnabled = YES;
-//    sectionHead.tag = section;
-//
-//    UILabel *sectionText = [[UILabel alloc] initWithFrame:CGRectMake(18, 8, tbl.bounds.size.width - 10, 18)];
-//
-//    switch (section) {
-//		case 0:
-//			sectionText.text = @"Tell us about yourself";
-//			break;
-//		case 1:
-//			sectionText.text = @"Your typical commute";
-//			break;
-//		case 2:
-//			sectionText.text = @"How often do you cycle?";
-//			break;
-//        case 3:
-//			sectionText.text = @"What kind of rider are you?";
-//			break;
-//        case 4:
-//			sectionText.text = @"How long have you been a cyclist?";
-//			break;
-//	}
-//    sectionText.backgroundColor = [UIColor clearColor];
-//    sectionText.textColor = [UIColor colorWithHue:0.6 saturation:0.33 brightness: 0.49 alpha:1];
-//    //sectionText.shadowColor = [UIColor grayColor];
-//    //sectionText.shadowOffset = CGSizeMake(0,0.001);
-//    sectionText.font = [UIFont boldSystemFontOfSize:16];
-//
-//    [sectionHead addSubview:sectionText];
-//    [sectionText release];
-//
-//    return [sectionHead autorelease];
-//}
-//
-//-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    return UITableViewAutomaticDimension;
-//}
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
@@ -675,39 +636,35 @@
     
 }
 
+
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	switch ( section )
 	{
         case 0:
+            return 2;
+            break;
+        case 1:
             return 1;
             break;
-		case 1:
-			return 1;
-			break;
-            /*
-		case 2:
-			return 3;
-			break;
-             */
 		case 2:
 			return 1;
 			break;
-        case 3:
+		case 3:
 			return 1;
 			break;
         case 4:
 			return 1;
 			break;
         case 5:
-			return 7;
+			return 1;
 			break;
         case 6:
-            return 9;
+            return 7;
             break;
         case 7:
-            return 1;
+            return 8;
             break;
 		default:
 			return 0;
@@ -727,11 +684,13 @@
 	{
         case 0:
 		{
-			static NSString *CellIdentifier = @"CellInstruction";
+			static NSString *CellIdentifier = @"CellLinks";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            UIColor *lightBlue = [UIColor colorWithRed:161.0f/255.0f green:216.0f/255.0f blue:224.0f/255.0f alpha:1.0];
+            cell.backgroundColor = lightBlue;
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -745,6 +704,16 @@
                     [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, len)];
                     [cell.textLabel setAttributedText:attributedString];
 					break;
+                case 1:
+					cell.textLabel.text = @"More info about ORcycle";
+                    [cell.textLabel setTextColor:[UIColor blueColor]];
+                    NSMutableAttributedString *attributedStringTwo = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
+                    NSInteger lenTwo = cell.textLabel.text.length;
+                    // Add attribute NSUnderlineStyleAttributeName
+                    [attributedStringTwo addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, lenTwo)];
+                    [cell.textLabel setAttributedText:attributedStringTwo];
+					break;
+
 			}
 			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -758,7 +727,8 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            
+            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
+            cell.backgroundColor = orange;
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -779,7 +749,8 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            
+            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
+            cell.backgroundColor = orange;
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -801,6 +772,8 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
+            cell.backgroundColor = orange;
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -822,6 +795,8 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
+            cell.backgroundColor = orange;
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -835,8 +810,30 @@
 
 		}
 			break;
-            
         case 5:
+		{
+            static NSString *CellIdentifier = @"CellNumBikes";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
+            cell.backgroundColor = orange;
+            
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+                    cell.textLabel.text = @"# Bicycles";
+					[cell.contentView addSubview:numBikes];
+					break;
+            }
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+		}
+			break;
+            
+        case 6:
 		{
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			static NSString *CellIdentifier = @"CellBikeTypes";
@@ -844,6 +841,8 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
+            cell.backgroundColor = orange;
             if([bikeTypesSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
 			// inner switch statement identifies row
@@ -876,86 +875,59 @@
         }
 			break;
             
-        case 6:
+        case 7:
 		{
             static NSString *CellIdentifier = @"CellPersonalInfo";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            UIColor *yellow = [UIColor colorWithRed:230.0f/255.0f green:220.0f/255.0f blue:143.0f/255.0f alpha:1.0];
+            cell.backgroundColor = yellow;
+
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
                 case 0:
-					cell.textLabel.text = @"Email";
+					cell.textLabel.text = @"E-mail";
 					[cell.contentView addSubview:email];
 					break;
                 case 1:
-					cell.textLabel.text = @"Occupation";
+					cell.textLabel.text = @"Your Occupation";
 					[cell.contentView addSubview:occupation];
 					break;
 				case 2:
-					cell.textLabel.text = @"Age";
+					cell.textLabel.text = @"Your Age";
 					[cell.contentView addSubview:age];
 					break;
 				case 3:
-					cell.textLabel.text = @"Gender";
+					cell.textLabel.text = @"Your Gender";
 					[cell.contentView addSubview:gender];
 					break;
                 case 4:
-					cell.textLabel.text = @"Ethnicity";
+					cell.textLabel.text = @"Your Ethnicity";
 					[cell.contentView addSubview:ethnicity];
 					break;
                 case 5:
-					cell.textLabel.text = @"Home Income";
+					cell.textLabel.text = @"Household Income";
 					[cell.contentView addSubview:income];
 					break;
                 case 6:
-					cell.textLabel.text = @"# HH Workers";
+					cell.textLabel.text = @"# Household Workers";
+                    //[cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:13]];
 					[cell.contentView addSubview:hhWorkers];
 					break;
                 case 7:
-					cell.textLabel.text = @"# HH Vehicles";
+					cell.textLabel.text = @"# Household Vehicles";
+                    //[cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:13]];
 					[cell.contentView addSubview:hhVehicles];
-					break;
-                case 8:
-					cell.textLabel.text = @"# Bicycles";
-					[cell.contentView addSubview:numBikes];
 					break;
 			}
 			
         }
 			break;
-        case 7:
-		{
-			static NSString *CellIdentifier = @"CellMoreInfo";
-			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			}
-            
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					cell.textLabel.text = @"More info about ORcycle";
-                    [cell.textLabel setTextColor:[UIColor blueColor]];
-                    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
-                    NSInteger len = cell.textLabel.text.length;
-                    // Add attribute NSUnderlineStyleAttributeName
-                    [attributedString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, len)];
-                    [cell.textLabel setAttributedText:attributedString];
-					break;
-			}
-			
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		}
-			break;
-
-            
 	}
-	
 	// debug
 	//NSLog(@"%@", [cell subviews]);
     return cell;
@@ -984,7 +956,10 @@
                     [[UIApplication sharedApplication] openURL:[request URL]];
 					break;
 				case 1:
-					break;
+					[[UIApplication sharedApplication] openURL:[mainRequest URL]];
+                    break;
+                case 2:
+                    break;
 			}
 			break;
 		}
@@ -1035,8 +1010,19 @@
 			}
 			break;
 		}
-        
         case 5:
+		{
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+					break;
+				case 1:
+					break;
+			}
+			break;
+		}
+        
+        case 6:
 		{
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
@@ -1050,24 +1036,11 @@
                 self.navigationItem.rightBarButtonItem.enabled = YES;
             }
 		}
-        case 6:
-		{
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					break;
-				case 1:
-					break;
-			}
-			break;
-		}
         case 7:
 		{
-			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
 				case 0:
-                    [[UIApplication sharedApplication] openURL:[mainRequest URL]];
 					break;
 				case 1:
 					break;
