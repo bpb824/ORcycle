@@ -181,7 +181,7 @@
     
    
     self.navigationController.navigationBarHidden = NO;
-    self.tabBarItem.title = @"My Marks";
+    self.tabBarItem.title = @"My Safety Marks";
 
 
     
@@ -253,7 +253,7 @@
         
         MKPointAnnotation *notePoint = [[[MKPointAnnotation alloc] init] autorelease];
         notePoint.coordinate = noteCoordinate;
-        notePoint.title = @"Mark";
+        notePoint.title = @"Mark Safety";
         [noteView addAnnotation:notePoint];
         
         

@@ -94,7 +94,7 @@
 		self.managedObjectContext = context;
         
 		// Set the title NOTE: important for tab bar tab item to set title here before view loads
-		self.title = @"View Saved Marks";
+		self.title = @"View Saved Safety Marks";
     }
     return self;
 }
@@ -111,7 +111,7 @@
 		self.noteManager = manager;
 		
 		// Set the title NOTE: important for tab bar tab item to set title here before view loads
-		self.title = @"View Saved Marks";
+		self.title = @"View Saved Safety Marks";
     }
     return self;
 }
@@ -521,13 +521,13 @@
 	if ( viewController == self )
 	{
 		//NSLog(@"willShowViewController:self");
-		self.title = @"View Saved Marks";
+		self.title = @"View Saved Safety Marks";
 	}
 	else
 	{
 		//NSLog(@"willShowViewController:else");
 		self.title = @"Back";
-		self.tabBarItem.title = @"View Saved Marks"; // important to maintain the same tab item title
+		self.tabBarItem.title = @"View Saved Safety Marks"; // important to maintain the same tab item title
 	}
 }
 

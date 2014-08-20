@@ -108,7 +108,7 @@
     
     tabBarItem1.title = @"Record";
     tabBarItem2.title = @"Trips";
-    tabBarItem3.title = @"Marks";
+    tabBarItem3.title = @"Safety Marks";
     tabBarItem4.title = @"Settings";
 
     

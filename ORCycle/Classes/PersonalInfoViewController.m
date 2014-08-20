@@ -590,7 +590,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 8;
+    return 9;
 }
 
 
@@ -621,6 +621,8 @@
             return @"Tell us about yourself";
             break;
         case 8:
+            return @"To see your routes and safety marks in the future and receive updates/news, please provide your email  (email will not be shared, see privacy policy).";
+        case 9:
 			return nil;
 			break;
         
@@ -643,7 +645,7 @@
 	switch ( section )
 	{
         case 0:
-            return 2;
+            return 3;
             break;
         case 1:
             return 1;
@@ -664,7 +666,10 @@
             return 7;
             break;
         case 7:
-            return 8;
+            return 7;
+            break;
+        case 8:
+            return 1;
             break;
 		default:
 			return 0;
@@ -712,6 +717,15 @@
                     // Add attribute NSUnderlineStyleAttributeName
                     [attributedStringTwo addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, lenTwo)];
                     [cell.textLabel setAttributedText:attributedStringTwo];
+					break;
+                case 2:
+					cell.textLabel.text = @"Privacy Policy";
+                    [cell.textLabel setTextColor:[UIColor blueColor]];
+                    NSMutableAttributedString *attributedStringThree = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
+                    NSInteger lenThree = cell.textLabel.text.length;
+                    // Add attribute NSUnderlineStyleAttributeName
+                    [attributedStringThree addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, lenThree)];
+                    [cell.textLabel setAttributedText:attributedStringThree];
 					break;
 
 			}
@@ -890,42 +904,59 @@
 			switch ([indexPath indexAtPosition:1])
 			{
                 case 0:
-					cell.textLabel.text = @"E-mail";
-					[cell.contentView addSubview:email];
-					break;
-                case 1:
 					cell.textLabel.text = @"Your Occupation";
 					[cell.contentView addSubview:occupation];
 					break;
-				case 2:
+				case 1:
 					cell.textLabel.text = @"Your Age";
 					[cell.contentView addSubview:age];
 					break;
-				case 3:
+				case 2:
 					cell.textLabel.text = @"Your Gender";
 					[cell.contentView addSubview:gender];
 					break;
-                case 4:
-					cell.textLabel.text = @"Your Ethnicity";
-					[cell.contentView addSubview:ethnicity];
-					break;
-                case 5:
-					cell.textLabel.text = @"Household Income";
-					[cell.contentView addSubview:income];
-					break;
-                case 6:
-					cell.textLabel.text = @"# Household Workers";
-                    //[cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:13]];
-					[cell.contentView addSubview:hhWorkers];
-					break;
-                case 7:
+                case 3:
 					cell.textLabel.text = @"# Household Vehicles";
                     //[cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:13]];
 					[cell.contentView addSubview:hhVehicles];
 					break;
+                case 4:
+					cell.textLabel.text = @"# Household Workers";
+                    //[cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:13]];
+					[cell.contentView addSubview:hhWorkers];
+					break;
+                case 5:
+					cell.textLabel.text = @"Your Ethnicity";
+					[cell.contentView addSubview:ethnicity];
+					break;
+                case 6:
+					cell.textLabel.text = @"Household Income";
+					[cell.contentView addSubview:income];
+					break;
 			}
 			
         }
+			break;
+        case 8:
+		{
+			static NSString *CellIdentifier = @"CellEmail";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            UIColor *lightBlue = [UIColor colorWithRed:161.0f/255.0f green:216.0f/255.0f blue:224.0f/255.0f alpha:1.0];
+            cell.backgroundColor = lightBlue;
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+                    cell.textLabel.text = @"E-mail";
+					[cell.contentView addSubview:email];
+					break;
+            }
+			
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
 			break;
 	}
 	// debug
@@ -945,6 +976,9 @@
     NSURL *mainURL = [NSURL URLWithString:kMainURL];
     NSURLRequest *mainRequest = [NSMutableURLRequest requestWithURL:mainURL];
     
+    NSURL *privacyURL = [NSURL URLWithString:kPrivacyURL];
+    NSURLRequest *privacyRequest = [NSMutableURLRequest requestWithURL:privacyURL];
+    
 	switch ([indexPath indexAtPosition:0])
 	{
 		case 0:
@@ -959,6 +993,7 @@
 					[[UIApplication sharedApplication] openURL:[mainRequest URL]];
                     break;
                 case 2:
+                    [[UIApplication sharedApplication] openURL:[privacyRequest URL]];
                     break;
 			}
 			break;

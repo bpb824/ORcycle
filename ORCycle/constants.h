@@ -98,6 +98,7 @@
 #define kInfoURL			@"http://renotracks.nevadabike.org/"
 #define kInstructionsURL	@"http://orcycle.cecs.pdx.edu/ORcycleHelp.html"
 #define kMainURL            @"http://orcycle.cecs.pdx.edu/Web/"
+#define kPrivacyURL         @"http://orcycle.cecs.pdx.edu/Web/PrivacyPolicy.html"
 
 //#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
 #define kSaveURL            @"http://orcycle.cecs.pdx.edu/post/"

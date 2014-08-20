@@ -76,9 +76,48 @@
         return appDelegate.locationManager;
     }
 	
+    
+    
+    if ([CLLocationManager locationServicesEnabled]) {
+        switch ([CLLocationManager authorizationStatus]) {
+            case kCLAuthorizationStatusAuthorized:
+            {NSLog(@"GPS Services functioning properly");}
+                break;
+            case kCLAuthorizationStatusDenied:
+            {
+                UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"Error" message:@"App level settings has been denied" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                [alert show];
+                alert= nil;
+            }
+                break;
+            case kCLAuthorizationStatusNotDetermined:
+            {
+                UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"Error" message:@"The user is yet to provide the permission" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                [alert show];
+                alert= nil;
+            }
+                break;
+            case kCLAuthorizationStatusRestricted:
+            {
+                UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"Error" message:@"The app is recstricted from using location services." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                [alert show];
+                alert= nil;
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+    else{
+        UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"Error" message:@"The location services seems to be disabled from the settings." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        alert= nil;
+    }
     appDelegate.locationManager = [[[CLLocationManager alloc] init] autorelease];
     appDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    
     appDelegate.locationManager.delegate = self;
     
     return appDelegate.locationManager;
@@ -287,7 +326,7 @@
 {
     noteButton.enabled = YES;
     
-    [noteButton setTitle:@"Mark" forState:UIControlStateNormal];
+    [noteButton setTitle:@"Mark Safety" forState:UIControlStateNormal];
 
 //    noteButton.titleLabel.font = [UIFont boldSystemFontOfSize: 24];
     [noteButton addTarget:self action:@selector(notethis:) forControlEvents:UIControlEventTouchUpInside];
