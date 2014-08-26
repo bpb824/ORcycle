@@ -97,7 +97,7 @@
 
 - (UITextField*)initTextFieldBeta
 {
-	CGRect frame = CGRectMake( 195, 7, 110, 29 );
+	CGRect frame = CGRectMake( 10, 7, 300, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 	textField.borderStyle = UITextBorderStyleRoundedRect;
 	textField.textAlignment = NSTextAlignmentRight;
@@ -109,7 +109,7 @@
 
 - (UITextField*)initTextFieldEmail
 {
-	CGRect frame = CGRectMake( 195, 7, 110, 29 );
+	CGRect frame = CGRectMake( 130, 7, 180, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 	textField.autocapitalizationType = UITextAutocapitalizationTypeNone,
 	textField.borderStyle = UITextBorderStyleRoundedRect;
@@ -178,7 +178,7 @@
     
     cyclingWeatherArray = [[NSArray alloc]initWithObjects: @" ", @"In any kind of weather", @"When it does not rain", @"Usually with warm and dry weather", @"Only with warm and dry weather", nil];
     
-    riderAbilityArray = [[NSArray alloc]initWithObjects: @" ", @"Very Low", @"Low", @"Average",  @"High", @"Very High",  nil];
+    riderAbilityArray = [[NSArray alloc]initWithObjects: @" ", @"Very High", @"High", @"Average", @"Low", @"Very Low", nil];
     
     riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"For nearly all my trips", @"To & from work", @"For recreation and/or excercise in my free time", @"For shopping, errands, or visiting friends", @"Mainly to & from work, but occasionally for other purposes", @"Other", nil];
     /*
@@ -205,7 +205,7 @@
     self.income     = [self initTextFieldAlpha];
     self.hhWorkers   = [self initTextFieldAlpha];
     self.hhVehicles   = [self initTextFieldAlpha];
-    self.numBikes   = [self initTextFieldAlpha];
+    self.numBikes   = [self initTextFieldBeta];
     self.cyclingFreq = [self initTextFieldBeta];
     self.cyclingWeather = [self initTextFieldBeta];
     self.riderAbility  =  [self initTextFieldBeta];
@@ -634,10 +634,55 @@
 {
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    [header.textLabel setTextColor:[UIColor whiteColor]];
+    [header.textLabel setTextColor:[UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000]];
     
+    CALayer *topLine = [CALayer layer];
+    topLine.frame = CGRectMake(0, 0, 320, 1);
+    topLine.backgroundColor = [UIColor blackColor].CGColor;
+    [header.layer addSublayer:topLine];
 }
 
+-(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.01;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    switch ( section )
+	{
+        case 0:
+            return 35;
+            break;
+        case 1:
+            return 65;
+            break;
+		case 2:
+			return 35;
+			break;
+		case 3:
+			return 35;
+			break;
+        case 4:
+			return 50;
+			break;
+        case 5:
+			return 50;
+			break;
+        case 6:
+            return 50;
+            break;
+        case 7:
+            return 35;
+            break;
+        case 8:
+            return 100;
+            break;
+		default:
+			return 0;
+	}
+    return 0;
+}
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -694,8 +739,6 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *lightBlue = [UIColor colorWithRed:161.0f/255.0f green:216.0f/255.0f blue:224.0f/255.0f alpha:1.0];
-            cell.backgroundColor = lightBlue;
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -741,8 +784,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
-            cell.backgroundColor = orange;
+           cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -763,8 +805,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
-            cell.backgroundColor = orange;
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -786,8 +827,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
-            cell.backgroundColor = orange;
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -809,8 +849,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
-            cell.backgroundColor = orange;
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -831,8 +870,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
-            cell.backgroundColor = orange;
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -855,10 +893,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *orange = [UIColor colorWithRed:220.0f/255.0f green:155.0f/255.0f blue:50.0f/255.0f alpha:1.0];
-            cell.backgroundColor = orange;
-            if([bikeTypesSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
-            
+            if([bikeTypesSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark;}
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -884,6 +919,7 @@
 					cell.textLabel.text = @"Other";
                     break;
 			}
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
         }
@@ -896,8 +932,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *yellow = [UIColor colorWithRed:230.0f/255.0f green:220.0f/255.0f blue:143.0f/255.0f alpha:1.0];
-            cell.backgroundColor = yellow;
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
 
             
 			// inner switch statement identifies row
@@ -944,8 +979,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            UIColor *lightBlue = [UIColor colorWithRed:161.0f/255.0f green:216.0f/255.0f blue:224.0f/255.0f alpha:1.0];
-            cell.backgroundColor = lightBlue;
+             cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{

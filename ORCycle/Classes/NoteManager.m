@@ -199,12 +199,12 @@
     
     CGSize size;
     if (castedImage.size.height > castedImage.size.width) {
-        size.height = 640;
-        size.width = 480;
+        size.height = 3264;
+        size.width = 2448;
     }
     else {
-        size.height = 480;
-        size.width = 640;
+        size.height = 2448;
+        size.width = 3264;
     }
     
     NSData *uploadData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([ImageResize imageWithImage:castedImage scaledToSize:size], kJpegQuality)];
@@ -323,14 +323,14 @@
     
     CGSize size;
     if (castedImage.size.height > castedImage.size.width) {
-        size.height = 640;
-        size.width = 480;
+        size.height = 3264;
+        size.width = 2448;
     }
     else {
-        size.height = 480;
-        size.width = 640;
+        size.height = 2448;
+        size.width = 3264;
     }
-    
+
     NSData *uploadData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([ImageResize imageWithImage:castedImage scaledToSize:size], kJpegQuality)];
     
     NSLog(@"Size of Image(bytes):%d", [uploadData length]);

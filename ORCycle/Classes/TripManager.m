@@ -429,10 +429,9 @@
                                  [NSNumber numberWithInt:[user.numBikes intValue] +45 ],
                                  [NSNumber numberWithInt:[user.cyclingFreq intValue]+59 ],
                                  [NSNumber numberWithInt:[user.cyclingWeather intValue]+64],
-                                 [NSNumber numberWithInt:[user.riderAbility intValue]+69],
                                  [NSNumber numberWithInt:[user.riderType intValue] + 75 ]];
             
-            NSArray *questions = @[@1,@3,@4,@5,@6,@7,@8,@9,@14,@15,@16,@17];
+            NSArray *questions = @[@1,@3,@4,@5,@6,@7,@8,@9,@14,@15,@17];
             
             for(int i = 0; i < [questions count];i++){
                 NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
@@ -441,6 +440,55 @@
                 NSLog(@"%@", userResponseDict);
                 userResponsesCollection[i] = userResponseDict;
             }
+            //[NSNumber numberWithInt:[user.riderAbility intValue]+69],
+            NSInteger riderAbilitySelectedRow = [user.riderAbility integerValue];
+            
+            switch (riderAbilitySelectedRow){
+                case 0:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:69] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 1:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:74] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 2:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:73] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 3:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:72] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 4:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:71] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 5:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:70] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+            }
+
+            
             
             NSMutableArray *bikeTypesTemp = [[user.bikeTypes componentsSeparatedByString:@","] mutableCopy];
             NSMutableArray *bikeTypes = [[NSMutableArray alloc] init];
@@ -498,11 +546,10 @@
 		if ( tripResponse != nil )
 		{
             NSArray *sAnswers = @[[NSNumber numberWithInt:[tripResponse.routeFreq intValue]+87],
-                                 [NSNumber numberWithInt:[tripResponse.routeComfort intValue] + 116],
                                  [NSNumber numberWithInt:[tripResponse.routeSafety intValue]+122],
                                  [NSNumber numberWithInt:[tripResponse.rideConflict intValue] + 139]];
             
-            NSArray *sQuestions = @[@19,@22,@23,@26];
+            NSArray *sQuestions = @[@19,@23,@26];
             
             for(int i = 0; i < [sQuestions count];i++){
                 NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
@@ -510,6 +557,55 @@
                 [tripResponseDict setObject:sAnswers[i] forKey:@"answer_id"];
                 NSLog(@"%@", tripResponseDict);
                 [tripResponsesCollection addObject:tripResponseDict];
+            }
+            //[NSNumber numberWithInt:[tripResponse.routeComfort intValue] + 116]
+            
+            //Set Route Comfort Here
+            NSInteger routeComfortSelectedRow = [tripResponse.routeComfort integerValue];
+            
+            switch (routeComfortSelectedRow){
+                case 0:{
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:22] forKey:@"question_id"];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:116] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                    break;
+                }
+                case 1:{
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:22] forKey:@"question_id"];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:121] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                    break;
+                }
+                case 2:{
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:22] forKey:@"question_id"];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:120] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                    break;
+                }
+                case 3:{
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:22] forKey:@"question_id"];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:119] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                    break;
+                }
+                case 4:{
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:22] forKey:@"question_id"];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:118] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                    break;
+                }
+                case 5:{
+                    NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:22] forKey:@"question_id"];
+                    [tripResponseDict setObject:[NSNumber numberWithInt:117] forKey:@"answer_id"];
+                    [tripResponsesCollection addObject:tripResponseDict];
+                    break;
+                }
             }
             
             //SET PURPOSE TRIP RESPONSE
@@ -887,8 +983,9 @@
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten 
  totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-	NSLog(@"%d bytesWritten, %d totalBytesWritten, %d totalBytesExpectedToWrite",
-		  bytesWritten, totalBytesWritten, totalBytesExpectedToWrite );
+	NSLog(@"%ld bytesWritten, %ld totalBytesWritten, %ld totalBytesExpectedToWrite",
+		  (long)bytesWritten, (long)
+          totalBytesWritten, (long)totalBytesExpectedToWrite );
 }
 
 

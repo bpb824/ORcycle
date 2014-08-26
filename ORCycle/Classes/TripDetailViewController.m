@@ -28,7 +28,7 @@
 @implementation TripDetailViewController
 @synthesize delegate, appDelegate, managedObjectContext, infoTableView, tripResponse;
 @synthesize routeFreq, routePrefs, routeComfort, routeSafety, ridePassengers, rideSpecial, rideConflict, routeStressors;
-@synthesize routeFreqSelectedRow, routePrefsSelectedRows, routeComfortSelectedRow, routeSafetySelectedRow, ridePassengersSelectedRows, rideSpecialSelectedRows, rideConflictSelectedRow, routeStressorsSelectedRows, selectedItem, selectedItems;
+@synthesize routeFreqSelectedRow, routePrefsSelectedRows, routeComfortSelectedRow, routeSafetySelectedRow, ridePassengersSelectedRows, rideSpecialSelectedRows, rideConflictSelectedRow, routeStressorsSelectedRows, selectedItem, selectedItems, isAlone, isNone, isNotConcerned;
 
 @synthesize detailTextView;
 
@@ -53,7 +53,7 @@
 
 - (UITextField*)initTextFieldAlpha
 {
-	CGRect frame = CGRectMake( 152, 7, 138, 29 );
+	CGRect frame = CGRectMake( 10, 7, 300, 29 );
 	UITextField *textField = [[UITextField alloc] initWithFrame:frame];
 	textField.borderStyle = UITextBorderStyleRoundedRect;
 	textField.textAlignment = NSTextAlignmentRight;
@@ -101,7 +101,7 @@
     
     routeFreqArray = [[NSArray alloc] initWithObjects:@" ", @"Several times per week", @"Several times per month", @"Several times per year", @"Once per year or less", @"First time ever", nil];
     routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few intersections", @"It has few/easy hills", @"It has other riders/people (I am not alone)", @"It has beautiful scenery", @"I have no other reasonable alternative", @"I do not know another route", @"I found it online or using my phone", @"Other", nil];
-    routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Bad", @"Bad", @"Average", @"Good", @"Very Good" , nil];
+    routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Good" , @"Good", @"Average", @"Bad", @"Very Bad", nil];
     routeSafetyArray = [[NSArray alloc] initWithObjects:@" ", @"Safe/comfortable for families, children, or new riders", @"Safe/comfortable for most riders", @"Safe/comfortable for the average confident rider", @"Only for the highly experienced and/or confident riders (not neccesarily comfortable)", @"Unacceptable", nil];
     ridePassengersArray = [[NSArray alloc] initWithObjects:@" ", @"Alone", @"With a child under 2", @"With a child between 2 and 10", @"With a child/teen over 10", @"With 1 adult", @"With 2+ adults", nil];
     rideSpecialArray = [[NSArray alloc] initWithObjects: @"None",@"Child seat(s)", @"Electric-assist", @"The cargo area", @"Other",nil];
@@ -112,6 +112,9 @@
     ridePassengersSelectedRows = [[NSMutableArray alloc] init];
     rideSpecialSelectedRows = [[NSMutableArray alloc] init];
     routeStressorsSelectedRows = [[NSMutableArray alloc] init];
+    
+    isAlone = false;
+    isNone = false;
     
     CGRect pickerFrame = CGRectMake(0, 40, 0, 0);
     pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
@@ -374,7 +377,7 @@
             return @"This route is...";
             break;
         case 4:
-            return @"I rode this route... (can select more than one)";
+            return @"Who accompanied you on this ride? (can select more than one)";
             break;
         case 5:
             return @"On this ride, did you use any acessories? (can select more than one)";
@@ -391,11 +394,60 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
-    // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    [header.textLabel setTextColor:[UIColor whiteColor]];
+    [header.textLabel setTextColor:[UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000]];
+    
+    CALayer *topLine = [CALayer layer];
+    topLine.frame = CGRectMake(0, 0, 320, 1);
+    topLine.backgroundColor = [UIColor blackColor].CGColor;
+    [header.layer addSublayer:topLine];
+
     
 }
+
+-(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section ==7){
+        return 10;
+    } else{
+       return 0.01;
+    }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    switch ( section )
+	{
+        case 0:
+            return 35;
+            break;
+        case 1:
+            return 50;
+            break;
+		case 2:
+			return 50;
+			break;
+		case 3:
+			return 35;
+			break;
+        case 4:
+			return 50;
+			break;
+        case 5:
+			return 65;
+			break;
+        case 6:
+            return 50;
+            break;
+        case 7:
+            return 80;
+            break;
+		default:
+			return 0;
+	}
+    return 0;
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -414,21 +466,38 @@
             return 1;
             break;
         case 4:
-            return 6;
+            if (isAlone){
+                return 1;
+            }
+            else{
+                return 6;
+            }
             break;
         case 5:
-            return 5;
+            if (isNone){
+                return 1;
+            }
+            else{
+                return 5;
+            }
             break;
         case 6:
             return 1;
             break;
         case 7:
-            return 8;
+            if (isNotConcerned){
+                return 1;
+            }
+            else{
+                return 8;
+            }
+            break;
             break;
         default:
             return 0;
     }
     return 0;
+    [tableView reloadData];
 }
 
 // Customize the appearance of table view cells.
@@ -587,28 +656,66 @@
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
             
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-                case 0:
-					cell.textLabel.text = ridePassengersArray[1];
-                    break;
-				case 1:
-					cell.textLabel.text = ridePassengersArray[2];
-					break;
-				case 2:
-					cell.textLabel.text = ridePassengersArray[3];
-					break;
-                case 3:
-					cell.textLabel.text = ridePassengersArray[4];
-					break;
-                case 4:
-					cell.textLabel.text = ridePassengersArray[5];
-                    break;
-                case 5:
-					cell.textLabel.text = ridePassengersArray[6];
-                    break;
+            if (!ridePassengersSelectedRows || ![ridePassengersSelectedRows count]){
+                // inner switch statement identifies row
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.textLabel.text = ridePassengersArray[1];
+                        break;
+                    case 1:
+                        cell.textLabel.text = ridePassengersArray[2];
+                        break;
+                    case 2:
+                        cell.textLabel.text = ridePassengersArray[3];
+                        break;
+                    case 3:
+                        cell.textLabel.text = ridePassengersArray[4];
+                        break;
+                    case 4:
+                        cell.textLabel.text = ridePassengersArray[5];
+                        break;
+                    case 5:
+                        cell.textLabel.text = ridePassengersArray[6];
+                        break;
+                }
+
             }
+            
+            else if (isAlone){
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.textLabel.text = ridePassengersArray[1];
+                        break;
+                }
+            }
+            else{
+                // inner switch statement identifies row
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.hidden = true;
+                        break;
+                    case 1:
+                        cell.textLabel.text = ridePassengersArray[2];
+                        break;
+                    case 2:
+                        cell.textLabel.text = ridePassengersArray[3];
+                        break;
+                    case 3:
+                        cell.textLabel.text = ridePassengersArray[4];
+                        break;
+                    case 4:
+                        cell.textLabel.text = ridePassengersArray[5];
+                        break;
+                    case 5:
+                        cell.textLabel.text = ridePassengersArray[6];
+                        break;
+                }
+            }
+            
+			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
             cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -626,27 +733,61 @@
             
             if([rideSpecialSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
-            
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-                case 0:
-					cell.textLabel.text = rideSpecialArray[0];
-                    break;
-				case 1:
-					cell.textLabel.text = rideSpecialArray[1];
-					break;
-				case 2:
-					cell.textLabel.text = rideSpecialArray[2];
-					break;
-                case 3:
-					cell.textLabel.text = rideSpecialArray[3];
-					break;
-                case 4:
-					cell.textLabel.text = rideSpecialArray[4];
-					break;
-                    
+            if (!rideSpecialSelectedRows || ![rideSpecialSelectedRows count]){
+                // inner switch statement identifies row
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.textLabel.text = rideSpecialArray[0];
+                        break;
+                    case 1:
+                        cell.textLabel.text = rideSpecialArray[1];
+                        break;
+                    case 2:
+                        cell.textLabel.text = rideSpecialArray[2];
+                        break;
+                    case 3:
+                        cell.textLabel.text = rideSpecialArray[3];
+                        break;
+                    case 4:
+                        cell.textLabel.text = rideSpecialArray[4];
+                        break;
+                        
+                }
             }
+            else if (isNone){
+                // inner switch statement identifies row
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.textLabel.text = rideSpecialArray[0];
+                        break;
+                }
+            }
+            else{
+                // inner switch statement identifies row
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.hidden = true;
+                        break;
+                    case 1:
+                        cell.textLabel.text = rideSpecialArray[1];
+                        break;
+                    case 2:
+                        cell.textLabel.text = rideSpecialArray[2];
+                        break;
+                    case 3:
+                        cell.textLabel.text = rideSpecialArray[3];
+                        break;
+                    case 4:
+                        cell.textLabel.text = rideSpecialArray[4];
+                        break;
+                        
+                }
+            }
+			
+			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
             cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -687,34 +828,76 @@
             
             if([routeStressorsSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-                case 0:
-					cell.textLabel.text = routeStressorsArray[1];
-                    break;
-				case 1:
-					cell.textLabel.text = routeStressorsArray[2];
-					break;
-				case 2:
-					cell.textLabel.text = routeStressorsArray[3];
-					break;
-                case 3:
-					cell.textLabel.text = routeStressorsArray[4];
-					break;
-                case 4:
-					cell.textLabel.text = routeStressorsArray[5];
-                    break;
-                case 5:
-					cell.textLabel.text = routeStressorsArray[6];
-                    break;
-                case 6:
-					cell.textLabel.text = routeStressorsArray[7];
-                    break;
-                case 7:
-					cell.textLabel.text = routeStressorsArray[8];
-                    break;
+            if (!routeStressorsSelectedRows || ![routeStressorsSelectedRows count]){
+                // inner switch statement identifies row
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.textLabel.text = routeStressorsArray[1];
+                        break;
+                    case 1:
+                        cell.textLabel.text = routeStressorsArray[2];
+                        break;
+                    case 2:
+                        cell.textLabel.text = routeStressorsArray[3];
+                        break;
+                    case 3:
+                        cell.textLabel.text = routeStressorsArray[4];
+                        break;
+                    case 4:
+                        cell.textLabel.text = routeStressorsArray[5];
+                        break;
+                    case 5:
+                        cell.textLabel.text = routeStressorsArray[6];
+                        break;
+                    case 6:
+                        cell.textLabel.text = routeStressorsArray[7];
+                        break;
+                    case 7:
+                        cell.textLabel.text = routeStressorsArray[8];
+                        break;
+                }
             }
+            else if (isNotConcerned){
+                // inner switch statement identifies row
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.textLabel.text = routeStressorsArray[1];
+                        break;
+                }
+            }
+            else{
+                // inner switch statement identifies row
+                switch ([indexPath indexAtPosition:1])
+                {
+                    case 0:
+                        cell.hidden = true;
+                        break;
+                    case 1:
+                        cell.textLabel.text = routeStressorsArray[2];
+                        break;
+                    case 2:
+                        cell.textLabel.text = routeStressorsArray[3];
+                        break;
+                    case 3:
+                        cell.textLabel.text = routeStressorsArray[4];
+                        break;
+                    case 4:
+                        cell.textLabel.text = routeStressorsArray[5];
+                        break;
+                    case 5:
+                        cell.textLabel.text = routeStressorsArray[6];
+                        break;
+                    case 6:
+                        cell.textLabel.text = routeStressorsArray[7];
+                        break;
+                    case 7:
+                        cell.textLabel.text = routeStressorsArray[8];
+                        break;
+                }
+            }
+
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
             cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -723,12 +906,14 @@
 		}
 			break;
     }
+    cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //NSLog (@"Selected index path = %@", indexPath);
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
     
     switch ([indexPath indexAtPosition:0])
@@ -755,6 +940,7 @@
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 [routePrefsSelectedRows removeObject:indexPath];
             }
+            break;
         }
         case 2:
 		{
@@ -784,11 +970,19 @@
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [ridePassengersSelectedRows addObject:indexPath];
+                if ([indexPath indexAtPosition:1] ==0){
+                    isAlone = true;
+                    
+                }
             }
             else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 [ridePassengersSelectedRows removeObject:indexPath];
+                if ([indexPath indexAtPosition:1] ==0){
+                    isAlone = false;
+                }
             }
+            break;
         }
         case 5:
 		{
@@ -796,11 +990,18 @@
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [rideSpecialSelectedRows addObject:indexPath];
+                if ([indexPath indexAtPosition:1] ==0){
+                    isNone = true;
+                }
             }
             else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 [rideSpecialSelectedRows removeObject:indexPath];
+                if ([indexPath indexAtPosition:1] ==0){
+                    isNone = false;
+                }
             }
+            break;
         }
         case 6:
 		{
@@ -819,14 +1020,24 @@
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [routeStressorsSelectedRows addObject:indexPath];
+                if ([indexPath indexAtPosition:1] ==0){
+                    isNotConcerned = true;
+                }
             }
             else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 [routeStressorsSelectedRows removeObject:indexPath];
+                if ([indexPath indexAtPosition:1] ==0){
+                    isNotConcerned = false;
+                }
             }
+            break;
         }
     }
     [tableView reloadData];
+    //NSLog(@"isAlone = %i",isAlone);
+    //NSLog(@"isNone = %i",isNone);
+
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {

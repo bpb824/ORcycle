@@ -92,9 +92,11 @@
                 break;
             case kCLAuthorizationStatusNotDetermined:
             {
+                /*
                 UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"Error" message:@"The user is yet to provide the permission" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
                 [alert show];
                 alert= nil;
+                 */
             }
                 break;
             case kCLAuthorizationStatusRestricted:
@@ -286,7 +288,7 @@
     self.navigationController.navigationBarHidden = YES;
 	
 	// init map region to Portland, OR
-	MKCoordinateRegion region = { { 45.5424364, -122.654422}, { 0.0078, 0.0068 } };
+	MKCoordinateRegion region = { { 44.1419049, -120.5380992}, { 0.0078, 0.0068 } };
 	[mapView setRegion:region animated:NO];
 	
 	// setup info button used when showing recorded trips

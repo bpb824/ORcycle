@@ -242,7 +242,7 @@
 		// filter coords by hAccuracy
 		NSPredicate *filterByAccuracy	= [NSPredicate predicateWithFormat:@"hAccuracy < 100.0"];
 		NSArray		*filteredCoords		= [[trip.coords allObjects] filteredArrayUsingPredicate:filterByAccuracy];
-		NSLog(@"count of filtered coords = %d", [filteredCoords count]);
+		NSLog(@"count of filtered coords = %lu", (unsigned long)[filteredCoords count]);
 		
 		// sort filtered coords by recorded date
 		NSSortDescriptor *sortByDate	= [[[NSSortDescriptor alloc] initWithKey:@"recorded" ascending:YES] autorelease];
@@ -317,7 +317,7 @@
 			// update last coord pointer so we can cull redundant coords above
 			last = coord;
 		}
-        NSLog(@"routeCoords array is this long: %d@", [routeCoords count]);
+        NSLog(@"routeCoords array is this long: %lu@", (unsigned long)[routeCoords count]);
         
         NSUInteger numPoints = [routeCoords count];
         CLLocationCoordinate2D *routePath = malloc(numPoints * sizeof(CLLocationCoordinate2D));
@@ -342,7 +342,7 @@
         
         //free(routePath);
 		
-		NSLog(@"added %d unique GPS coordinates of %d to map", count, [sortedCoords count]);
+		NSLog(@"added %d unique GPS coordinates of %lu to map", count, (unsigned long)[sortedCoords count]);
 		
 		// add end point as a pin annotation
 		if ( last == [sortedCoords lastObject] )
@@ -385,16 +385,16 @@
 		}
 		else
 		{
-			// init map region to Portland
-			MKCoordinateRegion region = { { 45.5424364, -122.654422}, { 0.10825, 0.10825 } };
+			// init map region to Oregon
+			MKCoordinateRegion region = { { 44.1419049, -120.5380992}, { 0.10825, 0.10825 } };
 			[mapView setRegion:region animated:NO];
 		}
         free(routePath);
 	}
 	else
 	{
-		// error: init map region to Portland
-		MKCoordinateRegion region = { { 45.5424364, -122.654422 }, { 0.10825, 0.10825 } };
+		// error: init map region to Oregon
+		MKCoordinateRegion region = { { 44.1419049, -120.5380992 }, { 0.10825, 0.10825 } };
 		[mapView setRegion:region animated:NO];
 	}
     
@@ -420,7 +420,7 @@
     thumbnail = shrinkImage(newImage, size);
     
     NSData *thumbnailData = [[[NSData alloc] initWithData:UIImageJPEGRepresentation(thumbnail, 0)] autorelease];
-    NSLog(@"Size of Thumbnail Image(bytes):%d",[thumbnailData length]);
+    NSLog(@"Size of Thumbnail Image(bytes):%lu",(unsigned long)[thumbnailData length]);
     NSLog(@"Size: %f, %f", thumbnail.size.height, thumbnail.size.width);
     
     [delegate getTripThumbnail:thumbnailData];

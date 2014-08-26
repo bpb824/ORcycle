@@ -57,6 +57,10 @@
     NSArray *rideConflictArray;
     NSArray *routeStressorsArray;
     
+    BOOL *isNone;
+    BOOL *isAlone;
+    BOOL *isNotConcerned;
+    
     NSInteger routeFreqSelectedRow;
     NSMutableArray *routePrefsSelectedRows;
     NSInteger routeComfortSelectedRow;
@@ -85,6 +89,10 @@
 @property (nonatomic,retain) UITextField *rideSpecial;
 @property (nonatomic,retain) UITextField *rideConflict;
 @property (nonatomic,retain) UITextField *routeStressors;
+
+@property (nonatomic) BOOL *isAlone;
+@property (nonatomic) BOOL *isNone;
+@property (nonatomic) BOOL *isNotConcerned;
 
 @property (nonatomic) NSInteger routeFreqSelectedRow;
 @property (nonatomic,retain) NSMutableArray *routePrefsSelectedRows;
