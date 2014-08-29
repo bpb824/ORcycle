@@ -37,11 +37,10 @@
                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4">
                     <rect key="frame" x="0.0" y="423" width="80" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <color key="tintColor" red="0.41568627450000001" green="0.49803921569999998" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Start" backgroundImage="greenButton.png">
-                        <color key="titleColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
+                    <state key="normal" title="Start" backgroundImage="greyButton.png">
+                        <color key="titleColor" red="0.6470588235294118" green="0.25490196078431371" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="disabled" backgroundImage="greenButton.png"/>
@@ -59,8 +58,9 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <color key="tintColor" red="0.41568627450000001" green="0.49803921569999998" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Mark Safety" backgroundImage="greenButton.png">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <size key="titleShadowOffset" width="1" height="1"/>
+                    <state key="normal" title="Mark Safety" backgroundImage="whiteButton.png">
+                        <color key="titleColor" red="0.64705882349999999" green="0.25490196079999999" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="disabled" backgroundImage="yellowButton.png">
@@ -176,6 +176,7 @@
     <resources>
         <image name="greenButton.png" width="36" height="36"/>
         <image name="greenButtonHighlight.png" width="36" height="36"/>
+        <image name="greyButton.png" width="36" height="36"/>
         <image name="whiteButton.png" width="36" height="36"/>
         <image name="yellowButton.png" width="36" height="36"/>
     </resources>

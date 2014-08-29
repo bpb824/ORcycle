@@ -31,7 +31,7 @@
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="barTintColor" red="0.41568627450000001" green="0.49803921569999998" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
                     <items>
-                        <navigationItem title="Detail" id="5">
+                        <navigationItem title="Trip Details" id="5">
                             <barButtonItem key="backBarButtonItem" title="Skip" id="7"/>
                             <barButtonItem key="leftBarButtonItem" title="Skip" id="8">
                                 <connections>

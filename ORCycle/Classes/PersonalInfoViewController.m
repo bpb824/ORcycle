@@ -162,7 +162,7 @@
     
     ageArray = [[NSArray alloc]initWithObjects: @" ", @"Less than 18", @"18-24", @"25-34", @"35-44", @"45-54", @"55-64", @"65+", nil];
     
-    ethnicityArray = [[NSArray alloc]initWithObjects: @" ",  @"African American", @"Asian", @"Hispanic", @"Native American", @"White American",@"Other", nil];
+    ethnicityArray = [[NSArray alloc]initWithObjects: @" ",  @"African American", @"Asian American", @"Hispanic", @"Native American", @"White American",@"Other", nil];
     
     occupationArray = [[NSArray alloc]initWithObjects: @" ", @"Employed", @"Student", @"Retired", @"Homemaker", @"Other",nil];
     
@@ -184,7 +184,7 @@
     /*
     riderHistoryArray = [[NSArray alloc]initWithObjects: @" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started", nil];
      */
-    bikeTypesArray = [[NSArray alloc]initWithObjects:@" ",@"Commuter (with gears)", @"Commuter (single speed)", @"Racing or Road", @"Cycle cross or mountain", @"Cargo bike", @"Recumbent", @"Other", nil];
+    bikeTypesArray = [[NSArray alloc]initWithObjects:@" ",@"Commuter (with gears)", @"Commuter (single speed)", @"Racing or Road", @"Trail, cyclecross, or mountain", @"Cargo bike", @"Recumbent", @"Other", nil];
     
     bikeTypesSelectedRows = [[NSMutableArray alloc] init];
     
@@ -907,7 +907,7 @@
 					cell.textLabel.text = @"Racing or Road";
 					break;
                 case 3:
-					cell.textLabel.text = @"Cycle Cross or Mountain";
+					cell.textLabel.text = @"Trail, cyclecross, or mountain";
 					break;
                 case 4:
 					cell.textLabel.text = @"Cargo Bike";

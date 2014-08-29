@@ -459,7 +459,7 @@
         [timeText setFont:[UIFont systemFontOfSize:15]];
         [timeText setTextColor:[UIColor grayColor]];
         [cell.contentView addSubview:timeText];
-    
+        /*
         CO2Text = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 190, 20)];
         CO2Text.tag = CO2TEXT_TAG;
         [CO2Text setFont:[UIFont systemFontOfSize:12]];
@@ -471,6 +471,7 @@
         [CaloryText setFont:[UIFont systemFontOfSize:12]];
         [CaloryText setTextColor:[UIColor grayColor]];
         [cell.contentView addSubview:CaloryText];
+         */
         
         errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 24, 300, 30)];
         errorLabel.tag = errorLabel_TAG;
@@ -483,8 +484,10 @@
         purposeText = (UILabel *)[cell.contentView viewWithTag:PURPOSELABEL_TAG];
         durationText = (UILabel *)[cell.contentView viewWithTag:DURATIONLABEL_TAG];
         timeText = (UILabel *)[cell.contentView viewWithTag:TIMETEXT_TAG];
+        /*
         CO2Text = (UILabel *)[cell.contentView viewWithTag:CO2TEXT_TAG];
         CaloryText = (UILabel *)[cell.contentView viewWithTag:CALORYTEXT_TAG];
+         */
         
         errorLabel = (UILabel *)[cell.contentView viewWithTag:errorLabel_TAG];
     }
@@ -621,7 +624,7 @@
     timeText.text = [NSString stringWithFormat:@"%@ at %@", [dateFormatter stringFromDate:[trip start]], [timeFormatter stringFromDate:[trip start]]];
     
     //CO2 text
-    CO2Text.text = [NSString stringWithFormat:@"CO2 Saved: %.1f lbs", 0.93 * [trip.distance doubleValue] / 1609.344];
+    /*CO2Text.text = [NSString stringWithFormat:@"CO2 Saved: %.1f lbs", 0.93 * [trip.distance doubleValue] / 1609.344];
     
     //Calory text
     double calory = 49 * [trip.distance doubleValue] / 1609.344 - 1.69;
@@ -630,7 +633,7 @@
     }
     else
         CaloryText.text = [NSString stringWithFormat:@"Calories Burned: %.1f kcal", calory];
-    
+    */
     return cell;
 }
 
