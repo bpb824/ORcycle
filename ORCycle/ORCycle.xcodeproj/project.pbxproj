@@ -28,8 +28,21 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		1F0E4D6919B0C77F0015B943 /* ORcycle.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D6819B0C77F0015B943 /* ORcycle.plist */; };
+		1F0E4D7219B0ECAA0015B943 /* NoteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7019B0ECAA0015B943 /* NoteDetailViewController.m */; };
+		1F0E4D7319B0ECAA0015B943 /* NoteDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7119B0ECAA0015B943 /* NoteDetailViewController.xib */; };
+		1F0E4D7619B0EFD90015B943 /* NoteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7519B0EFD90015B943 /* NoteResponse.m */; };
+		1F0E4D8419B7D3E70015B943 /* noteIssuePickerBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7A19B7D3E70015B943 /* noteIssuePickerBlack.png */; };
+		1F0E4D8519B7D3E70015B943 /* noteIssuePickerBlack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7B19B7D3E70015B943 /* noteIssuePickerBlack@2x.png */; };
+		1F0E4D8619B7D3E70015B943 /* noteIssuePickerGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7C19B7D3E70015B943 /* noteIssuePickerGreen.png */; };
+		1F0E4D8719B7D3E70015B943 /* noteIssuePickerGreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7D19B7D3E70015B943 /* noteIssuePickerGreen@2x.png */; };
+		1F0E4D8819B7D3E70015B943 /* noteIssuePickerOrange.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7E19B7D3E70015B943 /* noteIssuePickerOrange.png */; };
+		1F0E4D8919B7D3E70015B943 /* noteIssuePickerOrange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7F19B7D3E70015B943 /* noteIssuePickerOrange@2x.png */; };
+		1F0E4D8A19B7D3E70015B943 /* noteIssuePickerRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D8019B7D3E70015B943 /* noteIssuePickerRed.png */; };
+		1F0E4D8B19B7D3E70015B943 /* noteIssuePickerRed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D8119B7D3E70015B943 /* noteIssuePickerRed@2x.png */; };
+		1F0E4D8C19B7D3E70015B943 /* noteIssuePickerYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D8219B7D3E70015B943 /* noteIssuePickerYellow.png */; };
+		1F0E4D8D19B7D3E70015B943 /* noteIssuePickerYellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D8319B7D3E70015B943 /* noteIssuePickerYellow@2x.png */; };
 		1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */; };
-		1FC294C5197D8E8900225AAD /* TripInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC294C3197D8E8900225AAD /* TripInfoViewController.xib */; };
 		1FC294CD197DFB5000225AAD /* TripResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CC197DFB5000225AAD /* TripResponse.m */; };
 		1FC294D0197F461100225AAD /* ORcycle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CE197F461100225AAD /* ORcycle.xcdatamodeld */; };
 		1FC294E2198B136E00225AAD /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294E1198B136E00225AAD /* CustomCell.m */; };
@@ -138,8 +151,6 @@
 		A2B263261801C8140015F89B /* noteBlankPicker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263061801C8140015F89B /* noteBlankPicker@2x.png */; };
 		A2B263271801C8140015F89B /* noteIssueMapGlyph.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263071801C8140015F89B /* noteIssueMapGlyph.png */; };
 		A2B263281801C8140015F89B /* noteIssueMapGlyph@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263081801C8140015F89B /* noteIssueMapGlyph@2x.png */; };
-		A2B263291801C8140015F89B /* noteIssuePicker.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263091801C8140015F89B /* noteIssuePicker.png */; };
-		A2B2632A1801C8140015F89B /* noteIssuePicker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B2630A1801C8140015F89B /* noteIssuePicker@2x.png */; };
 		A2B2632B1801C8140015F89B /* other.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B2630B1801C8140015F89B /* other.png */; };
 		A2B2632C1801C8140015F89B /* other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B2630C1801C8140015F89B /* other@2x.png */; };
 		A2B2632D1801C8140015F89B /* school.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B2630D1801C8140015F89B /* school.png */; };
@@ -181,9 +192,25 @@
 		1D3623250D0F684500981E51 /* RenoTracksAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RenoTracksAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1D6058910D05DD3D006BFB54 /* ORcycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORcycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1F0E4D6819B0C77F0015B943 /* ORcycle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ORcycle.plist; path = Classes/ORcycle.plist; sourceTree = "<group>"; };
+		1F0E4D6F19B0ECAA0015B943 /* NoteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteDetailViewController.h; path = ../NoteDetailViewController.h; sourceTree = "<group>"; };
+		1F0E4D7019B0ECAA0015B943 /* NoteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteDetailViewController.m; path = ../NoteDetailViewController.m; sourceTree = "<group>"; };
+		1F0E4D7119B0ECAA0015B943 /* NoteDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteDetailViewController.xib; sourceTree = "<group>"; };
+		1F0E4D7419B0EFD90015B943 /* NoteResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteResponse.h; sourceTree = "<group>"; };
+		1F0E4D7519B0EFD90015B943 /* NoteResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteResponse.m; sourceTree = "<group>"; };
+		1F0E4D7719B38A6B0015B943 /* NoteDetailDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteDetailDelegate.h; sourceTree = "<group>"; };
+		1F0E4D7A19B7D3E70015B943 /* noteIssuePickerBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noteIssuePickerBlack.png; path = TripPurposePickerIcons/noteIssuePickerBlack.png; sourceTree = SOURCE_ROOT; };
+		1F0E4D7B19B7D3E70015B943 /* noteIssuePickerBlack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePickerBlack@2x.png"; path = "TripPurposePickerIcons/noteIssuePickerBlack@2x.png"; sourceTree = SOURCE_ROOT; };
+		1F0E4D7C19B7D3E70015B943 /* noteIssuePickerGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noteIssuePickerGreen.png; path = TripPurposePickerIcons/noteIssuePickerGreen.png; sourceTree = SOURCE_ROOT; };
+		1F0E4D7D19B7D3E70015B943 /* noteIssuePickerGreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePickerGreen@2x.png"; path = "TripPurposePickerIcons/noteIssuePickerGreen@2x.png"; sourceTree = SOURCE_ROOT; };
+		1F0E4D7E19B7D3E70015B943 /* noteIssuePickerOrange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noteIssuePickerOrange.png; path = TripPurposePickerIcons/noteIssuePickerOrange.png; sourceTree = SOURCE_ROOT; };
+		1F0E4D7F19B7D3E70015B943 /* noteIssuePickerOrange@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePickerOrange@2x.png"; path = "TripPurposePickerIcons/noteIssuePickerOrange@2x.png"; sourceTree = SOURCE_ROOT; };
+		1F0E4D8019B7D3E70015B943 /* noteIssuePickerRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noteIssuePickerRed.png; path = TripPurposePickerIcons/noteIssuePickerRed.png; sourceTree = SOURCE_ROOT; };
+		1F0E4D8119B7D3E70015B943 /* noteIssuePickerRed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePickerRed@2x.png"; path = "TripPurposePickerIcons/noteIssuePickerRed@2x.png"; sourceTree = SOURCE_ROOT; };
+		1F0E4D8219B7D3E70015B943 /* noteIssuePickerYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noteIssuePickerYellow.png; path = TripPurposePickerIcons/noteIssuePickerYellow.png; sourceTree = SOURCE_ROOT; };
+		1F0E4D8319B7D3E70015B943 /* noteIssuePickerYellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePickerYellow@2x.png"; path = "TripPurposePickerIcons/noteIssuePickerYellow@2x.png"; sourceTree = SOURCE_ROOT; };
 		1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalInfoViewController.h; sourceTree = "<group>"; };
 		1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalInfoViewController.m; sourceTree = "<group>"; };
-		1FC294C3197D8E8900225AAD /* TripInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripInfoViewController.xib; sourceTree = "<group>"; };
 		1FC294CB197DFB5000225AAD /* TripResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripResponse.h; sourceTree = "<group>"; };
 		1FC294CC197DFB5000225AAD /* TripResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripResponse.m; sourceTree = "<group>"; };
 		1FC294CF197F461100225AAD /* ORcycle1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ORcycle1.xcdatamodel; sourceTree = "<group>"; };
@@ -327,8 +354,6 @@
 		A2B263061801C8140015F89B /* noteBlankPicker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteBlankPicker@2x.png"; path = "TripPurposePickerIcons/noteBlankPicker@2x.png"; sourceTree = SOURCE_ROOT; };
 		A2B263071801C8140015F89B /* noteIssueMapGlyph.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noteIssueMapGlyph.png; path = TripPurposePickerIcons/noteIssueMapGlyph.png; sourceTree = SOURCE_ROOT; };
 		A2B263081801C8140015F89B /* noteIssueMapGlyph@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssueMapGlyph@2x.png"; path = "TripPurposePickerIcons/noteIssueMapGlyph@2x.png"; sourceTree = SOURCE_ROOT; };
-		A2B263091801C8140015F89B /* noteIssuePicker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noteIssuePicker.png; path = TripPurposePickerIcons/noteIssuePicker.png; sourceTree = SOURCE_ROOT; };
-		A2B2630A1801C8140015F89B /* noteIssuePicker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePicker@2x.png"; path = "TripPurposePickerIcons/noteIssuePicker@2x.png"; sourceTree = SOURCE_ROOT; };
 		A2B2630B1801C8140015F89B /* other.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = other.png; path = TripPurposePickerIcons/other.png; sourceTree = SOURCE_ROOT; };
 		A2B2630C1801C8140015F89B /* other@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "other@2x.png"; path = "TripPurposePickerIcons/other@2x.png"; sourceTree = SOURCE_ROOT; };
 		A2B2630D1801C8140015F89B /* school.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = school.png; path = TripPurposePickerIcons/school.png; sourceTree = SOURCE_ROOT; };
@@ -395,10 +420,10 @@
 				8F5E60621602CBE000D8F85D /* NSString+MD5Addition.h */,
 				8F5E60631602CBE000D8F85D /* NSString+MD5Addition.m */,
 				64119ABD10689ED800C201F0 /* PickerViewController.h */,
+				64119ABE10689ED800C201F0 /* PickerViewController.m */,
 				6433E5C5106D62ED00C27387 /* PersonalInfoDelegate.h */,
 				1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */,
 				1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */,
-				64119ABE10689ED800C201F0 /* PickerViewController.m */,
 				64581198107AC1080075DABD /* RecordingInProgressDelegate.h */,
 				1FC3737A1979CD3300332B0C /* Checkbox.h */,
 				1FC3737B1979CD3300332B0C /* Checkbox.m */,
@@ -414,11 +439,14 @@
 				641199B1106851AA00C201F0 /* SavedTripsViewController.m */,
 				64F823DF106AC151001413F8 /* SaveRequest.h */,
 				64F823E0106AC151001413F8 /* SaveRequest.m */,
+				1F0E4D6F19B0ECAA0015B943 /* NoteDetailViewController.h */,
+				1F0E4D7019B0ECAA0015B943 /* NoteDetailViewController.m */,
 				8F20B0A916F0F08A00031712 /* TripDetailViewController.h */,
 				8F20B0AA16F0F08A00031712 /* TripDetailViewController.m */,
 				64119F021069ACF800C201F0 /* TripManager.h */,
 				64119F031069ACF800C201F0 /* TripManager.m */,
 				6433E54E106D542100C27387 /* TripPurposeDelegate.h */,
+				1F0E4D7719B38A6B0015B943 /* NoteDetailDelegate.h */,
 				8F5E60641602CBE000D8F85D /* UIDevice+IdentifierAddition.h */,
 				8F5E60651602CBE000D8F85D /* UIDevice+IdentifierAddition.m */,
 				8FAD930316F189EE00082B6F /* UIImageViewResizable.h */,
@@ -488,8 +516,10 @@
 				9D4647A81604EBF400A4F9CB /* Button Icons */,
 				6411A16A106A05DE00C201F0 /* Images */,
 				6458114D107AA4D30075DABD /* bicycle-bell-normalized.aiff */,
+				1F0E4D6819B0C77F0015B943 /* ORcycle.plist */,
 				64577E28106DC2FD003ACBFD /* dist.plist */,
 				1FC37385197B446C00332B0C /* TripDetailViewController.xib */,
+				1F0E4D7119B0ECAA0015B943 /* NoteDetailViewController.xib */,
 				64210F28113508B800415F1A /* MainWindow.xib */,
 				8FBCD3C916E0E58100C11EBE /* NoteViewController.xib */,
 				642F14791071D3F10050BCB9 /* MapViewController.xib */,
@@ -497,7 +527,6 @@
 				64119A9B1068665B00C201F0 /* TripPurposePicker.xib */,
 				8F1B1D40164B94E90022B776 /* DetailView.xib */,
 				64FCC5B311352242000FA1B6 /* PersonalInfo.xib */,
-				1FC294C3197D8E8900225AAD /* TripInfoViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -526,6 +555,8 @@
 				1FC294CE197F461100225AAD /* ORcycle.xcdatamodeld */,
 				8F9C086B16DC947A003EA308 /* Coord.h */,
 				8F9C086C16DC947A003EA308 /* Coord.m */,
+				1F0E4D7419B0EFD90015B943 /* NoteResponse.h */,
+				1F0E4D7519B0EFD90015B943 /* NoteResponse.m */,
 				1FC294CB197DFB5000225AAD /* TripResponse.h */,
 				1FC294CC197DFB5000225AAD /* TripResponse.m */,
 				8F9C086816DC9479003EA308 /* User.h */,
@@ -627,8 +658,6 @@
 				A2B263061801C8140015F89B /* noteBlankPicker@2x.png */,
 				A2B263071801C8140015F89B /* noteIssueMapGlyph.png */,
 				A2B263081801C8140015F89B /* noteIssueMapGlyph@2x.png */,
-				A2B263091801C8140015F89B /* noteIssuePicker.png */,
-				A2B2630A1801C8140015F89B /* noteIssuePicker@2x.png */,
 				A2B2630B1801C8140015F89B /* other.png */,
 				A2B2630C1801C8140015F89B /* other@2x.png */,
 				A2B2630D1801C8140015F89B /* school.png */,
@@ -643,6 +672,16 @@
 				A2B263161801C8140015F89B /* tripStart@2x.png */,
 				A2B263171801C8140015F89B /* workRelated.png */,
 				A2B263181801C8140015F89B /* workRelated@2x.png */,
+				1F0E4D7A19B7D3E70015B943 /* noteIssuePickerBlack.png */,
+				1F0E4D7B19B7D3E70015B943 /* noteIssuePickerBlack@2x.png */,
+				1F0E4D7C19B7D3E70015B943 /* noteIssuePickerGreen.png */,
+				1F0E4D7D19B7D3E70015B943 /* noteIssuePickerGreen@2x.png */,
+				1F0E4D7E19B7D3E70015B943 /* noteIssuePickerOrange.png */,
+				1F0E4D7F19B7D3E70015B943 /* noteIssuePickerOrange@2x.png */,
+				1F0E4D8019B7D3E70015B943 /* noteIssuePickerRed.png */,
+				1F0E4D8119B7D3E70015B943 /* noteIssuePickerRed@2x.png */,
+				1F0E4D8219B7D3E70015B943 /* noteIssuePickerYellow.png */,
+				1F0E4D8319B7D3E70015B943 /* noteIssuePickerYellow@2x.png */,
 			);
 			name = TripPurposePickerIcons;
 			path = "TripPurposePickerIcons V3";
@@ -725,6 +764,7 @@
 				A2B263201801C8140015F89B /* failedUpload@2x.png in Resources */,
 				A2B263261801C8140015F89B /* noteBlankPicker@2x.png in Resources */,
 				A2B263251801C8140015F89B /* noteBlankPicker.png in Resources */,
+				1F0E4D8A19B7D3E70015B943 /* noteIssuePickerRed.png in Resources */,
 				64C8D40311386B26008BCADE /* RecordMap.xib in Resources */,
 				9D4647B71604EBF400A4F9CB /* blueButton.png in Resources */,
 				1C9419651825F0F600D5925A /* tabbar_instructions.png in Resources */,
@@ -737,12 +777,12 @@
 				1C77FC1918B276B400E1E30F /* scalleyCat.png in Resources */,
 				9D4647BB1604EBF400A4F9CB /* greenButton.png in Resources */,
 				A20B632B1801E5230039391D /* Default.png in Resources */,
-				A2B2632A1801C8140015F89B /* noteIssuePicker@2x.png in Resources */,
 				A2B263281801C8140015F89B /* noteIssueMapGlyph@2x.png in Resources */,
 				9D4647BC1604EBF400A4F9CB /* greenButton@2x.png in Resources */,
 				1C94196D1825F0F600D5925A /* tabbar_view.png in Resources */,
 				A20B63231801E5160039391D /* AppIcon60x60@2x.png in Resources */,
 				9D4647BD1604EBF400A4F9CB /* greenButtonHighlight.png in Resources */,
+				1F0E4D7319B0ECAA0015B943 /* NoteDetailViewController.xib in Resources */,
 				1C94196B1825F0F600D5925A /* tabbar_settings.png in Resources */,
 				9D4647BE1604EBF400A4F9CB /* greenButtonHighlight@2x.png in Resources */,
 				1FC37386197B446C00332B0C /* TripDetailViewController.xib in Resources */,
@@ -762,10 +802,13 @@
 				A2B2632C1801C8140015F89B /* other@2x.png in Resources */,
 				A2B2632D1801C8140015F89B /* school.png in Resources */,
 				A2B2631D1801C8140015F89B /* exercise.png in Resources */,
+				1F0E4D8519B7D3E70015B943 /* noteIssuePickerBlack@2x.png in Resources */,
+				1F0E4D8B19B7D3E70015B943 /* noteIssuePickerRed@2x.png in Resources */,
 				1C9419671825F0F600D5925A /* tabbar_notes.png in Resources */,
 				A2B2632B1801C8140015F89B /* other.png in Resources */,
 				A20B63161801E06A0039391D /* AppIcon57x57@2x.png in Resources */,
 				A2B263311801C8140015F89B /* social.png in Resources */,
+				1F0E4D8819B7D3E70015B943 /* noteIssuePickerOrange.png in Resources */,
 				A2B263381801C8140015F89B /* workRelated@2x.png in Resources */,
 				A2B263241801C8140015F89B /* noteAssetPicker@2x.png in Resources */,
 				A2B263341801C8140015F89B /* tripEnd@2x.png in Resources */,
@@ -783,11 +826,13 @@
 				1C94196A1825F0F600D5925A /* tabbar_record@2x.png in Resources */,
 				9D4648291604EF2F00A4F9CB /* MapCoord.png in Resources */,
 				9D46482A1604EF2F00A4F9CB /* record-map-frame-288x141.png in Resources */,
+				1F0E4D8719B7D3E70015B943 /* noteIssuePickerGreen@2x.png in Resources */,
 				A21F08141800DCD600638A15 /* yellowButton.png in Resources */,
 				A2B263231801C8140015F89B /* noteAssetPicker.png in Resources */,
 				A2B2633B1801D6460015F89B /* greyButtonHighlight.png in Resources */,
 				8F1B1D41164B94E90022B776 /* DetailView.xib in Resources */,
 				9D3CDAD416D6F7A900F423B8 /* lcdScreen.png in Resources */,
+				1F0E4D8919B7D3E70015B943 /* noteIssuePickerOrange@2x.png in Resources */,
 				9D3CDAD516D6F7A900F423B8 /* lcdScreen@2x.png in Resources */,
 				9D3CDAD616D6F7A900F423B8 /* photoFrame.png in Resources */,
 				9D3CDAD716D6F7A900F423B8 /* photoFrame@2x.png in Resources */,
@@ -800,24 +845,27 @@
 				A20B63221801E5160039391D /* AppIcon60x60.png in Resources */,
 				9D3CDAE316D7056F00F423B8 /* whiteButtonHighlight@2x.png in Resources */,
 				A2B263371801C8140015F89B /* workRelated.png in Resources */,
+				1F0E4D8D19B7D3E70015B943 /* noteIssuePickerYellow@2x.png in Resources */,
 				1C94196C1825F0F600D5925A /* tabbar_settings@2x.png in Resources */,
-				1FC294C5197D8E8900225AAD /* TripInfoViewController.xib in Resources */,
 				A20B631F1801E5160039391D /* AppIcon29x29@2x.png in Resources */,
 				1C77FC1618B26BE900E1E30F /* bikeEvent@2x.png in Resources */,
+				1F0E4D6919B0C77F0015B943 /* ORcycle.plist in Resources */,
 				A2B263331801C8140015F89B /* tripEnd.png in Resources */,
-				A2B263291801C8140015F89B /* noteIssuePicker.png in Resources */,
 				A2B263351801C8140015F89B /* tripStart.png in Resources */,
 				8FBCD3CB16E0E58100C11EBE /* NoteViewController.xib in Resources */,
 				A2B2631A1801C8140015F89B /* commute@2x.png in Resources */,
 				A20B632C1801E5230039391D /* Default@2x.png in Resources */,
+				1F0E4D8C19B7D3E70015B943 /* noteIssuePickerYellow.png in Resources */,
 				A2B2632E1801C8140015F89B /* school@2x.png in Resources */,
 				A2B2631F1801C8140015F89B /* failedUpload.png in Resources */,
 				A20B631E1801E5160039391D /* AppIcon29x29.png in Resources */,
 				A20B63291801E5230039391D /* AppIcon76x76@2x.png in Resources */,
 				A2B263191801C8140015F89B /* commute.png in Resources */,
 				A2B263361801C8140015F89B /* tripStart@2x.png in Resources */,
+				1F0E4D8419B7D3E70015B943 /* noteIssuePickerBlack.png in Resources */,
 				1C9419691825F0F600D5925A /* tabbar_record.png in Resources */,
 				A20B632A1801E5230039391D /* Default-568h@2x.png in Resources */,
+				1F0E4D8619B7D3E70015B943 /* noteIssuePickerGreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -847,6 +895,7 @@
 				645E4EDC1200C1C800EFF0E6 /* LoadingView.m in Sources */,
 				8F5E60661602CBE000D8F85D /* NSString+MD5Addition.m in Sources */,
 				8F5E60671602CBE000D8F85D /* UIDevice+IdentifierAddition.m in Sources */,
+				1F0E4D7619B0EFD90015B943 /* NoteResponse.m in Sources */,
 				8F1B1D3F164B94C60022B776 /* DetailViewController.m in Sources */,
 				9D504DA116B6CF4000B99EBC /* ZipUtil.m in Sources */,
 				8FB7C20D16C55EB9001A8A48 /* NoteManager.m in Sources */,
@@ -861,6 +910,7 @@
 				8F20B0AC16F0F08A00031712 /* TripDetailViewController.m in Sources */,
 				8FAD930516F189EE00082B6F /* UIImageViewResizable.m in Sources */,
 				9DD65FBB16FEA3CC00F2EB63 /* ImageResize.m in Sources */,
+				1F0E4D7219B0ECAA0015B943 /* NoteDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

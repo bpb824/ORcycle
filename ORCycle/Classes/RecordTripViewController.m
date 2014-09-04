@@ -47,6 +47,8 @@
 #import "constants.h"
 #import "MapViewController.h"
 #import "NoteViewController.h"
+#import "NoteDetailViewController.h"
+#import "DetailViewController.h"
 #import "PersonalInfoViewController.h"
 #import "PickerViewController.h"
 #import "RecordTripViewController.h"
@@ -125,7 +127,7 @@
     return appDelegate.locationManager;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
     
 }
 
@@ -280,7 +282,7 @@
     [super viewDidLoad];
 	//[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
 	
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundColor:psuGreen];
@@ -341,7 +343,7 @@
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     [noteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    noteButton.layer.borderWidth = 1.0f;
+    noteButton.layer.borderWidth = 0.5f;
     noteButton.layer.borderColor = [[UIColor blackColor] CGColor];
     
     [noteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -349,9 +351,9 @@
     noteButton.backgroundColor = [UIColor clearColor];
     noteButton.enabled = YES;
     
-    [noteButton setTitle:@"Mark Safety" forState:UIControlStateNormal];
+    [noteButton setTitle:@"Mark Safety Point" forState:UIControlStateNormal];
     [noteButton setTitleColor:[UIColor colorWithRed: 165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0] forState:UIControlStateHighlighted];
-    noteButton.titleLabel.font = [UIFont boldSystemFontOfSize: 15];
+    noteButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
     //noteButton.titleLabel.shadowOffset = CGSizeMake (0, 0);
     noteButton.titleLabel.textColor = [UIColor colorWithRed: 165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0];
 
@@ -373,7 +375,7 @@
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    startButton.layer.borderWidth = 1.0f;
+    startButton.layer.borderWidth = 0.5f;
     startButton.layer.borderColor = [[UIColor blackColor] CGColor];
     
     [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -381,9 +383,9 @@
     startButton.backgroundColor = [UIColor clearColor];
     startButton.enabled = YES;
     
-    [startButton setTitle:@"Start" forState:UIControlStateNormal];
+    [startButton setTitle:@"Start Trip" forState:UIControlStateNormal];
     [startButton setTitleColor:[UIColor colorWithRed: 165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0] forState:UIControlStateHighlighted];
-    startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 15];
+    startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
     //startButton.titleLabel.shadowOffset = CGSizeMake (0, 0);
     startButton.titleLabel.textColor = [UIColor colorWithRed: 165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0];
     [startButton addTarget:self action:@selector(start:) forControlEvents:UIControlEventTouchUpInside];
@@ -445,7 +447,8 @@
     
     [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [startButton setTitle:@"Start" forState:UIControlStateNormal];
+    [startButton setTitle:@"Start Trip" forState:UIControlStateNormal];
+     startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
 	[startButton setTitleColor:[[[UIColor alloc] initWithRed:165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0 ] autorelease] forState:UIControlStateNormal];
     
 	// reset trip, reminder managers
@@ -589,8 +592,8 @@
         [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
         [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
         [startButton setTitleColor:plainWhite forState:UIControlStateNormal];
-        [startButton setTitle:@"Save" forState:UIControlStateNormal];
-        startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 15];
+        [startButton setTitle:@"Save Trip" forState:UIControlStateNormal];
+        startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
         
         // set recording flag so future location updates will be added as coords
         appDelegate = [[UIApplication sharedApplication] delegate];
@@ -679,8 +682,10 @@
 
 
 -(IBAction)notethis:(id)sender{
+    /*
     [[NSUserDefaults standardUserDefaults] setInteger:3 forKey: @"pickerCategory"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+     */
     
     NSLog(@"Note This");
     
@@ -697,16 +702,16 @@
 		NSLog(@"INIT + PUSH");
         
         
-		PickerViewController *notePickerView = [[PickerViewController alloc]
+		NoteDetailViewController *noteDetailView = [[NoteDetailViewController alloc]
                                                        //initWithPurpose:[tripManager getPurposeIndex]];
-                                                       initWithNibName:@"TripPurposePicker" bundle:nil];
-		[notePickerView setDelegate:self];
+                                                       initWithNibName:@"NoteDetailViewController" bundle:nil];
+		[noteDetailView setNoteDelegate:self];
 		//[[self navigationController] pushViewController:pickerViewController animated:YES];
-		[self.navigationController presentViewController:notePickerView animated:YES completion:nil];
+		[self.navigationController presentViewController:noteDetailView animated:YES completion:nil];
         
         //add location information
         
-		[notePickerView release];
+		[noteDetailView release];
 	}
 	
 	// prompt to confirm first
@@ -812,18 +817,22 @@
 {
     // listen for keyboard hide/show notifications so we can properly adjust the table's height
 	[super viewWillAppear:animated];
+    self.navigationController.delegate = self;
     self.navigationController.navigationBarHidden = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 
+
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
+    self.navigationController.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
+
 
 
 - (void)keyboardWillShow:(NSNotification *)aNotification
@@ -835,14 +844,6 @@
 - (void)keyboardWillHide:(NSNotification *)aNotification
 {
 	NSLog(@"keyboardWillHide");
-}
-
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 
@@ -874,13 +875,13 @@
 	if ( viewController == self )
 	{
 		//NSLog(@"willShowViewController:self");
-		self.title = @"Record New Trip";
+		self.title = @"Record";
 	}
 	else
 	{
 		//NSLog(@"willShowViewController:else");
 		self.title = @"Back";
-		self.tabBarItem.title = @"Record New Trip"; // important to maintain the same tab item title
+		self.tabBarItem.title = @"Record"; // important to maintain the same tab item title
 	}
 }
 
@@ -980,7 +981,7 @@ shouldSelectViewController:(UIViewController *)viewController
 
 - (void)didPickNoteType:(NSNumber *)index
 {	
-	[noteManager.note setNote_type:[NSNumber numberWithInt:[index integerValue]]];
+	[noteManager.note setNote_type:index];
     NSLog(@"Added note type: %d", [noteManager.note.note_type intValue]);
     //do something here: may change to be the save as a separate view. Not prompt.
 }
@@ -1006,6 +1007,24 @@ shouldSelectViewController:(UIViewController *)viewController
     NSLog(@"Note Thumbnail, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
 }
 
+- (void)openDetailPage{
+    
+    
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        appDelegate = [[UIApplication sharedApplication] delegate];
+        
+        DetailViewController *DetailView = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:nil];
+        
+        [self.navigationController presentViewController:DetailView animated:true completion:nil ];
+        
+        [DetailView setNoteDelegate:self];
+        
+        [DetailView release];
+        
+    }];
+}
+
 - (void)saveNote{
     [noteManager saveNote];
     NSLog(@"Save note");
@@ -1025,10 +1044,16 @@ shouldSelectViewController:(UIViewController *)viewController
 		return nil;
 }
 
+- (void)didReceiveMemoryWarning {
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
+}
 
 - (void)dealloc {
     
-    appDelegate.locationManager = nil;
+    appDelegate = nil;
     self.startButton = nil;
     self.infoButton = nil;
     self.saveButton = nil;
@@ -1045,7 +1070,6 @@ shouldSelectViewController:(UIViewController *)viewController
     self.noteManager = nil;
     self.appDelegate = nil;
     
-//    [appDelegate.locationManager release];
     [appDelegate release];
     [infoButton release];
     [saveButton release];
@@ -1067,7 +1091,7 @@ shouldSelectViewController:(UIViewController *)viewController
     
     [calorieCount release];
     [C02Count release];
-
+    
     [super dealloc];
 }
 

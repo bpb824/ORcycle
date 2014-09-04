@@ -198,10 +198,12 @@
 
 	// Set up the buttons.
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+	self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     //Navigation bar color
+    /*
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundColor:psuGreen];
+     */
 
 	
 	// check for countZeroDistanceTrips

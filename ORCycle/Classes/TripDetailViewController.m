@@ -42,7 +42,7 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context
@@ -129,7 +129,7 @@
     
     [self setTripResponse:[self createTripResponse]];
     
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundColor:psuGreen];
@@ -146,6 +146,8 @@
 
 -(IBAction)skip:(id)sender{
     NSLog(@"Skip");
+    
+    [infoTableView resignFirstResponder];
     [delegate didCancelNote];
     
     pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
@@ -160,7 +162,7 @@
 
 -(IBAction)saveDetail:(id)sender{
     NSLog(@"Save Detail");
-    [detailTextView resignFirstResponder];
+    [infoTableView resignFirstResponder];
     [delegate didCancelNote];
     
     pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
@@ -200,7 +202,7 @@
         [actionSheet addSubview:pickerView];
         
         doneToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        doneToolbar.barStyle = UIBarStyleBlackOpaque;
+        doneToolbar.barStyle = UIBarStyleDefault;
         [doneToolbar sizeToFit];
         
         NSMutableArray *barItems = [[[NSMutableArray alloc] init] autorelease];
@@ -492,9 +494,9 @@
                 return 8;
             }
             break;
-            break;
         default:
             return 0;
+            break;
     }
     return 0;
     [tableView reloadData];
@@ -1070,7 +1072,7 @@
         CGRect frame = CGRectMake(0.0, 0.0, 320, 200);
         tView = [[UILabel alloc] initWithFrame:frame];
         [tView setFont:[UIFont fontWithName:@"Helvetica" size:15]];
-        [tView setTextAlignment:UITextAlignmentCenter];
+        [tView setTextAlignment:NSTextAlignmentCenter];
         tView.lineBreakMode = NSLineBreakByWordWrapping;
         //tView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         [tView setNumberOfLines:0];

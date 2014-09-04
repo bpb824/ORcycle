@@ -151,7 +151,7 @@ CGPathRef NewPathWithRoundRect(CGRect rect, CGFloat cornerRadius)
 			initWithFrame:labelFrame]
 		autorelease];
 	loadingView.loadingLabel.text = message;
-	loadingView.loadingLabel.textColor = [UIColor whiteColor];
+	loadingView.loadingLabel.textColor = [UIColor blackColor];
     loadingView.loadingLabel.numberOfLines = 3;
     loadingView.loadingLabel.lineBreakMode = NSLineBreakByWordWrapping;
 	loadingView.loadingLabel.backgroundColor = [UIColor clearColor];

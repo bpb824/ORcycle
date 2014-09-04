@@ -67,7 +67,11 @@
 
 
 #define kNoteThisAsset                  @"noteAssetPicker.png"
-#define kNoteThisIssue                  @"noteIssuePicker.png"
+#define kNoteThisIssueBlack             @"noteIssuePickerBlack.png"
+#define kNoteThisIssueRed               @"noteIssuePickerRed.png"
+#define kNoteThisIssueOrange            @"noteIssuePickerOrange.png"
+#define kNoteThisIssueYellow            @"noteIssuePickerYellow.png"
+#define kNoteThisIssueGreen             @"noteIssuePickerGreen.png"
 #define kNoteBlank                      @"noteBlankPicker.png"
 
 #define kTripPurposeCommuteString       @"Commute"

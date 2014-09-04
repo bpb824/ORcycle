@@ -117,8 +117,9 @@
         notesHeader.backgroundColor = [UIColor clearColor];
         notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
         notesHeader.opaque			= NO;
-        notesHeader.text			= @"Details";
+        notesHeader.text			= @"Safety Mark Details";
         notesHeader.textColor		= [UIColor whiteColor];
+        notesHeader.textAlignment = NSTextAlignmentLeft;
         [infoView addSubview:notesHeader];
         
 //        UIImageView *bgImageText      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 320, 25*row+25)] autorelease];
@@ -157,8 +158,9 @@
         notesHeader.backgroundColor = [UIColor clearColor];
         notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
         notesHeader.opaque			= NO;
-        notesHeader.text			= @"Details";
+        notesHeader.text			= @"Safety Mark Details";
         notesHeader.textColor		= [UIColor whiteColor];
+        notesHeader.textAlignment = NSTextAlignmentLeft;
         [infoView addSubview:notesHeader];
         
         UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,200)] autorelease];
@@ -166,7 +168,7 @@
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
         notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nNote: %@", newDateString, newTimeString, note.details];
-        notesText.textColor			= [UIColor whiteColor];
+        notesText.textColor			= [UIColor blackColor];
         [infoView addSubview:notesText];
     }
 }
@@ -174,7 +176,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+	self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
 //    [[UINavigationBar appearance] setBackgroundColor:psuGreen];
@@ -191,40 +193,22 @@
         NSString *title = [[[NSString alloc] init] autorelease];
         switch ([note.note_type intValue]) {
             case 0:
-                title = @"Narrow Bike Lane";
+                title = @"No severity level indicated";
                 break;
             case 1:
-                title = @"No bike lane/seperation";
+                title = @"Major crash/accident";
                 break;
             case 2:
-                title = @"High vehicle speeds";
+                title = @"Minor crash/accident";
                 break;
             case 3:
-                title = @"High traffic volume";
+                title = @"Near crash/accident";
                 break;
             case 4:
-                title = @"Turning vehicles";
+                title = @"Did not feel safe";
                 break;
             case 5:
-                title = @"Signal Timing";
-                break;
-            case 6:
-                title = @"Signal Detection";
-                break;
-            case 7:
-                title = @"Truck Traffic";
-                break;
-            case 8:
-                title = @"Bus traffic/stop";
-                break;
-            case 9:
-                title = @"Parked vehicles";
-                break;
-            case 10:
-                title = @"Pavement Condtion";
-                break;
-            case 11:
-                title = @"Other";
+                title = @"Did feel uncomfortable";
                 break;
             default:
                 break;

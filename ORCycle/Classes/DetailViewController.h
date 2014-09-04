@@ -29,19 +29,18 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import "TripPurposeDelegate.h"
+#import "NoteDetailDelegate.h"
 
 @interface DetailViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>{
-    id <TripPurposeDelegate> delegate;
+    id <NoteDetailDelegate> noteDelegate;
     UITextView *detailTextView;
     UIButton *addPicButton;
-    NSInteger pickerCategory;
     NSString *details;
     UIImage *image;
     NSData *imageData;
 }
 
-@property (nonatomic, retain) id <TripPurposeDelegate> delegate;
+@property (nonatomic, retain) id <NoteDetailDelegate> noteDelegate;
 
 @property (nonatomic, retain) IBOutlet UITextView *detailTextView;
 @property (nonatomic, retain) IBOutlet UIButton *addPicButton;

@@ -92,7 +92,7 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 - (void)createCustomPicker
@@ -147,6 +147,7 @@
         
         [delegate didPickPurpose:row];
     }
+    /*
     else if (pickerCategory == 1){
         NSLog(@"Issue Save button pressed");
         NSLog(@"detail");
@@ -154,7 +155,7 @@
         //[self dismissModalViewControllerAnimated:YES];
         
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:nil];
-        detailViewController.delegate = self.delegate;
+        detailViewController.noteDelegate = self.noteDelegate;
         
         [self presentViewController:detailViewController animated:YES completion:nil];
         //Note: get index of picker
@@ -168,7 +169,7 @@
         pickedNotedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickedNotedType"];
         
         NSLog(@"pickedNotedType is %d", pickedNotedType);
-    }
+    }*/
     /*
     else if (pickerCategory == 2){
         NSLog(@"Asset Save button pressed");
@@ -193,13 +194,14 @@
         
     }
      */
+    /*
     else if (pickerCategory == 3){
         NSLog(@"Note This Save button pressed");
         NSLog(@"detail");
         NSLog(@"INIT + PUSH");
         
         DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:nil];
-        detailViewController.delegate = self.delegate;
+        detailViewController.noteDelegate = self.noteDelegate;
         
         [self presentViewController:detailViewController animated:YES completion:nil];
         
@@ -209,19 +211,21 @@
         
         NSNumber *tempType = [NSNumber numberWithInt:row];
 
-        /*
+     
         if(row>=7){
             tempType = [NSNumber numberWithInt:row-7];
         }
         else if (row<=5){
             tempType = [NSNumber numberWithInt:11-row];
         }
-         */
+     
         
         NSLog(@"tempType: %d", [tempType intValue]);
         
         [delegate didPickNoteType:tempType];
-    }	
+    }
+     */
+    
 }
 
 
@@ -325,7 +329,7 @@
 	description = [[UITextView alloc] initWithFrame:CGRectMake( 18.0, 314.0, 284.0, 120.0 )];
 	description.editable = NO;
     description.backgroundColor = [UIColor clearColor];
-    description.textColor = [UIColor whiteColor];
+    description.textColor = [UIColor blackColor];
     
 	description.font = [UIFont fontWithName:@"Arial" size:16];
 	[self.view addSubview:description];
@@ -392,6 +396,7 @@
                 break;
         }
     }
+    /*
 
     else if (pickerCategory == 1){
         switch (row) {
@@ -433,6 +438,7 @@
                 break;
         }
     }
+     */
     /*
     else if (pickerCategory == 2){
         switch (row) {
@@ -457,6 +463,7 @@
         }
     }
      */
+    /*
     else if (pickerCategory == 3){
         switch (row) {
             case 0:
@@ -496,7 +503,9 @@
                 description.text = kIssueDescOther;
                 break;
         }
+     
     }
+     */
 }
 
 

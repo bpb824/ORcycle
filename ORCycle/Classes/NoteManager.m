@@ -54,6 +54,7 @@
 #import "RecordTripViewController.h"
 #import "RenoTracksAppDelegate.h"
 #import "ImageResize.h"
+#import "NoteResponse.h"
 
 
 #define kSaveNoteProtocolVersion	4
@@ -146,11 +147,98 @@
     
 }
 
+- (NSMutableArray*)encodeNoteResponseData
+{
+	NSLog(@"encodeNoteResponseData");
+	NSMutableArray *noteResponsesCollection = [[NSMutableArray alloc]init];
+	
+	NSFetchRequest		*request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"NoteResponse" inManagedObjectContext:managedObjectContext];
+	[request setEntity:entity];
+	
+	NSError *error;
+	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+	NSLog(@"saved note response count  = %ld", (long)count);
+    
+    if ( count )
+	{
+		NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+		if (mutableFetchResults == nil) {
+			// Handle the error.
+			NSLog(@"no saved trip");
+			if ( error != nil )
+				NSLog(@"TripManager fetch saved trip data error %@, %@", error, [error localizedDescription]);
+		}
+        NSInteger last = [mutableFetchResults count] -1 ;
+		NoteResponse *noteResponse = [mutableFetchResults objectAtIndex:last];
+        NSLog(@" note response received from core data as %@", noteResponse);
+		if ( noteResponse != nil )
+		{
+            if (!([noteResponse.severity integerValue] == 0 || [noteResponse.issueType integerValue] == 0)){
+                NSArray *sAnswers = @[[NSNumber numberWithInt:[noteResponse.severity intValue]+ 150]];
+                
+                NSArray *sQuestions = @[@28];
+                
+                for(int i = 0; i < [sQuestions count];i++){
+                        NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                        [noteResponseDict setObject:sQuestions[i] forKey:@"question_id"];
+                        [noteResponseDict setObject:sAnswers[i] forKey:@"answer_id"];
+                        NSLog(@"%@", noteResponseDict);
+                        [noteResponsesCollection addObject:noteResponseDict];
+                }
+            }
+            
+            
+            NSMutableArray *conflictWithTemp = [[noteResponse.conflictWith componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *conflictWith = [[NSMutableArray alloc] init];
+            for (NSString *s in conflictWithTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [conflictWith addObject:num];
+            }
+            
+            for (int i = 0; i < [conflictWith count];i++){
+                if([conflictWith[i] integerValue] == 1){
+                    NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [noteResponseDict setObject: [NSNumber numberWithInt:29] forKey:@"question_id"];
+                    [noteResponseDict setObject: [NSNumber numberWithInt:i + 156] forKey:@"answer_id"];
+                    [noteResponsesCollection addObject:noteResponseDict];
+                }
+            }
+            
+            NSMutableArray *issueTypeTemp = [[noteResponse.issueType componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *issueType = [[NSMutableArray alloc] init];
+            for (NSString *s in issueTypeTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [issueType addObject:num];
+            }
+            
+            for (int i = 0; i < [issueType count];i++){
+                if([issueType[i] integerValue] == 1){
+                    NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [noteResponseDict setObject: [NSNumber numberWithInt:30] forKey:@"question_id"];
+                    [noteResponseDict setObject: [NSNumber numberWithInt:i + 164] forKey:@"answer_id"];
+                    [noteResponsesCollection addObject:noteResponseDict];
+                }
+            }
+            
+        }
+		else
+			NSLog(@"TripManager fetch user FAIL");
+		
+		[mutableFetchResults release];
+	}
+	else
+		NSLog(@"TripManager WARNING no saved user response data to encode");
+    [request release];
+    return noteResponsesCollection;
+}
+
 //called in DetailViewController once pressing skip or save
 - (void)saveNote
 {
     NSMutableDictionary *noteDict;
-    NSMutableDictionary *noteResponseDict;
 	
 	// format date as a string
 	NSDateFormatter *outputFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -173,13 +261,6 @@
     NSString *newDateString = [outputFormatter stringFromDate:note.recorded];
     NSString *newDateStringURL = [outputFormatterURL stringFromDate:note.recorded];
     [noteDict setValue:newDateString forKey:@"r"];    //recorded timestamp
-    
-    noteResponseDict =[[[NSMutableDictionary alloc] initWithCapacity:2]autorelease];
-     [noteResponseDict setValue:[NSString stringWithFormat:@"%d",30]      forKey:@"question_id"];  //note_type
-     [noteResponseDict setValue:[NSNumber numberWithInt:[note.note_type intValue]+164 ]     forKey:@"answer_id"];  //note_type
-    
-    NSMutableArray *noteResponseArray = [[NSMutableArray alloc]init];
-    noteResponseArray[0] = noteResponseDict;
     
     RenoTracksAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.deviceUniqueIdHash1 = delegate.uniqueIDHash;
@@ -219,13 +300,12 @@
     
     // JSON encode the Note data
     NSData *noteJsonData = [[NSData alloc] initWithData:[NSJSONSerialization dataWithJSONObject:noteDict options:0 error:&writeError]];
-    
     NSString *noteJson = [[NSString alloc] initWithData:noteJsonData encoding:NSUTF8StringEncoding];
     
     // JSON encode the Note Response data
-    NSData *noteResponseJsonData = [[NSData alloc] initWithData:[NSJSONSerialization dataWithJSONObject:noteResponseArray options:0 error:&writeError]];
-    
-    NSString *noteResponseJson = [[NSString alloc] initWithData:noteResponseJsonData encoding:NSUTF8StringEncoding];
+    NSMutableArray *noteResponsesCollection = [self encodeNoteResponseData];
+    NSData *noteResponsesJsonData = [NSJSONSerialization dataWithJSONObject: noteResponsesCollection options:0 error:&writeError];
+    NSString *noteResponseJson = [[NSString alloc] initWithData:noteResponsesJsonData encoding:NSUTF8StringEncoding];
     
 	// NOTE: device hash added by SaveRequest initWithPostVars
 	NSDictionary *postVars = [NSDictionary dictionaryWithObjectsAndKeys: 
@@ -300,7 +380,7 @@
     [noteDict setValue:newDateString forKey:@"r"];    //recorded timestamp
     
     noteResponseDict =[[[NSMutableDictionary alloc] initWithCapacity:2]autorelease];
-    [noteResponseDict setValue:[NSString stringWithFormat:@"%d",30]      forKey:@"question_id"];  //note_type
+    [noteResponseDict setValue:[NSString stringWithFormat:@"%d",30]      forKey:@"question_id"];//note_type
     [noteResponseDict setValue:note.note_type     forKey:@"answer_id"];  //note_type
     
     RenoTracksAppDelegate *delegate = [[UIApplication sharedApplication] delegate];

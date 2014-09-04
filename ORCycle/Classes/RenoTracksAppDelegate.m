@@ -55,6 +55,7 @@
 #import "NSString+MD5Addition.h"
 #import "UIDevice+IdentifierAddition.h"
 #import "constants.h"
+#import "NoteDetailViewController.h"
 #import "DetailViewController.h"
 #import "NoteManager.h"
 #import <CoreData/NSMappingModel.h>
@@ -109,17 +110,17 @@
     tabBarItem1.title = @"Record";
     tabBarItem2.title = @"Trips";
     tabBarItem3.title = @"Safety Marks";
-    tabBarItem4.title = @"Settings";
+    tabBarItem4.title = @"User Info";
 
     
-	//[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     
     if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
         [[UINavigationBar appearance] setTintColor:psuGreen];
         [[UITabBar appearance] setTintColor:psuGreen];
     }
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        [[UINavigationBar appearance] setTintColor:plainWhite];
+        [[UINavigationBar appearance] setTintColor:[UIColor  blackColor]];
         //[[UITabBar appearance] setTintColor:plainWhite];
         [[UITabBar appearance] setBarTintColor:psuGreen];
         //[[UITabBar appearance] setSelectedImageTintColor:plainWhite];
@@ -182,9 +183,9 @@
 	vc.managedObjectContext			= context;
 
     window.rootViewController = tabBarController;
-	[window makeKeyAndVisible];	
+	[window makeKeyAndVisible];
+    
 }
-
 
 - (void)initUniqueIDHash
 {

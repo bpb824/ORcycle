@@ -51,6 +51,7 @@
 #import "RecordingInProgressDelegate.h"
 #import "TripPurposeDelegate.h"
 #import "RenoTracksAppDelegate.h"
+#import "NoteDetailDelegate.h"
 #import "Note.h"
 
 
@@ -68,6 +69,7 @@
 	PersonalInfoDelegate,
 	RecordingInProgressDelegate,
 	TripPurposeDelegate,
+    NoteDetailDelegate,
 	UIActionSheetDelegate,
 	UIAlertViewDelegate,
 	UITextViewDelegate>

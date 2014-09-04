@@ -373,6 +373,7 @@
 		{
 			// initialize text fields to saved personal info
 			[userDict setValue:user.email           forKey:@"email"];
+            [userDict setValue:user.feedback         forKey:@"feedback"];
             /*
 			[userDict setValue:user.homeZIP         forKey:@"homeZIP"];
 			[userDict setValue:user.workZIP         forKey:@"workZIP"];

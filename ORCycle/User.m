@@ -32,6 +32,7 @@
 @dynamic workZIP;
 @dynamic gender;
 @dynamic email;
+@dynamic feedback;
 @dynamic notes;
 @dynamic trips;
 

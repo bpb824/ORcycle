@@ -51,7 +51,7 @@
 @class User;
 
 
-@interface PersonalInfoViewController : UITableViewController <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, UIWebViewDelegate>
+@interface PersonalInfoViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, UIWebViewDelegate>
 {
 	id <PersonalInfoDelegate> delegate;
 	NSManagedObjectContext *managedObjectContext;
@@ -59,6 +59,7 @@
     
 	UITextField *age;
 	UITextField *email;
+    UITextView *feedback;
 	UITextField *gender;
     UITextField *ethnicity;
     UITextField *occupation;
@@ -121,6 +122,7 @@
 
 @property (nonatomic, retain) UITextField	*age;
 @property (nonatomic, retain) UITextField	*email;
+@property (nonatomic, retain) UITextView	*feedback;
 @property (nonatomic, retain) UITextField	*gender;
 @property (nonatomic, retain) UITextField   *ethnicity;
 @property (nonatomic, retain) UITextField   *occupation;

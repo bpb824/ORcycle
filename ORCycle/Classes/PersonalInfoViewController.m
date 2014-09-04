@@ -53,7 +53,7 @@
 @implementation PersonalInfoViewController
 
 @synthesize delegate, managedObjectContext, user;
-@synthesize age, email, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
+@synthesize age, email, feedback, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
 @synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
 @synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem;
 @synthesize bikeTypesSelectedRows, selectedItems;
@@ -65,6 +65,10 @@
     return self;
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
 
 - (id)init
 {
@@ -121,6 +125,23 @@
 	return textField;
 }
 
+- (UITextView*)initTextViewFeedback
+{
+	CGRect frame = CGRectMake( 10, 7, 300, 100 );
+	UITextView *textView = [[UITextView alloc] initWithFrame:frame];
+	textView.autocapitalizationType = UITextAutocapitalizationTypeNone,
+	[textView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [textView.layer setBorderWidth:0.5];
+    textView.layer.cornerRadius = 5;
+    textView.clipsToBounds = YES;
+	textView.textAlignment = NSTextAlignmentLeft;
+	textView.keyboardType = UIKeyboardTypeDefault;
+	textView.returnKeyType = UIReturnKeyDone;
+    textView.font = [UIFont systemFontOfSize:17];
+	textView.delegate = self;
+	return textView;
+}
+
 
 - (UITextField*)initTextFieldNumeric
 {
@@ -154,6 +175,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
 	// Set the title.
 	// self.title = @"Personal Info";
@@ -199,6 +224,7 @@
 	// initialize text fields
 	self.age		= [self initTextFieldAlpha];
 	self.email		= [self initTextFieldEmail];
+    self.feedback	= [self initTextViewFeedback];
 	self.gender		= [self initTextFieldAlpha];
     self.ethnicity  = [self initTextFieldAlpha];
     self.occupation    = [self initTextFieldAlpha];
@@ -213,7 +239,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+	self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundColor:psuGreen];
@@ -255,6 +281,7 @@
 		age.text            = [ageArray objectAtIndex:[user.age integerValue]];
         ageSelectedRow      = [user.age integerValue];
 		email.text          = user.email;
+        feedback.text          = user.feedback;
 		gender.text         = [genderArray objectAtIndex:[user.gender integerValue]];
         genderSelectedRow   = [user.gender integerValue];
         ethnicity.text      = [ethnicityArray objectAtIndex:[user.ethnicity integerValue]];
@@ -324,7 +351,7 @@
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == email ||textField != email){
+    if(currentTextField == email || currentTextField == feedback || textField != email){
         NSLog(@"currentTextField: text2");
         [currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -353,7 +380,7 @@
         [actionSheet addSubview:pickerView];
         
         doneToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        doneToolbar.barStyle = UIBarStyleBlackOpaque;
+        doneToolbar.barStyle = UIBarStyleDefault;
         [doneToolbar sizeToFit];
         
         NSMutableArray *barItems = [[[NSMutableArray alloc] init] autorelease];
@@ -423,6 +450,13 @@
 	return YES;
 }
 
+- (BOOL)textViewShouldReturn:(UITextView *)textView
+{
+	NSLog(@"textViewdShouldReturn");
+	[textView resignFirstResponder];
+	return YES;
+}
+
 
 // save the new value for this textField
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -432,42 +466,17 @@
 	// save value
 	if ( user != nil )
 	{
-		if ( textField == email )
+		if ( textField == email)
 		{
             //enable save button if value has been changed.
             if (email.text != user.email){
                 self.navigationItem.rightBarButtonItem.enabled = YES;
             }
-			NSLog(@"saving email: %@", email.text);
+            NSLog(@"saving email: %@", email.text);
 			[user setEmail:email.text];
+            
 		}
-        /*
-		if ( textField == homeZIP )
-		{
-            if (homeZIP.text != user.homeZIP){
-                self.navigationItem.rightBarButtonItem.enabled = YES;
-            }
-			NSLog(@"saving homeZIP: %@", homeZIP.text);
-			[user setHomeZIP:homeZIP.text];
-		}
-		if ( textField == schoolZIP )
-		{
-            if (schoolZIP.text != user.schoolZIP){
-                self.navigationItem.rightBarButtonItem.enabled = YES;
-            }
-			NSLog(@"saving schoolZIP: %@", schoolZIP.text);
-			[user setSchoolZIP:schoolZIP.text];
-		}
-		if ( textField == workZIP )
-		{
-            if (workZIP.text != user.workZIP){
-                self.navigationItem.rightBarButtonItem.enabled = YES;
-            }
-			NSLog(@"saving workZIP: %@", workZIP.text);
-			[user setWorkZIP:workZIP.text];
-		}
-        
-		*/
+    
 		NSError *error;
 		if (![managedObjectContext save:&error]) {
 			// Handle the error.
@@ -476,15 +485,38 @@
 	}
 }
 
+// save the new value for this textField
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+	NSLog(@"textViewDidEndEditing");
+	
+	// save value
+	if ( user != nil )
+	{
+		if ( textView == feedback)
+		{
+            //enable save button if value has been changed.
+            if (feedback.text != user.feedback){
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+            }
+            NSLog(@"saving feedback: %@", feedback.text);
+			[user setFeedback:feedback.text];
+		}
+        
+		NSError *error;
+		if (![managedObjectContext save:&error]) {
+			// Handle the error.
+			NSLog(@"PersonalInfo save textView error %@, %@", error, [error localizedDescription]);
+		}
+	}
+}
+
 
 - (void)done
 {
     [email resignFirstResponder];
-    /*
-    [homeZIP resignFirstResponder];
-    [workZIP resignFirstResponder];
-    [schoolZIP resignFirstResponder];
-     */
+    
+    [feedback resignFirstResponder];
     
     NSLog(@"Saving User Data");
 	if ( user != nil )
@@ -494,6 +526,9 @@
         
 		[user setEmail:email.text];
         NSLog(@"saved email: %@", user.email);
+        
+        [user setFeedback:feedback.text];
+        NSLog(@"saved feedback: %@", user.feedback);
         
 		[user setGender:[NSNumber numberWithInt:genderSelectedRow]];
 		NSLog(@"saved gender index: %@ and text: %@", user.gender, gender.text);
@@ -590,7 +625,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 9;
+    return 10;
 }
 
 
@@ -622,7 +657,11 @@
             break;
         case 8:
             return @"To see your routes and safety marks in the future and receive updates/news, please provide your email  (email will not be shared, see privacy policy).";
+            break;
         case 9:
+            return @"Comment here if you would like to provide feedback about the app or desirable features:";
+            break;
+        case 10:
 			return nil;
 			break;
         
@@ -644,7 +683,11 @@
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.01;
+    if (section ==9){
+        return 30;
+    } else{
+        return 0.01;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -677,6 +720,9 @@
             break;
         case 8:
             return 100;
+            break;
+        case 9:
+            return 65;
             break;
 		default:
 			return 0;
@@ -714,6 +760,9 @@
             return 7;
             break;
         case 8:
+            return 1;
+            break;
+        case 9:
             return 1;
             break;
 		default:
@@ -992,10 +1041,41 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
 			break;
+        case 9:
+		{
+			static NSString *CellIdentifier = @"CellFeedback";
+			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) {
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			}
+            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+			// inner switch statement identifies row
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+                    cell.textLabel.text = @"Feedback";
+					[cell.contentView addSubview:feedback];
+					break;
+            }
+			
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
+			break;
 	}
 	// debug
 	//NSLog(@"%@", [cell subviews]);
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath indexAtPosition:0] == 9){
+        return 115;
+    }
+    else{
+        return 43;
+    }
 }
 
 
@@ -1116,6 +1196,28 @@
 			}
 			break;
 		}
+        case 8:
+		{
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+					break;
+				case 1:
+					break;
+			}
+			break;
+		}
+        case 9:
+		{
+			switch ([indexPath indexAtPosition:1])
+			{
+				case 0:
+					break;
+				case 1:
+					break;
+			}
+			break;
+		}
 	}
 }
 
@@ -1172,7 +1274,7 @@
         CGRect frame = CGRectMake(0.0, 0.0, 320, 200);
         tView = [[UILabel alloc] initWithFrame:frame];
         [tView setFont:[UIFont fontWithName:@"Helvetica" size:15]];
-        [tView setTextAlignment:UITextAlignmentCenter];
+        [tView setTextAlignment:NSTextAlignmentCenter];
         tView.lineBreakMode = NSLineBreakByWordWrapping;
         //tView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         [tView setNumberOfLines:0];
@@ -1354,6 +1456,7 @@
     self.user = nil;
     self.age = nil;
     self.email = nil;
+    self.feedback = nil;
     self.gender = nil;
     self.ethnicity = nil;
     self.occupation = nil;
@@ -1389,6 +1492,7 @@
     [user release];
     [age release];
     [email release];
+    [feedback release];
     [gender release];
     [ethnicity release];
     [occupation release];

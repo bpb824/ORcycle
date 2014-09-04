@@ -85,7 +85,7 @@
     return self;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context
@@ -165,16 +165,18 @@
     self.tableView.rowHeight = kRowHeight;
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundColor:psuGreen];
     
     //[self refreshTableView];
     
+    /*
     pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
     [[NSUserDefaults standardUserDefaults] setInteger:3 forKey: @"pickerCategory"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+     */
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -266,14 +268,29 @@
         NSLog(@"note.purpose: %d",index);
         
         // add purpose icon
-        if (index >=0 && index <=5) {
-            image = [UIImage imageNamed:kNoteThisIssue];
-        }
-        else if (index>=6 && index<=11) {
-            image = [UIImage imageNamed:kNoteThisIssue];
-        }
-        else{
-            image = [UIImage imageNamed:@"GreenCheckMark2.png"];
+        
+        switch (index) {
+            case 0:
+                image = [UIImage imageNamed:kNoteThisIssueBlack];
+                break;
+            case 1:
+                image = [UIImage imageNamed:kNoteThisIssueRed];
+                break;
+            case 2:
+                image = [UIImage imageNamed:kNoteThisIssueOrange];
+                break;
+            case 3:
+                image = [UIImage imageNamed:kNoteThisIssueYellow];
+                break;
+            case 4:
+                image = [UIImage imageNamed:kNoteThisIssueGreen];
+                break;
+            case 5:
+                image = [UIImage imageNamed:kNoteThisIssueGreen];
+                break;
+            default:
+                image = [UIImage imageNamed:kNoteThisIssueBlack];
+                break;
         }
         
         UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
@@ -298,40 +315,22 @@
     NSString *title = [[[NSString alloc] init] autorelease] ;
     switch ([note.note_type intValue]) {
         case 0:
-            title = @"Narrow Bike Lane";
+            title = @"No severity level indicated";
             break;
         case 1:
-            title = @"No bike lane/seperation";
+            title = @"Major crash/accident";
             break;
         case 2:
-            title = @"High vehicle speeds";
+            title = @"Minor crash/accident";
             break;
         case 3:
-            title = @"High traffic volume";
+            title = @"Near crash/accident";
             break;
         case 4:
-            title = @"Turning vehicles";
+            title = @"Did not feel safe";
             break;
         case 5:
-            title = @"Signal Timing";
-            break;
-        case 6:
-            title = @"Signal Detection";
-            break;
-        case 7:
-            title = @"Truck Traffic";
-            break;
-        case 8:
-            title = @"Bus traffic/stop";
-            break;
-        case 9:
-            title = @"Parked vehicles";
-            break;
-        case 10:
-            title = @"Pavement Condtion";
-            break;
-        case 11:
-            title = @"Other";
+            title = @"Did feel uncomfortable";
             break;
         default:
             break;

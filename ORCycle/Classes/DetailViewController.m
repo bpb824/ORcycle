@@ -40,7 +40,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @end
 
 @implementation DetailViewController
-@synthesize delegate;
+@synthesize noteDelegate;
 @synthesize detailTextView;
 @synthesize addPicButton;
 @synthesize imageView;
@@ -59,7 +59,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     return self;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 - (void)viewDidLoad
@@ -88,6 +88,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 {
     [super viewDidAppear:animated];
     [self updateDisplay];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -103,35 +104,31 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 
 -(IBAction)skip:(id)sender{
     NSLog(@"Skip");
-    [delegate didCancelNote];
-    
-    pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [noteDelegate didCancelNote];
     
     details = @"";
     image = nil;
     
-    [delegate didEnterNoteDetails:details];
-    [delegate didSaveImage:nil];
-    [delegate saveNote];
+    [noteDelegate didEnterNoteDetails:details];
+    [noteDelegate didSaveImage:nil];
+    [noteDelegate saveNote];
 }
 
 
 -(IBAction)saveDetail:(id)sender{
     NSLog(@"Save Detail");
     [detailTextView resignFirstResponder];
-    [delegate didCancelNote];
+    [noteDelegate didCancelNote];
     
-    pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
     details = detailTextView.text;
     
-    [delegate didEnterNoteDetails:details];
-    [delegate didSaveImage:imageData];
-    [delegate saveNote];
+    [noteDelegate didEnterNoteDetails:details];
+    [noteDelegate didSaveImage:imageData];
+    
+    //[self dismissViewControllerAnimated:YES completion:nil];
+    
+    [noteDelegate saveNote];
+    
 }
 
 - (IBAction)shootPictureOrVideo:(id)sender {
@@ -140,13 +137,6 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 
 - (IBAction)selectExistingPictureOrVideo:(id)sender {
     [self getMediaFromSource:UIImagePickerControllerSourceTypePhotoLibrary];
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark UIImagePickerController delegate methods
@@ -220,9 +210,14 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
     }
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 - (void)dealloc {
-    self.delegate = nil;
+    self.noteDelegate = nil;
     self.detailTextView = nil;
     self.addPicButton = nil;
     self.imageView = nil;
@@ -232,7 +227,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
     self.imageData = nil;
     self.lastChosenMediaType = nil;
     
-    [delegate release];
+    [noteDelegate release];
     [detailTextView release];
     [addPicButton release];
     [imageView release];

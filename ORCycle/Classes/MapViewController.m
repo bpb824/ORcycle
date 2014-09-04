@@ -93,6 +93,10 @@
  */
 
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
 - (void)infoAction:(UIButton*)sender
 {
 	NSLog(@"infoAction");
@@ -168,7 +172,7 @@
 	notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
 	notesHeader.opaque			= NO;
 	notesHeader.text			= @"Trip Details";
-	notesHeader.textColor		= [UIColor whiteColor];
+	notesHeader.textColor		= [UIColor blackColor];
 	[infoView addSubview:notesHeader];
     
     UITextView *tripTime		= [[[UITextView alloc] initWithFrame:CGRectMake(0,35,320,200)] autorelease];
@@ -181,7 +185,7 @@
                                    [trip.distance doubleValue] / 1609.344,
                                    mph,Calorytext,CO2Text,
                                    trip.notes];
-	tripTime.textColor			= [UIColor whiteColor];
+	tripTime.textColor			= [UIColor blackColor];
 	[infoView addSubview:tripTime];
     
 
@@ -195,7 +199,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent; 
+	self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     //Navigation bar color
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundColor:psuGreen];
