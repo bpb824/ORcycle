@@ -81,7 +81,7 @@
 #define kTripPurposeSocialString        @"Social"
 #define kTripPurposeShoppingString      @"Shopping/Errand"
 //#define kTripPurposeErrandString        @"Errand"
-#define kTripPurposeTranspoAccessString @"Transpo Access"
+#define kTripPurposeTranspoAccessString @"Transport Access"
 #define kTripPurposeOtherString         @"Other"
 #define kTripPurposeRecordingString     @"Recording..."
 

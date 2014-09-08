@@ -174,18 +174,21 @@
         NSLog(@" note response received from core data as %@", noteResponse);
 		if ( noteResponse != nil )
 		{
-            if (!([noteResponse.severity integerValue] == 0 || [noteResponse.issueType integerValue] == 0)){
-                NSArray *sAnswers = @[[NSNumber numberWithInt:[noteResponse.severity intValue]+ 150]];
-                
-                NSArray *sQuestions = @[@28];
-                
-                for(int i = 0; i < [sQuestions count];i++){
-                        NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
-                        [noteResponseDict setObject:sQuestions[i] forKey:@"question_id"];
-                        [noteResponseDict setObject:sAnswers[i] forKey:@"answer_id"];
-                        NSLog(@"%@", noteResponseDict);
-                        [noteResponsesCollection addObject:noteResponseDict];
+            if (!([noteResponse.severity integerValue] == 0)){
+                NSNumber *severity = [NSNumber numberWithInt:[noteResponse.severity intValue]+ 150];
+                NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [noteResponseDict setObject:[NSNumber numberWithInt:28] forKey:@"question_id"];
+                [noteResponseDict setObject:severity forKey:@"answer_id"];
+                NSLog(@"%@", noteResponseDict);
+                [noteResponsesCollection addObject:noteResponseDict];
                 }
+            else{
+                NSNumber *severity = [NSNumber numberWithInt:176];
+                NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [noteResponseDict setObject:[NSNumber numberWithInt:28] forKey:@"question_id"];
+                [noteResponseDict setObject:severity forKey:@"answer_id"];
+                NSLog(@"%@", noteResponseDict);
+                [noteResponsesCollection addObject:noteResponseDict];
             }
             
             

@@ -1475,7 +1475,7 @@
 			return @"Shopping/Errand";
 			break;
         case kTripPurposeTranspoAccess:
-			return @"Transpo Access";
+			return @"Transport Access";
 			break;
 		case kTripPurposeOther:
 		default:

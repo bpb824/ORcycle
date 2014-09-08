@@ -77,6 +77,9 @@
 {
 	// disable screen lock
 	//[UIApplication sharedApplication].idleTimerDisabled = NO;
+    
+    [self.locationManager requestAlwaysAuthorization];
+    
 	[UIApplication sharedApplication].idleTimerDisabled = YES;
  
     UITabBar *tabBar = tabBarController.tabBar;

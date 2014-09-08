@@ -113,7 +113,7 @@
         bgImageHeader.alpha = 0.8;
         [infoView addSubview:bgImageHeader];
         
-        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)] autorelease];
+        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(10,5,250,25)] autorelease];
         notesHeader.backgroundColor = [UIColor clearColor];
         notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
         notesHeader.opaque			= NO;
@@ -131,7 +131,7 @@
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
-        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nNote: %@", newDateString, newTimeString, note.details];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nComments: %@", newDateString, newTimeString, note.details];
         notesText.textColor			= [UIColor whiteColor];
         [infoView addSubview:notesText];
     }
@@ -154,7 +154,7 @@
         infoView.alpha				= kInfoViewAlpha;
         infoView.backgroundColor	= [UIColor blackColor];
         
-        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(130,5,160,25)] autorelease];
+        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(10,5,250,25)] autorelease];
         notesHeader.backgroundColor = [UIColor clearColor];
         notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
         notesHeader.opaque			= NO;
@@ -357,7 +357,30 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
         // If an existing pin view was not available, create one
         noteAnnotation = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"notePin"]
                           autorelease];
-        noteAnnotation.image = [UIImage imageNamed:@"noteIssueMapGlyph.png"];
+        switch ([note.note_type integerValue]){
+            case 0:
+                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueBlack];
+                break;
+            case 1:
+                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueRed];
+                break;
+            case 2:
+                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueOrange];
+                break;
+            case 3:
+                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueYellow];
+                break;
+            case 4:
+                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueGreen];
+                break;
+            case 5:
+                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueGreen];
+                break;
+            default:
+                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueBlack];
+                break;
+        }
+        //noteAnnotation.image = [UIImage imageNamed:@"noteIssueMapGlyph.png"];
         //noteAnnotation.centerOffset = CGPointMake(-(noteAnnotation.image.size.width/4),(noteAnnotation.image.size.height/3));
         NSLog(@"Note Pin Note This Issue");
 

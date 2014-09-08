@@ -28,7 +28,6 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		1F0E4D6919B0C77F0015B943 /* ORcycle.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D6819B0C77F0015B943 /* ORcycle.plist */; };
 		1F0E4D7219B0ECAA0015B943 /* NoteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7019B0ECAA0015B943 /* NoteDetailViewController.m */; };
 		1F0E4D7319B0ECAA0015B943 /* NoteDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7119B0ECAA0015B943 /* NoteDetailViewController.xib */; };
 		1F0E4D7619B0EFD90015B943 /* NoteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7519B0EFD90015B943 /* NoteResponse.m */; };
@@ -43,6 +42,9 @@
 		1F0E4D8C19B7D3E70015B943 /* noteIssuePickerYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D8219B7D3E70015B943 /* noteIssuePickerYellow.png */; };
 		1F0E4D8D19B7D3E70015B943 /* noteIssuePickerYellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D8319B7D3E70015B943 /* noteIssuePickerYellow@2x.png */; };
 		1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */; };
+		1F4DFE7019BD760D00ED40F8 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */; };
+		1F4DFE7319BD798700ED40F8 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE7219BD798700ED40F8 /* AbstractActionSheetPicker.m */; };
+		1F4DFE7619BD79BA00ED40F8 /* SWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */; };
 		1FC294CD197DFB5000225AAD /* TripResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CC197DFB5000225AAD /* TripResponse.m */; };
 		1FC294D0197F461100225AAD /* ORcycle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CE197F461100225AAD /* ORcycle.xcdatamodeld */; };
 		1FC294E2198B136E00225AAD /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294E1198B136E00225AAD /* CustomCell.m */; };
@@ -192,7 +194,7 @@
 		1D3623250D0F684500981E51 /* RenoTracksAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RenoTracksAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1D6058910D05DD3D006BFB54 /* ORcycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORcycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1F0E4D6819B0C77F0015B943 /* ORcycle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ORcycle.plist; path = Classes/ORcycle.plist; sourceTree = "<group>"; };
+		1F0ABF9119BD10550051598B /* ORcycle.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ORcycle.plist; sourceTree = "<group>"; };
 		1F0E4D6F19B0ECAA0015B943 /* NoteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteDetailViewController.h; path = ../NoteDetailViewController.h; sourceTree = "<group>"; };
 		1F0E4D7019B0ECAA0015B943 /* NoteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoteDetailViewController.m; path = ../NoteDetailViewController.m; sourceTree = "<group>"; };
 		1F0E4D7119B0ECAA0015B943 /* NoteDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteDetailViewController.xib; sourceTree = "<group>"; };
@@ -211,6 +213,12 @@
 		1F0E4D8319B7D3E70015B943 /* noteIssuePickerYellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePickerYellow@2x.png"; path = "TripPurposePickerIcons/noteIssuePickerYellow@2x.png"; sourceTree = SOURCE_ROOT; };
 		1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalInfoViewController.h; sourceTree = "<group>"; };
 		1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalInfoViewController.m; sourceTree = "<group>"; };
+		1F4DFE6E19BD760D00ED40F8 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetStringPicker.h; sourceTree = "<group>"; };
+		1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
+		1F4DFE7119BD798700ED40F8 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
+		1F4DFE7219BD798700ED40F8 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
+		1F4DFE7419BD79BA00ED40F8 /* SWActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWActionSheet.h; sourceTree = "<group>"; };
+		1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWActionSheet.m; sourceTree = "<group>"; };
 		1FC294CB197DFB5000225AAD /* TripResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripResponse.h; sourceTree = "<group>"; };
 		1FC294CC197DFB5000225AAD /* TripResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripResponse.m; sourceTree = "<group>"; };
 		1FC294CF197F461100225AAD /* ORcycle1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ORcycle1.xcdatamodel; sourceTree = "<group>"; };
@@ -413,6 +421,12 @@
 				642F161C1071ED1C0050BCB9 /* MapCoord.m */,
 				642F15251071DA700050BCB9 /* MapViewController.h */,
 				642F15261071DA700050BCB9 /* MapViewController.m */,
+				1F4DFE7419BD79BA00ED40F8 /* SWActionSheet.h */,
+				1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */,
+				1F4DFE7119BD798700ED40F8 /* AbstractActionSheetPicker.h */,
+				1F4DFE7219BD798700ED40F8 /* AbstractActionSheetPicker.m */,
+				1F4DFE6E19BD760D00ED40F8 /* ActionSheetStringPicker.h */,
+				1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */,
 				8FB7C20B16C55EB9001A8A48 /* NoteManager.h */,
 				8FB7C20C16C55EB9001A8A48 /* NoteManager.m */,
 				8FBCD3C716E0E58100C11EBE /* NoteViewController.h */,
@@ -516,8 +530,8 @@
 				9D4647A81604EBF400A4F9CB /* Button Icons */,
 				6411A16A106A05DE00C201F0 /* Images */,
 				6458114D107AA4D30075DABD /* bicycle-bell-normalized.aiff */,
-				1F0E4D6819B0C77F0015B943 /* ORcycle.plist */,
 				64577E28106DC2FD003ACBFD /* dist.plist */,
+				1F0ABF9119BD10550051598B /* ORcycle.plist */,
 				1FC37385197B446C00332B0C /* TripDetailViewController.xib */,
 				1F0E4D7119B0ECAA0015B943 /* NoteDetailViewController.xib */,
 				64210F28113508B800415F1A /* MainWindow.xib */,
@@ -725,7 +739,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0600;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = 58PVL896L5;
@@ -849,7 +863,6 @@
 				1C94196C1825F0F600D5925A /* tabbar_settings@2x.png in Resources */,
 				A20B631F1801E5160039391D /* AppIcon29x29@2x.png in Resources */,
 				1C77FC1618B26BE900E1E30F /* bikeEvent@2x.png in Resources */,
-				1F0E4D6919B0C77F0015B943 /* ORcycle.plist in Resources */,
 				A2B263331801C8140015F89B /* tripEnd.png in Resources */,
 				A2B263351801C8140015F89B /* tripStart.png in Resources */,
 				8FBCD3CB16E0E58100C11EBE /* NoteViewController.xib in Resources */,
@@ -891,6 +904,7 @@
 				1FC3737C1979CD3300332B0C /* Checkbox.m in Sources */,
 				6426476E1073FEC300E43DEF /* ReminderManager.m in Sources */,
 				64210F6111350C8500415F1A /* AboutViewController.m in Sources */,
+				1F4DFE7619BD79BA00ED40F8 /* SWActionSheet.m in Sources */,
 				1FC294E2198B136E00225AAD /* CustomCell.m in Sources */,
 				645E4EDC1200C1C800EFF0E6 /* LoadingView.m in Sources */,
 				8F5E60661602CBE000D8F85D /* NSString+MD5Addition.m in Sources */,
@@ -900,6 +914,7 @@
 				9D504DA116B6CF4000B99EBC /* ZipUtil.m in Sources */,
 				8FB7C20D16C55EB9001A8A48 /* NoteManager.m in Sources */,
 				8F9C086416DC9479003EA308 /* Note.m in Sources */,
+				1F4DFE7019BD760D00ED40F8 /* ActionSheetStringPicker.m in Sources */,
 				1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */,
 				8F9C086716DC9479003EA308 /* Trip.m in Sources */,
 				8F9C086A16DC947A003EA308 /* User.m in Sources */,
@@ -911,6 +926,7 @@
 				8FAD930516F189EE00082B6F /* UIImageViewResizable.m in Sources */,
 				9DD65FBB16FEA3CC00F2EB63 /* ImageResize.m in Sources */,
 				1F0E4D7219B0ECAA0015B943 /* NoteDetailViewController.m in Sources */,
+				1F4DFE7319BD798700ED40F8 /* AbstractActionSheetPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,7 +946,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "afde5f68-5366-4ae7-b597-8209ea23e5ed";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "afde5f68-5366-4ae7-b597-8209ea23e5ed";
@@ -950,7 +966,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -961,12 +977,14 @@
 		64577E10106DB5D8003ACBFD /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christopher Le Dantec (PKMEYDVVL2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Miguel Figliozzi (58PVL896L5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.1;
 			};
 			name = Distribution;
 		};
@@ -981,7 +999,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "da9eee31-254b-4797-8846-6d34a65a5d49";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "da9eee31-254b-4797-8846-6d34a65a5d49";
@@ -994,12 +1012,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christopher Le Dantec (PKMEYDVVL2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.1;
 			};
 			name = Beta;
 		};
@@ -1017,7 +1037,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "CEE0985D-C26B-4FA2-BFBE-786219176367";
 				SDKROOT = iphoneos;
@@ -1032,8 +1052,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.1;
 			};
 			name = "Release Beta";
 		};
@@ -1049,7 +1071,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1060,25 +1082,28 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christopher Le Dantec (PKMEYDVVL2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.1;
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christopher Le Dantec (PKMEYDVVL2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.1;
 			};
 			name = Release;
 		};

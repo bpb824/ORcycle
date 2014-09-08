@@ -47,6 +47,7 @@
 #import "PersonalInfoViewController.h"
 #import "User.h"
 #import "constants.h"
+#import "ActionSheetStringPicker.h"
 
 #define kMaxCyclingFreq 3
 
@@ -55,7 +56,7 @@
 @synthesize delegate, managedObjectContext, user;
 @synthesize age, email, feedback, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
 @synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
-@synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem;
+@synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem, choiceButton;
 @synthesize bikeTypesSelectedRows, selectedItems;
 
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -348,10 +349,11 @@
 }
 
 
+
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == email || currentTextField == feedback || textField != email){
+    if(currentTextField == email || textField != email){
         NSLog(@"currentTextField: text2");
         [currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -373,12 +375,231 @@
         
         [myTextField resignFirstResponder];
         
+        
+        //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
+        /*
         actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]; //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
         
         [actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
         
         [actionSheet addSubview:pickerView];
+         */
+        if (myTextField == gender){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([gender respondsToSelector:@selector(setText:)]) {
+                    [gender performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.gender integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    genderSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+
+            [ActionSheetStringPicker showPickerWithTitle:@"Select Gender" rows: genderArray initialSelection:genderArray[0] doneBlock:done cancelBlock:cancel origin:gender];
+        }
+        else if (myTextField == age){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([age respondsToSelector:@selector(setText:)]) {
+                    [age performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.age integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    ageSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select age" rows: ageArray initialSelection:ageArray[0] doneBlock:done cancelBlock:cancel origin:age];
+        }
+        else if (myTextField == ethnicity){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([ethnicity respondsToSelector:@selector(setText:)]) {
+                    [ethnicity performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.ethnicity integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    ethnicitySelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select ethnicity" rows: ethnicityArray initialSelection:ethnicityArray[0] doneBlock:done cancelBlock:cancel origin:ethnicity];
+        }
+        else if (myTextField == occupation){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([occupation respondsToSelector:@selector(setText:)]) {
+                    [occupation performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.occupation integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    occupationSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select occupation" rows: occupationArray initialSelection:occupationArray[0] doneBlock:done cancelBlock:cancel origin:occupation];
+        }
+        else if (myTextField == income){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([income respondsToSelector:@selector(setText:)]) {
+                    [income performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.income integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    incomeSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select income" rows: incomeArray initialSelection:incomeArray[0] doneBlock:done cancelBlock:cancel origin:income];
+        }
+        else if (myTextField == hhWorkers){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([hhWorkers respondsToSelector:@selector(setText:)]) {
+                    [hhWorkers performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.hhWorkers integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    hhWorkersSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select hhWorkers" rows: hhWorkersArray initialSelection:hhWorkersArray[0] doneBlock:done cancelBlock:cancel origin:hhWorkers];
+        }
+        else if (myTextField == hhVehicles){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([hhVehicles respondsToSelector:@selector(setText:)]) {
+                    [hhVehicles performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.hhVehicles integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    hhVehiclesSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select hhVehicles" rows: hhVehiclesArray initialSelection:hhVehiclesArray[0] doneBlock:done cancelBlock:cancel origin:hhVehicles];
+        }
+        else if (myTextField == numBikes){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([numBikes respondsToSelector:@selector(setText:)]) {
+                    [numBikes performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.numBikes integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    numBikesSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select numBikes" rows: numBikesArray initialSelection:numBikesArray[0] doneBlock:done cancelBlock:cancel origin:numBikes];
+        }
+        else if (myTextField == cyclingFreq){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([cyclingFreq respondsToSelector:@selector(setText:)]) {
+                    [cyclingFreq performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.cyclingFreq integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    cyclingFreqSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select cyclingFreq" rows: cyclingFreqArray initialSelection:cyclingFreqArray[0] doneBlock:done cancelBlock:cancel origin:cyclingFreq];
+        }
+        else if (myTextField == cyclingWeather){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([cyclingWeather respondsToSelector:@selector(setText:)]) {
+                    [cyclingWeather performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.cyclingWeather integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    cyclingWeatherSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select cyclingWeather" rows: cyclingWeatherArray initialSelection:cyclingWeatherArray[0] doneBlock:done cancelBlock:cancel origin:cyclingWeather];
+        }
+        else if (myTextField == riderAbility){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([riderAbility respondsToSelector:@selector(setText:)]) {
+                    [riderAbility performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.riderAbility integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    riderAbilitySelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select riderAbility" rows: riderAbilityArray initialSelection:riderAbilityArray[0] doneBlock:done cancelBlock:cancel origin:riderAbility];
+        }
+        else if (myTextField == riderType){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+
+                if ([riderType respondsToSelector:@selector(setText:)]) {
+                    [riderType performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [user.riderType integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    riderTypeSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Select riderType" rows: riderTypeArray initialSelection:riderTypeArray[0] doneBlock:done cancelBlock:cancel origin:riderType];
+        }
         
+        
+        /*
+         CGRect frame = CGRectMake(0.0, 0.0, 320, 200);
+         tView = [[UILabel alloc] initWithFrame:frame];
+         [tView setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+         [tView setTextAlignment:NSTextAlignmentCenter];
+         tView.lineBreakMode = NSLineBreakByWordWrapping;
+         //tView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+         [tView setNumberOfLines:0];
+
         doneToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
         doneToolbar.barStyle = UIBarStyleDefault;
         [doneToolbar sizeToFit];
@@ -393,12 +614,15 @@
         
         UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonPressed:)];
         [barItems addObject:doneBtn];
+         */
         
         //TODO add a next and previous button to left side to take us to the next/previous thing. and switch to the right kind of input mode.
         
-        [doneToolbar setItems:barItems animated:YES];
+        //[doneToolbar setItems:barItems animated:YES];
         
-        [actionSheet addSubview:doneToolbar];
+        //[alertView addSubview:doneToolbar];
+        
+        //[actionSheet addSubview:doneToolbar];
         
         selectedItem = 0;
         if(myTextField == gender){
@@ -431,13 +655,18 @@
         
         [pickerView reloadAllComponents];
         
-        [actionSheet addSubview:pickerView];
+        [alertView addSubview:pickerView];
         
+        //[actionSheet addSubview:pickerView];
         
+        [alertView show];
         
+        [alertView setBounds:CGRectMake(0, 0, 320, 485)];
+        /*
         [actionSheet showInView:self.view];
         
         [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
+         */
         
     }
 }
@@ -450,11 +679,14 @@
 	return YES;
 }
 
-- (BOOL)textViewShouldReturn:(UITextView *)textView
-{
-	NSLog(@"textViewdShouldReturn");
-	[textView resignFirstResponder];
-	return YES;
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
 }
 
 
@@ -684,7 +916,7 @@
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section ==9){
-        return 30;
+        return 100;
     } else{
         return 0.01;
     }
@@ -1221,9 +1453,12 @@
 	}
 }
 
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
     return 1;
 }
+
+
 
 - (NSInteger)pickerView:(UIPickerView *)thePickerView numberOfRowsInComponent:(NSInteger)component {
     if(currentTextField == gender){
@@ -1279,6 +1514,8 @@
         //tView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         [tView setNumberOfLines:0];
     }
+    
+    
     if(currentTextField == gender){
         tView.text = [genderArray objectAtIndex:row];
     }
@@ -1315,9 +1552,12 @@
     else if(currentTextField == riderType){
         tView.text =  [riderTypeArray objectAtIndex:row];
     }
+     
 
     return tView;
 }
+
+/*
 
 - (void)doneButtonPressed:(id)sender{
     
@@ -1443,12 +1683,17 @@
         riderType.text = riderTypeSelect;
     }
     
-    [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    //[actionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    
+    [alertView dismissWithClickedButtonIndex:1 animated:YES];
 }
 
 - (void)cancelButtonPressed:(id)sender{
-    [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    //[actionSheet dismissWithClickedButtonIndex:1 animated:YES];
+    [alertView dismissWithClickedButtonIndex:1 animated:YES];
 }
+ */
+
 
 - (void)dealloc {
     self.delegate = nil;
@@ -1512,6 +1757,7 @@
     
     [doneToolbar release];
     [actionSheet release];
+    [alertView release];
     [pickerView release];
     [currentTextField release];
     [genderArray release];

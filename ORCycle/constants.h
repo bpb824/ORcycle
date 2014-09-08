@@ -96,12 +96,12 @@
 #define kSaveError			@"Your trip has been saved. Please try uploading again later."
 
 #define kInfoURL			@"http://renotracks.nevadabike.org/"
-#define kInstructionsURL	@"http://orcycle.cecs.pdx.edu/Help/ORcycleHelp_iOS.html"
-#define kMainURL            @"http://orcycle.cecs.pdx.edu/Web/"
-#define kPrivacyURL         @"http://orcycle.cecs.pdx.edu/Web/PrivacyPolicy.html"
+#define kInstructionsURL	@"http://orcycle2.cecs.pdx.edu/Help/ORcycleHelp_iOS.html"
+#define kMainURL            @"http://orcycle2.cecs.pdx.edu/Web/"
+#define kPrivacyURL         @"http://orcycle2.cecs.pdx.edu/Web/PrivacyPolicy.html"
 
 //#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
-#define kSaveURL            @"http://orcycle.cecs.pdx.edu/post/"
+#define kSaveURL            @"http://orcycle2.cecs.pdx.edu/post/"
 
 //Reno Tracks Green
 #define psuGreen [UIColor colorWithRed:106.0f/255.0f green:127.0f/255.0f blue:16.0f/255.0f alpha:1.000]

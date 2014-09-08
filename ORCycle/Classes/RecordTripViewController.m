@@ -77,10 +77,10 @@
     if (appDelegate.locationManager != nil) {
         return appDelegate.locationManager;
     }
-	
-    
     
     if ([CLLocationManager locationServicesEnabled]) {
+        
+        
         switch ([CLLocationManager authorizationStatus]) {
             case kCLAuthorizationStatusAuthorized:
             {NSLog(@"GPS Services functioning properly");}
@@ -119,13 +119,18 @@
         alert= nil;
     }
     appDelegate.locationManager = [[[CLLocationManager alloc] init] autorelease];
-    appDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
     //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     
     appDelegate.locationManager.delegate = self;
     
+    appDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
     return appDelegate.locationManager;
 }
+
+
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleDefault;
     
@@ -300,6 +305,14 @@
 	// Set up the buttons.
 	[self.view addSubview:[self createStartButton]];
     [self.view addSubview:[self createNoteButton]];
+    
+    // Start the location manager.
+    CLLocationManager *locationManger = [self getLocationManager];
+    if ([locationManger respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        [locationManger performSelector:@selector(requestAlwaysAuthorization)];
+    }
+    
+    [locationManger startUpdatingLocation];
 	
     appDelegate = [[UIApplication sharedApplication] delegate];
     appDelegate.isRecording = NO;
@@ -307,9 +320,6 @@
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 	self.shouldUpdateCounter = NO;
-	
-	// Start the location manager.
-	[[self getLocationManager] startUpdatingLocation];
     
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     
@@ -337,13 +347,15 @@
     noteButton.layer.borderColor = [[UIColor blackColor]CGColor];
     
      */
-    UIImage *buttonImage = [[UIImage imageNamed:@"whiteButton.png"]
+    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"whiteButtonHighlight.png"]
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight.png"]
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     [noteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     noteButton.layer.borderWidth = 0.5f;
+    [noteButton.layer setCornerRadius:5.0f];
+    noteButton.clipsToBounds = YES;
     noteButton.layer.borderColor = [[UIColor blackColor] CGColor];
     
     [noteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -352,11 +364,10 @@
     noteButton.enabled = YES;
     
     [noteButton setTitle:@"Mark Safety Point" forState:UIControlStateNormal];
-    [noteButton setTitleColor:[UIColor colorWithRed: 165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0] forState:UIControlStateHighlighted];
+    [noteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     noteButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
     //noteButton.titleLabel.shadowOffset = CGSizeMake (0, 0);
-    noteButton.titleLabel.textColor = [UIColor colorWithRed: 165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0];
-
+    noteButton.titleLabel.textColor = [UIColor whiteColor];
 
 //    noteButton.titleLabel.font = [UIFont boldSystemFontOfSize: 24];
     [noteButton addTarget:self action:@selector(notethis:) forControlEvents:UIControlEventTouchUpInside];
@@ -369,9 +380,9 @@
 // instantiate start button
 - (UIButton *)createStartButton
 {
-    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight.png"]
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
@@ -384,10 +395,11 @@
     startButton.enabled = YES;
     
     [startButton setTitle:@"Start Trip" forState:UIControlStateNormal];
-    [startButton setTitleColor:[UIColor colorWithRed: 165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0] forState:UIControlStateHighlighted];
+    [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
-    //startButton.titleLabel.shadowOffset = CGSizeMake (0, 0);
-    startButton.titleLabel.textColor = [UIColor colorWithRed: 165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0];
+    [startButton.layer setCornerRadius:5.0f];
+    startButton.clipsToBounds = YES;
+    startButton.titleLabel.textColor = [UIColor whiteColor];
     [startButton addTarget:self action:@selector(start:) forControlEvents:UIControlEventTouchUpInside];
     
 	return startButton;
@@ -440,16 +452,18 @@
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 	startButton.enabled = YES;
-    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight.png"]
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [startButton.layer setCornerRadius:5.0f];
+    startButton.clipsToBounds = YES;
     [startButton setTitle:@"Start Trip" forState:UIControlStateNormal];
      startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
-	[startButton setTitleColor:[[[UIColor alloc] initWithRed:165.0 / 255 green:65.0 / 255 blue:34.0 / 255 alpha:1.0 ] autorelease] forState:UIControlStateNormal];
+	[startButton setTitleColor:[[UIColor whiteColor ] autorelease] forState:UIControlStateNormal];
     
 	// reset trip, reminder managers
 	NSManagedObjectContext *context = tripManager.managedObjectContext;
@@ -593,6 +607,8 @@
         [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
         [startButton setTitleColor:plainWhite forState:UIControlStateNormal];
         [startButton setTitle:@"Save Trip" forState:UIControlStateNormal];
+        [startButton.layer setCornerRadius:5.0f];
+        startButton.clipsToBounds = YES;
         startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
         
         // set recording flag so future location updates will be added as coords

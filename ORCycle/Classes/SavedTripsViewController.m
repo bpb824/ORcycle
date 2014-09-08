@@ -70,8 +70,11 @@
 #define PURPOSELABEL_TAG 1
 #define DURATIONLABEL_TAG 2
 #define TIMETEXT_TAG 3
+#define DISTANCETEXT_TAG 4
+/*
 #define CO2TEXT_TAG 4
 #define CALORYTEXT_TAG 5
+ */
 #define PURPOSEICON_TAG 6
 #define errorLabel_TAG 7
 
@@ -417,7 +420,7 @@
 {
     static NSString *CellIdentifier = @"tripsCell";
     
-    UILabel *timeText, *purposeText, *durationText, *CO2Text, *CaloryText, *errorLabel;
+    UILabel *timeText, *purposeText, *durationText, *distanceText, /**CO2Text, *CaloryText,*/ *errorLabel;
     UIImage *image;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -461,6 +464,12 @@
         [timeText setFont:[UIFont systemFontOfSize:15]];
         [timeText setTextColor:[UIColor grayColor]];
         [cell.contentView addSubview:timeText];
+        
+        distanceText = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 190, 20)];
+        distanceText.tag = DISTANCETEXT_TAG;
+        [distanceText setFont:[UIFont systemFontOfSize:12]];
+        [distanceText setTextColor:[UIColor grayColor]];
+        [cell.contentView addSubview:distanceText];
         /*
         CO2Text = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 190, 20)];
         CO2Text.tag = CO2TEXT_TAG;
@@ -486,6 +495,7 @@
         purposeText = (UILabel *)[cell.contentView viewWithTag:PURPOSELABEL_TAG];
         durationText = (UILabel *)[cell.contentView viewWithTag:DURATIONLABEL_TAG];
         timeText = (UILabel *)[cell.contentView viewWithTag:TIMETEXT_TAG];
+        distanceText = (UILabel *)[cell.contentView viewWithTag:DISTANCETEXT_TAG];
         /*
         CO2Text = (UILabel *)[cell.contentView viewWithTag:CO2TEXT_TAG];
         CaloryText = (UILabel *)[cell.contentView viewWithTag:CALORYTEXT_TAG];
@@ -624,6 +634,8 @@
     //purposeText.text = [NSString stringWithFormat:@"%@", trip.purpose];
     durationText.text = [NSString stringWithFormat:@"%@",[inputFormatter stringFromDate:outputDate]];
     timeText.text = [NSString stringWithFormat:@"%@ at %@", [dateFormatter stringFromDate:[trip start]], [timeFormatter stringFromDate:[trip start]]];
+    
+    distanceText.text = [NSString stringWithFormat:@"Distance Traveled: %.1f miles",[trip.distance doubleValue]* 0.000621371];
     
     //CO2 text
     /*CO2Text.text = [NSString stringWithFormat:@"CO2 Saved: %.1f lbs", 0.93 * [trip.distance doubleValue] / 1609.344];

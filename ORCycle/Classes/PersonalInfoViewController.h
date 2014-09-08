@@ -47,11 +47,10 @@
 #import "PersonalInfoDelegate.h"
 #import "Checkbox.h"
 
-
 @class User;
 
 
-@interface PersonalInfoViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, UIWebViewDelegate>
+@interface PersonalInfoViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate,UIAlertViewDelegate, UIWebViewDelegate>
 {
 	id <PersonalInfoDelegate> delegate;
 	NSManagedObjectContext *managedObjectContext;
@@ -77,6 +76,7 @@
     UITextField *riderHistory;
     UIToolbar *doneToolbar;
     UIActionSheet *actionSheet;
+    UIAlertView *alertView;
     UIPickerView *pickerView;
     UITextField *currentTextField;
     
@@ -157,6 +157,8 @@
 
 @property (nonatomic,retain) NSMutableArray *selectedItems;
 @property (nonatomic,retain) NSMutableArray *bikeTypesSelectedRows;
+
+@property (nonatomic,retain) IBOutlet UIButton *choiceButton;
 
 // DEPRECATED
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
