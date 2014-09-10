@@ -9,6 +9,7 @@
 #import "NoteDetailViewController.h"
 #import "NoteResponse.h"
 #import "constants.h"
+#import "ActionSheetStringPicker.h"
 
 @interface NoteDetailViewController ()
 
@@ -109,25 +110,38 @@
 
 }
 
--(IBAction)skip:(id)sender{
-    NSLog(@"Skip");
+-(IBAction)back:(id)sender{
+    NSLog(@"Back out from Note Detail");
     
     [infoTableView resignFirstResponder];
-    [noteDelegate didPickNoteType:[NSNumber numberWithInt:severitySelectedRow]];
-    [self done];
-    [noteDelegate openDetailPage];
+    
+    [noteDelegate backOut];
 }
 
 -(IBAction)saveDetail:(id)sender{
     NSLog(@"Save Detail");
-    
-    [infoTableView resignFirstResponder];
-    
-    [noteDelegate didPickNoteType:[NSNumber numberWithInt:severitySelectedRow]];
-    
-    [self done];
-    
-    [noteDelegate  openDetailPage];
+    if (severitySelectedRow == 0){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must select a severity level"
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else{
+        [infoTableView resignFirstResponder];
+        
+        [noteDelegate didPickNoteType:[NSNumber numberWithInt:severitySelectedRow]];
+        
+        [self done];
+        
+        [noteDelegate didPickConflictWith:noteResponse.conflictWith];
+        
+        [noteDelegate didPickIssueType:noteResponse.issueType];
+        
+        [noteDelegate openDetailPage];
+    }
 
 }
 
@@ -149,6 +163,7 @@
     if(myTextField == severity){
         
         [myTextField resignFirstResponder];
+        /*
         
         actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]; //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
         
@@ -186,7 +201,24 @@
         [actionSheet showInView:self.view];
         
         [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
-        
+         */
+        if (myTextField == severity){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([severity respondsToSelector:@selector(setText:)]) {
+                    [severity performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [noteResponse.severity integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    severitySelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Severity" rows: severityArray initialSelection:severityArray[0] doneBlock:done cancelBlock:cancel origin:severity];
+        }
     }
 }
 
@@ -242,7 +274,7 @@
         }
         [issueTypeString deleteCharactersInRange:NSMakeRange([issueTypeString length]-1, 1)];
         [noteResponse setIssueType:issueTypeString];
-        NSLog(@"saved conflict with array: %@", noteResponse.issueType);
+        NSLog(@"saved issue type array: %@", noteResponse.issueType);
 
         NSError *error;
 		if (![managedObjectContext save:&error]) {
@@ -570,7 +602,7 @@
     }
     return tView;
 }
-
+/*
 - (void)cancelButtonPressed:(id)sender{
     [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
 }
@@ -588,6 +620,7 @@
     }
     [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
 }
+ */
 
 
 - (void)didReceiveMemoryWarning
@@ -614,6 +647,7 @@
     [noteResponse release];
     [managedObjectContext release];
     [severity release];
+    [infoTableView release];
     [doneToolbar release];
     [actionSheet release];
     [pickerView release];

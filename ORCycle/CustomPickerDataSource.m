@@ -174,7 +174,7 @@
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Did feel uncomfortable";
+            view.title = @"Uncomfortable";
             //view.image = [UIImage imageNamed:kIssueNoteThisSpotIcon];
             [viewArray addObject:view];
             [view release];
@@ -251,7 +251,7 @@
             [view release];
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
-            view.title = @"Did feel uncomfortable";
+            view.title = @"Uncomfortable";
             view.image = [UIImage imageNamed:kNoteThisIssueGreen];
             [viewArray addObject:view];
             [view release];

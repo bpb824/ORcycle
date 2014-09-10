@@ -74,9 +74,6 @@
 }
 
 @property (nonatomic, retain) id <TripPurposeDelegate> delegate;
-
-@property (nonatomic, retain) IBOutlet UITextView *detailTextView;
-
 @property (nonatomic, retain) RenoTracksAppDelegate *appDelegate;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) TripResponse *tripResponse;
@@ -89,6 +86,7 @@
 @property (nonatomic,retain) UITextField *rideSpecial;
 @property (nonatomic,retain) UITextField *rideConflict;
 @property (nonatomic,retain) UITextField *routeStressors;
+@property (nonatomic, retain) UITextView *detailTextView;
 
 @property (nonatomic) BOOL *isAlone;
 @property (nonatomic) BOOL *isNone;

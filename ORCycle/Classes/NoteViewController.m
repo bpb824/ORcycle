@@ -80,7 +80,7 @@
 - (void)initInfoView
 {
 	infoView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,560)];
-    NSInteger textLength = [note.details length];
+    NSInteger textLength = self.note.details.length;
     int row = 1+(textLength-1)/34;
     
     //Mark date details
@@ -90,10 +90,141 @@
     NSDateFormatter *outputTimeFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [outputTimeFormatter setTimeStyle:kCFDateFormatterShortStyle];
     
-    NSString *newDateString = [outputDateFormatter stringFromDate:note.recorded];
-    NSString *newTimeString = [outputTimeFormatter stringFromDate:note.recorded];
+    NSString *newDateString = [outputDateFormatter stringFromDate:self.note.recorded];
+    NSString *newTimeString = [outputTimeFormatter stringFromDate:self.note.recorded];
     
-	if ([note.image_data length] != 0 && textLength != 0) {
+    NSString *severityString = [[NSString alloc]init];
+    switch ([self.note.note_type intValue]) {
+        case 0:
+            severityString = @"No severity level indicated";
+            break;
+        case 1:
+            severityString = @"Major crash/accident";
+            break;
+        case 2:
+            severityString = @"Minor crash/accident";
+            break;
+        case 3:
+            severityString = @"Near crash/accident";
+            break;
+        case 4:
+            severityString = @"Did not feel safe";
+            break;
+        case 5:
+            severityString = @"Uncomfortable";
+            break;
+        default:
+            severityString = @"No severity level indicated";
+            break;
+    }
+    
+    NSLog(@"severity string = %@", severityString);
+    
+    
+    NSMutableArray *conflictWithTemp = [[self.note.conflictWith componentsSeparatedByString:@","] mutableCopy];
+    
+    NSMutableString *conflictWithString = [[NSMutableString alloc]init];
+    
+    if([conflictWithTemp count] != 0){
+        NSMutableArray *conflictWithArray = [[NSMutableArray alloc] init];
+        for (NSString *s in conflictWithTemp)
+        {
+            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+            [conflictWithArray addObject:num];
+        }
+        
+        if ([conflictWithArray[0] integerValue]==1){
+            [conflictWithString appendString:@", Auto Traffic"];
+        }
+        if ([conflictWithArray[1] integerValue]==1){
+            [conflictWithString appendString:@", Large commercial vehicles (trucks)"];
+        }
+        if ([conflictWithArray[2] integerValue]==1){
+            [conflictWithString appendString:@", Public transport (buses, light rail, streetcar)"];
+        }
+        if ([conflictWithArray[3] integerValue]==1){
+            [conflictWithString appendString:@", Parked vehicles (being doored)"];
+        }
+        if ([conflictWithArray[4] integerValue]==1){
+            [conflictWithString appendString:@", Other cyclists"];
+        }
+        if ([conflictWithArray[5] integerValue]==1){
+            [conflictWithString appendString:@", Pedestrians"];
+        }
+        if ([conflictWithArray[6] integerValue]==1){
+            [conflictWithString appendString:@", Poles/barriers/infrastructure"];
+        }
+        if ([conflictWithArray[7] integerValue]==1){
+            [conflictWithString appendString:@", Other"];
+        }
+        if (conflictWithString.length != 0){
+            NSRange range = {0,2};
+            [conflictWithString deleteCharactersInRange:range];
+        }
+    }
+    if (conflictWithString.length == 0){
+        conflictWithString = [NSMutableString stringWithFormat:@"No conflicts documented"];
+    }
+
+    
+    NSMutableArray *issueTypeTemp = [[self.note.issueType componentsSeparatedByString:@","] mutableCopy];
+    
+    NSMutableString *issueTypeString = [[NSMutableString alloc]init];
+    
+    if([issueTypeTemp count] != 0){
+        NSMutableArray *issueTypeArray = [[NSMutableArray alloc] init];
+        for (NSString *s in issueTypeTemp)
+        {
+            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+            [issueTypeArray addObject:num];
+        }
+        
+        if ([issueTypeArray[0] integerValue]==1){
+            [issueTypeString appendString:@", Narrow Bicycle Lane"];
+        }
+        if ([issueTypeArray[1] integerValue]==1){
+            [issueTypeString appendString:@", No bike lane or seperation"];
+        }
+        if ([issueTypeArray[2] integerValue]==1){
+            [issueTypeString appendString:@", High vehicle speeds"];
+        }
+        if ([issueTypeArray[3] integerValue]==1){
+            [issueTypeString appendString:@", High traffic volumes"];
+        }
+        if ([issueTypeArray[4] integerValue]==1){
+            [issueTypeString appendString:@", Right/left turning vehicles"];
+        }
+        if ([issueTypeArray[5] integerValue]==1){
+            [issueTypeString appendString:@", Traffic signal timing"];
+        }
+        if ([issueTypeArray[6] integerValue]==1){
+            [issueTypeString appendString:@", No traffic signal detection"];
+        }
+        if ([issueTypeArray[7] integerValue]==1){
+            [issueTypeString appendString:@", Truck traffic"];
+        }
+        if ([issueTypeArray[8] integerValue]==1){
+            [issueTypeString appendString:@", Bus traffic/stop"];
+        }
+        if ([issueTypeArray[9] integerValue]==1){
+            [issueTypeString appendString:@", Parked vehicles"];
+        }
+        if ([issueTypeArray[10] integerValue]==1){
+            [issueTypeString appendString:@", Pavement condition"];
+        }
+        if ([issueTypeArray[11] integerValue]==1){
+            [issueTypeString appendString:@", Other"];
+        }
+        if (issueTypeString.length != 0){
+            NSRange range = {0,2};
+            [issueTypeString deleteCharactersInRange:range];
+        }
+    }
+    if(issueTypeString.length == 0){
+        issueTypeString = [NSMutableString stringWithFormat:@"No infrastructure issues documented"];
+    }
+    
+	if (self.note.image_data != nil && textLength != 0) {
         infoView.alpha = 1.0;
         infoView.backgroundColor = [UIColor blackColor];
         
@@ -101,7 +232,7 @@
         
         UIImageViewResizable *noteImageResize = [[[UIImageViewResizable alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
         
-        noteImageResize.image= [UIImage imageWithData:note.image_data];
+        noteImageResize.image= [UIImage imageWithData:self.note.image_data];
         noteImageResize.contentMode = UIViewContentModeScaleAspectFill;
         
         [scrollView addSubview:noteImageResize];
@@ -131,26 +262,55 @@
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
-        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nComments: %@", newDateString, newTimeString, note.details];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nSeverity Level: %@ \nConflict With: %@ \nIssue Type(s): %@ \nComments: %@", newDateString, newTimeString, severityString, conflictWithString, issueTypeString, self.note.details];
+        NSLog(@"note text = %@",notesText.text);
         notesText.textColor			= [UIColor whiteColor];
         [infoView addSubview:notesText];
     }
-    if ([note.image_data length] != 0 && textLength == 0) {
+    else if (self.note.image_data != nil && textLength == 0) {
         infoView.alpha = 1.0;
         infoView.backgroundColor = [UIColor blackColor];
         
         UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
-        UIImageView *noteImage   = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
-        noteImage.image= [UIImage imageWithData:note.image_data];
-        noteImage.contentMode = UIViewContentModeScaleAspectFill;
         
-        [scrollView addSubview:noteImage];
+        UIImageViewResizable *noteImageResize = [[[UIImageViewResizable alloc] initWithFrame:CGRectMake(0, 0, 320, 427)] autorelease];
+        
+        noteImageResize.image= [UIImage imageWithData:note.image_data];
+        noteImageResize.contentMode = UIViewContentModeScaleAspectFill;
+        
+        [scrollView addSubview:noteImageResize];
         
         [infoView addSubview:scrollView];
         
-        [infoView addSubview:noteImage];
+        UIImageView *bgImageHeader      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)] autorelease];
+        bgImageHeader.backgroundColor = [UIColor blackColor];
+        bgImageHeader.alpha = 0.8;
+        [infoView addSubview:bgImageHeader];
+        
+        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(10,5,250,25)] autorelease];
+        notesHeader.backgroundColor = [UIColor clearColor];
+        notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
+        notesHeader.opaque			= NO;
+        notesHeader.text			= @"Safety Mark Details";
+        notesHeader.textColor		= [UIColor whiteColor];
+        notesHeader.textAlignment = NSTextAlignmentLeft;
+        [infoView addSubview:notesHeader];
+        
+        //        UIImageView *bgImageText      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 320, 25*row+25)] autorelease];
+        //        bgImageText.backgroundColor = [UIColor blackColor];
+        //        bgImageText.alpha = 0.8;
+        //        [infoView addSubview:bgImageText];
+        
+        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,25*row+25)] autorelease];
+        notesText.backgroundColor	= [UIColor clearColor];
+        notesText.editable			= NO;
+        notesText.font				= [UIFont systemFontOfSize:16.0];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nSeverity Level: %@ \nConflict With: %@ \nIssue Type(s): %@", newDateString, newTimeString, severityString, conflictWithString, issueTypeString];
+        NSLog(@"note text = %@",notesText.text);
+        notesText.textColor			= [UIColor whiteColor];
+        [infoView addSubview:notesText];
     }
-    else if ([note.image_data length] == 0 && textLength != 0) {
+    else if (self.note.image_data == nil && textLength != 0) {
         infoView.alpha				= kInfoViewAlpha;
         infoView.backgroundColor	= [UIColor blackColor];
         
@@ -163,14 +323,39 @@
         notesHeader.textAlignment = NSTextAlignmentLeft;
         [infoView addSubview:notesHeader];
         
-        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,200)] autorelease];
+        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,400)] autorelease];
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
-        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nNote: %@", newDateString, newTimeString, note.details];
-        notesText.textColor			= [UIColor blackColor];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nSeverity Level: %@ \n\nConflict With: %@ \n\nIssue Type(s): %@ \n\nComments: %@", newDateString, newTimeString, severityString, conflictWithString, issueTypeString, self.note.details];
+        NSLog(@"note text = %@",notesText.text);
+        notesText.textColor			= [UIColor whiteColor];
         [infoView addSubview:notesText];
     }
+    else{
+        infoView.alpha				= kInfoViewAlpha;
+        infoView.backgroundColor	= [UIColor blackColor];
+        
+        UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(10,5,250,25)] autorelease];
+        notesHeader.backgroundColor = [UIColor clearColor];
+        notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
+        notesHeader.opaque			= NO;
+        notesHeader.text			= @"Safety Mark Details";
+        notesHeader.textColor		= [UIColor whiteColor];
+        notesHeader.textAlignment = NSTextAlignmentLeft;
+        [infoView addSubview:notesHeader];
+        
+        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,400)] autorelease];
+        notesText.backgroundColor	= [UIColor clearColor];
+        notesText.editable			= NO;
+        notesText.font				= [UIFont systemFontOfSize:16.0];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nSeverity Level: %@ \n\nConflict With: %@ \n\nIssue Type(s): %@", newDateString, newTimeString, severityString, conflictWithString, issueTypeString];
+        NSLog(@"note text = %@",notesText.text);
+        notesText.textColor			= [UIColor whiteColor];
+        [infoView addSubview:notesText];
+
+    }
+     
 }
 
 - (void)viewDidLoad
@@ -187,11 +372,11 @@
 
 
     
-	if ( note )
+	if ( self.note )
 	{
         
         NSString *title = [[[NSString alloc] init] autorelease];
-        switch ([note.note_type intValue]) {
+        switch ([self.note.note_type intValue]) {
             case 0:
                 title = @"No severity level indicated";
                 break;
@@ -208,7 +393,7 @@
                 title = @"Did not feel safe";
                 break;
             case 5:
-                title = @"Did feel uncomfortable";
+                title = @"Uncomfortable";
                 break;
             default:
                 break;
@@ -216,23 +401,20 @@
 
 		self.title = title;
 		
-		if ( ![note.details isEqual: @""] || ([note.image_data length] != 0))
-		{
-			doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(infoAction:)];
+        doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(infoAction:)];
 			
             
-			UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-			infoButton.showsTouchWhenHighlighted = YES;
-			[infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
-			flipButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
-			self.navigationItem.rightBarButtonItem = flipButton;
+        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+        infoButton.showsTouchWhenHighlighted = YES;
+        [infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
+        flipButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+        self.navigationItem.rightBarButtonItem = flipButton;
 			
-			[self initInfoView];
-		}
+        [self initInfoView];
         
         CLLocationCoordinate2D noteCoordinate;
-        noteCoordinate.latitude = [note.latitude doubleValue];
-        noteCoordinate.longitude = [note.longitude doubleValue];
+        noteCoordinate.latitude = [self.note.latitude doubleValue];
+        noteCoordinate.longitude = [self.note.longitude doubleValue];
         NSLog(@"noteCoordinate is: %f, %f", noteCoordinate.latitude, noteCoordinate.longitude);
         
         MKPointAnnotation *notePoint = [[[MKPointAnnotation alloc] init] autorelease];
@@ -357,7 +539,7 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
         // If an existing pin view was not available, create one
         noteAnnotation = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"notePin"]
                           autorelease];
-        switch ([note.note_type integerValue]){
+        switch ([self.note.note_type integerValue]){
             case 0:
                 noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueBlack];
                 break;
@@ -431,11 +613,14 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
 }
 
 - (void)dealloc {
+
     self.note = nil;
     self.doneButton = nil;
     self.flipButton = nil;
     self.infoView = nil;
+    self.delegate = nil;
     
+    [delegate release];
 	[doneButton release];
 	[flipButton release];
     [infoView release];

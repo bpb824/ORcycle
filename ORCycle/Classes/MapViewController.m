@@ -149,6 +149,7 @@
     //Average Speed
     double mph = ( [trip.distance doubleValue] / 1609.344 ) / ( [trip.duration doubleValue] / 3600. );
     
+    /*
     //Calory text
     double calory = 49 * [trip.distance doubleValue] / 1609.344 - 1.69;
     NSString *Calorytext = [NSString stringWithFormat:@"kcal"];
@@ -161,8 +162,166 @@
     
     //CO2 text
     NSString *CO2Text = [NSString stringWithFormat:@"%.1f lbs", 0.93 * [trip.distance doubleValue] / 1609.344];
+     */
     
+    //Route Frequency Text
+    NSString *routeFreqString = [[NSString alloc]init];
+    switch ([trip.routeFreq intValue]) {
+        case 0:
+            routeFreqString = @"No route frequency indicated";
+            break;
+        case 1:
+            routeFreqString = @"Several times per week";
+            break;
+        case 2:
+            routeFreqString = @"Several times per month";
+            break;
+        case 3:
+            routeFreqString = @"Several times per year";
+            break;
+        case 4:
+            routeFreqString = @"Once per year or less";
+            break;
+        case 5:
+            routeFreqString = @"First time ever";
+            break;
+        default:
+            routeFreqString = @"No route frequency indicated";
+            break;
+    }
     
+    //Route Prefs text
+    NSMutableArray *routePrefsTemp = [[trip.routePrefs componentsSeparatedByString:@","] mutableCopy];
+    
+    NSMutableString *routePrefsString = [[NSMutableString alloc]init];
+    
+    if([routePrefsTemp count] != 0){
+        NSMutableArray *routePrefsArray = [[NSMutableArray alloc] init];
+        for (NSString *s in routePrefsTemp)
+        {
+            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+            [routePrefsArray addObject:num];
+        }
+        
+        if ([routePrefsArray[0] integerValue]==1){
+            [routePrefsString appendString:@", It is direct/fast"];
+        }
+        if ([routePrefsArray[1] integerValue]==1){
+            [routePrefsString appendString:@", It has good bicycle facilities"];
+        }
+        if ([routePrefsArray[2] integerValue]==1){
+            [routePrefsString appendString:@", It is enjoyable/has nice scenery"];
+        }
+        if ([routePrefsArray[3] integerValue]==1){
+            [routePrefsString appendString:@", It is good for a workout"];
+        }
+        if ([routePrefsArray[4] integerValue]==1){
+            [routePrefsString appendString:@", It has low traffic/low speeds"];
+        }
+        if ([routePrefsArray[5] integerValue]==1){
+            [routePrefsString appendString:@", It has few intersections"];
+        }
+        if ([routePrefsArray[6] integerValue]==1){
+            [routePrefsString appendString:@", It has few/easy hills"];
+        }
+        if ([routePrefsArray[7] integerValue]==1){
+            [routePrefsString appendString:@", It has other riders/people"];
+        }
+        if ([routePrefsArray[8] integerValue]==1){
+            [routePrefsString appendString:@", It is good for families/kids"];
+        }
+        if ([routePrefsArray[9] integerValue]==1){
+            [routePrefsString appendString:@", I do not know/have another route"];
+        }
+        if ([routePrefsArray[10] integerValue]==1){
+            [routePrefsString appendString:@", I found on my phone/online"];
+        }
+        if ([routePrefsArray[11] integerValue]==1){
+            [routePrefsString appendString:@", Other"];
+        }
+        if (routePrefsString.length != 0){
+            NSRange range = {0,2};
+            [routePrefsString deleteCharactersInRange:range];
+        }
+    }
+    if(routePrefsString.length == 0){
+        routePrefsString = [NSMutableString stringWithFormat:@"No route preferences indicated"];
+    }
+    
+    //Route Comfort Text
+    NSString *routeComfortString = [[NSString alloc]init];
+    switch ([trip.routeComfort intValue]) {
+        case 0:
+            routeComfortString = @"No route comfort level indicated";
+            break;
+        case 1:
+            routeComfortString = @"Very Good (even for families/children)";
+            break;
+        case 2:
+            routeComfortString = @"Good (for most riders)";
+            break;
+        case 3:
+            routeComfortString = @"Average";
+            break;
+        case 4:
+            routeComfortString = @"Bad (only for confident riders)";
+            break;
+        case 5:
+            routeComfortString = @"Very Bad (unacceptable for most riders)";
+            break;
+        default:
+            routeComfortString = @"No route comfort level indicated";
+            break;
+    }
+    
+    //Route Stressors text
+    NSMutableArray *routeStressorsTemp = [[trip.routeStressors componentsSeparatedByString:@","] mutableCopy];
+    
+    NSMutableString *routeStressorsString = [[NSMutableString alloc]init];
+    
+    if([routeStressorsTemp count] != 0){
+        NSMutableArray *routeStressorsArray = [[NSMutableArray alloc] init];
+        for (NSString *s in routeStressorsTemp)
+        {
+            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+            [routeStressorsArray addObject:num];
+        }
+        
+        if ([routeStressorsArray[0] integerValue]==1){
+            [routeStressorsString appendString:@", Not Concerned"];
+        }
+        if ([routeStressorsArray[1] integerValue]==1){
+            [routeStressorsString appendString:@", Auto Traffic"];
+        }
+        if ([routeStressorsArray[2] integerValue]==1){
+            [routeStressorsString appendString:@", Large Commercial Vehicles (trucks)"];
+        }
+        if ([routeStressorsArray[3] integerValue]==1){
+            [routeStressorsString appendString:@", Public Transport (e.g. buses, light rail)"];
+        }
+        if ([routeStressorsArray[4] integerValue]==1){
+            [routeStressorsString appendString:@", Parked vehicles (being doored)"];
+        }
+        if ([routeStressorsArray[5] integerValue]==1){
+            [routeStressorsString appendString:@", Other cyclists"];
+        }
+        if ([routeStressorsArray[6] integerValue]==1){
+            [routeStressorsString appendString:@", Pedestrians"];
+        }
+        if ([routeStressorsArray[7] integerValue]==1){
+            [routeStressorsString appendString:@", Other"];
+        }
+        if (routeStressorsString.length != 0){
+            NSRange range = {0,2};
+            [routeStressorsString deleteCharactersInRange:range];
+        }
+    }
+    if(routeStressorsString.length == 0){
+        routeStressorsString = [NSMutableString stringWithFormat:@"No route stressors indicated"];
+    }
+
+
+
 	infoView					= [[UIView alloc] initWithFrame:CGRectMake(0,0,320,560)];
 	infoView.alpha				= kInfoViewAlpha;
 	infoView.backgroundColor	= [UIColor blackColor];
@@ -172,26 +331,21 @@
 	notesHeader.font			= [UIFont boldSystemFontOfSize:18.0];
 	notesHeader.opaque			= NO;
 	notesHeader.text			= @"Trip Details";
-	notesHeader.textColor		= [UIColor blackColor];
+	notesHeader.textColor		= [UIColor whiteColor];
 	[infoView addSubview:notesHeader];
     
-    UITextView *tripTime		= [[[UITextView alloc] initWithFrame:CGRectMake(0,35,320,200)] autorelease];
-	tripTime.backgroundColor	= [UIColor clearColor];
-	tripTime.editable			= NO;
-	tripTime.font				= [UIFont systemFontOfSize:16.0];
-	tripTime.text				= [NSString stringWithFormat:@"Start Time: %@ \nTime Elapsed: %@ \nDistance: %.1f mi \nAvg. Speed: %.1f mph \nEstimated Calories Burned: %@ \nCO2 Emissions Reduced: %@ \nNotes: %@",
+    UITextView *tripStats		= [[[UITextView alloc] initWithFrame:CGRectMake(0,35,320,400)] autorelease];
+	tripStats.backgroundColor	= [UIColor clearColor];
+	tripStats.editable			= NO;
+	tripStats.font				= [UIFont systemFontOfSize:16.0];
+	tripStats.text				= [NSString stringWithFormat:@"Start Time: %@ \nTime Elapsed: %@ \nDistance: %.1f mi \nAvg. Speed: %.1f mph \n\nRoute Frequency: %@ \n\nRoute Preferences: %@  \n\nRoute Comfort: %@ \n\nRoute Stressors: %@ \n\nNotes: %@",
                                    [dateFormatter stringFromDate:[trip start]],
                                    [inputFormatter stringFromDate:outputDate],
                                    [trip.distance doubleValue] / 1609.344,
-                                   mph,Calorytext,CO2Text,
+                                   mph, routeFreqString, routePrefsString, routeComfortString, routeStressorsString,
                                    trip.notes];
-	tripTime.textColor			= [UIColor blackColor];
-	[infoView addSubview:tripTime];
-    
-
-    
-    
-    
+	tripStats.textColor			= [UIColor whiteColor];
+	[infoView addSubview:tripStats];
 }
 
 
@@ -227,21 +381,17 @@
 		[inputFormatter setDateFormat:@"HH:mm:ss"];
 
 		self.title = trip.purpose;
-		
-		// only add info view for trips with non-null notes
-		if ( ![trip.notes isEqualToString: @""] && trip.notes != NULL)
-		{
-			doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(infoAction:)];
+
+        doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(infoAction:)];
 			
             
-			UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-			infoButton.showsTouchWhenHighlighted = YES;
-			[infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
-			flipButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
-			self.navigationItem.rightBarButtonItem = flipButton;
+        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+        infoButton.showsTouchWhenHighlighted = YES;
+        [infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
+        flipButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+        self.navigationItem.rightBarButtonItem = flipButton;
 			
-			[self initInfoView];
-		}
+        [self initInfoView];
 		
 		// filter coords by hAccuracy
 		NSPredicate *filterByAccuracy	= [NSPredicate predicateWithFormat:@"hAccuracy < 100.0"];

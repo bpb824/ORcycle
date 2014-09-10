@@ -52,6 +52,8 @@
 @property (strong, nonatomic) UIImage *imageFrame;
 @property (readwrite, retain) NSData *imageData;
 
+@property (nonatomic,retain) UIImagePickerController *imagePickerController;
+
 @property (copy, nonatomic) NSString *lastChosenMediaType;
 
 - (IBAction)skip:(id)sender;

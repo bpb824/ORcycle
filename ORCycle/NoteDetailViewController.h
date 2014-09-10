@@ -62,14 +62,14 @@
 
 @property (nonatomic) NSInteger severitySelectedRow;
 @property (nonatomic,retain) NSMutableArray *conflictWithSelectedRows;
-@property (nonatomic) NSMutableArray* issueTypeSelectedRows;
+@property (nonatomic,retain) NSMutableArray* issueTypeSelectedRows;
 @property (nonatomic) NSInteger selectedItem;
 @property (nonatomic,retain) NSMutableArray *selectedItems;
 
 @property (nonatomic, retain) IBOutlet UITableView *infoTableView;
 
 
--(IBAction)skip:(id)sender;
+-(IBAction)back:(id)sender;
 -(IBAction)saveDetail:(id)sender;
 
 // DEPRECATED

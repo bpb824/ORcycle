@@ -20,6 +20,7 @@
 #import "TripDetailViewController.h"
 #import "TripResponse.h"
 #import "constants.h"
+#import "ActionSheetStringPicker.h"
 
 @interface TripDetailViewController ()
 
@@ -73,6 +74,23 @@
 	return textField;
 }
 
+- (UITextView*)initTextViewDetails
+{
+    CGRect frame = CGRectMake( 10, 7, 300, 100 );
+    UITextView *textView = [[UITextView alloc] initWithFrame:frame];
+    textView.autocapitalizationType = UITextAutocapitalizationTypeNone,
+    [textView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [textView.layer setBorderWidth:0.5];
+    textView.layer.cornerRadius = 5;
+    textView.clipsToBounds = YES;
+    textView.textAlignment = NSTextAlignmentLeft;
+    textView.keyboardType = UIKeyboardTypeDefault;
+    textView.returnKeyType = UIReturnKeyDone;
+    textView.font = [UIFont systemFontOfSize:17];
+    textView.delegate = self;
+    return textView;
+}
+
 - (TripResponse *)createTripResponse
 {
 	// Create and configure a new instance of the User entity
@@ -96,17 +114,17 @@
     [self.infoTableView becomeFirstResponder];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    detailTextView.layer.borderWidth = 1.0;
-    detailTextView.layer.borderColor = [[UIColor blackColor] CGColor];
+    //detailTextView.layer.borderWidth = 1.0;
+    //detailTextView.layer.borderColor = [[UIColor blackColor] CGColor];
     
     routeFreqArray = [[NSArray alloc] initWithObjects:@" ", @"Several times per week", @"Several times per month", @"Several times per year", @"Once per year or less", @"First time ever", nil];
-    routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few intersections", @"It has few/easy hills", @"It has other riders/people (I am not alone)", @"It has beautiful scenery", @"I have no other reasonable alternative", @"I do not know another route", @"I found it online or using my phone", @"Other", nil];
-    routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Good" , @"Good", @"Average", @"Bad", @"Very Bad", nil];
+    routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable/has nice scenery", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few intersections", @"It has few/easy hills", @"It has other riders/people",  @"It is good for families/kids", @"I do not know/have another route", @"I found on my phone/online", @"Other (indicate in comments)", nil];
+    routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Good (even for families/children)" , @"Good (for most riders)", @"Average", @"Bad (only for confident riders)", @"Very Bad (unacceptable for most riders)", nil];
     routeSafetyArray = [[NSArray alloc] initWithObjects:@" ", @"Safe/comfortable for families, children, or new riders", @"Safe/comfortable for most riders", @"Safe/comfortable for the average confident rider", @"Only for the highly experienced and/or confident riders (not neccesarily comfortable)", @"Unacceptable", nil];
     ridePassengersArray = [[NSArray alloc] initWithObjects:@" ", @"Alone", @"With a child under 2", @"With a child between 2 and 10", @"With a child/teen over 10", @"With 1 adult", @"With 2+ adults", nil];
     rideSpecialArray = [[NSArray alloc] initWithObjects: @"None",@"Child seat(s)", @"Electric-assist", @"The cargo area", @"Other",nil];
     rideConflictArray = [[NSArray alloc] initWithObjects:@" ", @"I have had a crash/accident", @"I have had a near crash/accident", @"I did not have a near crash/accident, but did not feel safe", @"I did feel safe", nil];
-    routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Not concerned about conflicts or crashes along this route",@"Auto Traffic", @"Large Commercial Vehicles (trucks)", @"Public Transport (buses, light rail, streetcar)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", nil];
+    routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Not Concerned",@"Auto Traffic", @"Large Commercial Vehicles (trucks)", @"Public Transport (e.g. buses, light rail)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", nil];
     
     routePrefsSelectedRows = [[NSMutableArray alloc] init];
     ridePassengersSelectedRows = [[NSMutableArray alloc] init];
@@ -126,6 +144,7 @@
     self.routeComfort =[self initTextFieldAlpha];
     self.routeSafety =[self initTextFieldAlpha];
     self.rideConflict =[self initTextFieldAlpha];
+    self.detailTextView = [self initTextViewDetails];
     
     [self setTripResponse:[self createTripResponse]];
     
@@ -172,14 +191,21 @@
     details = detailTextView.text;
     
     [delegate didEnterTripDetails:details];
+    
     [self done];
+    
+    [delegate didPickRouteFreq:tripResponse.routeFreq];
+    [delegate didPickRoutePrefs:tripResponse.routePrefs];
+    [delegate didPickRouteComfort:tripResponse.routeComfort];
+    [delegate didPickRouteStressors:tripResponse.routeStressors];
+    
     [delegate saveTrip];
 }
 
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == routeFreq ||  currentTextField == routeComfort || currentTextField == routeSafety || currentTextField == rideConflict ){
+    if(currentTextField == routeFreq ||  currentTextField == routeComfort /*|| currentTextField == routeSafety || currentTextField == rideConflict */){
         NSLog(@"currentTextField: text2");
         [currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -191,10 +217,47 @@
     
     currentTextField = myTextField;
     
-    if(myTextField == routeFreq || myTextField == routeComfort || myTextField == routeSafety ||  myTextField == rideConflict ){
+    if(myTextField == routeFreq || myTextField == routeComfort /*|| myTextField == routeSafety ||  myTextField == rideConflict */){
         
         [myTextField resignFirstResponder];
         
+        if (myTextField == routeFreq){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([routeFreq respondsToSelector:@selector(setText:)]) {
+                    [routeFreq performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [tripResponse.routeFreq integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    routeFreqSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Route Frequency" rows: routeFreqArray initialSelection:routeFreqArray[0] doneBlock:done cancelBlock:cancel origin:routeFreq];
+        }
+        else if (myTextField == routeComfort){
+            
+            ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                if ([routeComfort respondsToSelector:@selector(setText:)]) {
+                    [routeComfort performSelector:@selector(setText:) withObject:selectedValue];
+                    if (selectedIndex != [tripResponse.routeComfort integerValue]){
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
+                    routeComfortSelectedRow = selectedIndex;
+                }
+            };
+            ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
+                NSLog(@"Block Picker Canceled");
+            };
+            
+            [ActionSheetStringPicker showPickerWithTitle:@"Route Comfort" rows: routeComfortArray initialSelection:routeComfortArray[0] doneBlock:done cancelBlock:cancel origin:routeComfort];
+        }
+
+        
+        /*
         actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]; //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
         
         [actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
@@ -231,6 +294,8 @@
         [actionSheet showInView:self.view];
         
         [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
+         
+         */
         
     }
 }
@@ -243,8 +308,30 @@
 	return YES;
 }
 
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.35f];
+    CGPoint offset = self.infoTableView.contentOffset;
+    offset.y += 180; // You can change this, but 200 doesn't create any problems
+    [self.infoTableView setContentOffset:offset];
+    [UIView commitAnimations];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
+
+
 - (void)done
 {
+    [detailTextView resignFirstResponder];
+    
     NSLog(@"Saving Trip Response Data");
 	if ( tripResponse != nil )
 	{
@@ -272,6 +359,8 @@
 ///-------
         [tripResponse setRouteComfort:[NSNumber numberWithInt:routeComfortSelectedRow]];
         NSLog(@"saved route comfort index: %@ and text: %@", tripResponse.routeComfort,routeComfort.text);
+        
+        /*
         
         [tripResponse setRouteSafety:[NSNumber numberWithInt:routeSafetySelectedRow]];
         NSLog(@"saved route safety index: %@ and text: %@", tripResponse.routeSafety,routeSafety.text);
@@ -316,6 +405,7 @@
 //----------
         [tripResponse setRideConflict:[NSNumber numberWithInt:rideConflictSelectedRow]];
         NSLog(@"saved ride conflict index: %@ and text: %@", tripResponse.rideConflict,rideConflict.text);
+         */
 //----------
         NSMutableArray *checksRouteStressors = [[NSMutableArray alloc]init];
         for (int i = 0;i<[routeStressorsSelectedRows count];i++){
@@ -361,7 +451,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 8;
+    return 5;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -375,6 +465,7 @@
         case 2:
             return @"In terms of my comfort, this route is...";
             break;
+            /*
         case 3:
             return @"This route is...";
             break;
@@ -387,8 +478,12 @@
         case 6:
             return @"On this route, indicate which best fits your experience";
             break;
-        case 7:
-            return @"Along this route, you are mostly concerned about conflicts/crashes with... (can select more than one)";
+             */
+        case 3:
+            return @"Along this route, you are concerned about conflicts/crashes with... (can select more than one)";
+            break;
+        case 4:
+            return @"Additional details about your trip:";
             break;
     }
     return nil;
@@ -409,7 +504,7 @@
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section ==7){
+    if (section ==4){
         return 100;
     } else{
        return 0.01;
@@ -429,6 +524,7 @@
 		case 2:
 			return 50;
 			break;
+            /*
 		case 3:
 			return 35;
 			break;
@@ -441,8 +537,12 @@
         case 6:
             return 50;
             break;
-        case 7:
+             */
+        case 3:
             return 80;
+            break;
+        case 4:
+            return 50;
             break;
 		default:
 			return 0;
@@ -459,11 +559,12 @@
             return 1;
             break;
         case 1:
-            return 13;
+            return 12;
             break;
         case 2:
             return 1;
             break;
+            /*
         case 3:
             return 1;
             break;
@@ -486,13 +587,17 @@
         case 6:
             return 1;
             break;
-        case 7:
+             */
+        case 3:
             if (isNotConcerned){
                 return 1;
             }
             else{
                 return 8;
             }
+            break;
+        case 4:
+            return 1;
             break;
         default:
             return 0;
@@ -584,12 +689,6 @@
                 case 11:
 					cell.textLabel.text = routePrefsArray[12];
                     break;
-                case 12:
-					cell.textLabel.text = routePrefsArray[13];
-                    break;
-                case 13:
-					cell.textLabel.text = routePrefsArray[14];
-                    break;
                     
 			}
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -622,6 +721,7 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
+            /*
         case 3:
 		{
 			static NSString *CellIdentifier = @"CellRouteSafety";
@@ -645,6 +745,8 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
+            */
+            /*
         case 4:
 		{
 			static NSString *CellIdentifier = @"CellRidePassengers";
@@ -725,6 +827,9 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
+            */
+            
+        /*
         case 5:
 		{
 			static NSString *CellIdentifier = @"CellRideSpecial";
@@ -797,6 +902,7 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
+        
         case 6:
 		{
 			static NSString *CellIdentifier = @"CellRideConflict";
@@ -820,7 +926,8 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
-        case 7:
+          */
+        case 3:
 		{
 			static NSString *CellIdentifier = @"CellRouteStressors";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -907,10 +1014,41 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
+        case 4:
+        {
+            static NSString *CellIdentifier = @"CellDetails";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Details";
+                    [cell.contentView addSubview:detailTextView];
+                    break;
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+            break;
     }
     cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath indexAtPosition:0] == 4){
+        return 115;
+    }
+    else{
+        return 43;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -955,6 +1093,7 @@
 			}
 			break;
         }
+            /*
         case 3:
 		{
             switch ([indexPath indexAtPosition:1])
@@ -1016,7 +1155,8 @@
 			}
 			break;
         }
-        case 7:
+             */
+        case 3:
 		{
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
@@ -1032,6 +1172,17 @@
                 if ([indexPath indexAtPosition:1] ==0){
                     isNotConcerned = false;
                 }
+            }
+            break;
+        }
+        case 4:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
             }
             break;
         }
@@ -1053,12 +1204,14 @@
     else if(currentTextField == routeComfort){
         return [routeComfortArray count];
     }
+    /*
     else if(currentTextField == routeSafety){
         return [routeSafetyArray count];
     }
     else if(currentTextField == rideConflict){
         return [rideConflictArray count];
     }
+     */
     return 0;
 }
 
@@ -1083,18 +1236,21 @@
     else if(currentTextField == routeComfort){
         tView.text =  [routeComfortArray objectAtIndex:row];
     }
+    /*
     else if(currentTextField == routeSafety){
         tView.text =  [routeSafetyArray objectAtIndex:row];
     }
     else if(currentTextField == rideConflict){
         tView.text =  [rideConflictArray objectAtIndex:row];
     }
+     */
     return tView;
 }
 
 - (void)cancelButtonPressed:(id)sender{
     [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
 }
+/*
 
 - (void)doneButtonPressed:(id)sender{
     
@@ -1117,6 +1273,7 @@
         NSString *routeComfortSelect = [routeComfortArray objectAtIndex:selectedRow];
         routeComfort.text = routeComfortSelect;
     }
+    /*
     if(currentTextField == routeSafety){
         //enable save button if value has been changed.
         self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -1137,11 +1294,13 @@
         NSString *rideConflictSelect = [rideConflictArray objectAtIndex:selectedRow];
         rideConflict.text = rideConflictSelect;
     }
+ 
     if(currentTextField == routeStressors){
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }
     [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
 }
+*/
 
 - (void)didReceiveMemoryWarning
 {

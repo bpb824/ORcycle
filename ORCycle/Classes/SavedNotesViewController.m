@@ -330,7 +330,7 @@
             title = @"Did not feel safe";
             break;
         case 5:
-            title = @"Did feel uncomfortable";
+            title = @"Uncomfortable";
             break;
         default:
             break;

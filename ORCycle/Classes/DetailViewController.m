@@ -196,9 +196,11 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         //picker.mediaTypes = mediaTypes;
         //picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
         picker.delegate = self;
+        picker.modalPresentationStyle = UIModalPresentationCurrentContext;
         picker.sourceType = sourceType;
+        self.imagePickerController = picker;
         [self presentViewController:picker animated:YES completion:nil];
-//        [picker release];
+        [picker release];
     } else {
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Error accessing media"

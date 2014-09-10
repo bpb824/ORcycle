@@ -194,7 +194,7 @@
     
     incomeArray = [[NSArray alloc]initWithObjects: @" ", @"Less than $14,999", @"$15,000 to $24,999", @"$25,000 to $34,999", @"$35,000 to $49,999", @"$50,000 to $74,999", @"$75,000 to $99,999", @"$100,000 to $149,999", @"$150,000 or more", nil];
     
-    hhWorkersArray = [[NSArray alloc]initWithObjects: @" ", @"0", @"1", @"2", @"3 or more", nil];
+    hhWorkersArray = [[NSArray alloc]initWithObjects: @" ", @"0 Workers", @"1 Worker", @"2 Workers", @"3 or more Workers", nil];
     
     hhVehiclesArray = [[NSArray alloc]initWithObjects: @" ", @"0 Vehicles", @"1 Vehicle", @"2 Vehicles", @"3 or more Vehicles", nil];
     
@@ -399,7 +399,7 @@
                 NSLog(@"Block Picker Canceled");
             };
 
-            [ActionSheetStringPicker showPickerWithTitle:@"Select Gender" rows: genderArray initialSelection:genderArray[0] doneBlock:done cancelBlock:cancel origin:gender];
+            [ActionSheetStringPicker showPickerWithTitle:@"Gender" rows: genderArray initialSelection:genderArray[0] doneBlock:done cancelBlock:cancel origin:gender];
         }
         else if (myTextField == age){
             
@@ -416,7 +416,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select age" rows: ageArray initialSelection:ageArray[0] doneBlock:done cancelBlock:cancel origin:age];
+            [ActionSheetStringPicker showPickerWithTitle:@"Age" rows: ageArray initialSelection:ageArray[0] doneBlock:done cancelBlock:cancel origin:age];
         }
         else if (myTextField == ethnicity){
             
@@ -433,7 +433,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select ethnicity" rows: ethnicityArray initialSelection:ethnicityArray[0] doneBlock:done cancelBlock:cancel origin:ethnicity];
+            [ActionSheetStringPicker showPickerWithTitle:@"Ethnicity" rows: ethnicityArray initialSelection:ethnicityArray[0] doneBlock:done cancelBlock:cancel origin:ethnicity];
         }
         else if (myTextField == occupation){
             
@@ -450,7 +450,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select occupation" rows: occupationArray initialSelection:occupationArray[0] doneBlock:done cancelBlock:cancel origin:occupation];
+            [ActionSheetStringPicker showPickerWithTitle:@"Occupation" rows: occupationArray initialSelection:occupationArray[0] doneBlock:done cancelBlock:cancel origin:occupation];
         }
         else if (myTextField == income){
             
@@ -467,7 +467,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select income" rows: incomeArray initialSelection:incomeArray[0] doneBlock:done cancelBlock:cancel origin:income];
+            [ActionSheetStringPicker showPickerWithTitle:@"Household Income" rows: incomeArray initialSelection:incomeArray[0] doneBlock:done cancelBlock:cancel origin:income];
         }
         else if (myTextField == hhWorkers){
             
@@ -484,7 +484,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select hhWorkers" rows: hhWorkersArray initialSelection:hhWorkersArray[0] doneBlock:done cancelBlock:cancel origin:hhWorkers];
+            [ActionSheetStringPicker showPickerWithTitle:@"Household Workers" rows: hhWorkersArray initialSelection:hhWorkersArray[0] doneBlock:done cancelBlock:cancel origin:hhWorkers];
         }
         else if (myTextField == hhVehicles){
             
@@ -501,7 +501,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select hhVehicles" rows: hhVehiclesArray initialSelection:hhVehiclesArray[0] doneBlock:done cancelBlock:cancel origin:hhVehicles];
+            [ActionSheetStringPicker showPickerWithTitle:@"Household Vehicles" rows: hhVehiclesArray initialSelection:hhVehiclesArray[0] doneBlock:done cancelBlock:cancel origin:hhVehicles];
         }
         else if (myTextField == numBikes){
             
@@ -518,7 +518,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select numBikes" rows: numBikesArray initialSelection:numBikesArray[0] doneBlock:done cancelBlock:cancel origin:numBikes];
+            [ActionSheetStringPicker showPickerWithTitle:@"# Bikes Owned" rows: numBikesArray initialSelection:numBikesArray[0] doneBlock:done cancelBlock:cancel origin:numBikes];
         }
         else if (myTextField == cyclingFreq){
             
@@ -535,7 +535,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select cyclingFreq" rows: cyclingFreqArray initialSelection:cyclingFreqArray[0] doneBlock:done cancelBlock:cancel origin:cyclingFreq];
+            [ActionSheetStringPicker showPickerWithTitle:@"Cycling Frequency" rows: cyclingFreqArray initialSelection:cyclingFreqArray[0] doneBlock:done cancelBlock:cancel origin:cyclingFreq];
         }
         else if (myTextField == cyclingWeather){
             
@@ -552,7 +552,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select cyclingWeather" rows: cyclingWeatherArray initialSelection:cyclingWeatherArray[0] doneBlock:done cancelBlock:cancel origin:cyclingWeather];
+            [ActionSheetStringPicker showPickerWithTitle:@"Cycling Weather" rows: cyclingWeatherArray initialSelection:cyclingWeatherArray[0] doneBlock:done cancelBlock:cancel origin:cyclingWeather];
         }
         else if (myTextField == riderAbility){
             
@@ -569,7 +569,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select riderAbility" rows: riderAbilityArray initialSelection:riderAbilityArray[0] doneBlock:done cancelBlock:cancel origin:riderAbility];
+            [ActionSheetStringPicker showPickerWithTitle:@"Cycling Ability" rows: riderAbilityArray initialSelection:riderAbilityArray[0] doneBlock:done cancelBlock:cancel origin:riderAbility];
         }
         else if (myTextField == riderType){
             
@@ -587,7 +587,7 @@
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Select riderType" rows: riderTypeArray initialSelection:riderTypeArray[0] doneBlock:done cancelBlock:cancel origin:riderType];
+            [ActionSheetStringPicker showPickerWithTitle:@"Rider Type" rows: riderTypeArray initialSelection:riderTypeArray[0] doneBlock:done cancelBlock:cancel origin:riderType];
         }
         
         
@@ -623,7 +623,7 @@
         //[alertView addSubview:doneToolbar];
         
         //[actionSheet addSubview:doneToolbar];
-        
+        /*
         selectedItem = 0;
         if(myTextField == gender){
             selectedItem = [user.gender integerValue];
@@ -662,7 +662,7 @@
         [alertView show];
         
         [alertView setBounds:CGRectMake(0, 0, 320, 485)];
-        /*
+        
         [actionSheet showInView:self.view];
         
         [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
@@ -715,6 +715,15 @@
 			NSLog(@"PersonalInfo save textField error %@, %@", error, [error localizedDescription]);
 		}
 	}
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.35f];
+    CGPoint offset = self.tableView.contentOffset;
+    offset.y += 100; // You can change this, but 200 doesn't create any problems
+    [self.tableView setContentOffset:offset];
+    [UIView commitAnimations];
 }
 
 // save the new value for this textField

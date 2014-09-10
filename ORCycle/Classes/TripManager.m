@@ -546,11 +546,11 @@
         NSLog(@"Route prefs sent to encoder as %@",tripResponse.routePrefs);
 		if ( tripResponse != nil )
 		{
-            NSArray *sAnswers = @[[NSNumber numberWithInt:[tripResponse.routeFreq intValue]+87],
+            NSArray *sAnswers = @[[NSNumber numberWithInt:[tripResponse.routeFreq intValue]+87]/*,
                                  [NSNumber numberWithInt:[tripResponse.routeSafety intValue]+122],
-                                 [NSNumber numberWithInt:[tripResponse.rideConflict intValue] + 139]];
+                                 [NSNumber numberWithInt:[tripResponse.rideConflict intValue] + 139]*/];
             
-            NSArray *sQuestions = @[@19,@23,@26];
+            NSArray *sQuestions = @[@19/*,@23,@26*/];
             
             for(int i = 0; i < [sQuestions count];i++){
                 NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
@@ -658,7 +658,7 @@
             }
             NSLog(@"route prefs temp = %@",routePrefsTemp);
             NSLog(@"route prefs for conditional test = %@",routePrefs);
-            
+            /*
             NSMutableArray *ridePassengersTemp = [[tripResponse.ridePassengers componentsSeparatedByString:@","] mutableCopy];
             NSMutableArray *ridePassengers= [[NSMutableArray alloc] init];
             for (NSString *s in ridePassengersTemp)
@@ -674,6 +674,7 @@
                 NSNumber *num = [NSNumber numberWithInt:[s intValue]];
                 [rideSpecial addObject:num];
             }
+             */
 
             NSMutableArray *routeStressorsTemp = [[tripResponse.routeStressors componentsSeparatedByString:@","] mutableCopy];
             NSMutableArray *routeStressors = [[NSMutableArray alloc] init];
@@ -684,8 +685,8 @@
             }
 
             NSLog(@"route Prefs = %@", routePrefs);
-            NSLog(@"ride passengers = %@", ridePassengers);
-            NSLog(@"ride special = %@", rideSpecial);
+            //NSLog(@"ride passengers = %@", ridePassengers);
+            //NSLog(@"ride special = %@", rideSpecial);
             NSLog(@"route stressors = %@", routeStressors);
             
             for (int i = 0; i < [routePrefs count];i++){
@@ -696,7 +697,7 @@
                     [tripResponsesCollection addObject:tripResponseDict];
                 }
             }
-            
+            /*
             for (int i = 0; i < [ridePassengers count];i++){
                 if([ridePassengers[i] integerValue] == 1){
                     NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
@@ -719,7 +720,7 @@
                 [tripResponseDict setObject: [NSNumber numberWithInt:25]  forKey:@"question_id"];
                 [tripResponseDict setObject: [NSNumber numberWithInt:176] forKey:@"answer_id"];
                 [tripResponsesCollection addObject:tripResponseDict];
-            }
+            }*/
             
             for (int i = 0; i < [routeStressors count];i++){
                 if([routeStressors[i] integerValue] == 1){

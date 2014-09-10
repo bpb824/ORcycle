@@ -21,5 +21,10 @@
 - (void)getNoteThumbnail:(NSData *)imgData;
 - (void)saveNote;
 - (void)openDetailPage;
+- (void)backOut;
+
+- (void)didPickConflictWith:(NSString *)conflictWithString;
+- (void)didPickIssueType:(NSString *)issueTypeString;
+
 
 @end

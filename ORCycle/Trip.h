@@ -24,6 +24,13 @@
 @property (nonatomic, retain) NSSet *coords;
 @property (nonatomic, retain) NSData * thumbnail;
 @property (nonatomic, retain) User *user;
+
+@property (nonatomic, retain) NSNumber *routeFreq;
+@property (nonatomic, retain) NSString *routePrefs;
+@property (nonatomic, retain) NSNumber *routeComfort;
+@property (nonatomic, retain) NSString *routeStressors;
+
+
 @end
 
 @interface Trip (CoreDataGeneratedAccessors)

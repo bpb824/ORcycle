@@ -106,4 +106,10 @@
 - (void)saveNote;
 - (void)saveTrip;
 
+- (void)didPickRouteFreq: (NSNumber *)index;
+- (void)didPickRoutePrefs: (NSString *) routePrefsString;
+- (void)didPickRouteComfort: (NSNumber *)index;
+- (void)didPickRouteStressors: (NSString *) routeStressorsString;
+
+
 @end

@@ -25,5 +25,9 @@
 @dynamic thumbnail;
 @dynamic user;
 
+@dynamic routeFreq;
+@dynamic routePrefs;
+@dynamic routeComfort;
+@dynamic routeStressors;
 
 @end

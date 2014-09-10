@@ -28,4 +28,8 @@
 @dynamic user;
 @dynamic uploaded;
 
+@dynamic severity;
+@dynamic conflictWith;
+@dynamic issueType;
+
 @end

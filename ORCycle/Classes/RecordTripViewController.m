@@ -990,6 +990,30 @@ shouldSelectViewController:(UIViewController *)viewController
     NSLog(@"Trip Added details: %@",details);
 }
 
+- (void)didPickRouteFreq:(NSNumber *)index
+{
+    [tripManager.trip setRouteFreq:index];
+    NSLog(@"Added Route Freq: %d", [tripManager.trip.routeFreq intValue]);
+}
+
+- (void)didPickRoutePrefs:(NSString *) routePrefsString
+{
+    [tripManager.trip setRoutePrefs: routePrefsString];
+    NSLog(@"Added Route Prefs: %@", tripManager.trip.routePrefs);
+}
+- (void)didPickRouteComfort:(NSNumber *)index
+{
+    [tripManager.trip setRouteComfort:index];
+    NSLog(@"Added Route Comfort: %d", [tripManager.trip.routeComfort intValue]);
+}
+
+- (void)didPickRouteStressors:(NSString *) routeStressorsString
+{
+    [tripManager.trip setRouteStressors: routeStressorsString];
+    NSLog(@"Added Route Stressors: %@", tripManager.trip.routeStressors);
+}
+
+
 - (void)saveTrip{
     [tripManager saveTrip];
     NSLog(@"Save trip");
@@ -1002,6 +1026,18 @@ shouldSelectViewController:(UIViewController *)viewController
     //do something here: may change to be the save as a separate view. Not prompt.
 }
 
+- (void)didPickConflictWith:(NSString *) conflictWithString
+{
+    [noteManager.note setConflictWith: conflictWithString];
+    NSLog(@"Added Conflict With: %@", noteManager.note.conflictWith);
+}
+
+- (void)didPickIssueType:(NSString *) issueTypeString
+{
+    [noteManager.note setIssueType: issueTypeString];
+    NSLog(@"Added Issue Type: %@", noteManager.note.issueType);
+}
+
 - (void)didEnterNoteDetails:(NSString *)details{
     [noteManager.note setDetails:details];
     NSLog(@"Note Added details: %@", noteManager.note.details);
@@ -1010,7 +1046,7 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void)didSaveImage:(NSData *)imgData{
     [noteManager.note setImage_data:imgData];
     NSLog(@"Added image, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
-    [imgData release];
+    //[imgData release];
 }
 
 - (void)getTripThumbnail:(NSData *)imgData{
@@ -1039,6 +1075,11 @@ shouldSelectViewController:(UIViewController *)viewController
         [DetailView release];
         
     }];
+}
+
+- (void)backOut{
+    NSLog(@"Back out from Note Detail");
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)saveNote{

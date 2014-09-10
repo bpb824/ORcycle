@@ -29,4 +29,8 @@
 @property (nonatomic, retain) NSDate * uploaded;
 @property (nonatomic, retain) User *user;
 
+@property (nonatomic, retain) NSNumber *severity;
+@property (nonatomic, retain) NSString *conflictWith;
+@property (nonatomic, retain) NSString *issueType;
+
 @end
