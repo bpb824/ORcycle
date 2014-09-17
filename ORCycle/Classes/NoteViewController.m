@@ -81,7 +81,7 @@
 {
 	infoView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,560)];
     NSInteger textLength = self.note.details.length;
-    int row = 1+(textLength-1)/34;
+    //int row = 1+(textLength-1)/34;
     
     //Mark date details
     NSDateFormatter *outputDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -140,7 +140,7 @@
             [conflictWithString appendString:@", Large commercial vehicles (trucks)"];
         }
         if ([conflictWithArray[2] integerValue]==1){
-            [conflictWithString appendString:@", Public transport (buses, light rail, streetcar)"];
+            [conflictWithString appendString:@", Public transport (buses, light rail)"];
         }
         if ([conflictWithArray[3] integerValue]==1){
             [conflictWithString appendString:@", Parked vehicles (being doored)"];
@@ -239,7 +239,7 @@
         
         [infoView addSubview:scrollView];
         
-        UIImageView *bgImageHeader      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)] autorelease];
+        UIImageView *bgImageHeader      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
         bgImageHeader.backgroundColor = [UIColor blackColor];
         bgImageHeader.alpha = 0.8;
         [infoView addSubview:bgImageHeader];
@@ -258,11 +258,11 @@
 //        bgImageText.alpha = 0.8;
 //        [infoView addSubview:bgImageText];
         
-        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,25*row+25)] autorelease];
+        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,200)] autorelease];
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
-        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nSeverity Level: %@ \nConflict With: %@ \nIssue Type(s): %@ \nComments: %@", newDateString, newTimeString, severityString, conflictWithString, issueTypeString, self.note.details];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nSeverity Level: %@ \nIssue Type(s): %@ \nConflict With: %@ \nComments: %@", newDateString, newTimeString, severityString, issueTypeString,conflictWithString, self.note.details];
         NSLog(@"note text = %@",notesText.text);
         notesText.textColor			= [UIColor whiteColor];
         [infoView addSubview:notesText];
@@ -282,7 +282,7 @@
         
         [infoView addSubview:scrollView];
         
-        UIImageView *bgImageHeader      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 80)] autorelease];
+        UIImageView *bgImageHeader      = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
         bgImageHeader.backgroundColor = [UIColor blackColor];
         bgImageHeader.alpha = 0.8;
         [infoView addSubview:bgImageHeader];
@@ -301,11 +301,11 @@
         //        bgImageText.alpha = 0.8;
         //        [infoView addSubview:bgImageText];
         
-        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,25*row+25)] autorelease];
+        UITextView *notesText		= [[[UITextView alloc] initWithFrame:CGRectMake(0,30,320,200)] autorelease];
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
-        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nSeverity Level: %@ \nConflict With: %@ \nIssue Type(s): %@", newDateString, newTimeString, severityString, conflictWithString, issueTypeString];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nSeverity Level: %@ \nIssue Type(s): %@ \nConflict With: %@ ", newDateString, newTimeString, severityString, issueTypeString,conflictWithString];
         NSLog(@"note text = %@",notesText.text);
         notesText.textColor			= [UIColor whiteColor];
         [infoView addSubview:notesText];
@@ -327,7 +327,7 @@
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
-        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nSeverity Level: %@ \n\nConflict With: %@ \n\nIssue Type(s): %@ \n\nComments: %@", newDateString, newTimeString, severityString, conflictWithString, issueTypeString, self.note.details];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nSeverity Level: %@ \n\nIssue Type(s): %@ \n\nConflict With: %@ \n\nComments: %@", newDateString, newTimeString, severityString, issueTypeString,conflictWithString, self.note.details];
         NSLog(@"note text = %@",notesText.text);
         notesText.textColor			= [UIColor whiteColor];
         [infoView addSubview:notesText];
@@ -349,7 +349,7 @@
         notesText.backgroundColor	= [UIColor clearColor];
         notesText.editable			= NO;
         notesText.font				= [UIFont systemFontOfSize:16.0];
-        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nSeverity Level: %@ \n\nConflict With: %@ \n\nIssue Type(s): %@", newDateString, newTimeString, severityString, conflictWithString, issueTypeString];
+        notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nSeverity Level: %@ \n\nIssue Type(s): %@ \n\nConflict With: %@ ", newDateString, newTimeString, severityString, issueTypeString,conflictWithString];
         NSLog(@"note text = %@",notesText.text);
         notesText.textColor			= [UIColor whiteColor];
         [infoView addSubview:notesText];
@@ -396,6 +396,7 @@
                 title = @"Uncomfortable";
                 break;
             default:
+                title = @"No severity level indicated";
                 break;
         }
 
@@ -556,7 +557,7 @@ UIImage *shrinkImage1(UIImage *original, CGSize size) {
                 noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueGreen];
                 break;
             case 5:
-                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueGreen];
+                noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueWhite];
                 break;
             default:
                 noteAnnotation.image = [UIImage imageNamed:kNoteThisIssueBlack];

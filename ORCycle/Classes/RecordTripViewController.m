@@ -58,6 +58,8 @@
 #import "Trip.h"
 #import "User.h"
 
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+
 //TODO: Fix incomplete implementation
 @implementation RecordTripViewController
 
@@ -242,6 +244,7 @@
 			}
 			else
 				NSLog(@"no saved user info");
+                
 		}
 		else
 		{
@@ -329,11 +332,36 @@
 	// check if any user data has already been saved and pre-select personal info cell accordingly
 	if ( [self hasUserInfoBeenSaved] )
 		[self setSaved:YES];
+    else{
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"No User Info Saved"
+                              message:@"Please enter user info"
+                              delegate:self
+                              cancelButtonTitle:@"Later"
+                              otherButtonTitles:@"Okay", nil];
+        [alert show];
+    }
 	
 	// check for any unsaved trips / interrupted recordings
 	[self hasRecordingBeenInterrupted];
     
 	NSLog(@"save");
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0){
+        alertView.delegate = nil;
+        [alertView.delegate release];
+    }
+    if( buttonIndex == 1 ) /* NO = 0, YES = 1 */
+    {
+         PersonalInfoViewController *PersonalInfoView = [[PersonalInfoViewController alloc] initWithManagedObjectContext:managedObjectContext] ;
+        [PersonalInfoView initWithManagedObjectContext:managedObjectContext];
+        [self.navigationController pushViewController:PersonalInfoView animated:YES];
+        alertView.delegate = nil;
+        [alertView.delegate release];
+    }
 }
 
 - (UIButton *)createNoteButton
@@ -347,6 +375,15 @@
     noteButton.layer.borderColor = [[UIColor blackColor]CGColor];
     
      */
+    
+    if (IS_IPHONE_5) {
+        
+        noteButton.frame=CGRectMake(68, 130, 185, 40);
+        
+    }else{
+        noteButton.frame=CGRectMake(68, 130, 185, 40);
+        
+    }
     UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight.png"]
@@ -363,7 +400,7 @@
     noteButton.backgroundColor = [UIColor clearColor];
     noteButton.enabled = YES;
     
-    [noteButton setTitle:@"Mark Safety Point" forState:UIControlStateNormal];
+    [noteButton setTitle:@"Mark Safety Problem" forState:UIControlStateNormal];
     [noteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     noteButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
     //noteButton.titleLabel.shadowOffset = CGSizeMake (0, 0);

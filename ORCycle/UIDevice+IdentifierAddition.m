@@ -95,11 +95,11 @@
     return uniqueIdentifier;
 }
 
-//- (NSString *) uniqueGlobalDeviceIdentifier{
-//    NSString *macaddress = [[UIDevice currentDevice] macaddress];
-//    NSString *uniqueIdentifier = [macaddress stringFromMD5];
-//    NSString *uniqueIdentifier = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-//    return uniqueIdentifier;
-//}
+- (NSString *) uniqueGlobalDeviceIdentifier{
+   NSString *macaddress = [[UIDevice currentDevice] macaddress];
+    NSString *uniqueIdentifier = [macaddress stringFromMD5];
+    NSString *uniqueIdentifier = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+   return uniqueIdentifier;
+}
 
 @end

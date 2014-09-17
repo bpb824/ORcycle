@@ -148,7 +148,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     //save to library
     UIImageWriteToSavedPhotosAlbum(castedImage,self, nil, nil);
     
-    imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([ImageResize imageWithImage:castedImage scaledToSize:CGSizeMake(3264, 2448)], 1)];
+    imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([ImageResize imageWithImage:castedImage scaledToSize:CGSizeMake(480, 320)], 1)];
     UIImage *thumbnail = [ImageResize imageWithImage:castedImage scaledToSizeWithSameAspectRatio:CGSizeMake(290, 192)];
     
     NSLog(@"Size of Image(bytes):%d",[imageData length]);

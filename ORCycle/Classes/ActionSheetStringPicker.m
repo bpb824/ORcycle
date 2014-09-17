@@ -90,7 +90,7 @@
 
 - (void)notifyTarget:(id)target didSucceedWithAction:(SEL)successAction origin:(id)origin {    
     if (self.onActionSheetDone) {
-        id selectedObject = (self.data.count > 0) ? (self.data)[(NSUInteger) self.selectedIndex] : nil;
+        id selectedObject = (self.data.count > 0 && self.selectedIndex <= (self.data.count - 1)) ? (self.data)[(NSUInteger) self.selectedIndex] : nil;
         _onActionSheetDone(self, self.selectedIndex, selectedObject);
         return;
     }

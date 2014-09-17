@@ -68,10 +68,11 @@
 
 #define kNoteThisAsset                  @"noteAssetPicker.png"
 #define kNoteThisIssueBlack             @"noteIssuePickerBlack.png"
-#define kNoteThisIssueRed               @"noteIssuePickerRed.png"
-#define kNoteThisIssueOrange            @"noteIssuePickerOrange.png"
-#define kNoteThisIssueYellow            @"noteIssuePickerYellow.png"
-#define kNoteThisIssueGreen             @"noteIssuePickerGreen.png"
+#define kNoteThisIssueRed               @"5. note_severity_map_icon_red.png"
+#define kNoteThisIssueOrange            @"4. note_severity_map_icon_orange.png"
+#define kNoteThisIssueYellow            @"3. note_severity_map_icon_yellow.png"
+#define kNoteThisIssueGreen             @"2. note_severity_map_icon_green.png"
+#define kNoteThisIssueWhite             @"1. note_severity_map_icon.png"
 #define kNoteBlank                      @"noteBlankPicker.png"
 
 #define kTripPurposeCommuteString       @"Commute"

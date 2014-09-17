@@ -252,7 +252,7 @@
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Uncomfortable";
-            view.image = [UIImage imageNamed:kNoteThisIssueGreen];
+            view.image = [UIImage imageNamed:kNoteThisIssueWhite];
             [viewArray addObject:view];
             [view release];
         }

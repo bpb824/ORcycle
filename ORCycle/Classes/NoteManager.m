@@ -147,6 +147,186 @@
     
 }
 
+- (NSDictionary*)encodeUserData
+{
+    NSLog(@"encodeUserData");
+    NSMutableDictionary *userDict = [NSMutableDictionary dictionaryWithCapacity:5];
+    
+    NSFetchRequest		*request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
+    [request setEntity:entity];
+    
+    NSError *error;
+    NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+    //NSLog(@"saved user count  = %d", count);
+    
+    if ( count )
+    {
+        NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+        if (mutableFetchResults == nil) {
+            // Handle the error.
+            NSLog(@"no saved user");
+            if ( error != nil )
+                NSLog(@"TripManager fetch saved user data error %@, %@", error, [error localizedDescription]);
+        }
+        
+        NSString *appVersion = [NSString stringWithFormat:@"%@ (%@) on iOS %@",
+                                [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"],
+                                [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+                                [[UIDevice currentDevice] systemVersion]];
+        
+        User *user = [mutableFetchResults objectAtIndex:0];
+        if ( user != nil )
+        {
+            // initialize text fields to saved personal info
+            [userDict setValue:user.email           forKey:@"email"];
+            [userDict setValue:user.feedback         forKey:@"feedback"];
+            /*
+             [userDict setValue:user.homeZIP         forKey:@"homeZIP"];
+             [userDict setValue:user.workZIP         forKey:@"workZIP"];
+             [userDict setValue:user.schoolZIP       forKey:@"schoolZIP"];
+             */
+            [userDict setValue:appVersion           forKey:@"app_version"];
+        }
+        else
+            NSLog(@"TripManager fetch user FAIL");
+        
+        [mutableFetchResults release];
+    }
+    else
+        NSLog(@"TripManager WARNING no saved user data to encode");
+    
+    [request release];
+    return userDict;
+}
+
+- (NSMutableArray*)encodeUserResponseData
+{
+    NSLog(@"encodeUserResponseData");
+    
+    NSMutableArray *userResponsesCollection = [[NSMutableArray alloc]init];
+    
+    NSFetchRequest		*request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
+    [request setEntity:entity];
+    
+    NSError *error;
+    NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+    //NSLog(@"saved user count  = %d", count);
+    
+    if ( count )
+    {
+        NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+        if (mutableFetchResults == nil) {
+            // Handle the error.
+            NSLog(@"no saved user");
+            if ( error != nil )
+                NSLog(@"TripManager fetch saved user data error %@, %@", error, [error localizedDescription]);
+        }
+        
+        User *user = [mutableFetchResults objectAtIndex:0];
+        if ( user != nil )
+        {
+            NSArray *answers = @[[NSNumber numberWithInt:[user.age intValue]+1],
+                                 [NSNumber numberWithInt:[user.gender intValue] + 9],
+                                 [NSNumber numberWithInt:[user.ethnicity intValue]+13],
+                                 [NSNumber numberWithInt:[user.occupation intValue] +20],
+                                 [NSNumber numberWithInt:[user.income intValue]+26],
+                                 [NSNumber numberWithInt:[user.hhWorkers intValue]+35],
+                                 [NSNumber numberWithInt:[user.hhVehicles intValue]+40],
+                                 [NSNumber numberWithInt:[user.numBikes intValue] +45 ],
+                                 [NSNumber numberWithInt:[user.cyclingFreq intValue]+59 ],
+                                 [NSNumber numberWithInt:[user.cyclingWeather intValue]+64],
+                                 [NSNumber numberWithInt:[user.riderType intValue] + 75 ]];
+            
+            NSArray *questions = @[@1,@3,@4,@5,@6,@7,@8,@9,@14,@15,@17];
+            
+            for(int i = 0; i < [questions count];i++){
+                NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [userResponseDict setObject:questions[i] forKey:@"question_id"];
+                [userResponseDict setObject:answers[i] forKey:@"answer_id"];
+                NSLog(@"%@", userResponseDict);
+                userResponsesCollection[i] = userResponseDict;
+            }
+            //[NSNumber numberWithInt:[user.riderAbility intValue]+69],
+            NSInteger riderAbilitySelectedRow = [user.riderAbility integerValue];
+            
+            switch (riderAbilitySelectedRow){
+                case 0:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:69] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 1:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:74] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 2:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:73] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 3:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:72] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 4:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:71] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+                case 5:{
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject:[NSNumber numberWithInt:16] forKey:@"question_id"];
+                    [userResponseDict setObject:[NSNumber numberWithInt:70] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                    break;
+                }
+            }
+            
+            
+            
+            NSMutableArray *bikeTypesTemp = [[user.bikeTypes componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *bikeTypes = [[NSMutableArray alloc] init];
+            for (NSString *s in bikeTypesTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [bikeTypes addObject:num];
+            }
+            for (int i = 0; i < [bikeTypes count];i++){
+                if([bikeTypes[i] integerValue] == 1){
+                    NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [userResponseDict setObject: [NSNumber numberWithInt:10] forKey:@"question_id"];
+                    [userResponseDict setObject: [NSNumber numberWithInt:i + 52] forKey:@"answer_id"];
+                    [userResponsesCollection addObject:userResponseDict];
+                }
+            }
+        }
+        else
+            NSLog(@"TripManager fetch user FAIL");
+        
+        [mutableFetchResults release];
+    }
+    else
+        NSLog(@"TripManager WARNING no saved user response data to encode");
+    
+    [request release];
+    return userResponsesCollection;
+}
+
+
 - (NSMutableArray*)encodeNoteResponseData
 {
 	NSLog(@"encodeNoteResponseData");
@@ -175,7 +355,7 @@
 		if ( noteResponse != nil )
 		{
             if (!([noteResponse.severity integerValue] == 0)){
-                NSNumber *severity = [NSNumber numberWithInt:[noteResponse.severity intValue]+ 150];
+                NSNumber *severity = [NSNumber numberWithInt:[noteResponse.severity intValue]+ 151];
                 NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                 [noteResponseDict setObject:[NSNumber numberWithInt:28] forKey:@"question_id"];
                 [noteResponseDict setObject:severity forKey:@"answer_id"];
@@ -283,12 +463,12 @@
     
     CGSize size;
     if (castedImage.size.height > castedImage.size.width) {
-        size.height = 3264;
-        size.width = 2448;
+        size.height = 480;
+        size.width = 320;
     }
     else {
-        size.height = 2448;
-        size.width = 3264;
+        size.height = 320;
+        size.width = 480;
     }
     
     NSData *uploadData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([ImageResize imageWithImage:castedImage scaledToSize:size], kJpegQuality)];
@@ -300,6 +480,18 @@
         
     // JSON encode user data and trip data, return to strings
     NSError *writeError = nil;
+    
+    // JSON encode user data
+    NSDictionary *userDict = [self encodeUserData];
+    NSData *userJsonData = [NSJSONSerialization dataWithJSONObject:userDict options:0 error:&writeError];
+    NSString *userJson = [[[NSString alloc] initWithData:userJsonData encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"user data %@", userJson);
+
+    // encode user response data
+    NSMutableArray *userResponsesCollection = [self encodeUserResponseData];
+    NSData *userResponseJsonData = [NSJSONSerialization dataWithJSONObject:userResponsesCollection options:0 error:&writeError];
+    NSString *userResponseJson = [[[NSString alloc] initWithData:userResponseJsonData encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"user response data %@", userResponseJson);
     
     // JSON encode the Note data
     NSData *noteJsonData = [[NSData alloc] initWithData:[NSJSONSerialization dataWithJSONObject:noteDict options:0 error:&writeError]];
@@ -314,6 +506,9 @@
 	NSDictionary *postVars = [NSDictionary dictionaryWithObjectsAndKeys: 
                               noteJson, @"note",
                               noteResponseJson, @"noteResponses",
+                              userJson, @"user",
+                              userResponseJson, @"userResponses",
+                              
 							  [NSString stringWithFormat:@"%d", kSaveNoteProtocolVersion], @"version",
 //                              [NSData dataWithData:note.image_data], @"image_data",
 							  nil];
@@ -406,12 +601,12 @@
     
     CGSize size;
     if (castedImage.size.height > castedImage.size.width) {
-        size.height = 3264;
-        size.width = 2448;
+        size.height = 480;
+        size.width = 320;
     }
     else {
-        size.height = 2448;
-        size.width = 3264;
+        size.height = 320;
+        size.width = 480;
     }
 
     NSData *uploadData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([ImageResize imageWithImage:castedImage scaledToSize:size], kJpegQuality)];
@@ -423,6 +618,19 @@
     
     // JSON encode user data and trip data, return to strings
     NSError *writeError = nil;
+    
+    // JSON encode user data
+    NSDictionary *userDict = [self encodeUserData];
+    NSData *userJsonData = [NSJSONSerialization dataWithJSONObject:userDict options:0 error:&writeError];
+    NSString *userJson = [[[NSString alloc] initWithData:userJsonData encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"user data %@", userJson);
+    
+    // encode user response data
+    NSMutableArray *userResponsesCollection = [self encodeUserResponseData];
+    NSData *userResponseJsonData = [NSJSONSerialization dataWithJSONObject:userResponsesCollection options:0 error:&writeError];
+    NSString *userResponseJson = [[[NSString alloc] initWithData:userResponseJsonData encoding:NSUTF8StringEncoding] autorelease];
+    NSLog(@"user response data %@", userResponseJson);
+    
     // JSON encode the Note data
     NSData *noteJsonData = [[NSData alloc] initWithData:[NSJSONSerialization dataWithJSONObject:noteDict options:0 error:&writeError]];
     
@@ -437,6 +645,9 @@
 	NSDictionary *postVars = [NSDictionary dictionaryWithObjectsAndKeys:
                               noteJson, @"note",
                               noteResponseJson, @"noteResponses",
+                              userJson, @"user",
+                              userResponseJson, @"userResponses",
+
 							  [NSString stringWithFormat:@"%d", kSaveNoteProtocolVersion], @"version",
                               //                              [NSData dataWithData:note.image_data], @"image_data",
 							  nil];

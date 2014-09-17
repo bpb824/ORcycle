@@ -96,9 +96,9 @@
 #define kSaveError			@"Your trip has been saved. Please try uploading again later."
 
 #define kInfoURL			@"http://renotracks.nevadabike.org/"
-#define kInstructionsURL	@"http://orcycle2.cecs.pdx.edu/Help/ORcycleHelp_iOS.html"
-#define kMainURL            @"http://orcycle2.cecs.pdx.edu/Web/"
-#define kPrivacyURL         @"http://orcycle2.cecs.pdx.edu/Web/PrivacyPolicy.html"
+#define kInstructionsURL	@"http://www.pdx.edu/transportation-lab/ios-instructions"
+#define kMainURL            @"http://www.pdx.edu/transportation-lab/orcycle"
+#define kPrivacyURL         @"http://www.pdx.edu/transportation-lab/privacy-policy"
 
 //#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
 #define kSaveURL            @"http://orcycle2.cecs.pdx.edu/post/"

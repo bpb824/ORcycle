@@ -177,6 +177,9 @@
 {
     [super viewDidLoad];
     
+    id mocDelegate = [[UIApplication sharedApplication] delegate];
+    self.managedObjectContext = [mocDelegate managedObjectContext];
+    
     [self setNeedsStatusBarAppearanceUpdate];
     
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
@@ -206,7 +209,7 @@
     
     riderAbilityArray = [[NSArray alloc]initWithObjects: @" ", @"Very High", @"High", @"Average", @"Low", @"Very Low", nil];
     
-    riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"For nearly all my trips", @"To & from work", @"For recreation and/or excercise in my free time", @"For shopping, errands, or visiting friends", @"Mainly to & from work, but occasionally for other purposes", @"Other", nil];
+    riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"For nearly all my trips", @"To and from work", @"For recreation and/or excercise in my free time", @"For shopping, errands, or visiting friends", @"Mainly to & from work, but occasionally for other purposes", @"Other", nil];
     /*
     riderHistoryArray = [[NSArray alloc]initWithObjects: @" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started", nil];
      */
@@ -363,27 +366,12 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)myTextField{
     
-    /*if(currentTextField == email || currentTextField == workZIP || currentTextField == homeZIP || currentTextField == schoolZIP){
-     NSLog(@"currentTextField: text");
-     [currentTextField resignFirstResponder];
-     [myTextField resignFirstResponder];
-     }
-     NSLog(@"currentTextfield: picker");*/
     currentTextField = myTextField;
     
-    if(myTextField == gender || myTextField == age || myTextField == ethnicity || myTextField == occupation || myTextField == income || myTextField == hhWorkers || myTextField == hhVehicles || myTextField == numBikes || myTextField == cyclingFreq || myTextField == cyclingWeather|| myTextField == riderAbility || myTextField == riderType ){
+    if(myTextField == gender || myTextField == age || myTextField == ethnicity || myTextField == occupation || myTextField == income || myTextField == hhWorkers || myTextField == hhVehicles || myTextField == numBikes || myTextField == cyclingFreq || myTextField == cyclingWeather|| myTextField == riderAbility || myTextField == riderType){
         
         [myTextField resignFirstResponder];
         
-        
-        //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
-        /*
-        actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]; //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
-        
-        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
-        
-        [actionSheet addSubview:pickerView];
-         */
         if (myTextField == gender){
             
             ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
@@ -589,85 +577,6 @@
             
             [ActionSheetStringPicker showPickerWithTitle:@"Rider Type" rows: riderTypeArray initialSelection:riderTypeArray[0] doneBlock:done cancelBlock:cancel origin:riderType];
         }
-        
-        
-        /*
-         CGRect frame = CGRectMake(0.0, 0.0, 320, 200);
-         tView = [[UILabel alloc] initWithFrame:frame];
-         [tView setFont:[UIFont fontWithName:@"Helvetica" size:15]];
-         [tView setTextAlignment:NSTextAlignmentCenter];
-         tView.lineBreakMode = NSLineBreakByWordWrapping;
-         //tView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-         [tView setNumberOfLines:0];
-
-        doneToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        doneToolbar.barStyle = UIBarStyleDefault;
-        [doneToolbar sizeToFit];
-        
-        NSMutableArray *barItems = [[[NSMutableArray alloc] init] autorelease];
-        
-        UIBarButtonItem *flexSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
-        [barItems addObject:flexSpace];
-        
-        UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
-        [barItems addObject:cancelBtn];
-        
-        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonPressed:)];
-        [barItems addObject:doneBtn];
-         */
-        
-        //TODO add a next and previous button to left side to take us to the next/previous thing. and switch to the right kind of input mode.
-        
-        //[doneToolbar setItems:barItems animated:YES];
-        
-        //[alertView addSubview:doneToolbar];
-        
-        //[actionSheet addSubview:doneToolbar];
-        /*
-        selectedItem = 0;
-        if(myTextField == gender){
-            selectedItem = [user.gender integerValue];
-        }else if (myTextField == age){
-            selectedItem = [user.age integerValue];
-        }else if (myTextField == ethnicity){
-            selectedItem = [user.ethnicity integerValue];
-        }else if (myTextField == occupation){
-            selectedItem = [user.occupation integerValue];
-        }else if (myTextField == income){
-            selectedItem = [user.income integerValue];
-        }else if (myTextField == hhWorkers){
-            selectedItem = [user.hhWorkers integerValue];
-        }else if (myTextField == hhVehicles){
-            selectedItem = [user.hhVehicles integerValue];
-        }else if (myTextField == numBikes){
-            selectedItem = [user.numBikes integerValue];
-        }else if (myTextField == cyclingFreq){
-            selectedItem = [user.cyclingFreq integerValue];
-        }else if (myTextField == cyclingWeather){
-            selectedItem = [user.cyclingWeather integerValue];
-        }else if (myTextField == riderAbility){
-            selectedItem = [user.riderAbility integerValue];
-        }else if (myTextField == riderType){
-            selectedItem = [user.riderType integerValue];
-        }
-        
-        [pickerView selectRow:selectedItem inComponent:0 animated:NO];
-        
-        [pickerView reloadAllComponents];
-        
-        [alertView addSubview:pickerView];
-        
-        //[actionSheet addSubview:pickerView];
-        
-        [alertView show];
-        
-        [alertView setBounds:CGRectMake(0, 0, 320, 485)];
-        
-        [actionSheet showInView:self.view];
-        
-        [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
-         */
-        
     }
 }
 
@@ -706,6 +615,7 @@
             }
             NSLog(@"saving email: %@", email.text);
 			[user setEmail:email.text];
+            [textField resignFirstResponder];
             
 		}
     
@@ -718,12 +628,19 @@
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.35f];
-    CGPoint offset = self.tableView.contentOffset;
-    offset.y += 100; // You can change this, but 200 doesn't create any problems
-    [self.tableView setContentOffset:offset];
-    [UIView commitAnimations];
+    if (textView == feedback){
+        [currentTextField resignFirstResponder];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.35f];
+        CGPoint offset = self.tableView.contentOffset;
+        offset.y += 100; // You can change this, but 200 doesn't create any problems
+        [self.tableView setContentOffset:offset];
+        [UIView commitAnimations];
+        //[textView resignFirstResponder];
+    }
+    else{
+        return;
+    }
 }
 
 // save the new value for this textField
@@ -888,7 +805,7 @@
 			return @"What type of weather do you ride in?";
 			break;
         case 5:
-            return @"How many bicycles do you own/ride?";
+            return @"How many bicycles do you own?";
             break;
         case 6:
 			return @"What types of bicycles do you own? (touch to add to selection)";
@@ -951,7 +868,7 @@
 			return 50;
 			break;
         case 5:
-			return 50;
+			return 35;
 			break;
         case 6:
             return 50;
@@ -977,7 +894,7 @@
 	switch ( section )
 	{
         case 0:
-            return 3;
+            return 2;
             break;
         case 1:
             return 1;
@@ -1043,15 +960,6 @@
                     [cell.textLabel setAttributedText:attributedString];
 					break;
                 case 1:
-					cell.textLabel.text = @"More info about ORcycle";
-                    [cell.textLabel setTextColor:[UIColor blueColor]];
-                    NSMutableAttributedString *attributedStringTwo = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
-                    NSInteger lenTwo = cell.textLabel.text.length;
-                    // Add attribute NSUnderlineStyleAttributeName
-                    [attributedStringTwo addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, lenTwo)];
-                    [cell.textLabel setAttributedText:attributedStringTwo];
-					break;
-                case 2:
 					cell.textLabel.text = @"Privacy Policy";
                     [cell.textLabel setTextColor:[UIColor blueColor]];
                     NSMutableAttributedString *attributedStringThree = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
@@ -1328,9 +1236,6 @@
     NSURL *url = [NSURL URLWithString:kInstructionsURL];
     NSURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     
-    NSURL *mainURL = [NSURL URLWithString:kMainURL];
-    NSURLRequest *mainRequest = [NSMutableURLRequest requestWithURL:mainURL];
-    
     NSURL *privacyURL = [NSURL URLWithString:kPrivacyURL];
     NSURLRequest *privacyRequest = [NSMutableURLRequest requestWithURL:privacyURL];
     
@@ -1344,10 +1249,7 @@
 				case 0:
                     [[UIApplication sharedApplication] openURL:[request URL]];
 					break;
-				case 1:
-					[[UIApplication sharedApplication] openURL:[mainRequest URL]];
-                    break;
-                case 2:
+                case 1:
                     [[UIApplication sharedApplication] openURL:[privacyRequest URL]];
                     break;
 			}
@@ -1702,6 +1604,13 @@
     [alertView dismissWithClickedButtonIndex:1 animated:YES];
 }
  */
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    
+}
 
 
 - (void)dealloc {

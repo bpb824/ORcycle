@@ -74,7 +74,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    severityArray = [[NSArray alloc] initWithObjects: @"",@"I have had a major crash/accident", @"I have had a minor crash/accident", @"I have had a near-crash/accident", @"I do not feel safe", @"I feel uncomfortable",  nil];
+    severityArray = [[NSArray alloc] initWithObjects: @"", @"I have had a major crash/accident", @"I have had a minor crash/accident", @"I have had a near-crash/accident", @"I do not feel safe", @"I feel uncomfortable",  nil];
     
     conflictWithArray = [[NSArray alloc] initWithObjects: @" ", @"Auto Traffic", @"Large commercial vehicles (trucks)", @"Public transport (buses, light rail, streetcar)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Poles/barriers/infrastructure", @"Other", nil];
     
@@ -120,10 +120,28 @@
 
 -(IBAction)saveDetail:(id)sender{
     NSLog(@"Save Detail");
-    if (severitySelectedRow == 0){
+    if ((severitySelectedRow > 10 || severitySelectedRow == 0) && [issueTypeSelectedRows count]==0){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must select a severity level"
+                              message:@"You must select a severity level and at least one infrastructure/safety issue type."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if ((severitySelectedRow < 10 && severitySelectedRow !=0) && [issueTypeSelectedRows count]==0){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must select at least one infrastructure/safety issue type."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if ((severitySelectedRow > 10 || severitySelectedRow == 0) && [issueTypeSelectedRows count]!=0){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must select a severity level."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
@@ -150,7 +168,7 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if(currentTextField == severity ){
         NSLog(@"currentTextField: text2");
-        [currentTextField resignFirstResponder];
+        //[currentTextField resignFirstResponder];
         [textField resignFirstResponder];
     }
     return YES;
@@ -207,6 +225,10 @@
             ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
                 if ([severity respondsToSelector:@selector(setText:)]) {
                     [severity performSelector:@selector(setText:) withObject:selectedValue];
+                    NSLog(@"Picker: %@", picker);
+                    NSLog(@"Selected Index: %ld", (long)selectedIndex);
+                    NSLog(@"Selected Value: %@", selectedValue);
+                    
                     if (selectedIndex != [noteResponse.severity integerValue]){
                         self.navigationItem.rightBarButtonItem.enabled = YES;
                     }
@@ -309,10 +331,10 @@
 			return @"Severity of the problem (choose one)";
 			break;
         case 1:
-            return @"I had a conflict or accident with... (can select more than one)";
+            return @"Location specific infrastructure/safety issues... (can select more than one)";
             break;
         case 2:
-            return @"Location specific infrastructure/safety issues... (can select more than one)";
+            return @"I had a conflict or accident with... (can select more than one)";
             break;
     }
     return nil;
@@ -347,10 +369,10 @@
             return 50;
             break;
         case 1:
-            return 50;
+            return 65;
             break;
 		case 2:
-			return 65;
+			return 50;
 			break;
         default:
 			return 0;
@@ -366,10 +388,10 @@
             return 1;
             break;
         case 1:
-            return 8;
+            return 12;
             break;
         case 2:
-            return 12;
+            return 8;
             break;
         default:
             return 0;
@@ -412,52 +434,6 @@
 		}
 			break;
         case 1:
-		{
-			static NSString *CellIdentifier = @"CellConflictWith";
-			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			}
-            
-            if([conflictWithSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
-            
-            
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					cell.textLabel.text = conflictWithArray[1];
-                    break;
-				case 1:
-					cell.textLabel.text = conflictWithArray[2];
-					break;
-				case 2:
-					cell.textLabel.text = conflictWithArray[3];
-					break;
-                case 3:
-					cell.textLabel.text = conflictWithArray[4];
-					break;
-                case 4:
-					cell.textLabel.text = conflictWithArray[5];
-                    break;
-                case 5:
-					cell.textLabel.text = conflictWithArray[6];
-                    break;
-                case 6:
-					cell.textLabel.text = conflictWithArray[7];
-                    break;
-                case 7:
-					cell.textLabel.text = conflictWithArray[8];
-                    break;
-            }
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
-            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-            [cell.textLabel setNumberOfLines:0];
-		}
-			break;
-        case 2:
 		{
 			static NSString *CellIdentifier = @"CellIssueType";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -515,6 +491,52 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
+        case 2:
+        {
+            static NSString *CellIdentifier = @"CellConflictWith";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            if([conflictWithSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
+            
+            
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = conflictWithArray[1];
+                    break;
+                case 1:
+                    cell.textLabel.text = conflictWithArray[2];
+                    break;
+                case 2:
+                    cell.textLabel.text = conflictWithArray[3];
+                    break;
+                case 3:
+                    cell.textLabel.text = conflictWithArray[4];
+                    break;
+                case 4:
+                    cell.textLabel.text = conflictWithArray[5];
+                    break;
+                case 5:
+                    cell.textLabel.text = conflictWithArray[6];
+                    break;
+                case 6:
+                    cell.textLabel.text = conflictWithArray[7];
+                    break;
+                case 7:
+                    cell.textLabel.text = conflictWithArray[8];
+                    break;
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
+        }
+            break;
     }
     cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
@@ -544,24 +566,24 @@
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                [conflictWithSelectedRows addObject:indexPath];
-            }
-            else {
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                [conflictWithSelectedRows removeObject:indexPath];
-            }
-            break;
-        }
-        case 2:
-		{
-            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            if(cell.accessoryType == UITableViewCellAccessoryNone) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [issueTypeSelectedRows addObject:indexPath];
             }
             else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 [issueTypeSelectedRows removeObject:indexPath];
+            }
+            break;
+        }
+        case 2:
+        {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            if(cell.accessoryType == UITableViewCellAccessoryNone) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                [conflictWithSelectedRows addObject:indexPath];
+            }
+            else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                [conflictWithSelectedRows removeObject:indexPath];
             }
             break;
         }

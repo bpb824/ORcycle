@@ -286,9 +286,10 @@
                 image = [UIImage imageNamed:kNoteThisIssueGreen];
                 break;
             case 5:
-                image = [UIImage imageNamed:kNoteThisIssueGreen];
+                image = [UIImage imageNamed:kNoteThisIssueWhite];
                 break;
             default:
+            
                 image = [UIImage imageNamed:kNoteThisIssueBlack];
                 break;
         }

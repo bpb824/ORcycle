@@ -112,8 +112,8 @@
     
     tabBarItem1.title = @"Record";
     tabBarItem2.title = @"Trips";
-    tabBarItem3.title = @"Safety Marks";
-    tabBarItem4.title = @"User Info";
+    tabBarItem3.title = @"Safety";
+    tabBarItem4.title = @"User";
 
     
 	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
@@ -193,7 +193,7 @@
 - (void)initUniqueIDHash
 {
 	//self.uniqueIDHash = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]; // save for later.
-    self.uniqueIDHash = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    self.uniqueIDHash = [[UIDevice currentDevice]uniqueGlobalDeviceIdentifier];
 	NSLog(@"Hashed uniqueID: %@", uniqueIDHash);
 }
 

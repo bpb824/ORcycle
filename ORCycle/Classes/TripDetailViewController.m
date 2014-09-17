@@ -309,12 +309,15 @@
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.35f];
-    CGPoint offset = self.infoTableView.contentOffset;
-    offset.y += 180; // You can change this, but 200 doesn't create any problems
-    [self.infoTableView setContentOffset:offset];
-    [UIView commitAnimations];
+    if (textView == detailTextView){
+        [currentTextField resignFirstResponder];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.35f];
+        CGPoint offset = self.infoTableView.contentOffset;
+        offset.y += 170; // You can change this, but 200 doesn't create any problems
+        [self.infoTableView setContentOffset:offset];
+        [UIView commitAnimations];
+    }
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -463,7 +466,7 @@
             return @"I chose this route because... (can select more than one)";
             break;
         case 2:
-            return @"In terms of my comfort, this route is...";
+            return @"In terms of comfort, this route is...";
             break;
             /*
         case 3:
@@ -1273,7 +1276,7 @@
         NSString *routeComfortSelect = [routeComfortArray objectAtIndex:selectedRow];
         routeComfort.text = routeComfortSelect;
     }
-    /*
+
     if(currentTextField == routeSafety){
         //enable save button if value has been changed.
         self.navigationItem.rightBarButtonItem.enabled = YES;
