@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -67,12 +67,18 @@
 
 
 #define kNoteThisAsset                  @"noteAssetPicker.png"
-#define kNoteThisIssueBlack             @"noteIssuePickerBlack.png"
-#define kNoteThisIssueRed               @"5. note_severity_map_icon_red.png"
-#define kNoteThisIssueOrange            @"4. note_severity_map_icon_orange.png"
-#define kNoteThisIssueYellow            @"3. note_severity_map_icon_yellow.png"
-#define kNoteThisIssueGreen             @"2. note_severity_map_icon_green.png"
-#define kNoteThisIssueWhite             @"1. note_severity_map_icon.png"
+#define kNoteThisIssueWhite             @"noteassetmapglyph-white.png"
+#define kNoteThisIssueRed               @"noteassetmapglyph-red.png"
+#define kNoteThisIssueOrange            @"noteassetmapglyph-orange.png"
+#define kNoteThisIssueYellow            @"noteassetmapglyph-yellow.png"
+#define kNoteThisIssueGreen             @"noteassetmapglyph-green.png"
+#define kNoteThisIssueBlue              @"noteassetmapglyph-blue.png"
+#define kNoteThisCrashWhite             @"noteassetmapglyph-white.png"
+#define kNoteThisCrashRed               @"WarmRedCrashSmall.png"
+#define kNoteThisCrashOrange            @"WarmOrangeCrashSmall.png"
+#define kNoteThisCrashYellow            @"WarmYellowCrashSmall.png"
+#define kNoteThisCrashGreen             @"WarmGreenCrashSmall.png"
+#define kNoteThisCrashBlue              @"WarmBlueCrashSmall.png"
 #define kNoteBlank                      @"noteBlankPicker.png"
 
 #define kTripPurposeCommuteString       @"Commute"
@@ -97,7 +103,9 @@
 @optional
 - (void)didCancelPurpose;
 - (void)didCancelNote;
+- (void)didCancelNoteDelete;
 - (void)didPickPurpose:(unsigned int)index;
+- (void)didEnterTripPurposeOther:(NSString *)purposeOther;
 - (void)didPickNoteType:(NSNumber *)index;
 - (void)didEnterNoteDetails:(NSString *)details;
 - (void)didEnterTripDetails:(NSString *)details;
@@ -111,6 +119,9 @@
 - (void)didPickRoutePrefs: (NSString *) routePrefsString;
 - (void)didPickRouteComfort: (NSNumber *)index;
 - (void)didPickRouteStressors: (NSString *) routeStressorsString;
+
+- (void)didEnterOtherRoutePrefs: (NSString *) otherRoutePrefsString;
+- (void)didEnterOtherRouteStressors: (NSString *) otherRoutePrefsStressors;
 
 
 @end

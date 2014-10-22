@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -114,6 +114,8 @@
 {
     NSLog(@"This is very very special!");
     
+    [self createNote];
+    
     if(!note){
         NSLog(@"Note nil");
     }
@@ -146,6 +148,46 @@
 	}
     
 }
+
+/*
+- (void)customLocation:(CLLocation *)locationPicked
+{
+    NSLog(@"Accessed custom location function in note manager");
+    
+    if(!note){
+        NSLog(@"Note nil");
+    }
+
+    [note setAltitude:[NSNumber numberWithDouble:0]];
+    NSLog(@"Altitude: %f", [note.altitude doubleValue]);
+    
+    [note setLatitude:[NSNumber numberWithDouble:locationPicked.coordinate.latitude]];
+    NSLog(@"Latitude: %f", [note.latitude doubleValue]);
+    
+    [note setLongitude:[NSNumber numberWithDouble:locationPicked.coordinate.longitude]];
+    NSLog(@"Longitude: %f", [note.longitude doubleValue]);
+    
+    [note setSpeed:[NSNumber numberWithDouble:0]];
+    NSLog(@"Speed: %f", [note.speed doubleValue]);
+    
+    [note setHAccuracy:[NSNumber numberWithDouble:0]];
+    NSLog(@"HAccuracy: %f", [note.hAccuracy doubleValue]);
+    
+    [note setVAccuracy:[NSNumber numberWithDouble:0]];
+    NSLog(@"VAccuracy: %f", [note.vAccuracy doubleValue]);
+    
+    //    [note setRecorded:locationNow.timestamp];
+    //    NSLog(@"Date: %@", note.recorded);
+    
+    NSError *error;
+    if (![managedObjectContext save:&error]) {
+        // Handle the error.
+        NSLog(@"Note addLocation error %@, %@", error, [error localizedDescription]);
+    }
+    
+}
+*/
+
 
 - (NSDictionary*)encodeUserData
 {
@@ -181,6 +223,7 @@
             // initialize text fields to saved personal info
             [userDict setValue:user.email           forKey:@"email"];
             [userDict setValue:user.feedback         forKey:@"feedback"];
+            [userDict setValue:user.userCreated      forKey:@"installed"];
             /*
              [userDict setValue:user.homeZIP         forKey:@"homeZIP"];
              [userDict setValue:user.workZIP         forKey:@"workZIP"];
@@ -245,6 +288,41 @@
                 NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                 [userResponseDict setObject:questions[i] forKey:@"question_id"];
                 [userResponseDict setObject:answers[i] forKey:@"answer_id"];
+                if (i == 1 && [answers[i] integerValue] == 12){
+                    if(user.otherGender != NULL){
+                        [userResponseDict setObject:user.otherGender forKey:@"other_text"];
+                    }
+                    else{
+                        [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                    }
+                    
+                }
+                else if (i == 2 && [answers[i] integerValue] == 19){
+                    if (user.otherEthnicity != NULL){
+                        [userResponseDict setObject:user.otherEthnicity forKey:@"other_text"];
+                    }
+                    else{
+                        [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                    }
+                }
+                else if (i == 3 && [answers[i] integerValue] == 25){
+                    if (user.otherOccupation != NULL){
+                        [userResponseDict setObject:user.otherOccupation forKey:@"other_text"];
+                    }
+                    else{
+                        [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                    }
+                    
+                }
+                else if (i == 10 && [answers[i] integerValue] == 81){
+                    if (user.otherRiderType != NULL){
+                        [userResponseDict setObject:user.otherRiderType forKey:@"other_text"];
+                    }
+                    else{
+                        [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                    }
+                    
+                }
                 NSLog(@"%@", userResponseDict);
                 userResponsesCollection[i] = userResponseDict;
             }
@@ -310,6 +388,15 @@
                     NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                     [userResponseDict setObject: [NSNumber numberWithInt:10] forKey:@"question_id"];
                     [userResponseDict setObject: [NSNumber numberWithInt:i + 52] forKey:@"answer_id"];
+                    if (i == 6){
+                        if (user.otherBikeTypes != NULL){
+                            [userResponseDict setObject:user.otherBikeTypes forKey:@"other_text"];
+                        }
+                        else{
+                            [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                        }
+                        
+                    }
                     [userResponsesCollection addObject:userResponseDict];
                 }
             }
@@ -352,60 +439,347 @@
         NSInteger last = [mutableFetchResults count] -1 ;
 		NoteResponse *noteResponse = [mutableFetchResults objectAtIndex:last];
         NSLog(@" note response received from core data as %@", noteResponse);
-		if ( noteResponse != nil )
-		{
-            if (!([noteResponse.severity integerValue] == 0)){
-                NSNumber *severity = [NSNumber numberWithInt:[noteResponse.severity intValue]+ 151];
-                NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
-                [noteResponseDict setObject:[NSNumber numberWithInt:28] forKey:@"question_id"];
-                [noteResponseDict setObject:severity forKey:@"answer_id"];
-                NSLog(@"%@", noteResponseDict);
-                [noteResponsesCollection addObject:noteResponseDict];
+		if ( noteResponse != nil ){
+            
+            if (note.isCrash){
+                if (!([noteResponse.severity integerValue] == 0)){
+                    NSNumber *severity = [[NSNumber alloc] init];
+                    switch ([noteResponse.severity integerValue]) {
+                        case 1:
+                            severity = [NSNumber numberWithInt:151];
+                            break;
+                        case 2:
+                            severity = [NSNumber numberWithInt:152];
+                            break;
+                        case 3:
+                            severity = [NSNumber numberWithInt:153];
+                            break;
+                        case 4:
+                            severity = [NSNumber numberWithInt:154];
+                            break;
+                        case 5:
+                            severity = [NSNumber numberWithInt:155];
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    
+                    NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [noteResponseDict setObject:[NSNumber numberWithInt:28] forKey:@"question_id"];
+                    [noteResponseDict setObject:severity forKey:@"answer_id"];
+                    NSLog(@"%@", noteResponseDict);
+                    [noteResponsesCollection addObject:noteResponseDict];
                 }
+                else{
+                    NSNumber *severity = [NSNumber numberWithInt:176];
+                    NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                    [noteResponseDict setObject:[NSNumber numberWithInt:28] forKey:@"question_id"];
+                    [noteResponseDict setObject:severity forKey:@"answer_id"];
+                    NSLog(@"%@", noteResponseDict);
+                    [noteResponsesCollection addObject:noteResponseDict];
+                }
+                
+                NSMutableArray *conflictWithTemp = [[noteResponse.conflictWith componentsSeparatedByString:@","] mutableCopy];
+                NSMutableArray *conflictWith = [[NSMutableArray alloc] init];
+                for (NSString *s in conflictWithTemp)
+                {
+                    NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                    [conflictWith addObject:num];
+                }
+                
+                for (int i = 0; i < [conflictWith count];i++){
+                    if([conflictWith[i] integerValue] == 1){
+                        NSNumber *conflictIndex = [[NSNumber alloc]init];
+                        switch (i) {
+                            case 0:
+                                conflictIndex = [NSNumber numberWithInt:156];
+                                break;
+                            case 1:
+                                conflictIndex = [NSNumber numberWithInt:157];
+                                break;
+                            case 2:
+                                conflictIndex = [NSNumber numberWithInt:158];
+                                break;
+                            case 3:
+                                conflictIndex = [NSNumber numberWithInt:159];
+                                break;
+                            case 4:
+                                conflictIndex = [NSNumber numberWithInt:160];
+                                break;
+                            case 5:
+                                conflictIndex = [NSNumber numberWithInt:161];
+                                break;
+                            case 6:
+                                conflictIndex = [NSNumber numberWithInt:162];
+                                break;
+                            case 7:
+                                conflictIndex = [NSNumber numberWithInt:163];
+                                break;
+                            case 8:
+                                conflictIndex = [NSNumber numberWithInt:177];
+                                break;
+                            case 9:
+                                conflictIndex = [NSNumber numberWithInt:178];
+                                break;
+                            default:
+                                break;
+                        }
+                        NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                        [noteResponseDict setObject: [NSNumber numberWithInt:29] forKey:@"question_id"];
+                        [noteResponseDict setObject:conflictIndex forKey:@"answer_id"];
+                        if (i == 9){
+                            if (note.otherConflictWith != NULL){
+                                [noteResponseDict setObject:note.otherConflictWith forKey:@"other_text"];
+                            }
+                            else{
+                                [noteResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                            }
+                        }
+                        [noteResponsesCollection addObject:noteResponseDict];
+                    }
+                }
+                
+                NSMutableArray *crashActionsTemp = [[noteResponse.crashActions componentsSeparatedByString:@","] mutableCopy];
+                NSMutableArray *crashActions = [[NSMutableArray alloc] init];
+                for (NSString *s in crashActionsTemp)
+                {
+                    NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                    [crashActions addObject:num];
+                }
+                
+                for (int i = 0; i < [crashActions count];i++){
+                    if([crashActions[i] integerValue] == 1){
+                        NSNumber *actionIndex = [[NSNumber alloc]init];
+                        switch (i) {
+                            case 0:
+                                actionIndex = [NSNumber numberWithInt:187];
+                                break;
+                            case 1:
+                                actionIndex = [NSNumber numberWithInt:188];
+                                break;
+                            case 2:
+                                actionIndex = [NSNumber numberWithInt:189];
+                                break;
+                            case 3:
+                                actionIndex = [NSNumber numberWithInt:190];
+                                break;
+                            case 4:
+                                actionIndex = [NSNumber numberWithInt:191];
+                                break;
+                            case 5:
+                                actionIndex = [NSNumber numberWithInt:192];
+                                break;
+                            case 6:
+                                actionIndex = [NSNumber numberWithInt:193];
+                                break;
+                            case 7:
+                                actionIndex = [NSNumber numberWithInt:194];
+                                break;
+                            case 8:
+                                actionIndex = [NSNumber numberWithInt:195];
+                                break;
+                            case 9:
+                                actionIndex = [NSNumber numberWithInt:207];
+                                break;
+                            default:
+                                break;
+                        }
+                        NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                        [noteResponseDict setObject: [NSNumber numberWithInt:32] forKey:@"question_id"];
+                        [noteResponseDict setObject:actionIndex forKey:@"answer_id"];
+                        if (i == 9){
+                            if (note.otherCrashActions != NULL){
+                                [noteResponseDict setObject:note.otherCrashActions forKey:@"other_text"];
+                            }
+                            else{
+                                [noteResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                            }
+                        }
+                        [noteResponsesCollection addObject:noteResponseDict];
+                    }
+                }
+                
+                NSMutableArray *crashReasonsTemp = [[noteResponse.crashReasons componentsSeparatedByString:@","] mutableCopy];
+                NSMutableArray *crashReasons = [[NSMutableArray alloc] init];
+                for (NSString *s in crashReasonsTemp)
+                {
+                    NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                    [crashReasons addObject:num];
+                }
+                
+                for (int i = 0; i < [crashReasons count];i++){
+                    if([crashReasons[i] integerValue] == 1){
+                        NSNumber *reasonIndex = [[NSNumber alloc]init];
+                        switch (i) {
+                            case 0:
+                                reasonIndex = [NSNumber numberWithInt:196];
+                                break;
+                            case 1:
+                                reasonIndex = [NSNumber numberWithInt:197];
+                                break;
+                            case 2:
+                                reasonIndex = [NSNumber numberWithInt:198];
+                                break;
+                            case 3:
+                                reasonIndex = [NSNumber numberWithInt:199];
+                                break;
+                            case 4:
+                                reasonIndex = [NSNumber numberWithInt:200];
+                                break;
+                            case 5:
+                                reasonIndex = [NSNumber numberWithInt:201];
+                                break;
+                            case 6:
+                                reasonIndex = [NSNumber numberWithInt:202];
+                                break;
+                            case 7:
+                                reasonIndex = [NSNumber numberWithInt:203];
+                                break;
+                            case 8:
+                                reasonIndex = [NSNumber numberWithInt:204];
+                                break;
+                            case 9:
+                                reasonIndex = [NSNumber numberWithInt:205];
+                                break;
+                            case 10:
+                                reasonIndex = [NSNumber numberWithInt:206];
+                                break;
+                            default:
+                                break;
+                        }
+                        NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                        [noteResponseDict setObject: [NSNumber numberWithInt:33] forKey:@"question_id"];
+                        [noteResponseDict setObject:reasonIndex forKey:@"answer_id"];
+                        if (i == 10){
+                            if (note.otherCrashReasons != NULL){
+                                [noteResponseDict setObject:note.otherCrashReasons forKey:@"other_text"];
+                            }
+                            else{
+                                [noteResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                            }
+                        }
+                        [noteResponsesCollection addObject:noteResponseDict];
+                    }
+                }
+
+
+                
+            }
             else{
-                NSNumber *severity = [NSNumber numberWithInt:176];
-                NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
-                [noteResponseDict setObject:[NSNumber numberWithInt:28] forKey:@"question_id"];
-                [noteResponseDict setObject:severity forKey:@"answer_id"];
-                NSLog(@"%@", noteResponseDict);
-                [noteResponsesCollection addObject:noteResponseDict];
-            }
-            
-            
-            NSMutableArray *conflictWithTemp = [[noteResponse.conflictWith componentsSeparatedByString:@","] mutableCopy];
-            NSMutableArray *conflictWith = [[NSMutableArray alloc] init];
-            for (NSString *s in conflictWithTemp)
-            {
-                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
-                [conflictWith addObject:num];
-            }
-            
-            for (int i = 0; i < [conflictWith count];i++){
-                if([conflictWith[i] integerValue] == 1){
+                if (!([noteResponse.urgency integerValue] == 0)){
+                    NSNumber *urgency = [[NSNumber alloc] init];
+                    switch ([noteResponse.urgency integerValue]) {
+                        case 1:
+                            urgency = [NSNumber numberWithInt:181];
+                            break;
+                        case 2:
+                            urgency = [NSNumber numberWithInt:182];
+                            break;
+                        case 3:
+                            urgency = [NSNumber numberWithInt:183];
+                            break;
+                        case 4:
+                            urgency = [NSNumber numberWithInt:184];
+                            break;
+                        case 5:
+                            urgency = [NSNumber numberWithInt:185];
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    
                     NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
-                    [noteResponseDict setObject: [NSNumber numberWithInt:29] forKey:@"question_id"];
-                    [noteResponseDict setObject: [NSNumber numberWithInt:i + 156] forKey:@"answer_id"];
+                    [noteResponseDict setObject:[NSNumber numberWithInt:31] forKey:@"question_id"];
+                    [noteResponseDict setObject:urgency forKey:@"answer_id"];
+                    NSLog(@"%@", noteResponseDict);
                     [noteResponsesCollection addObject:noteResponseDict];
                 }
-            }
-            
-            NSMutableArray *issueTypeTemp = [[noteResponse.issueType componentsSeparatedByString:@","] mutableCopy];
-            NSMutableArray *issueType = [[NSMutableArray alloc] init];
-            for (NSString *s in issueTypeTemp)
-            {
-                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
-                [issueType addObject:num];
-            }
-            
-            for (int i = 0; i < [issueType count];i++){
-                if([issueType[i] integerValue] == 1){
+                else{
+                    NSNumber *urgency = [NSNumber numberWithInt:186];
                     NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
-                    [noteResponseDict setObject: [NSNumber numberWithInt:30] forKey:@"question_id"];
-                    [noteResponseDict setObject: [NSNumber numberWithInt:i + 164] forKey:@"answer_id"];
+                    [noteResponseDict setObject:[NSNumber numberWithInt:31] forKey:@"question_id"];
+                    [noteResponseDict setObject:urgency forKey:@"answer_id"];
+                    NSLog(@"%@", noteResponseDict);
                     [noteResponsesCollection addObject:noteResponseDict];
                 }
+                
+                NSMutableArray *issueTypeTemp = [[noteResponse.issueType componentsSeparatedByString:@","] mutableCopy];
+                NSMutableArray *issueType = [[NSMutableArray alloc] init];
+                for (NSString *s in issueTypeTemp)
+                {
+                    NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                    [issueType addObject:num];
+                }
+                
+                for (int i = 0; i < [issueType count];i++){
+                    if([issueType[i] integerValue] == 1){
+                        NSNumber *issueIndex = [[NSNumber alloc]init];
+                        switch (i) {
+                            case 0:
+                                issueIndex = [NSNumber numberWithInt:164];
+                                break;
+                            case 1:
+                                issueIndex = [NSNumber numberWithInt:165];
+                                break;
+                            case 2:
+                                issueIndex = [NSNumber numberWithInt:166];
+                                break;
+                            case 3:
+                                issueIndex = [NSNumber numberWithInt:167];
+                                break;
+                            case 4:
+                                issueIndex = [NSNumber numberWithInt:168];
+                                break;
+                            case 5:
+                                issueIndex = [NSNumber numberWithInt:169];
+                                break;
+                            case 6:
+                                issueIndex = [NSNumber numberWithInt:170];
+                                break;
+                            case 7:
+                                issueIndex = [NSNumber numberWithInt:171];
+                                break;
+                            case 8:
+                                issueIndex = [NSNumber numberWithInt:172];
+                                break;
+                            case 9:
+                                issueIndex = [NSNumber numberWithInt:173];
+                                break;
+                            case 10:
+                                issueIndex = [NSNumber numberWithInt:174];
+                                break;
+                            case 11:
+                                issueIndex = [NSNumber numberWithInt:175];
+                                break;
+                            case 12:
+                                issueIndex = [NSNumber numberWithInt:179];
+                                break;
+                            case 13:
+                                issueIndex = [NSNumber numberWithInt:180];
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                        NSMutableDictionary *noteResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                        [noteResponseDict setObject: [NSNumber numberWithInt:30] forKey:@"question_id"];
+                        [noteResponseDict setObject:issueIndex forKey:@"answer_id"];
+                        if (i == 11){
+                            if (note.otherIssueType != NULL){
+                                [noteResponseDict setObject:note.otherIssueType forKey:@"other_text"];
+                            }
+                            else{
+                                [noteResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                            }
+                            
+                        }
+                        [noteResponsesCollection addObject:noteResponseDict];
+                    }
+                }
+
             }
-            
         }
 		else
 			NSLog(@"TripManager fetch user FAIL");

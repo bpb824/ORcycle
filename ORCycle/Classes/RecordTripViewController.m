@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -43,11 +43,12 @@
 //	For more information on the project, 
 //	e-mail Billy Charlton at the SFCTA <billy.charlton@sfcta.org>
 
-
+#include <AudioToolbox/AudioToolbox.h>
 #import "constants.h"
 #import "MapViewController.h"
 #import "NoteViewController.h"
 #import "NoteDetailViewController.h"
+#import "CrashDetailViewController.h"
 #import "DetailViewController.h"
 #import "PersonalInfoViewController.h"
 #import "PickerViewController.h"
@@ -63,11 +64,11 @@
 //TODO: Fix incomplete implementation
 @implementation RecordTripViewController
 
-@synthesize tripManager;// reminderManager;
+@synthesize tripManager,reminderManager;
 @synthesize noteManager;
-@synthesize infoButton, saveButton, startButton, noteButton, parentView;
-@synthesize timer, timeCounter, distCounter;
-@synthesize recording, shouldUpdateCounter, userInfoSaved;
+@synthesize infoButton, saveButton, startButton, noteButton, parentView, alertCheckboxButton;
+@synthesize timer, timeCounter, distCounter, slowSpeedsArray;
+@synthesize recording, shouldUpdateCounter, userInfoSaved, iSpeedCheck, timeSpeedCheck, distSpeedCheck, speedCheck;
 @synthesize appDelegate;
 @synthesize saveActionSheet;
 
@@ -184,14 +185,87 @@
         
         //CO2 text
         C02Count.text = [NSString stringWithFormat:@"%.1f", 0.93 * distance / 1609.344];
-	}
-	
-	// 	double mph = ( [trip.distance doubleValue] / 1609.344 ) / ( [trip.duration doubleValue] / 3600. );
-	if ( newLocation.speed >= 0. )
-		speedCounter.text = [NSString stringWithFormat:@"%.1f", newLocation.speed * 3600 / 1609.344];
-	else
-		speedCounter.text = @"0.0";
+        
+        
+        NSArray *timeArray = [timeCounter.text componentsSeparatedByString:@":"];
+        //NSLog(timeCounter.text);
+        double duration = [timeArray[0] integerValue]*3600 + [timeArray[1] integerValue]* 60 + [timeArray[2] integerValue];
+        //NSLog(@"Duration = %f",duration);
+        //NSLog(@"Distance = %f", distance);
+        double avgSpeed = ( distance / 1609.344 ) / ( duration / 3600. );
+        // speedCounter.text = [NSString stringWithFormat:@"%.1f", newLocation.speed * 3600 / 1609.344];
+        if ( avgSpeed >= 0. ){
+            speedCounter.text = [NSString stringWithFormat:@"%.1f", avgSpeed];
+        }
+        else{
+            speedCounter.text = @"0.0";
+        }
+        
+        if (!iSpeedCheck){
+            timeSpeedCheck = 0.0;
+            distSpeedCheck = 0.0;
+            speedCheck = 0.0;
+            iSpeedCheck = true;
+        }
+        
+        else{
+            timeSpeedCheck = [newLocation.timestamp timeIntervalSinceDate:oldLocation.timestamp]+ timeSpeedCheck;
+            //NSLog(@"timeSpeedCheck = %f",timeSpeedCheck);
+            distSpeedCheck = deltaDistance + distSpeedCheck;
+            //NSLog(@"distSpeedCheck = %f",distSpeedCheck);
+        }
+        
+        if (timeSpeedCheck >= 180){
+            speedCheck = ( distSpeedCheck / 1609.344 ) / ( timeSpeedCheck / 3600.0 );
+            //NSLog(@"Speed check = %f", speedCheck);
+            
+            CFURLRef		soundFileURLRef;
+            SystemSoundID	soundFileObject;
+            
+            // Get the main bundle for the app
+            CFBundleRef mainBundle = CFBundleGetMainBundle();
+            
+            // Get the URL to the sound file to play
+            soundFileURLRef = CFBundleCopyResourceURL( mainBundle, CFSTR ("bicycle-bell-normalized"), CFSTR ("aiff"), NULL );
+            
+            if (speedCheck < 3.0){
+                UIAlertView *slow = [[UIAlertView alloc]
+                                      initWithTitle:@"Slow Speed"
+                                      message:@"You are going slower than 3 mph, if you are not biking anymore please stop recording the trip. Thanks!"
+                                      delegate:nil
+                                      cancelButtonTitle:@"Okay"
+                                      otherButtonTitles:nil];
+                // Create a system sound object representing the sound file
+                AudioServicesCreateSystemSoundID( soundFileURLRef, &soundFileObject );
+                
+                // play audio + vibrate
+                AudioServicesPlayAlertSound( soundFileObject );
 
+                [slow show];
+            }
+            else if (speedCheck > 20.0){
+                UIAlertView *fast = [[UIAlertView alloc]
+                                     initWithTitle:@"Fast Speed"
+                                     message:@"You are going faster than 20 mph, if you are not biking anymore please stop recording the trip. Thanks!"
+                                     delegate:nil
+                                     cancelButtonTitle:@"Okay"
+                                     otherButtonTitles:nil];
+                // Create a system sound object representing the sound file
+                AudioServicesCreateSystemSoundID( soundFileURLRef, &soundFileObject );
+                
+                // play audio + vibrate
+                AudioServicesPlayAlertSound( soundFileObject );
+
+                [fast show];
+                
+            }
+            timeSpeedCheck = 0.0;
+            distSpeedCheck = 0.0;
+        }
+    }
+    else{
+        speedCounter.text = @"0.0";
+    }
 }
 
 
@@ -236,15 +310,42 @@
 		if ( fetchResults != nil )
 		{
 			User *user = (User*)[fetchResults objectAtIndex:0];
-			if (user!=nil)
+            NSInteger numFields = 0;
+            NSLog(@"user.age = %@", user.age);
+            if ([user.cyclingFreq integerValue]!= 0){
+                numFields = numFields + 1;
+            }
+            if ([user.cyclingWeather integerValue] != 0){
+                numFields = numFields + 1;
+            }
+            if ([user.riderAbility integerValue]!= 0) {
+                numFields = numFields + 1;
+            }
+            if ([user.riderType integerValue]!= 0){
+                numFields = numFields + 1;
+            }
+            if ([user.numBikes integerValue]!= 0){
+                numFields = numFields + 1;
+            }
+            NSMutableArray *bikeTypesTemp = [[user.bikeTypes componentsSeparatedByString:@","] mutableCopy];
+            NSMutableArray *bikeTypes = [[NSMutableArray alloc] init];
+            for (NSString *s in bikeTypesTemp)
+            {
+                NSNumber *num = [NSNumber numberWithInt:[s intValue]];
+                [bikeTypes addObject:num];
+            }
+            if([bikeTypes containsObject:[NSNumber numberWithInt:1]]){
+                numFields = numFields +1;
+            }
+			if (numFields >= 6)
             {
 				NSLog(@"found saved user info");
 				self.userInfoSaved = YES;
 				response = YES;
 			}
-			else
+            else{
 				NSLog(@"no saved user info");
-                
+            }
 		}
 		else
 		{
@@ -254,8 +355,10 @@
 				NSLog(@"PersonalInfo viewDidLoad fetch error %@, %@", error, [error localizedDescription]);
 		}
 	}
-	else
+    else{
 		NSLog(@"no saved user");
+        response  = YES;
+    }
 	
 	[request release];
 	return response;
@@ -328,19 +431,116 @@
     
     // setup the noteManager
     [self initNoteManager:[[[NoteManager alloc] initWithManagedObjectContext:context]autorelease]];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"Welcome"]){
+        if (self.systemVersion >= 8.0){
+            
+            UILabel *welcomeLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(10,0,250,90)] autorelease];
+            welcomeLabel.font = [UIFont systemFontOfSize:12.0];
+            
+            welcomeLabel.text = @"This app will let you record your bicycle trips, display maps of your rides, and provide feedback regarding crashes or infrastructure issues. Your data and feedback are valuable and necessary to plan and build better bicycle facilities in Oregon.";
+            welcomeLabel.textAlignment = NSTextAlignmentJustified;
+            welcomeLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            welcomeLabel.numberOfLines = 0;
+            
+            UIView *welcomeView = [[UIView alloc] initWithFrame:CGRectMake(0,0,250,200)];
+            
+            [welcomeView addSubview:welcomeLabel];
+            
+            UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, 180, 50)];
+            checkboxLabel.backgroundColor = [UIColor clearColor];
+            checkboxLabel.textColor = [UIColor blackColor];
+            checkboxLabel.text = @"Do not show again";
+            checkboxLabel.font = [UIFont systemFontOfSize:12.0];
+            [welcomeView addSubview:checkboxLabel];
+            [checkboxLabel release];
+            
+            //declared alertCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+            alertCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            alertCheckboxButton.frame = CGRectMake(170, 92, 18, 18);
+            alertCheckboxButton.backgroundColor = [UIColor clearColor];
+            UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
+            UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
+            [alertCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+            [alertCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+            [alertCheckboxButton addTarget:self action:@selector(alertCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+            
+            [welcomeView addSubview: alertCheckboxButton];
+            
+            UIAlertView *welcome = [[UIAlertView alloc]
+                                    initWithTitle:@"Welcome to ORcycle!"
+                                    message:nil
+                                    delegate:self
+                                    cancelButtonTitle:@"Continue"
+                                    otherButtonTitles:@"Instructions", nil];
+            
+            [welcome setValue:welcomeView forKey:@"accessoryView"];
+            
+            [welcome show];
+            
+        }
+        else{
+            UILabel *welcomeLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(3,0,250,90)] autorelease];
+            welcomeLabel.font = [UIFont systemFontOfSize:12.0];
+            welcomeLabel.text = @"This app will let you record your bicycle trips, display maps of your rides, and provide feedback regarding safety or infrastructure issues. Your data and feedback are valuable and necessary to plan and build better bicycle facilities in Oregon.";
+            welcomeLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            welcomeLabel.numberOfLines = 0;
+            
+            UIView *welcomeView = [[UIView alloc] initWithFrame:CGRectMake(0,0,250,115)];
+            
+            [welcomeView addSubview:welcomeLabel];
+            
+            UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 80, 260, 50)];
+            checkboxLabel.backgroundColor = [UIColor clearColor];
+            checkboxLabel.textColor = [UIColor blackColor];
+            checkboxLabel.text = @"Do not show again";
+            checkboxLabel.font = [UIFont systemFontOfSize:12.0];
+            [welcomeView addSubview:checkboxLabel];
+            [checkboxLabel release];
+            
+            //declared alertCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+            alertCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            alertCheckboxButton.frame = CGRectMake(170, 97, 18, 18);
+            alertCheckboxButton.backgroundColor = [UIColor clearColor];
+            UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
+            UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
+            [alertCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+            [alertCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+            [alertCheckboxButton addTarget:self action:@selector(alertCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+            
+            [welcomeView addSubview: alertCheckboxButton];
+            
+            UIAlertView *welcome = [[UIAlertView alloc]
+                                    initWithTitle:@"Welcome to ORcycle!"
+                                    message:nil
+                                    delegate:self
+                                    cancelButtonTitle:@"Continue"
+                                    otherButtonTitles:@"Instructions", nil];
+            
+            [welcome setValue:welcomeView forKey:@"accessoryView"];
+            
+            [welcome show];
+        }
+
+
+    }
+    
+    
 
 	// check if any user data has already been saved and pre-select personal info cell accordingly
 	if ( [self hasUserInfoBeenSaved] )
 		[self setSaved:YES];
     else{
         UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle:@"No User Info Saved"
-                              message:@"Please enter user info"
+                              initWithTitle:@"Tell us more about yourself"
+                              message:@"Please answer at least the first six questions about your biking habits on the 'User' screen."
                               delegate:self
                               cancelButtonTitle:@"Later"
                               otherButtonTitles:@"Okay", nil];
         [alert show];
     }
+    
+    //self.slowSpeedsArray = [[NSMutableArray alloc] init];
 	
 	// check for any unsaved trips / interrupted recordings
 	[self hasRecordingBeenInterrupted];
@@ -348,20 +548,67 @@
 	NSLog(@"save");
 }
 
+-(void)alertCheckboxButtonClicked{
+    
+    //NSLog(@"AlertCheckbocButtonClicked Method called");
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"Welcome"]){
+        
+        [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"Welcome"];
+        alertCheckboxButton.selected = YES;
+    }else {
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Welcome"];
+        alertCheckboxButton.selected = NO;
+    }
+    
+}
+
+-(float)systemVersion
+{
+    NSArray * versionCompatibility = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+    float total = 0;
+    int pot = 0;
+    for (NSNumber * number in versionCompatibility)
+    {
+        total += number.intValue * powf(10, pot);
+        pot--;
+    }
+    return total;
+}
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(buttonIndex == 0){
-        alertView.delegate = nil;
-        [alertView.delegate release];
+    if ([alertView.title isEqualToString:@"Tell us more about yourself"]){
+        if(buttonIndex == 0){
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+        if( buttonIndex == 1 ) /* NO = 0, YES = 1 */
+        {
+            PersonalInfoViewController *PersonalInfoView = [[PersonalInfoViewController alloc] initWithManagedObjectContext:managedObjectContext] ;
+            [PersonalInfoView initWithManagedObjectContext:managedObjectContext];
+            [self.navigationController pushViewController:PersonalInfoView animated:YES];
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
     }
-    if( buttonIndex == 1 ) /* NO = 0, YES = 1 */
-    {
-         PersonalInfoViewController *PersonalInfoView = [[PersonalInfoViewController alloc] initWithManagedObjectContext:managedObjectContext] ;
-        [PersonalInfoView initWithManagedObjectContext:managedObjectContext];
-        [self.navigationController pushViewController:PersonalInfoView animated:YES];
-        alertView.delegate = nil;
-        [alertView.delegate release];
+    else if([alertView.title isEqualToString:@"Welcome to ORcycle!"]){
+        if(buttonIndex == 0){
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+        if( buttonIndex == 1 ) /* NO = 0, YES = 1 */
+        {
+            NSURL *url = [NSURL URLWithString:kInstructionsURL];
+            NSURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [[UIApplication sharedApplication] openURL:[request URL]];
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+
     }
+    
 }
 
 - (UIButton *)createNoteButton
@@ -378,10 +625,10 @@
     
     if (IS_IPHONE_5) {
         
-        noteButton.frame=CGRectMake(68, 130, 185, 40);
+        noteButton.frame=CGRectMake(118, 130, 84, 40);
         
     }else{
-        noteButton.frame=CGRectMake(68, 130, 185, 40);
+        noteButton.frame=CGRectMake(118, 130, 84, 40);
         
     }
     UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
@@ -400,7 +647,7 @@
     noteButton.backgroundColor = [UIColor clearColor];
     noteButton.enabled = YES;
     
-    [noteButton setTitle:@"Mark Safety Problem" forState:UIControlStateNormal];
+    [noteButton setTitle:@"Report" forState:UIControlStateNormal];
     [noteButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     noteButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
     //noteButton.titleLabel.shadowOffset = CGSizeMake (0, 0);
@@ -501,6 +748,7 @@
     [startButton setTitle:@"Start Trip" forState:UIControlStateNormal];
      startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
 	[startButton setTitleColor:[[UIColor whiteColor ] autorelease] forState:UIControlStateNormal];
+    self.iSpeedCheck = false;
     
 	// reset trip, reminder managers
 	NSManagedObjectContext *context = tripManager.managedObjectContext;
@@ -511,6 +759,67 @@
 	[self resetTimer];
 }
 
+- (void)resetRecordingInProgressDelete
+{
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Trip" inManagedObjectContext:tripManager.managedObjectContext];
+    [request setEntity:entity];
+    
+    // configure sort order
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"start" ascending:NO];
+    NSSortDescriptor *sortDescriptorSaved = [[NSSortDescriptor alloc] initWithKey:@"saved" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, sortDescriptorSaved, nil];
+    [request setSortDescriptors:sortDescriptors];
+    [sortDescriptors release];
+    [sortDescriptor release];
+    
+    NSError *error;
+    NSInteger count = [tripManager.managedObjectContext countForFetchRequest:request error:&error];
+    NSLog(@"count = %d", count);
+    
+    NSMutableArray *mutableFetchResults = [[tripManager.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+    
+    NSManagedObject *tripToDelete = [mutableFetchResults objectAtIndex:0];
+    
+    
+    if (tripManager.trip!= nil && tripManager.trip.saved == nil) {
+        [noteManager.managedObjectContext deleteObject:tripToDelete];
+    }
+    
+    
+    if (![tripManager.managedObjectContext save:&error]) {
+        // Handle the error.
+        NSLog(@"Unresolved error %@", [error localizedDescription]);
+    }
+    
+    
+    // reset button states
+    appDelegate = [[UIApplication sharedApplication] delegate];
+    appDelegate.isRecording = NO;
+    recording = NO;
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"recording"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    startButton.enabled = YES;
+    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [startButton setTitle:@"Start Trip" forState:UIControlStateNormal];
+    
+    // reset trip, reminder managers
+    NSManagedObjectContext *context = tripManager.managedObjectContext;
+    [self initTripManager:[[[TripManager alloc] initWithManagedObjectContext:context] autorelease]];
+    tripManager.dirty = YES;
+    
+    [self resetCounter];
+    [self resetTimer];
+    
+}
+
+
 
 #pragma mark UIActionSheet delegate methods
 
@@ -519,27 +828,99 @@
 //- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	NSLog(@"actionSheet clickedButtonAtIndex %ld", (long)buttonIndex);
-	switch ( buttonIndex )
-	{			
-        case 0:
-           {
-            NSLog(@"Discard!!!!");
-            [self resetRecordingInProgress];
-            //discard that trip
-            break;
+    if ([actionSheet.title isEqualToString:@""]){
+        NSLog(@"actionSheet clickedButtonAtIndex %ld", (long)buttonIndex);
+        switch ( buttonIndex )
+        {
+            case 0:
+            {
+                NSLog(@"Discard!!!!");
+                [self resetRecordingInProgress];
+                //discard that trip
+                break;
+            }
+            case 1:{
+                [self save];
+                break;
+            }
+            default:{
+                NSLog(@"Cancel");
+                // re-enable counter updates
+                shouldUpdateCounter = YES;
+                break;
+            }
         }
-        case 1:{
-            [self save];
-            break;
+
+    }
+    else if ([actionSheet.title isEqualToString:@"Report Type"]){
+        switch ( buttonIndex )
+        {
+            case 0:
+            {
+                NSLog(@"Crash or near-miss");
+                //[self resetRecordingInProgress];
+                //discard that trip
+                //[noteManager createNote];
+                
+                if (myLocation){
+                    [noteManager addLocation:myLocation];
+                }
+                
+                // go directly to TripPurpose, user can cancel from there
+                if ( YES )
+                {
+                    // Trip Purpose
+                    NSLog(@"INIT + PUSH");
+                    
+                    
+                    CrashDetailViewController *crashDetailView = [[CrashDetailViewController alloc]
+                                                                //initWithPurpose:[tripManager getPurposeIndex]];
+                                                                initWithNibName:@"CrashDetailViewController" bundle:nil];
+                    [crashDetailView setNoteDelegate:self];
+                    //[[self navigationController] pushViewController:pickerViewController animated:YES];
+                    [self.navigationController presentViewController:crashDetailView animated:YES completion:nil];
+                    
+                    //add location information
+                    
+                    [crashDetailView release];
+                }
+                break;
+            }
+            case 1:{
+                NSLog(@"Safety Issue");
+                //[noteManager createNote];
+                
+                if (myLocation){
+                    [noteManager addLocation:myLocation];
+                }
+                
+                // go directly to TripPurpose, user can cancel from there
+                if ( YES )
+                {
+                    // Trip Purpose
+                    NSLog(@"INIT + PUSH");
+                    
+                    
+                    NoteDetailViewController *noteDetailView = [[NoteDetailViewController alloc]
+                                                                //initWithPurpose:[tripManager getPurposeIndex]];
+                                                                initWithNibName:@"NoteDetailViewController" bundle:nil];
+                    [noteDetailView setNoteDelegate:self];
+                    //[[self navigationController] pushViewController:pickerViewController animated:YES];
+                    [self.navigationController presentViewController:noteDetailView animated:YES completion:nil];
+                    
+                    //add location information
+                    
+                    [noteDetailView release];
+                }
+
+                break;
+            }
+            default:{
+                NSLog(@"Cancel");
+                break;
+            }
         }
-		default:{
-			NSLog(@"Cancel");
-			// re-enable counter updates
-			shouldUpdateCounter = YES;
-			break;
-        }
-	}
+    }
 }
 
 
@@ -740,61 +1121,38 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
      */
     
+    
+    UIActionSheet *reportType = [[UIActionSheet alloc] initWithTitle:@"Report Type"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Report crash or near-miss", @"Report safety issue", nil];
+    
+    reportType.actionSheetStyle		= UIActionSheetStyleBlackTranslucent;
+    UIViewController *pvc = self.parentViewController;
+    UITabBarController *tbc = (UITabBarController *)pvc.parentViewController;
+    
+    [reportType showFromTabBar:tbc.tabBar];
+    [reportType release];
+    
+    
     NSLog(@"Note This");
     
-    [noteManager createNote];
-    
-    if (myLocation){
-        [noteManager addLocation:myLocation];
-    }
-	
-	// go directly to TripPurpose, user can cancel from there
-	if ( YES )
-	{
-		// Trip Purpose
-		NSLog(@"INIT + PUSH");
-        
-        
-		NoteDetailViewController *noteDetailView = [[NoteDetailViewController alloc]
-                                                       //initWithPurpose:[tripManager getPurposeIndex]];
-                                                       initWithNibName:@"NoteDetailViewController" bundle:nil];
-		[noteDetailView setNoteDelegate:self];
-		//[[self navigationController] pushViewController:pickerViewController animated:YES];
-		[self.navigationController presentViewController:noteDetailView animated:YES completion:nil];
-        
-        //add location information
-        
-		[noteDetailView release];
-	}
-	
-	// prompt to confirm first
-	else
-	{
-		// pause updating the counter
-		shouldUpdateCounter = NO;
-		
-		// construct purpose confirmation string
-		NSString *purpose = nil;
-		if ( tripManager != nil )
-			purpose = [self getPurposeString:[tripManager getPurposeIndex]];
-		
-		NSString *confirm = [NSString stringWithFormat:@"Stop recording & save this trip?"];
-		
-		// present action sheet
-		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:confirm
-																 delegate:self
-														cancelButtonTitle:@"Cancel"
-												   destructiveButtonTitle:nil
-														otherButtonTitles:@"Save", nil];
-		
-		actionSheet.actionSheetStyle		= UIActionSheetStyleBlackTranslucent;
-		UIViewController *pvc = self.parentViewController;
-		UITabBarController *tbc = (UITabBarController *)pvc.parentViewController;
-		
-		[actionSheet showFromTabBar:tbc.tabBar];
-		[actionSheet release];
-	}
 }
+/*
+- (void)willPresentActionSheet:(UIActionSheet *)actionSheet;
+{
+    UILabel *sheetTitleLabel;
+    NSMutableAttributedString *reportTitle = [[NSMutableAttributedString alloc] initWithString:@"Report Type"];
+    [reportTitle addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0] range:NSMakeRange(0,reportTitle.length)];
+
+    if([actionSheet respondsToSelector:@selector(_titleLabel)] && [actionSheet.title isEqualToString: @"Report Type"]) {
+        sheetTitleLabel = objc_msgSend(actionSheet, @selector(_titleLabel));
+        sheetTitleLabel.attributedText = reportTitle;
+        
+    }
+}
+ */
 
 
 - (void)resetCounter
@@ -933,7 +1291,7 @@
 	else
 	{
 		//NSLog(@"willShowViewController:else");
-		self.title = @"Back";
+		self.title = @"Record";
 		self.tabBarItem.title = @"Record"; // important to maintain the same tab item title
 	}
 }
@@ -1004,6 +1362,43 @@ shouldSelectViewController:(UIViewController *)viewController
     appDelegate = [[UIApplication sharedApplication] delegate];
 }
 
+- (void)didCancelNoteDelete
+{
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+    appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Note" inManagedObjectContext:noteManager.managedObjectContext];
+    [request setEntity:entity];
+    
+    [request setReturnsDistinctResults:YES];
+    [request setPropertiesToFetch:[NSArray arrayWithObjects:@"note_type",@"recorded",nil]];
+    
+    // configure sort order
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"recorded" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+    [sortDescriptors release];
+    [sortDescriptor release];
+    
+    NSError *error;
+    NSInteger count = [noteManager.managedObjectContext countForFetchRequest:request error:&error];
+    NSLog(@"count = %d", count);
+    
+    NSMutableArray *mutableFetchResults = [[noteManager.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+    
+    
+    NSManagedObject *noteToDelete = [mutableFetchResults objectAtIndex:0];
+    [noteManager.managedObjectContext deleteObject:noteToDelete];
+    
+    if (![noteManager.managedObjectContext save:&error]) {
+        // Handle the error.
+        NSLog(@"Unresolved error %@", [error localizedDescription]);
+    }
+    
+}
+
 
 - (void)didPickPurpose:(unsigned int)index
 {
@@ -1025,6 +1420,21 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void)didEnterTripDetails:(NSString *)details{
     [tripManager saveNotes:details];
     NSLog(@"Trip Added details: %@",details);
+}
+
+- (void)didEnterTripPurposeOther:(NSString *)purposeOther{
+    [tripManager.trip setPurposeOther:purposeOther];
+    NSLog(@"Saved other trip purpose: %@",purposeOther);
+}
+
+- (void) didEnterOtherRoutePrefs:(NSString *)otherRoutePrefsString{
+    [tripManager.trip setOtherRoutePrefs:otherRoutePrefsString];
+    NSLog(@"Saved other route prefs: %@",otherRoutePrefsString);
+}
+
+- (void) didEnterOtherRouteStressors:(NSString *)otherRouteStressorsString{
+    [tripManager.trip setOtherRouteStressors:otherRouteStressorsString];
+    NSLog(@"Saved other route prefs: %@",otherRouteStressorsString);
 }
 
 - (void)didPickRouteFreq:(NSNumber *)index
@@ -1056,10 +1466,24 @@ shouldSelectViewController:(UIViewController *)viewController
     NSLog(@"Save trip");
 }
 
+- (void)didPickIsCrash:(BOOL *)boolean
+{
+    [noteManager.note setIsCrash:boolean];
+    NSLog(@"Set is crash to: %d", noteManager.note.isCrash);
+    //do something here: may change to be the save as a separate view. Not prompt.
+}
+
 - (void)didPickNoteType:(NSNumber *)index
 {	
 	[noteManager.note setNote_type:index];
     NSLog(@"Added note type: %d", [noteManager.note.note_type intValue]);
+    //do something here: may change to be the save as a separate view. Not prompt.
+}
+
+- (void)didPickUrgency:(NSNumber *)index
+{
+    [noteManager.note setUrgency:index];
+    NSLog(@"Added urgency: %d", [noteManager.note.urgency intValue]);
     //do something here: may change to be the save as a separate view. Not prompt.
 }
 
@@ -1069,11 +1493,84 @@ shouldSelectViewController:(UIViewController *)viewController
     NSLog(@"Added Conflict With: %@", noteManager.note.conflictWith);
 }
 
+- (void)didPickCrashActions:(NSString *) crashActionsString
+{
+    [noteManager.note setCrashActions: crashActionsString];
+    NSLog(@"Added Crash Actions: %@", noteManager.note.crashActions);
+}
+
+- (void)didPickCrashReasons:(NSString *) crashReasonsString
+{
+    [noteManager.note setCrashReasons: crashReasonsString];
+    NSLog(@"Added Crash Reasons: %@", noteManager.note.crashReasons);
+}
+
 - (void)didPickIssueType:(NSString *) issueTypeString
 {
     [noteManager.note setIssueType: issueTypeString];
     NSLog(@"Added Issue Type: %@", noteManager.note.issueType);
 }
+
+- (void) didEnterOtherConflictWith:(NSString *)otherConflictWithString{
+    [noteManager.note setOtherConflictWith:otherConflictWithString];
+    NSLog(@"Saved other conflict with: %@",otherConflictWithString);
+}
+
+- (void) didEnterOtherIssueType:(NSString *)otherIssueTypeString{
+    [noteManager.note setOtherIssueType:otherIssueTypeString];
+    NSLog(@"Saved other issue type: %@",otherIssueTypeString);
+}
+
+- (void) didEnterOtherCrashActions:(NSString *)otherCrashActionsString{
+    [noteManager.note setOtherCrashActions:otherCrashActionsString];
+    NSLog(@"Saved other crash actions: %@",otherCrashActionsString);
+}
+
+- (void) didEnterOtherCrashReasons:(NSString *)otherCrashReasonsString{
+    [noteManager.note setOtherCrashReasons:otherCrashReasonsString];
+    NSLog(@"Saved other crash reasons: %@",otherCrashReasonsString);
+}
+
+- (void) saveCustomLocation:(CLLocation *)customLocation{
+    [noteManager.note setAltitude:[NSNumber numberWithDouble:0]];
+    NSLog(@"Altitude: %f", [noteManager.note.altitude doubleValue]);
+    
+    [noteManager.note setLatitude:[NSNumber numberWithDouble:customLocation.coordinate.latitude]];
+    NSLog(@"Latitude: %f", [noteManager.note.latitude doubleValue]);
+    
+    [noteManager.note setLongitude:[NSNumber numberWithDouble:customLocation.coordinate.longitude]];
+    NSLog(@"Longitude: %f", [noteManager.note.longitude doubleValue]);
+    
+    [noteManager.note setSpeed:[NSNumber numberWithDouble:0]];
+    NSLog(@"Speed: %f", [noteManager.note.speed doubleValue]);
+    
+    [noteManager.note setHAccuracy:[NSNumber numberWithDouble:-1]];
+    NSLog(@"HAccuracy: %f", [noteManager.note.hAccuracy doubleValue]);
+    
+    [noteManager.note setVAccuracy:[NSNumber numberWithDouble:-1]];
+    NSLog(@"VAccuracy: %f", [noteManager.note.vAccuracy doubleValue]);
+}
+
+- (void) revertGPSLocation{
+    [noteManager.note setAltitude:[NSNumber numberWithDouble:myLocation.altitude]];
+    NSLog(@"Altitude: %f", [noteManager.note.altitude doubleValue]);
+    
+    [noteManager.note setLatitude:[NSNumber numberWithDouble:myLocation.coordinate.latitude]];
+    NSLog(@"Latitude: %f", [noteManager.note.latitude doubleValue]);
+    
+    [noteManager.note setLongitude:[NSNumber numberWithDouble:myLocation.coordinate.longitude]];
+    NSLog(@"Longitude: %f", [noteManager.note.longitude doubleValue]);
+    
+    [noteManager.note setSpeed:[NSNumber numberWithDouble:myLocation.speed]];
+    NSLog(@"Speed: %f", [noteManager.note.speed doubleValue]);
+    
+    [noteManager.note setHAccuracy:[NSNumber numberWithDouble:myLocation.horizontalAccuracy]];
+    NSLog(@"HAccuracy: %f", [noteManager.note.hAccuracy doubleValue]);
+    
+    [noteManager.note setVAccuracy:[NSNumber numberWithDouble:myLocation.verticalAccuracy]];
+    NSLog(@"VAccuracy: %f", [noteManager.note.vAccuracy doubleValue]);
+}
+
 
 - (void)didEnterNoteDetails:(NSString *)details{
     [noteManager.note setDetails:details];

@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -126,10 +126,19 @@
 //add value to be sent in
 {
     pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
+    
+    if (pickerCategory == 3) {
+        [delegate didCancelNoteDelete];
+        NSLog(@"Note Cancel Pressed!!!!!!!!!!!!");
+    }
+    
+    if (pickerCategory == 0) {
+        [delegate didCancelNote];
+        NSLog(@"Trip Cancel Pressed!!!!!!!!!!!!");
+    }
+    
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-	[delegate didCancelNote];
-}
+    [[NSUserDefaults standardUserDefaults] synchronize];}
 
 
 - (IBAction)save:(id)sender
@@ -146,86 +155,12 @@
         [self presentViewController:tripDetailViewController animated:YES completion:nil];
         
         [delegate didPickPurpose:row];
-    }
-    /*
-    else if (pickerCategory == 1){
-        NSLog(@"Issue Save button pressed");
-        NSLog(@"detail");
-        NSLog(@"INIT + PUSH");
-        //[self dismissModalViewControllerAnimated:YES];
         
-        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:nil];
-        detailViewController.noteDelegate = self.noteDelegate;
-        
-        [self presentViewController:detailViewController animated:YES completion:nil];
-        //Note: get index of picker
-        NSInteger row = [customPickerView selectedRowInComponent:0];
-        
-        pickedNotedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickedNotedType"];
-        
-        [[NSUserDefaults standardUserDefaults] setInteger:row forKey: @"pickedNotedType"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        pickedNotedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickedNotedType"];
-        
-        NSLog(@"pickedNotedType is %d", pickedNotedType);
-    }*/
-    /*
-    else if (pickerCategory == 2){
-        NSLog(@"Asset Save button pressed");
-        NSLog(@"detail");
-        NSLog(@"INIT + PUSH");
-        
-        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:nil];
-        detailViewController.delegate = self.delegate;
-        
-        [self presentViewController:detailViewController animated:YES completion:nil];
-        //do something here: get index for later use.
-        NSInteger row = [customPickerView selectedRowInComponent:0];
-        
-        pickedNotedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickedNotedType"];
-        
-        [[NSUserDefaults standardUserDefaults] setInteger:row+6 forKey: @"pickedNotedType"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        pickedNotedType = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickedNotedType"];
-        
-        NSLog(@"pickedNotedType is %d", pickedNotedType);
-        
-    }
-     */
-    /*
-    else if (pickerCategory == 3){
-        NSLog(@"Note This Save button pressed");
-        NSLog(@"detail");
-        NSLog(@"INIT + PUSH");
-        
-        DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailView" bundle:nil];
-        detailViewController.noteDelegate = self.noteDelegate;
-        
-        [self presentViewController:detailViewController animated:YES completion:nil];
-        
-        
-        //Note: get index of type
-        NSInteger row = [customPickerView selectedRowInComponent:0];
-        
-        NSNumber *tempType = [NSNumber numberWithInt:row];
-
-     
-        if(row>=7){
-            tempType = [NSNumber numberWithInt:row-7];
+        if(self.purposeOther.length >0){
+            NSLog(@"Trying to save purposeOther as %@=",self.purposeOther);
+            [delegate didEnterTripPurposeOther:self.purposeOther];
         }
-        else if (row<=5){
-            tempType = [NSNumber numberWithInt:11-row];
-        }
-     
-        
-        NSLog(@"tempType: %d", [tempType intValue]);
-        
-        [delegate didPickNoteType:tempType];
     }
-     */
-    
 }
 
 
@@ -333,6 +268,7 @@
     
 	description.font = [UIFont fontWithName:@"Arial" size:16];
 	[self.view addSubview:description];
+
 }
 
 
@@ -363,6 +299,9 @@
     }
 	//NSLog(@"parent didSelectRow: %d inComponent:%d", row, component);
     
+    UIAlertView* purposeOtherView = [[UIAlertView alloc] initWithTitle:@"Other" message:@"If none of the other trip purposes describe your trip, please tell us about the purpose of your trip below" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+    purposeOtherView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    
     pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
     
     if (pickerCategory == 0) {
@@ -390,6 +329,7 @@
                 break;
             case 7:
                 description.text = kDescOther;
+                [purposeOtherView  show];
                 break;
             default:
                 description.text = kDescOther;
@@ -508,6 +448,16 @@
      */
 }
 
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"Button Index =%ld",(long)buttonIndex);
+    if (buttonIndex == 1) {  //Okay
+        UITextField *purposeOtherField= [alertView textFieldAtIndex:0];
+        self.purposeOther = purposeOtherField.text;
+    }
+    NSLog(@"Saved purposeOther as = %@",self.purposeOther);
+}
+
 
 
 - (void)dealloc
@@ -517,12 +467,14 @@
 	self.customPickerDataSource = nil;
     self.description = nil;
     self.descriptionText = nil;
+    self.purposeOther = nil;
     
 	[customPickerDataSource release];
 	[customPickerView release];
     [delegate release];
     [description release];
     [descriptionText release];
+    [purposeOther release];
     
     [navBarItself release];
 	

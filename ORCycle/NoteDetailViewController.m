@@ -10,6 +10,7 @@
 #import "NoteResponse.h"
 #import "constants.h"
 #import "ActionSheetStringPicker.h"
+#import "SetReportLocationViewController.h"
 
 @interface NoteDetailViewController ()
 
@@ -17,8 +18,8 @@
 
 @implementation NoteDetailViewController
 @synthesize noteDelegate, appDelegate, managedObjectContext, infoTableView, noteResponse;
-@synthesize severity;
-@synthesize severitySelectedRow, conflictWithSelectedRows, issueTypeSelectedRows, selectedItem, selectedItems;
+@synthesize urgency, issueType;
+@synthesize urgencySelectedRow, issueTypeSelectedRows, selectedItem, selectedItems, otherIssueType,gpsLoc, customLoc;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -74,14 +75,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    /*
     severityArray = [[NSArray alloc] initWithObjects: @"", @"I have had a major crash/accident", @"I have had a minor crash/accident", @"I have had a near-crash/accident", @"I do not feel safe", @"I feel uncomfortable",  nil];
     
     conflictWithArray = [[NSArray alloc] initWithObjects: @" ", @"Auto Traffic", @"Large commercial vehicles (trucks)", @"Public transport (buses, light rail, streetcar)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Poles/barriers/infrastructure", @"Other", nil];
+     */
     
-    issueTypeArray = [[NSArray alloc] initWithObjects: @"",@"Narrow Bicycle Lane", @"No bike lane or seperation", @"High vehicle speeds", @"High traffic volumes", @"Right/left turning vehicles", @"Traffic signal timing", @"No traffic signal detection", @"Truck traffic", @"Bus traffic/stop", @"Parked vehicles", @"Pavement condition", @"Other",nil];
+    urgencyArray = [[NSArray alloc] initWithObjects: @"", @"1 (not urgent)", @"2", @"3 (somewhat urgent)", @"4", @"5 (urgent)",  nil];
     
-    conflictWithSelectedRows = [[NSMutableArray alloc] init];
+    issueTypeArray = [[NSArray alloc] initWithObjects: @"",@"Narrow bike lane", @"No bike lane or shoulder", @"High traffic speed", @"High traffic volume", @"Right-turning vehicles", @"Left-turning vehicles", @"Short green time (traffic signal)", @"Long wait time (traffic signal)", @"No push button or detection (traffic signal)", @"Truck traffic", @"Bus traffic/stop", @"Parked vehicles", @"Pavement condition", @"Other (specify)",nil];
+    
+    //conflictWithSelectedRows = [[NSMutableArray alloc] init];
     issueTypeSelectedRows = [[NSMutableArray alloc] init];
+    
+    customLoc = false;
+    gpsLoc = false;
 
 
     CGRect pickerFrame = CGRectMake(0, 40, 0, 0);
@@ -90,7 +98,7 @@
     pickerView.dataSource = self;
     pickerView.delegate = self;
     
-    self.severity = [self initTextFieldAlpha];
+    self.urgency = [self initTextFieldAlpha];
 
     [self setNoteResponse:[self createNoteResponse]];
     
@@ -115,48 +123,67 @@
     
     [infoTableView resignFirstResponder];
     
-    [noteDelegate backOut];
+    [noteDelegate didCancelNoteDelete];
 }
 
 -(IBAction)saveDetail:(id)sender{
     NSLog(@"Save Detail");
-    if ((severitySelectedRow > 10 || severitySelectedRow == 0) && [issueTypeSelectedRows count]==0){
+    
+    NSInteger numFields = 0;
+    BOOL didPickLoc = false;
+    
+    if (urgencySelectedRow <10 && urgencySelectedRow != 0){
+        numFields = numFields +1;
+    }
+    if ([issueTypeSelectedRows count]!=0){
+        numFields = numFields + 1;
+    }
+    
+    if (gpsLoc || customLoc == true){
+        didPickLoc = true;
+    }
+    
+    if (numFields < 2 && didPickLoc == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must select a severity level and at least one infrastructure/safety issue type."
+                              message:@"You must answer both questions about the safety/infrastructure issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
         [alert show];
     }
-    else if ((severitySelectedRow < 10 && severitySelectedRow !=0) && [issueTypeSelectedRows count]==0){
+    else if (numFields >= 2 && didPickLoc == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must select at least one infrastructure/safety issue type."
+                              message:@"You must choose the location of the safety/infrastructure issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
         [alert show];
     }
-    else if ((severitySelectedRow > 10 || severitySelectedRow == 0) && [issueTypeSelectedRows count]!=0){
+    else if (numFields < 2 && didPickLoc == true){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must select a severity level."
+                              message:@"You must answer both questions about the safety/infrastructure issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
         [alert show];
     }
+    
+    
     else{
         [infoTableView resignFirstResponder];
         
-        [noteDelegate didPickNoteType:[NSNumber numberWithInt:severitySelectedRow]];
+        [noteDelegate didPickUrgency:[NSNumber numberWithInt:urgencySelectedRow]];
         
         [self done];
         
-        [noteDelegate didPickConflictWith:noteResponse.conflictWith];
-        
         [noteDelegate didPickIssueType:noteResponse.issueType];
+        
+        [noteDelegate didEnterOtherIssueType: self.otherIssueType];
+        
+        [noteDelegate didPickIsCrash: false];
         
         [noteDelegate openDetailPage];
     }
@@ -166,7 +193,7 @@
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == severity ){
+    if(currentTextField == urgency ){
         NSLog(@"currentTextField: text2");
         //[currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -178,68 +205,30 @@
     
     currentTextField = myTextField;
     
-    if(myTextField == severity){
+    if(myTextField == urgency){
         
         [myTextField resignFirstResponder];
-        /*
         
-        actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]; //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
-        
-        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
-        
-        [actionSheet addSubview:pickerView];
-        
-        doneToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        doneToolbar.barStyle = UIBarStyleDefault;
-        [doneToolbar sizeToFit];
-        
-        NSMutableArray *barItems = [[[NSMutableArray alloc] init] autorelease];
-        
-        UIBarButtonItem *flexSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
-        [barItems addObject:flexSpace];
-        
-        UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
-        [barItems addObject:cancelBtn];
-        
-        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonPressed:)];
-        [barItems addObject:doneBtn];
-        
-        [doneToolbar setItems:barItems animated:YES];
-        
-        [actionSheet addSubview:doneToolbar];
-        
-        selectedItem = 0;
-        
-        [pickerView selectRow:selectedItem inComponent:0 animated:NO];
-        
-        [pickerView reloadAllComponents];
-        
-        [actionSheet addSubview:pickerView];
-        
-        [actionSheet showInView:self.view];
-        
-        [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
-         */
-        if (myTextField == severity){
+        if (myTextField == urgency){
             
             ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
-                if ([severity respondsToSelector:@selector(setText:)]) {
-                    [severity performSelector:@selector(setText:) withObject:selectedValue];
+                if ([urgency respondsToSelector:@selector(setText:)]) {
+                    [urgency performSelector:@selector(setText:) withObject:selectedValue];
                     NSLog(@"Picker: %@", picker);
                     NSLog(@"Selected Index: %ld", (long)selectedIndex);
                     NSLog(@"Selected Value: %@", selectedValue);
                     
-                    if (selectedIndex != [noteResponse.severity integerValue]){
+                    if (selectedIndex != [noteResponse.urgency integerValue]){
                         self.navigationItem.rightBarButtonItem.enabled = YES;
                     }
-                    severitySelectedRow = selectedIndex;
+                    urgencySelectedRow = selectedIndex;
                 }
             };
             ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
                 NSLog(@"Block Picker Canceled");
             };
             
-            [ActionSheetStringPicker showPickerWithTitle:@"Severity" rows: severityArray initialSelection:severityArray[0] doneBlock:done cancelBlock:cancel origin:severity];
+            [ActionSheetStringPicker showPickerWithTitle:@"Urgency" rows: urgencyArray initialSelection:urgencyArray[0] doneBlock:done cancelBlock:cancel origin:urgency];
         }
     }
 }
@@ -257,9 +246,12 @@
     NSLog(@"Saving Note Response Data");
 	if ( noteResponse != nil )
 	{
-        [noteResponse setSeverity:[NSNumber numberWithInt:severitySelectedRow]];
-        NSLog(@"saved severity index: %@ and text: %@", noteResponse.severity,severity.text);
+        //[noteResponse setIsCrash:false];
         
+        [noteResponse setUrgency:[NSNumber numberWithInt:urgencySelectedRow]];
+        NSLog(@"saved urgency index: %@ and text: %@", noteResponse.urgency,urgency.text);
+        
+        /*
         NSMutableArray *checksConflictWith = [[NSMutableArray alloc]init];
         for (int i = 0;i<[conflictWithSelectedRows count];i++){
             NSIndexPath *indexpath = conflictWithSelectedRows[i];
@@ -278,6 +270,7 @@
         [conflictWithString deleteCharactersInRange:NSMakeRange([conflictWithString length]-1, 1)];
         [noteResponse setConflictWith:conflictWithString];
         NSLog(@"saved conflict with array: %@", noteResponse.conflictWith);
+         */
         
         NSMutableArray *checksIssueType = [[NSMutableArray alloc]init];
         for (int i = 0;i<[issueTypeSelectedRows count];i++){
@@ -328,13 +321,13 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch (section) {
         case 0:
-			return @"Severity of the problem (choose one)";
+            return @"Location specific infrastructure/safety issues... (can select more than one)";
 			break;
         case 1:
-            return @"Location specific infrastructure/safety issues... (can select more than one)";
+            return @"Urgency of the problem? (scale 1 to 5, choose one)";
             break;
         case 2:
-            return @"I had a conflict or accident with... (can select more than one)";
+            return @"Location of infrastructure/safety issue";
             break;
     }
     return nil;
@@ -366,14 +359,14 @@
     switch ( section )
 	{
         case 0:
-            return 50;
-            break;
-        case 1:
             return 65;
             break;
-		case 2:
-			return 50;
-			break;
+        case 1:
+            return 50;
+            break;
+        case 2:
+            return 50;
+            break;
         default:
 			return 0;
 	}
@@ -385,13 +378,13 @@
 	switch ( section )
 	{
         case 0:
-            return 1;
+            return 14;
             break;
         case 1:
-            return 12;
+            return 1;
             break;
         case 2:
-            return 8;
+            return 2;
             break;
         default:
             return 0;
@@ -411,29 +404,6 @@
 	switch ([indexPath indexAtPosition:0])
 	{
         case 0:
-		{
-			static NSString *CellIdentifier = @"CellSeverity";
-			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			}
-            
-			// inner switch statement identifies row
-			switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-                    cell.textLabel.text = @"Severity";
-					[cell.contentView addSubview:severity];
-					break;
-            }
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
-            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-            [cell.textLabel setNumberOfLines:0];
-		}
-			break;
-        case 1:
 		{
 			static NSString *CellIdentifier = @"CellIssueType";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -481,7 +451,21 @@
 					cell.textLabel.text = issueTypeArray[11];
                     break;
                 case 11:
-					cell.textLabel.text = issueTypeArray[12];
+                    cell.textLabel.text = issueTypeArray[12];
+                    break;
+                case 12:
+                    cell.textLabel.text = issueTypeArray[13];
+                    break;
+                case 13:
+                    if (self.otherIssueType != NULL){
+                        NSMutableString *otherIssueTypeString = [NSMutableString stringWithFormat: @"Other ("];
+                        [otherIssueTypeString appendString:self.otherIssueType];
+                        [otherIssueTypeString appendString:@")"];
+                        cell.textLabel.text = otherIssueTypeString;
+                    }
+                    else{
+                        cell.textLabel.text = issueTypeArray[14];
+                    }
                     break;
             }
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -491,43 +475,20 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
-        case 2:
+        case 1:
         {
-            static NSString *CellIdentifier = @"CellConflictWith";
+            static NSString *CellIdentifier = @"CellUrgency";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             if (cell == nil) {
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             }
             
-            if([conflictWithSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
-            
-            
             // inner switch statement identifies row
             switch ([indexPath indexAtPosition:1])
             {
                 case 0:
-                    cell.textLabel.text = conflictWithArray[1];
-                    break;
-                case 1:
-                    cell.textLabel.text = conflictWithArray[2];
-                    break;
-                case 2:
-                    cell.textLabel.text = conflictWithArray[3];
-                    break;
-                case 3:
-                    cell.textLabel.text = conflictWithArray[4];
-                    break;
-                case 4:
-                    cell.textLabel.text = conflictWithArray[5];
-                    break;
-                case 5:
-                    cell.textLabel.text = conflictWithArray[6];
-                    break;
-                case 6:
-                    cell.textLabel.text = conflictWithArray[7];
-                    break;
-                case 7:
-                    cell.textLabel.text = conflictWithArray[8];
+                    cell.textLabel.text = @"urgency";
+                    [cell.contentView addSubview:urgency];
                     break;
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -537,6 +498,38 @@
             [cell.textLabel setNumberOfLines:0];
         }
             break;
+        case 2:
+        {
+            static NSString *CellIdentifier = @"CellPickLocation";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Use current GPS location";
+                    if(gpsLoc) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark; }
+                    else { cell.accessoryType = UITableViewCellAccessoryNone; }
+                    break;
+                case 1:
+                    cell.textLabel.text = @"Pick custom location";
+                    if(customLoc) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark; }
+                    else { cell.accessoryType = UITableViewCellAccessoryNone; }
+                    break;
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
+        }
+            break;
+    
     }
     cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
@@ -550,23 +543,18 @@
     
     switch ([indexPath indexAtPosition:0])
 	{
-		case 0:
-		{
-            switch ([indexPath indexAtPosition:1])
-			{
-				case 0:
-					break;
-				case 1:
-					break;
-			}
-			break;
-        }
-        case 1:
+        case 0:
 		{
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [issueTypeSelectedRows addObject:indexPath];
+                if ([indexPath indexAtPosition:1]==13){
+                    //NSLog(@"Trying to bring up other text view");
+                    UIAlertView* otherIssueTypeView = [[UIAlertView alloc] initWithTitle:@"Other Issue Type" message:@"Please describe the location specific infrastructure/safety issue" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                    otherIssueTypeView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                    [otherIssueTypeView show];
+                }
             }
             else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -574,16 +562,82 @@
             }
             break;
         }
+        case 1:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+            }
+            break;
+        }
         case 2:
         {
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            if(cell.accessoryType == UITableViewCellAccessoryNone) {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                [conflictWithSelectedRows addObject:indexPath];
-            }
-            else {
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                [conflictWithSelectedRows removeObject:indexPath];
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    NSIndexPath *customIndex = [NSIndexPath indexPathForRow:1 inSection:2];
+                    UITableViewCell *customCell = [infoTableView cellForRowAtIndexPath:customIndex];
+                    if(cell.accessoryType == UITableViewCellAccessoryNone && customCell.accessoryType == UITableViewCellAccessoryNone) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        gpsLoc = true;
+                        customLoc = false;
+                    }
+                    else if (cell.accessoryType ==UITableViewCellAccessoryNone && customCell.accessoryType == UITableViewCellAccessoryCheckmark){
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customCell.accessoryType = UITableViewCellAccessoryNone;
+                        gpsLoc = true;
+                        customLoc = false;
+                        [noteDelegate revertGPSLocation];
+                    }
+                    else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                        gpsLoc = false;
+                    }
+                }
+                    break;
+                case 1:{
+                    NSIndexPath *gpsIndex = [NSIndexPath indexPathForRow:0 inSection:2];
+                    UITableViewCell *gpsCell = [infoTableView cellForRowAtIndexPath:gpsIndex];
+
+                    if(cell.accessoryType == UITableViewCellAccessoryNone && gpsCell.accessoryType == UITableViewCellAccessoryNone) {
+                        //NSLog(@"Nav controller = %@", self.navigationController);
+                        SetReportLocationViewController *pickLocationView = [[SetReportLocationViewController alloc] initWithNibName:@"SetReportLocationView" bundle:nil];
+                        
+                        [pickLocationView setNoteDelegate:noteDelegate];
+                        [self presentViewController:pickLocationView animated:YES completion:nil];
+                        
+                        [pickLocationView release];
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customLoc = true;
+                        gpsLoc = false;
+                    }
+                    else if (cell.accessoryType == UITableViewCellAccessoryNone && gpsCell.accessoryType == UITableViewCellAccessoryCheckmark){
+                        //NSLog(@"Nav controller = %@", self.navigationController);
+                        SetReportLocationViewController *pickLocationView = [[SetReportLocationViewController alloc] initWithNibName:@"SetReportLocationView" bundle:nil];
+                        
+                        [pickLocationView setNoteDelegate:noteDelegate];
+                        [self presentViewController:pickLocationView animated:YES completion:nil];
+                        
+                        [pickLocationView release];
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customLoc = true;
+                        gpsLoc = false;
+                        gpsCell.accessoryType = UITableViewCellAccessoryNone;
+                    }
+                    else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                        customLoc = false;
+                        gpsLoc = true;
+                        gpsCell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        [noteDelegate revertGPSLocation];
+                    }
+                    break;
+                }
+                    break;
             }
             break;
         }
@@ -591,13 +645,52 @@
     [tableView reloadData];
 }
 
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if ([alertView.title isEqualToString:@"Other Issue Type"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherIssueTypeField= [alertView textFieldAtIndex:0];
+            self.otherIssueType = otherIssueTypeField.text;
+            if (self.otherIssueType != NULL){
+                NSMutableString *otherIssueTypeString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherIssueTypeString appendString:self.otherIssueType];
+                [otherIssueTypeString appendString:@")"];
+                NSIndexPath *index =  [NSIndexPath indexPathForRow:13 inSection:0];
+                UITableViewCell *cell = [self.infoTableView cellForRowAtIndexPath: index];
+                cell.textLabel.text = otherIssueTypeString;
+            }
+        }
+        NSLog(@"Saved other route prefs as = %@",self.otherIssueType);
+    }
+    /*
+    else if ([alertView.title isEqualToString:@"Other Conflict"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherConflictWithField= [alertView textFieldAtIndex:0];
+            self.otherConflictWith = otherConflictWithField.text;
+            if (self.otherConflictWith != NULL){
+                NSMutableString *otherConflictWithString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherConflictWithString appendString:self.otherConflictWith];
+                [otherConflictWithString appendString:@")"];
+                NSIndexPath *index =  [NSIndexPath indexPathForRow:7 inSection:2];
+                UITableViewCell *cell = [self.infoTableView cellForRowAtIndexPath: index];
+                cell.textLabel.text = otherConflictWithString;
+            }
+        }
+        NSLog(@"Saved other route prefs as = %@",self.otherConflictWith);
+    }
+     */
+    
+}
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
     return 1;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)thePickerView numberOfRowsInComponent:(NSInteger)component {
-    if(currentTextField == severity){
-        return [severityArray count];
+    if(currentTextField == urgency){
+        return [urgencyArray count];
     }
     else{
          return 0;
@@ -619,8 +712,8 @@
         //tView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
         [tView setNumberOfLines:0];
     }
-    if(currentTextField == severity){
-        tView.text =  [severityArray objectAtIndex:row];
+    if(currentTextField == urgency){
+        tView.text =  [urgencyArray objectAtIndex:row];
     }
     return tView;
 }
@@ -633,7 +726,7 @@
     
     NSInteger selectedRow;
     selectedRow = [pickerView selectedRowInComponent:0];
-    if(currentTextField == severity){
+    if(currentTextField == urgency){
         //enable save button
         self.navigationItem.rightBarButtonItem.enabled = YES;
         severitySelectedRow = selectedRow;
@@ -655,27 +748,27 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    severity.delegate = nil;
+    urgency.delegate = nil;
     self.noteDelegate = nil;
     infoTableView.delegate = nil;
     self.managedObjectContext = nil;
-    self.severity = nil;
-    self.severitySelectedRow = nil;
-    self.conflictWithSelectedRows = nil;
+    self.urgency = nil;
+    self.urgencySelectedRow = nil;
+    //self.conflictWithSelectedRows = nil;
     self.issueType = nil;
     self.issueTypeSelectedRows = nil;
     
     [noteDelegate release];
     [noteResponse release];
     [managedObjectContext release];
-    [severity release];
+    [urgency release];
     [infoTableView release];
     [doneToolbar release];
     [actionSheet release];
     [pickerView release];
     [currentTextField release];
-    [severityArray release];
-    [conflictWithArray release];
+    [urgencyArray release];
+    //[conflictWithArray release];
     [issueTypeArray release];
     
     [super dealloc];

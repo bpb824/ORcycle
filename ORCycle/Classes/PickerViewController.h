@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -50,13 +50,15 @@
 #import "RecordTripViewController.h"
 
 
-@interface PickerViewController : UIViewController <UIPickerViewDelegate>
+@interface PickerViewController : UIViewController <UIPickerViewDelegate,UITextFieldDelegate>
 {
 	id <TripPurposeDelegate> delegate;
 	UIPickerView			*customPickerView;
 	CustomPickerDataSource	*customPickerDataSource;
+    
+    NSString *purposeOther;
 	
-	UITextView				*description;
+	UITextView	*description;
     NSInteger pickerCategory;
     NSInteger pickedNotedType;
     IBOutlet UINavigationBar *navBarItself;
@@ -70,6 +72,8 @@
 @property (nonatomic, retain) CustomPickerDataSource *customPickerDataSource;
 
 @property (nonatomic, retain) UITextView *description;
+
+@property (nonatomic, retain) NSString *purposeOther;
 
 @property (nonatomic, retain) IBOutlet UILabel *descriptionText;
 

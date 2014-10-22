@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -33,6 +33,15 @@
 @dynamic gender;
 @dynamic email;
 @dynamic feedback;
+
+@dynamic userCreated;
+
+@dynamic otherBikeTypes;
+@dynamic otherEthnicity;
+@dynamic otherGender;
+@dynamic otherOccupation;
+@dynamic otherRiderType;
+
 @dynamic notes;
 @dynamic trips;
 

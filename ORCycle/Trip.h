@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSString * notes;
 @property (nonatomic, retain) NSDate * uploaded;
 @property (nonatomic, retain) NSString * purpose;
+@property (nonatomic, retain) NSString * purposeOther;
 @property (nonatomic, retain) NSNumber * duration;
 @property (nonatomic, retain) NSDate * saved;
 @property (nonatomic, retain) NSSet *coords;
@@ -30,6 +31,8 @@
 @property (nonatomic, retain) NSNumber *routeComfort;
 @property (nonatomic, retain) NSString *routeStressors;
 
+@property (nonatomic,retain) NSString *otherRouteStressors;
+@property (nonatomic,retain) NSString *otherRoutePrefs;
 
 @end
 

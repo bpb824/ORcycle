@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -94,7 +94,7 @@
 		self.managedObjectContext = context;
         
 		// Set the title NOTE: important for tab bar tab item to set title here before view loads
-		self.title = @"View Saved Safety Marks";
+		self.title = @"View Saved Reports";
     }
     return self;
 }
@@ -111,7 +111,7 @@
 		self.noteManager = manager;
 		
 		// Set the title NOTE: important for tab bar tab item to set title here before view loads
-		self.title = @"View Saved Safety Marks";
+		self.title = @"View Saved Reports";
     }
     return self;
 }
@@ -263,36 +263,67 @@
     if(note.uploaded){
         cell = [self getCellWithReuseIdentifier:kCellReuseIdentifierCheck];
         
-        int index = [note.note_type intValue];
         
-        NSLog(@"note.purpose: %d",index);
+        
+        //NSLog(@"note.purpose: %d",index);
         
         // add purpose icon
         
-        switch (index) {
-            case 0:
-                image = [UIImage imageNamed:kNoteThisIssueBlack];
-                break;
-            case 1:
-                image = [UIImage imageNamed:kNoteThisIssueRed];
-                break;
-            case 2:
-                image = [UIImage imageNamed:kNoteThisIssueOrange];
-                break;
-            case 3:
-                image = [UIImage imageNamed:kNoteThisIssueYellow];
-                break;
-            case 4:
-                image = [UIImage imageNamed:kNoteThisIssueGreen];
-                break;
-            case 5:
-                image = [UIImage imageNamed:kNoteThisIssueWhite];
-                break;
-            default:
-            
-                image = [UIImage imageNamed:kNoteThisIssueBlack];
-                break;
+        if (note.isCrash){
+            int index = [note.note_type intValue];
+            switch (index) {
+                case 0:
+                    image = [UIImage imageNamed:kNoteThisCrashWhite];
+                    break;
+                case 1:
+                    image = [UIImage imageNamed:kNoteThisCrashRed];
+                    break;
+                case 2:
+                    image = [UIImage imageNamed:kNoteThisCrashOrange];
+                    break;
+                case 3:
+                    image = [UIImage imageNamed:kNoteThisCrashYellow];
+                    break;
+                case 4:
+                    image = [UIImage imageNamed:kNoteThisCrashGreen];
+                    break;
+                case 5:
+                    image = [UIImage imageNamed:kNoteThisCrashBlue];
+                    break;
+                default:
+                    image = [UIImage imageNamed:kNoteThisCrashWhite];
+                    break;
+            }
+
         }
+        else{
+            int index = [note.urgency intValue];
+            switch (index) {
+                case 0:
+                    image = [UIImage imageNamed:kNoteThisIssueWhite];
+                    break;
+                case 1:
+                    image = [UIImage imageNamed:kNoteThisIssueBlue];
+                    break;
+                case 2:
+                    image = [UIImage imageNamed:kNoteThisIssueGreen];
+                    break;
+                case 3:
+                    image = [UIImage imageNamed:kNoteThisIssueYellow];
+                    break;
+                case 4:
+                    image = [UIImage imageNamed:kNoteThisIssueOrange];
+                    break;
+                case 5:
+                    image = [UIImage imageNamed:kNoteThisIssueRed];
+                    break;
+                default:
+                    image = [UIImage imageNamed:kNoteThisIssueWhite];
+                    break;
+            }
+
+        }
+        
         
         UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
         imageView.frame			= CGRectMake( kAccessoryViewX, kAccessoryViewY, image.size.width, image.size.height );
@@ -314,29 +345,60 @@
     cell.textLabel.tag = kTagTitle;
     
     NSString *title = [[[NSString alloc] init] autorelease] ;
-    switch ([note.note_type intValue]) {
-        case 0:
-            title = @"No severity level indicated";
-            break;
-        case 1:
-            title = @"Major crash/accident";
-            break;
-        case 2:
-            title = @"Minor crash/accident";
-            break;
-        case 3:
-            title = @"Near crash/accident";
-            break;
-        case 4:
-            title = @"Did not feel safe";
-            break;
-        case 5:
-            title = @"Uncomfortable";
-            break;
-        default:
-            break;
+    
+    if (note.isCrash){
+        switch ([note.note_type intValue]) {
+            case 0:
+                title = @"Crash/Conflict (No severity level indicated)";
+                break;
+            case 1:
+                title = @"Crash - Major Injuries";
+                break;
+            case 2:
+                title = @"Crash - Severe";
+                break;
+            case 3:
+                title = @"Crash - Minor Injuries";
+                break;
+            case 4:
+                title = @"Crash - Property Damage Only";
+                break;
+            case 5:
+                title = @"Near-Crash";
+                break;
+            default:
+                title = @"Crash/Conflict (No severity level indicated)";
+                break;
+        }
+    }
+    else{
+        switch ([note.urgency intValue]) {
+            case 0:
+                title = @"Safety Issue (No urgency level indicated)";
+                break;
+            case 1:
+                title = @"Safety Issue (urgency 1)";
+                break;
+            case 2:
+                title = @"Safety Issue (urgency 2)";
+                break;
+            case 3:
+                title = @"Safety Issue (urgency 3)";
+                break;
+            case 4:
+                title = @"Safety Issue (urgency 4)";
+                break;
+            case 5:
+                title = @"Safety Issue (urgency 5)";
+                break;
+            default:
+                title = @"Safety Issue (No urgency level indicated)";
+                break;
+        }
+
     }
     
+
     [cell.textLabel setFont:[UIFont systemFontOfSize:14]];
     [cell.textLabel setTextColor:[UIColor grayColor]];
     
@@ -521,13 +583,13 @@
 	if ( viewController == self )
 	{
 		//NSLog(@"willShowViewController:self");
-		self.title = @"View Saved Safety Marks";
+		self.title = @"View Saved Reports";
 	}
 	else
 	{
 		//NSLog(@"willShowViewController:else");
 		self.title = @"Back";
-		self.tabBarItem.title = @"View Saved Safety Marks"; // important to maintain the same tab item title
+		self.tabBarItem.title = @"View Saved Reports"; // important to maintain the same tab item title
 	}
 }
 

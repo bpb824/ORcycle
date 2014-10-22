@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -89,6 +89,8 @@
 	IBOutlet UIButton *startButton;
     IBOutlet UIButton *noteButton;
     
+    UIButton *alertCheckboxButton;
+    
 	IBOutlet UILabel *timeCounter;
 	IBOutlet UILabel *distCounter;
 	IBOutlet UILabel *speedCounter;
@@ -96,7 +98,10 @@
     IBOutlet UILabel *C02Count;
     UIActionSheet *saveActionSheet;
     
-
+    BOOL iSpeedCheck;
+    float timeSpeedCheck;
+    float distSpeedCheck;
+    float speedCheck;
 
 	NSTimer *timer;
 	
@@ -108,13 +113,14 @@
 	BOOL shouldUpdateCounter;
 	BOOL userInfoSaved;
     NSInteger pickerCategory;
+    NSMutableArray *slowSpeedsArray;
 	
 	TripManager		*tripManager;
     NoteManager *noteManager;
     
     
     CLLocation *myLocation;
-//	ReminderManager *reminderManager;
+	ReminderManager *reminderManager;
 }
 
 //@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
@@ -129,11 +135,20 @@
 @property (nonatomic, retain) UIButton *startButton;
 @property (nonatomic, retain) UIButton *noteButton;
 
+@property (nonatomic, retain) UIButton *alertCheckboxButton;
+
 @property (nonatomic, retain) UILabel *timeCounter;
 @property (nonatomic, retain) UILabel *distCounter;
 @property (nonatomic, retain) UIActionSheet *saveActionSheet;
 
+@property (assign) BOOL iSpeedCheck;
+@property (assign) float timeSpeedCheck;
+@property (assign) float distSpeedCheck;
+@property (assign) float speedCheck;
+
 @property (assign) NSTimer *timer;
+
+@property (nonatomic, retain) NSMutableArray   *slowSpeedsArray;
 
 @property (nonatomic, retain) UIView   *parentView;
 
@@ -141,7 +156,7 @@
 @property (assign) BOOL shouldUpdateCounter;
 @property (assign) BOOL userInfoSaved;
 
-//@property (nonatomic, retain) ReminderManager *reminderManager;
+@property (nonatomic, retain) ReminderManager *reminderManager;
 @property (nonatomic, retain) TripManager *tripManager;
 
 @property (nonatomic, retain) NoteManager *noteManager;

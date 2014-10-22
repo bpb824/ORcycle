@@ -11,9 +11,14 @@
 
 @implementation NoteResponse
 
+@dynamic isCrash;
+@dynamic urgency;
 @dynamic severity;
 @dynamic conflictWith;
 @dynamic issueType;
+@dynamic crashReasons;
+@dynamic crashActions;
+
 @dynamic note;
 
 @end

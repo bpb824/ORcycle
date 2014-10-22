@@ -2,7 +2,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
 *
 * @author Bryan.Blanc <bryanpblanc@gmail.com>
-* For more info on the project, e-mail figliozzi@pdx.edu
+* For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
 *
 * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
 * Cycle Atlanta, and RenoTracks.
@@ -53,7 +53,7 @@
 #define kDescShopping	@"The primary reason for this bike trip is to purchase or bring home goods or groceries."
 #define kDescErrand		@"This bike trip was primarily to attend to personal business such as buying groceries, banking, a doctor  visit, going to the gym, etc. "
 #define kDescTranspoAccess  @"The primary reason for this bike trip was to access public transit or some other vehicle (private vehicle, car share, etc.)."
-#define kDescOther		@"If none of the other purposes apply to this trip, you tell us more about your trip in the 'additional details' section on the next page."
+#define kDescOther		@"You can tell us more about your trip purpose in the details section on the next page."
 
 //Issue descriptions
 #define kIssueDescNarrowBikeLane @"The bicycle lane is too narrow."

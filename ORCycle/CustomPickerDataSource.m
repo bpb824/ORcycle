@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -222,7 +222,7 @@
         else if (pickerCategory == 3){
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"No severity level indicated";
-            view.image = [UIImage imageNamed:kNoteThisIssueBlack];
+            view.image = [UIImage imageNamed:kNoteThisIssueWhite];
             [viewArray addObject:view];
             [view release];
             
@@ -252,7 +252,7 @@
             
             view = [[CustomView alloc] initWithFrame:CGRectZero];
             view.title = @"Uncomfortable";
-            view.image = [UIImage imageNamed:kNoteThisIssueWhite];
+            view.image = [UIImage imageNamed:kNoteThisIssueBlue];
             [viewArray addObject:view];
             [view release];
         }

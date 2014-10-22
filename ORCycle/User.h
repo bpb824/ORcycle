@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -33,6 +33,15 @@
 @property (nonatomic, retain) NSNumber * gender;
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSString * feedback;
+
+@property (nonatomic, retain) NSString * userCreated;
+
+@property (nonatomic,retain) NSString * otherRiderType;
+@property (nonatomic,retain) NSString * otherOccupation;
+@property (nonatomic,retain) NSString * otherBikeTypes;
+@property (nonatomic,retain) NSString * otherEthnicity;
+@property (nonatomic,retain) NSString * otherGender;
+
 @property (nonatomic, retain) NSSet *notes;
 @property (nonatomic, retain) NSSet *trips;
 @end

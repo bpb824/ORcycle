@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -29,7 +29,7 @@
 @implementation TripDetailViewController
 @synthesize delegate, appDelegate, managedObjectContext, infoTableView, tripResponse;
 @synthesize routeFreq, routePrefs, routeComfort, routeSafety, ridePassengers, rideSpecial, rideConflict, routeStressors;
-@synthesize routeFreqSelectedRow, routePrefsSelectedRows, routeComfortSelectedRow, routeSafetySelectedRow, ridePassengersSelectedRows, rideSpecialSelectedRows, rideConflictSelectedRow, routeStressorsSelectedRows, selectedItem, selectedItems, isAlone, isNone, isNotConcerned;
+@synthesize routeFreqSelectedRow, routePrefsSelectedRows, routeComfortSelectedRow, routeSafetySelectedRow, ridePassengersSelectedRows, rideSpecialSelectedRows, rideConflictSelectedRow, routeStressorsSelectedRows, selectedItem, selectedItems, isAlone, isNone, isNotConcerned, otherRoutePrefs, otherRouteStressors;
 
 @synthesize detailTextView;
 
@@ -118,13 +118,13 @@
     //detailTextView.layer.borderColor = [[UIColor blackColor] CGColor];
     
     routeFreqArray = [[NSArray alloc] initWithObjects:@" ", @"Several times per week", @"Several times per month", @"Several times per year", @"Once per year or less", @"First time ever", nil];
-    routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable/has nice scenery", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few intersections", @"It has few/easy hills", @"It has other riders/people",  @"It is good for families/kids", @"I do not know/have another route", @"I found on my phone/online", @"Other (indicate in comments)", nil];
+    routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable/has nice scenery", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few busy intersections", @"It has few/easy hills", @"It has other riders/people",  @"It is good for families/kids", @"I do not know/have another route", @"I found it on my phone/online", @"Other", nil];
     routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Good (even for families/children)" , @"Good (for most riders)", @"Average", @"Bad (only for confident riders)", @"Very Bad (unacceptable for most riders)", nil];
     routeSafetyArray = [[NSArray alloc] initWithObjects:@" ", @"Safe/comfortable for families, children, or new riders", @"Safe/comfortable for most riders", @"Safe/comfortable for the average confident rider", @"Only for the highly experienced and/or confident riders (not neccesarily comfortable)", @"Unacceptable", nil];
     ridePassengersArray = [[NSArray alloc] initWithObjects:@" ", @"Alone", @"With a child under 2", @"With a child between 2 and 10", @"With a child/teen over 10", @"With 1 adult", @"With 2+ adults", nil];
     rideSpecialArray = [[NSArray alloc] initWithObjects: @"None",@"Child seat(s)", @"Electric-assist", @"The cargo area", @"Other",nil];
     rideConflictArray = [[NSArray alloc] initWithObjects:@" ", @"I have had a crash/accident", @"I have had a near crash/accident", @"I did not have a near crash/accident, but did not feel safe", @"I did feel safe", nil];
-    routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Not Concerned",@"Auto Traffic", @"Large Commercial Vehicles (trucks)", @"Public Transport (e.g. buses, light rail)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", nil];
+    routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Not concerned",@"Auto traffic", @"Large commercial vehicles (trucks)", @"Public transportation (e.g. buses, light rail)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", nil];
     
     routePrefsSelectedRows = [[NSMutableArray alloc] init];
     ridePassengersSelectedRows = [[NSMutableArray alloc] init];
@@ -181,25 +181,63 @@
 
 -(IBAction)saveDetail:(id)sender{
     NSLog(@"Save Detail");
-    [infoTableView resignFirstResponder];
-    [delegate didCancelNote];
     
-    pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if ((routeFreqSelectedRow > 10 || routeFreqSelectedRow ==0)){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must answer the question 'How often do you ride this route?'"
+                              delegate:nil
+                              cancelButtonTitle:@"Okay"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+   
+    else{
+        /*
+        if (routeFreqSelectedRow == 1){
+            
+            
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"High Route Frequency"
+                                  message:@"Thank you for sharing this ride with us. If you ride this route often, there is no need to log/upload it more than a couple of times."
+                                  delegate:nil
+                                  cancelButtonTitle:@"Okay"
+                                  otherButtonTitles:nil];
+            [alert show];
+        }
+         */
+        
+        [infoTableView resignFirstResponder];
+        [delegate didCancelNote];
+        
+        pickerCategory = [[NSUserDefaults standardUserDefaults] integerForKey:@"pickerCategory"];
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        details = detailTextView.text;
+        
+        [delegate didEnterTripDetails:details];
+        
+        [self done];
+        
+        [delegate didPickRouteFreq:tripResponse.routeFreq];
+        [delegate didPickRoutePrefs:tripResponse.routePrefs];
+        [delegate didPickRouteComfort:tripResponse.routeComfort];
+        [delegate didPickRouteStressors:tripResponse.routeStressors];
+        
+        if (self.otherRoutePrefs.length>0){
+            NSLog(@"Trying to save other route prefs as %@",self.otherRoutePrefs);
+            [delegate didEnterOtherRoutePrefs:self.otherRoutePrefs];
+        }
+        
+        if (self.otherRouteStressors.length>0){
+            NSLog(@"Trying to save other route prefs as %@",self.otherRouteStressors);
+            [delegate didEnterOtherRouteStressors:self.otherRouteStressors];
+        }
+        
+        [delegate saveTrip];
+    }
     
-    details = detailTextView.text;
-    
-    [delegate didEnterTripDetails:details];
-    
-    [self done];
-    
-    [delegate didPickRouteFreq:tripResponse.routeFreq];
-    [delegate didPickRoutePrefs:tripResponse.routePrefs];
-    [delegate didPickRouteComfort:tripResponse.routeComfort];
-    [delegate didPickRouteStressors:tripResponse.routeStressors];
-    
-    [delegate saveTrip];
 }
 
 #pragma mark UITextFieldDelegate methods
@@ -525,7 +563,7 @@
             return 50;
             break;
 		case 2:
-			return 50;
+			return 35;
 			break;
             /*
 		case 3:
@@ -690,9 +728,15 @@
 					cell.textLabel.text = routePrefsArray[11];
                     break;
                 case 11:
-					cell.textLabel.text = routePrefsArray[12];
+                    if (self.otherRoutePrefs != NULL){
+                        NSMutableString *otherRoutePrefsString = [NSMutableString stringWithFormat: @"Other ("];
+                        [otherRoutePrefsString appendString:self.otherRoutePrefs];
+                        [otherRoutePrefsString appendString:@")"];
+                        cell.textLabel.text = otherRoutePrefsString;
+                    } else{
+                        cell.textLabel.text = routePrefsArray[12];
+                    }
                     break;
-                    
 			}
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
@@ -966,7 +1010,14 @@
                         cell.textLabel.text = routeStressorsArray[7];
                         break;
                     case 7:
-                        cell.textLabel.text = routeStressorsArray[8];
+                        if (self.otherRouteStressors != NULL){
+                            NSMutableString *otherRouteStressorsString = [NSMutableString stringWithFormat: @"Other ("];
+                            [otherRouteStressorsString appendString:self.otherRouteStressors];
+                            [otherRouteStressorsString appendString:@")"];
+                            cell.textLabel.text = otherRouteStressorsString;
+                        } else{
+                            cell.textLabel.text = routeStressorsArray[8];
+                        }
                         break;
                 }
             }
@@ -1056,7 +1107,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //NSLog (@"Selected index path = %@", indexPath);
+    NSLog (@"Selected index path = %@", indexPath);
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
     
     switch ([indexPath indexAtPosition:0])
@@ -1078,6 +1129,12 @@
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [routePrefsSelectedRows addObject:indexPath];
+                if ([indexPath indexAtPosition:1]==11){
+                    NSLog(@"Trying to bring up other text view");
+                    UIAlertView* otherRoutePrefsView = [[UIAlertView alloc] initWithTitle:@"Other Preferences" message:@"Please describe why you chose this route" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                    otherRoutePrefsView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                    [otherRoutePrefsView show];
+                }
             }
             else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -1168,6 +1225,12 @@
                 if ([indexPath indexAtPosition:1] ==0){
                     isNotConcerned = true;
                 }
+                if ([indexPath indexAtPosition:1]==7){
+                    NSLog(@"Trying to bring up other text view");
+                    UIAlertView* otherRouteStressorsView = [[UIAlertView alloc] initWithTitle:@"Other Stressors" message:@"Please describe any other transportation modes you are concerned about conflicts/crashes with" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                    otherRouteStressorsView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                    [otherRouteStressorsView show];
+                }
             }
             else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -1176,6 +1239,7 @@
                     isNotConcerned = false;
                 }
             }
+            
             break;
         }
         case 4:
@@ -1194,6 +1258,43 @@
     //NSLog(@"isAlone = %i",isAlone);
     //NSLog(@"isNone = %i",isNone);
 
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if ([alertView.title isEqualToString:@"Other Preferences"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherRoutePrefsField= [alertView textFieldAtIndex:0];
+            self.otherRoutePrefs = otherRoutePrefsField.text;
+            if (self.otherRoutePrefs != NULL){
+                NSMutableString *otherRoutePrefsString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherRoutePrefsString appendString:self.otherRoutePrefs];
+                [otherRoutePrefsString appendString:@")"];
+                NSIndexPath *index =  [NSIndexPath indexPathForRow:11 inSection:1];
+                UITableViewCell *cell = [self.infoTableView cellForRowAtIndexPath: index];
+                cell.textLabel.text = otherRoutePrefsString;
+            }
+        }
+        
+    }
+    else if ([alertView.title isEqualToString:@"Other Stressors"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherRouteStressorsField= [alertView textFieldAtIndex:0];
+            self.otherRouteStressors = otherRouteStressorsField.text;
+            if (self.otherRouteStressors != NULL){
+                NSMutableString *otherRouteStressorsString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherRouteStressorsString appendString:self.otherRouteStressors];
+                [otherRouteStressorsString appendString:@")"];
+                NSIndexPath *index =  [NSIndexPath indexPathForRow:7 inSection:3];
+                UITableViewCell *cell = [self.infoTableView cellForRowAtIndexPath: index];
+                cell.textLabel.text = otherRouteStressorsString;
+            }
+        }
+        NSLog(@"Saved other route prefs as = %@",self.otherRouteStressors);
+    }
+    
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {

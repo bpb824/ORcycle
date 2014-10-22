@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -19,6 +19,7 @@
 @dynamic notes;
 @dynamic uploaded;
 @dynamic purpose;
+@dynamic purposeOther;
 @dynamic duration;
 @dynamic saved;
 @dynamic coords;
@@ -29,5 +30,8 @@
 @dynamic routePrefs;
 @dynamic routeComfort;
 @dynamic routeStressors;
+
+@dynamic otherRouteStressors;
+@dynamic otherRoutePrefs;
 
 @end

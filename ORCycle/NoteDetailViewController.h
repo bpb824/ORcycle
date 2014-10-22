@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -34,21 +34,28 @@
     NSManagedObjectContext *managedObjectContext;
     NSInteger pickerCategory;
     
-    UITextField *severity;
+    UITextField *urgency;
     UIToolbar *doneToolbar;
     UIActionSheet *actionSheet;
     UIPickerView *pickerView;
     UITextField *currentTextField;
     
-    NSArray *severityArray;
-    NSArray *conflictWithArray;
+    NSArray *urgencyArray;
+    //NSArray *conflictWithArray;
     NSArray *issueTypeArray;
     
-    NSInteger severitySelectedRow;
-    NSMutableArray *conflictWithSelectedRows;
+    NSInteger urgencySelectedRow;
+    //NSMutableArray *conflictWithSelectedRows;
     NSMutableArray *issueTypeSelectedRows;
     NSInteger selectedItem;
     NSMutableArray *selectedItems;
+    
+    NSString *otherIssueType;
+    //NSString *otherConflictWith;
+    
+    BOOL customLoc;
+    BOOL gpsLoc;
+    
 }
 
 @property (nonatomic, retain) id <NoteDetailDelegate> noteDelegate;
@@ -57,17 +64,22 @@
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NoteResponse *noteResponse;
 
-@property (nonatomic,retain) UITextField *severity;
+@property (nonatomic,retain) UITextField *urgency;
 @property (nonatomic,retain) UITextField *issueType;
 
-@property (nonatomic) NSInteger severitySelectedRow;
-@property (nonatomic,retain) NSMutableArray *conflictWithSelectedRows;
+@property (nonatomic) NSInteger urgencySelectedRow;
+//@property (nonatomic,retain) NSMutableArray *conflictWithSelectedRows;
 @property (nonatomic,retain) NSMutableArray* issueTypeSelectedRows;
 @property (nonatomic) NSInteger selectedItem;
 @property (nonatomic,retain) NSMutableArray *selectedItems;
 
+@property (nonatomic, retain) NSString *otherIssueType;
+//@property (nonatomic, retain) NSString *otherConflictWith;
+
 @property (nonatomic, retain) IBOutlet UITableView *infoTableView;
 
+@property (nonatomic) BOOL customLoc;
+@property (nonatomic) BOOL gpsLoc;
 
 -(IBAction)back:(id)sender;
 -(IBAction)saveDetail:(id)sender;

@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -31,7 +31,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "NoteDetailDelegate.h"
 
-@interface DetailViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>{
+@interface DetailViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UIAlertViewDelegate>{
     id <NoteDetailDelegate> noteDelegate;
     UITextView *detailTextView;
     UIButton *addPicButton;
@@ -58,8 +58,8 @@
 
 - (IBAction)skip:(id)sender;
 - (IBAction)saveDetail:(id)sender;
-- (IBAction)shootPictureOrVideo:(id)sender;
-- (IBAction)selectExistingPictureOrVideo:(id)sender;
+- (IBAction)getPicture:(id)sender;
+//- (IBAction)selectExistingPictureOrVideo:(id)sender;
 
 
 

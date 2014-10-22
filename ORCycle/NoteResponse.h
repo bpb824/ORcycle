@@ -13,9 +13,14 @@
 
 @interface NoteResponse : NSManagedObject
 
+@property (nonatomic) BOOL isCrash;
 @property (nonatomic, retain) NSNumber *severity;
+@property (nonatomic, retain) NSNumber *urgency;
 @property (nonatomic, retain) NSString *conflictWith;
 @property (nonatomic, retain) NSString *issueType;
+@property (nonatomic, retain) NSString *crashActions;
+@property (nonatomic, retain) NSString *crashReasons;
+
 @property (nonatomic, retain) Note *note;
 
 @end

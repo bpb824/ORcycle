@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -71,6 +71,9 @@
     NSMutableArray *routeStressorsSelectedRows;
     NSInteger selectedItem;
     NSMutableArray *selectedItems;
+    
+    NSString *otherRoutePrefs;
+    NSString *otherRouteStressors;
 }
 
 @property (nonatomic, retain) id <TripPurposeDelegate> delegate;
@@ -102,6 +105,9 @@
 @property (nonatomic,retain) NSMutableArray *routeStressorsSelectedRows;
 @property (nonatomic) NSInteger selectedItem;
 @property (nonatomic,retain) NSMutableArray *selectedItems;
+
+@property (nonatomic, retain) NSString *otherRoutePrefs;
+@property (nonatomic, retain) NSString *otherRouteStressors;
 
 @property (nonatomic, retain) IBOutlet UITableView *infoTableView;
 

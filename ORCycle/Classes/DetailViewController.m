@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -65,7 +65,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 - (void)viewDidLoad
 {
     //[self.detailTextView setText:@"Enter More Details Here"];
-    [self.detailTextView becomeFirstResponder];
+    //[self.detailTextView becomeFirstResponder];
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     if (![UIImagePickerController isSourceTypeAvailable:
@@ -131,6 +131,41 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     
 }
 
+- (IBAction)getPicture:(id)sender {
+    
+    UIAlertView *pictureType = [[UIAlertView alloc]
+                            initWithTitle:@"Image Source"
+                            message:nil
+                            delegate:self
+                            cancelButtonTitle:@"Cancel"
+                            otherButtonTitles:@"Take Photo", @"Photo Gallery", nil];
+    
+    [pictureType show];
+    //[self getMediaFromSource:UIImagePickerControllerSourceTypeCamera];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([alertView.title isEqualToString:@"Image Source"]){
+        
+        if(buttonIndex == 1){
+            [self getMediaFromSource:UIImagePickerControllerSourceTypeCamera];
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+        if( buttonIndex == 2 ) 
+        {
+            [self getMediaFromSource:UIImagePickerControllerSourceTypePhotoLibrary];
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+    }
+}
+
+
+
+
+/*
 - (IBAction)shootPictureOrVideo:(id)sender {
     [self getMediaFromSource:UIImagePickerControllerSourceTypeCamera];
 }
@@ -138,11 +173,13 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 - (IBAction)selectExistingPictureOrVideo:(id)sender {
     [self getMediaFromSource:UIImagePickerControllerSourceTypePhotoLibrary];
 }
+ */
 
 #pragma mark UIImagePickerController delegate methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
     //original
     UIImage *castedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     //save to library
@@ -153,13 +190,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     NSLog(@"Size of Image(bytes):%d",[imageData length]);
     self.image = thumbnail;
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    [picker release];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        picker.delegate = nil;
+        [picker release];
+    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    [picker release];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        picker.delegate = nil;
+        [picker release];
+    }];
+    
 }
 
 #pragma mark  -
@@ -167,6 +209,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 static UIImage *shrinkImage(UIImage *original, CGSize size) {
     CGFloat scale = [UIScreen mainScreen].scale;
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    
     
     CGContextRef context = CGBitmapContextCreate(NULL, size.width * scale,
                                                  size.height * scale, 8, 0, colorSpace, kCGImageAlphaPremultipliedFirst);
@@ -195,12 +239,19 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         //picker.mediaTypes = mediaTypes;
         //picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+        self.navigationController.navigationBar.translucent = NO;
+        picker.navigationBar.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
+        picker.navigationBar.barStyle = self.navigationController.navigationBar.barStyle;
+        UIView *fixItView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        fixItView.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0]; //change this to match your navigation bar
+        if (sourceType == UIImagePickerControllerSourceTypePhotoLibrary){
+            [picker.view addSubview:fixItView];
+        }
         picker.delegate = self;
         picker.modalPresentationStyle = UIModalPresentationCurrentContext;
         picker.sourceType = sourceType;
         self.imagePickerController = picker;
         [self presentViewController:picker animated:YES completion:nil];
-        [picker release];
     } else {
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Error accessing media"

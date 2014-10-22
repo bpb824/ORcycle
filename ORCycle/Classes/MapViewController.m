@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -60,7 +60,7 @@
 
 @implementation MapViewController
 
-@synthesize doneButton, flipButton, infoView, trip, routeLine;
+@synthesize doneButton, flipButton, infoView, trip, routeLine, alertCheckboxButton;
 @synthesize delegate;
 
 
@@ -219,7 +219,7 @@
             [routePrefsString appendString:@", It has low traffic/low speeds"];
         }
         if ([routePrefsArray[5] integerValue]==1){
-            [routePrefsString appendString:@", It has few intersections"];
+            [routePrefsString appendString:@", It has few busy intersections"];
         }
         if ([routePrefsArray[6] integerValue]==1){
             [routePrefsString appendString:@", It has few/easy hills"];
@@ -234,10 +234,17 @@
             [routePrefsString appendString:@", I do not know/have another route"];
         }
         if ([routePrefsArray[10] integerValue]==1){
-            [routePrefsString appendString:@", I found on my phone/online"];
+            [routePrefsString appendString:@", I found it on my phone/online"];
         }
         if ([routePrefsArray[11] integerValue]==1){
-            [routePrefsString appendString:@", Other"];
+            if (trip.otherRoutePrefs.length > 0){
+                [routePrefsString appendString:@", Other ("];
+                [routePrefsString appendString:trip.otherRoutePrefs];
+                [routePrefsString appendString:@")"];
+            }
+            else{
+                [routePrefsString appendString:@", Other"];
+            }
         }
         if (routePrefsString.length != 0){
             NSRange range = {0,2};
@@ -288,16 +295,16 @@
         }
         
         if ([routeStressorsArray[0] integerValue]==1){
-            [routeStressorsString appendString:@", Not Concerned"];
+            [routeStressorsString appendString:@", Not concerned"];
         }
         if ([routeStressorsArray[1] integerValue]==1){
-            [routeStressorsString appendString:@", Auto Traffic"];
+            [routeStressorsString appendString:@", Auto traffic"];
         }
         if ([routeStressorsArray[2] integerValue]==1){
-            [routeStressorsString appendString:@", Large Commercial Vehicles (trucks)"];
+            [routeStressorsString appendString:@", Large commercial vehicles (trucks)"];
         }
         if ([routeStressorsArray[3] integerValue]==1){
-            [routeStressorsString appendString:@", Public Transport (e.g. buses, light rail)"];
+            [routeStressorsString appendString:@", Public transportation (e.g. buses, light rail)"];
         }
         if ([routeStressorsArray[4] integerValue]==1){
             [routeStressorsString appendString:@", Parked vehicles (being doored)"];
@@ -309,7 +316,14 @@
             [routeStressorsString appendString:@", Pedestrians"];
         }
         if ([routeStressorsArray[7] integerValue]==1){
-            [routeStressorsString appendString:@", Other"];
+            if (trip.otherRouteStressors.length > 0){
+                [routeStressorsString appendString:@", Other ("];
+                [routeStressorsString appendString:trip.otherRouteStressors];
+                [routeStressorsString appendString:@")"];
+            }
+            else{
+                [routeStressorsString appendString:@", Other"];
+            }
         }
         if (routeStressorsString.length != 0){
             NSRange range = {0,2};
@@ -324,7 +338,7 @@
 
 	infoView					= [[UIView alloc] initWithFrame:CGRectMake(0,0,320,560)];
 	infoView.alpha				= kInfoViewAlpha;
-	infoView.backgroundColor	= [UIColor blackColor];
+	infoView.backgroundColor	= [UIColor grayColor];
 	
 	UILabel *notesHeader		= [[[UILabel alloc] initWithFrame:CGRectMake(115,10,160,25)] autorelease];
 	notesHeader.backgroundColor = [UIColor clearColor];
@@ -379,12 +393,168 @@
 		[inputFormatter setDateFormat:@"HH:mm:ss"];
 //		NSDate *fauxDate = [inputFormatter dateFromString:@"00:00:00"];
 		[inputFormatter setDateFormat:@"HH:mm:ss"];
-
-		self.title = trip.purpose;
+        
+        if ([trip.purpose  isEqual: kTripPurposeOtherString]) {
+            NSMutableString *purposeTitle = [trip.purpose mutableCopy];
+            [purposeTitle appendString:@" ("];
+            [purposeTitle appendString:trip.purposeOther];
+            [purposeTitle appendString:@")"];
+            self.title = purposeTitle;
+        }
+        else{
+            self.title = trip.purpose;
+        }
+		
 
         doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(infoAction:)];
-			
+        
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:@"TripLogging"]){
             
+            NSString *tripPurposeString = @"Trip Logged";
+            NSString *tripPurposeShortString1 = @"";
+            NSString *tripPurposeShortString2 = @"";
+            
+            if (![trip.purpose isEqualToString:@"Other"]){
+                tripPurposeString = [NSString stringWithFormat:@"%@ Trip Logged", trip.purpose];
+                tripPurposeShortString1 = trip.purpose;
+                tripPurposeShortString2 = trip.purpose;
+            }
+            
+            //Route Frequency Text
+            NSString *routeFreqText = [[NSString alloc]init];
+            switch ([trip.routeFreq intValue]) {
+                case 0:
+                    routeFreqText = @"no route frequency indicated";
+                    break;
+                case 1:
+                    routeFreqText = @"several times per week";
+                    break;
+                case 2:
+                    routeFreqText = @"several times per month";
+                    break;
+                case 3:
+                    routeFreqText = @"several times per year";
+                    break;
+                case 4:
+                    routeFreqText = @"once per year or less";
+                    break;
+                case 5:
+                    routeFreqText = @"first time ever";
+                    break;
+                default:
+                    routeFreqText = @"no route frequency indicated";
+                    break;
+            }
+            
+            NSString *sameString = @"same";
+            NSString *routeString = @"route";
+            
+            
+            NSMutableAttributedString *messageString = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"Data for this %@ trip will be logged and uploaded. If you repeat the %@ %@ %@ there is no need to log it again. Please use ORcycle to log new trip purposes, routes, crash events, or safety issues.", tripPurposeShortString1, sameString, tripPurposeShortString2, routeString]];
+            
+            [messageString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12.0] range:NSMakeRange(0,messageString.length)];
+            
+            [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range:NSMakeRange(14, tripPurposeShortString1.length)];
+            
+            [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 34, sameString.length + 19)];
+            
+            [messageString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-BoldOblique" size: 12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1, tripPurposeShortString2.length)];
+            
+            [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1 + tripPurposeShortString2.length + 1, routeString.length + 33)];
+            
+            [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1 + tripPurposeShortString2.length + 1 + routeString.length + 1 + 60,3 )];
+            
+            NSLog(@"System verison is equal to %f",self.systemVersion);
+            
+            if (self.systemVersion >= 8.0){
+                
+                UILabel *alertLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(10,0,250,100)] autorelease];
+                
+                alertLabel.attributedText = messageString;
+                alertLabel.lineBreakMode = NSLineBreakByWordWrapping;
+                alertLabel.numberOfLines = 0;
+                
+                UIView *tripLogAlertView = [[UIView alloc] initWithFrame:CGRectMake(0,0,200,250)];
+                
+                [tripLogAlertView addSubview:alertLabel];
+                
+                UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 80, 260, 50)];
+                checkboxLabel.backgroundColor = [UIColor clearColor];
+                checkboxLabel.textColor = [UIColor blackColor];
+                checkboxLabel.text = @"Do not show again";
+                checkboxLabel.font = [UIFont systemFontOfSize:12.0];
+                [tripLogAlertView addSubview:checkboxLabel];
+                [checkboxLabel release];
+                
+                //declared alertCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+                alertCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                alertCheckboxButton.frame = CGRectMake(180, 97, 18, 18);
+                alertCheckboxButton.backgroundColor = [UIColor clearColor];
+                UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
+                UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
+                [alertCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+                [alertCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+                [alertCheckboxButton addTarget:self action:@selector(alertCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+                
+                [tripLogAlertView addSubview: alertCheckboxButton];
+                
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:tripPurposeString
+                                      message:nil
+                                      delegate:nil
+                                      cancelButtonTitle:@"Okay"
+                                      otherButtonTitles:nil];
+                
+                [alert setValue:tripLogAlertView forKey:@"accessoryView"];
+                
+                [alert show];
+
+            }
+            else{
+                UILabel *alertLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(0,0,200,130)] autorelease];
+                
+                alertLabel.attributedText = messageString;
+                alertLabel.lineBreakMode = NSLineBreakByWordWrapping;
+                alertLabel.numberOfLines = 0;
+                
+                UIView *tripLogAlertView = [[UIView alloc] initWithFrame:CGRectMake(0,0,200,150)];
+                
+                [tripLogAlertView addSubview:alertLabel];
+                
+                UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 110, 260, 50)];
+                checkboxLabel.backgroundColor = [UIColor clearColor];
+                checkboxLabel.textColor = [UIColor blackColor];
+                checkboxLabel.text = @"Do not show again";
+                checkboxLabel.font = [UIFont systemFontOfSize:12.0];
+                [tripLogAlertView addSubview:checkboxLabel];
+                [checkboxLabel release];
+                
+                //declared alertCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+                alertCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                alertCheckboxButton.frame = CGRectMake(150, 127, 18, 18);
+                alertCheckboxButton.backgroundColor = [UIColor clearColor];
+                UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
+                UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
+                [alertCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+                [alertCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+                [alertCheckboxButton addTarget:self action:@selector(alertCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+                
+                [tripLogAlertView addSubview: alertCheckboxButton];
+                
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:tripPurposeString
+                                      message:nil
+                                      delegate:nil
+                                      cancelButtonTitle:@"Okay"
+                                      otherButtonTitles:nil];
+                
+                [alert setValue:tripLogAlertView forKey:@"accessoryView"];
+                
+                [alert show];
+            }
+            
+        }
+        
         UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
         infoButton.showsTouchWhenHighlighted = YES;
         [infoButton addTarget:self action:@selector(infoAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -556,6 +726,36 @@
 	//NSLog(@"loading: %@", loading);
 	[loading performSelector:@selector(removeView) withObject:nil afterDelay:0.5];
 }
+
+-(void)alertCheckboxButtonClicked{
+    
+    NSLog(@"AlertCheckbocButtonClicked Method called");
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"TripLogging"]){
+        
+        [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TripLogging"];
+        alertCheckboxButton.selected = YES;
+    }else {
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"TripLogging"];
+        alertCheckboxButton.selected = NO;
+    }
+    
+}
+
+-(float)systemVersion
+{
+    NSArray * versionCompatibility = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+    float total = 0;
+    int pot = 0;
+    for (NSNumber * number in versionCompatibility)
+    {
+        total += number.intValue * powf(10, pot);
+        pot--;
+    }
+    return total;
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated{
     UIImage *thumbnailOriginal;

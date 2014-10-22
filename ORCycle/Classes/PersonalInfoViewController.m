@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -57,7 +57,7 @@
 @synthesize age, email, feedback, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
 @synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
 @synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem, choiceButton;
-@synthesize bikeTypesSelectedRows, selectedItems;
+@synthesize bikeTypesSelectedRows, selectedItems, otherBikeTypes, otherEthnicity, otherGender, otherOccupation, otherRiderType;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -126,6 +126,7 @@
 	return textField;
 }
 
+/*
 - (UITextView*)initTextViewFeedback
 {
 	CGRect frame = CGRectMake( 10, 7, 300, 100 );
@@ -142,6 +143,7 @@
 	textView.delegate = self;
 	return textView;
 }
+ */
 
 
 - (UITextField*)initTextFieldNumeric
@@ -168,6 +170,19 @@
 		// Handle the error.
 		NSLog(@"createUser error %@, %@", error, [error localizedDescription]);
 	}
+    
+    
+    
+    // get current date/time
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterLongStyle];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    NSString *dateCreated = [dateFormatter stringFromDate:[NSDate date]];
+    [dateFormatter release]; dateFormatter = nil;
+    NSLog(@"User's current time in their preference format:%@",dateCreated);
+    
+    [noob setUserCreated:dateCreated];
 	
 	return [noob autorelease];
 }
@@ -207,13 +222,13 @@
     
     cyclingWeatherArray = [[NSArray alloc]initWithObjects: @" ", @"In any kind of weather", @"When it does not rain", @"Usually with warm and dry weather", @"Only with warm and dry weather", nil];
     
-    riderAbilityArray = [[NSArray alloc]initWithObjects: @" ", @"Very High", @"High", @"Average", @"Low", @"Very Low", nil];
+    riderAbilityArray = [[NSArray alloc]initWithObjects: @" ", @"Very high", @"High", @"Average", @"Low", @"Very low", nil];
     
-    riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"For nearly all my trips", @"To and from work", @"For recreation and/or excercise in my free time", @"For shopping, errands, or visiting friends", @"Mainly to & from work, but occasionally for other purposes", @"Other", nil];
+    riderTypeArray = [[NSArray alloc]initWithObjects: @" ", @"For nearly all my trips", @"To/from work", @"For recreation/excercise in my free time", @"For shopping, errands, or visiting friends", @"Mainly to/from work, but occasionally for other purposes", @"Other", nil];
     /*
     riderHistoryArray = [[NSArray alloc]initWithObjects: @" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started", nil];
      */
-    bikeTypesArray = [[NSArray alloc]initWithObjects:@" ",@"Commuter (with gears)", @"Commuter (single speed)", @"Racing or Road", @"Trail, cyclecross, or mountain", @"Cargo bike", @"Recumbent", @"Other", nil];
+    bikeTypesArray = [[NSArray alloc]initWithObjects:@" ",@"Commuter (with gears)", @"Commuter (single speed)", @"Racing or road", @"Trail, cyclecross, or mountain", @"Cargo bike", @"Recumbent", @"Other", nil];
     
     bikeTypesSelectedRows = [[NSMutableArray alloc] init];
     
@@ -228,7 +243,7 @@
 	// initialize text fields
 	self.age		= [self initTextFieldAlpha];
 	self.email		= [self initTextFieldEmail];
-    self.feedback	= [self initTextViewFeedback];
+    //self.feedback	= [self initTextViewFeedback];
 	self.gender		= [self initTextFieldAlpha];
     self.ethnicity  = [self initTextFieldAlpha];
     self.occupation    = [self initTextFieldAlpha];
@@ -285,13 +300,41 @@
 		age.text            = [ageArray objectAtIndex:[user.age integerValue]];
         ageSelectedRow      = [user.age integerValue];
 		email.text          = user.email;
-        feedback.text          = user.feedback;
-		gender.text         = [genderArray objectAtIndex:[user.gender integerValue]];
+        //feedback.text          = user.feedback;
+        NSLog(@"Other gender loaded as %@",user.otherGender);
+        if ([user.gender integerValue] == 3 && user.otherGender != NULL){
+            NSMutableString *otherGenderString = [NSMutableString stringWithFormat: @"Other ("];
+            [otherGenderString appendString:user.otherGender];
+            [otherGenderString appendString:@")"];
+            gender.text = otherGenderString;
+        }
+        else{
+            gender.text         = [genderArray objectAtIndex:[user.gender integerValue]];
+
+        }
         genderSelectedRow   = [user.gender integerValue];
-        ethnicity.text      = [ethnicityArray objectAtIndex:[user.ethnicity integerValue]];
+        
+        if ([user.ethnicity integerValue] == 6 && user.otherEthnicity != NULL){
+            NSMutableString *otherEthnicityString = [NSMutableString stringWithFormat: @"Other ("];
+            [otherEthnicityString appendString:user.otherEthnicity];
+            [otherEthnicityString appendString:@")"];
+            ethnicity.text = otherEthnicityString;
+        }
+        else{
+            ethnicity.text      = [ethnicityArray objectAtIndex:[user.ethnicity integerValue]];
+        }
         ethnicitySelectedRow= [user.ethnicity integerValue];
         
-        occupation.text         = [occupationArray objectAtIndex:[user.occupation integerValue]];
+        
+        if ([user.occupation integerValue] == 5 && user.otherOccupation != NULL){
+            NSMutableString *otherOccupationString = [NSMutableString stringWithFormat: @"Other ("];
+            [otherOccupationString appendString:user.otherOccupation];
+            [otherOccupationString appendString:@")"];
+            occupation.text = otherOccupationString;
+        }
+        else{
+            occupation.text         = [occupationArray objectAtIndex:[user.occupation integerValue]];
+        }
         occupationSelectedRow   = [user.occupation integerValue];
         
         income.text         = [incomeArray objectAtIndex:[user.income integerValue]];
@@ -318,8 +361,34 @@
         cyclingWeatherSelectedRow  = [user.cyclingWeather integerValue];
         riderAbility.text          = [riderAbilityArray objectAtIndex:[user.riderAbility integerValue]];
         riderAbilitySelectedRow    = [user.riderAbility integerValue];
-        riderType.text          = [riderTypeArray objectAtIndex:[user.riderType integerValue]];
+        
+        if ([user.riderType integerValue] == 6 && user.otherRiderType != NULL){
+            NSMutableString *otherRiderTypeString = [NSMutableString stringWithFormat: @"Other ("];
+            [otherRiderTypeString appendString:user.otherRiderType];
+            [otherRiderTypeString appendString:@")"];
+            riderType.text = otherRiderTypeString;
+        }
+        
+        else{
+            riderType.text          = [riderTypeArray objectAtIndex:[user.riderType integerValue]];
+        }
         riderTypeSelectedRow    = [user.riderType integerValue];
+        
+        if (user.otherRiderType.length >0){
+            self.otherRiderType = user.otherRiderType;
+        }
+        else if (user.otherBikeTypes.length >0){
+            self.otherBikeTypes = user.otherBikeTypes;
+        }
+        else if (user.otherGender.length >0){
+            self.otherGender = user.otherGender;
+        }
+        else if (user.otherEthnicity.length >0){
+            self.otherEthnicity = user.otherEthnicity;
+        }
+        else if (user.otherOccupation.length >0){
+            self.otherOccupation = user.otherOccupation;
+        }
         
         NSMutableArray *bikeTypesParse = [[user.bikeTypes componentsSeparatedByString:@","] mutableCopy];
         NSMutableArray *bikeTypesLoaded = [[NSMutableArray alloc] init];
@@ -351,8 +420,6 @@
 	[request release];
 }
 
-
-
 #pragma mark UITextFieldDelegate methods
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
@@ -381,6 +448,12 @@
                         self.navigationItem.rightBarButtonItem.enabled = YES;
                     }
                     genderSelectedRow = selectedIndex;
+                    if (genderSelectedRow == 3){
+                        NSLog(@"Trying to bring up other text view");
+                        UIAlertView* otherGenderView = [[UIAlertView alloc] initWithTitle:@"Other Gender" message:@"Please describe your gender." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                        otherGenderView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        [otherGenderView show];
+                    }
                 }
             };
             ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
@@ -415,6 +488,12 @@
                         self.navigationItem.rightBarButtonItem.enabled = YES;
                     }
                     ethnicitySelectedRow = selectedIndex;
+                    if (ethnicitySelectedRow == 6){
+                        NSLog(@"Trying to bring up other text view");
+                        UIAlertView* otherEthnicityView = [[UIAlertView alloc] initWithTitle:@"Other Ethnicity" message:@"Please describe your ethnicity." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                        otherEthnicityView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        [otherEthnicityView show];
+                    }
                 }
             };
             ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
@@ -432,6 +511,13 @@
                         self.navigationItem.rightBarButtonItem.enabled = YES;
                     }
                     occupationSelectedRow = selectedIndex;
+                    
+                    if (occupationSelectedRow == 5){
+                        NSLog(@"Trying to bring up other text view");
+                        UIAlertView* otherOccupationView = [[UIAlertView alloc] initWithTitle:@"Other Occupation" message:@"Please describe your occupation." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                        otherOccupationView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        [otherOccupationView show];
+                    }
                 }
             };
             ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
@@ -569,6 +655,13 @@
                         self.navigationItem.rightBarButtonItem.enabled = YES;
                     }
                     riderTypeSelectedRow = selectedIndex;
+                    
+                    if (riderTypeSelectedRow == 6){
+                        NSLog(@"Trying to bring up other text view");
+                        UIAlertView* otherRiderTypeView = [[UIAlertView alloc] initWithTitle:@"Other Rider Type" message:@"Please describe when/why you make a trip by bicycle." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                        otherRiderTypeView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                        [otherRiderTypeView show];
+                    }
                 }
             };
             ActionStringCancelBlock cancel = ^(ActionSheetStringPicker *picker) {
@@ -627,6 +720,7 @@
 	}
 }
 
+/*
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     if (textView == feedback){
         [currentTextField resignFirstResponder];
@@ -642,6 +736,7 @@
         return;
     }
 }
+ */
 
 // save the new value for this textField
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -651,6 +746,7 @@
 	// save value
 	if ( user != nil )
 	{
+        /*
 		if ( textView == feedback)
 		{
             //enable save button if value has been changed.
@@ -660,6 +756,7 @@
             NSLog(@"saving feedback: %@", feedback.text);
 			[user setFeedback:feedback.text];
 		}
+         */
         
 		NSError *error;
 		if (![managedObjectContext save:&error]) {
@@ -674,8 +771,6 @@
 {
     [email resignFirstResponder];
     
-    [feedback resignFirstResponder];
-    
     NSLog(@"Saving User Data");
 	if ( user != nil )
 	{
@@ -684,9 +779,6 @@
         
 		[user setEmail:email.text];
         NSLog(@"saved email: %@", user.email);
-        
-        [user setFeedback:feedback.text];
-        NSLog(@"saved feedback: %@", user.feedback);
         
 		[user setGender:[NSNumber numberWithInt:genderSelectedRow]];
 		NSLog(@"saved gender index: %@ and text: %@", user.gender, gender.text);
@@ -731,6 +823,7 @@
         
         [user setRiderType:[NSNumber numberWithInt:riderTypeSelectedRow]];
         NSLog(@"saved rider type index: %@ and text: %@", user.riderType, riderType.text);
+        
         
 		//NSLog(@"saving cycling freq: %d", [cyclingFreq intValue]);
 		//[user setCyclingFreq:cyclingFreq];
@@ -783,7 +876,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 10;
+    return 12;
 }
 
 
@@ -808,18 +901,24 @@
             return @"How many bicycles do you own?";
             break;
         case 6:
-			return @"What types of bicycles do you own? (touch to add to selection)";
+			return @"What types of bicycles do you own? (can select more than one)";
 			break;
         case 7:
             return @"Tell us about yourself";
             break;
         case 8:
-            return @"To see your routes and safety marks in the future and receive updates/news, please provide your email  (email will not be shared, see privacy policy).";
+            return @"To see your routes and reports in the future and receive updates/news, please provide your email  (email will not be shared, see privacy policy).";
             break;
         case 9:
-            return @"Comment here if you would like to provide feedback about the app or desirable features:";
+            return nil;
             break;
         case 10:
+            return @"Comment here if you would like to provide feedback about the app or desirable features:";
+            break;
+        case 11:
+            return @"Application Version:";
+            break;
+        case 12:
 			return nil;
 			break;
         
@@ -841,7 +940,7 @@
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section ==9){
+    if (section ==11){
         return 100;
     } else{
         return 0.01;
@@ -880,7 +979,13 @@
             return 100;
             break;
         case 9:
+            return 0;
+            break;
+        case 10:
             return 65;
+            break;
+        case 11:
+            return 35;
             break;
 		default:
 			return 0;
@@ -921,6 +1026,15 @@
             return 1;
             break;
         case 9:
+            return 1;
+            break;
+        case 10:
+            return 1;
+            break;
+        case 11:
+            return 1;
+            break;
+        case 12:
             return 1;
             break;
 		default:
@@ -1102,19 +1216,29 @@
 					cell.textLabel.text = @"Commuter (single speed)";
 					break;
 				case 2:
-					cell.textLabel.text = @"Racing or Road";
+					cell.textLabel.text = @"Racing or road";
 					break;
                 case 3:
 					cell.textLabel.text = @"Trail, cyclecross, or mountain";
 					break;
                 case 4:
-					cell.textLabel.text = @"Cargo Bike";
+					cell.textLabel.text = @"Cargo bike";
                     break;
                 case 5:
 					cell.textLabel.text = @"Recumbent";
                     break;
                 case 6:
-					cell.textLabel.text = @"Other";
+                    if (user.otherBikeTypes != NULL){
+                        NSMutableString *otherBikeTypesString = [NSMutableString stringWithFormat: @"Other ("];
+                        [otherBikeTypesString appendString:user.otherBikeTypes];
+                        [otherBikeTypesString appendString:@")"];
+                        //NSIndexPath *index =  [NSIndexPath indexPathForRow:6 inSection:6];
+                        //UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: indexPath];
+                        cell.textLabel.text = otherBikeTypesString;
+                    }
+                    else{
+                        cell.textLabel.text = @"Other";
+                    }
                     break;
 			}
             cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
@@ -1191,6 +1315,28 @@
 		}
 			break;
         case 9:
+        {
+            static NSString *CellIdentifier = @"CellSaveUser";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            cell.backgroundColor = [UIColor colorWithRed:106.0f/255.0f green:127.0f/255.0f  blue:16.0f/255.0f  alpha:1.000];
+            cell.textLabel.textColor = [UIColor whiteColor];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Save User Info";
+                    //[cell.contentView addSubview:feedback];
+                    break;
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+            break;
+        case 10:
 		{
 			static NSString *CellIdentifier = @"CellFeedback";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1198,19 +1344,45 @@
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
             
-            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            cell.backgroundColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            cell.textLabel.textColor = [UIColor whiteColor];
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
 				case 0:
-                    cell.textLabel.text = @"Feedback";
-					[cell.contentView addSubview:feedback];
+                    cell.textLabel.text = @"Send Feedback";
+					//[cell.contentView addSubview:feedback];
 					break;
             }
 			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
 			break;
+        case 11:
+        {
+            static NSString *CellIdentifier = @"CellAppVersion";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    NSString *appVersion = [NSString stringWithFormat:@"%@ (%@) on iOS %@",
+                                            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"],
+                                            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+                                            [[UIDevice currentDevice] systemVersion]];
+                    cell.textLabel.text = appVersion;
+                    break;
+                }
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+            break;
 	}
 	// debug
 	//NSLog(@"%@", [cell subviews]);
@@ -1219,8 +1391,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath indexAtPosition:0] == 9){
-        return 115;
+    if ([indexPath indexAtPosition:0] == 9 || [indexPath indexAtPosition:0] == 10){
+        return 43;
     }
     else{
         return 43;
@@ -1321,6 +1493,12 @@
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 [bikeTypesSelectedRows addObject:indexPath];
                 self.navigationItem.rightBarButtonItem.enabled = YES;
+                if ([indexPath indexAtPosition:1]==6){
+                    NSLog(@"Trying to bring up other text view");
+                    UIAlertView* otherBikeTypesView = [[UIAlertView alloc] initWithTitle:@"Other Bike Type" message:@"Please describe why you what other type of bicycle you own." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                    otherBikeTypesView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                    [otherBikeTypesView show];
+                }
             }
             else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -1343,26 +1521,142 @@
 		{
 			switch ([indexPath indexAtPosition:1])
 			{
-				case 0:
-					break;
-				case 1:
-					break;
+                case 0:
+                    break;
+                case 1:
+                    break;
 			}
 			break;
 		}
         case 9:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    [self done];
+                }
+                    self.navigationItem.rightBarButtonItem.enabled = NO;
+            }
+            break;
+        }
+        case 10:
 		{
 			switch ([indexPath indexAtPosition:1])
 			{
-				case 0:
-					break;
-				case 1:
-					break;
+                case 0:{
+                    NSLog(@"Trying to bring up other text view");
+                    UIAlertView* feedbackView = [[UIAlertView alloc] initWithTitle:@"Feedback" message:@"Please leave feedback below." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                    feedbackView.alertViewStyle = UIAlertViewStylePlainTextInput;
+                    [feedbackView show];
+                }
+                self.navigationItem.rightBarButtonItem.enabled = YES;
 			}
 			break;
 		}
 	}
 }
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if ([alertView.title isEqualToString:@"Other Bike Type"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherBikeTypesField= [alertView textFieldAtIndex:0];
+            self.otherBikeTypes = otherBikeTypesField.text;
+            if (self.otherBikeTypes != NULL){
+                NSMutableString *otherBikeTypesString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherBikeTypesString appendString:self.otherBikeTypes];
+                [otherBikeTypesString appendString:@")"];
+                NSIndexPath *index =  [NSIndexPath indexPathForRow:6 inSection:6];
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: index];
+                cell.textLabel.text = otherBikeTypesString;
+                [user setOtherBikeTypes: self.otherBikeTypes];
+            }
+        }
+        NSLog(@"Saved other bike type as = %@",self.otherBikeTypes);
+    }
+    else if ([alertView.title isEqualToString:@"Other Ethnicity"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherEthnicityField= [alertView textFieldAtIndex:0];
+            self.otherEthnicity = otherEthnicityField.text;
+            if (self.otherEthnicity != NULL){
+                NSMutableString *otherEthnicityString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherEthnicityString appendString:self.otherEthnicity];
+                [otherEthnicityString appendString:@")"];
+                ethnicity.text = otherEthnicityString;
+                [user setOtherEthnicity: self.otherEthnicity];
+            }
+        }
+        NSLog(@"Saved other ethnicity as = %@",self.otherEthnicity);
+    }
+    else if ([alertView.title isEqualToString:@"Other Occupation"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherOccupationField= [alertView textFieldAtIndex:0];
+            self.otherOccupation = otherOccupationField.text;
+            if (self.otherOccupation != NULL){
+                NSMutableString *otherOccupationString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherOccupationString appendString:self.otherOccupation];
+                [otherOccupationString appendString:@")"];
+                occupation.text = otherOccupationString;
+                [user setOtherOccupation: self.otherOccupation];
+            }
+        }
+        NSLog(@"Saved other occupation as = %@",self.otherOccupation);
+    }
+    else if ([alertView.title isEqualToString:@"Other Gender"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherGenderField= [alertView textFieldAtIndex:0];
+            self.otherGender = otherGenderField.text;
+            if (self.otherGender != NULL){
+                NSMutableString *otherGenderString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherGenderString appendString:self.otherGender];
+                [otherGenderString appendString:@")"];
+                gender.text = otherGenderString;
+                [user setOtherGender: self.otherGender];
+            }
+        }
+        NSLog(@"Saved other gender as = %@",self.otherGender);
+    }
+    else if ([alertView.title isEqualToString:@"Other Rider Type"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *otherRiderTypeField= [alertView textFieldAtIndex:0];
+            self.otherRiderType = otherRiderTypeField.text;
+            if (self.otherRiderType != NULL){
+                NSMutableString *otherRiderTypeString = [NSMutableString stringWithFormat: @"Other ("];
+                [otherRiderTypeString appendString:self.otherRiderType];
+                [otherRiderTypeString appendString:@")"];
+                riderType.text = otherRiderTypeString;
+                [user setOtherRiderType: self.otherRiderType];
+            }
+        }
+        NSLog(@"Saved other rider type as = %@",self.otherRiderType);
+    }
+    else if ([alertView.title isEqualToString:@"Feedback"]){
+        NSLog(@"Button Index =%ld",(long)buttonIndex);
+        if (buttonIndex == 1) {  //Okay
+            UITextField *feedbackField= [alertView textFieldAtIndex:0];
+            NSMutableString *mutableFeedback = [user.feedback mutableCopy];
+            if (mutableFeedback.length >0){
+                [mutableFeedback appendString: @". "];
+                [mutableFeedback appendString: feedbackField.text];
+                //NSRange range = {0,2};
+                //[mutableFeedback deleteCharactersInRange:range];
+            }
+            else{
+                mutableFeedback = [feedbackField.text mutableCopy];
+            }
+            self.feedback = mutableFeedback;
+            [user setFeedback:feedback];
+            NSLog(@"saved feedback: %@", user.feedback);
+
+        }
+    }
+}
+
 
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
@@ -1649,6 +1943,11 @@
     self.riderTypeSelectedRow = nil;
     self.riderHistorySelectedRow = nil;
     self.selectedItem = nil;
+    self.otherOccupation = nil;
+    self.otherRiderType = nil;
+    self.otherGender = nil;
+    self.otherBikeTypes = nil;
+    self.otherEthnicity = nil;
     
     [delegate release];
     [managedObjectContext release];
@@ -1675,7 +1974,6 @@
     
     [doneToolbar release];
     [actionSheet release];
-    [alertView release];
     [pickerView release];
     [currentTextField release];
     [genderArray release];
@@ -1691,6 +1989,12 @@
     [riderAbilityArray release];
     [riderTypeArray release];
     [riderHistoryArray release];
+    
+    [otherEthnicity release];
+    [otherBikeTypes release];
+    [otherGender release];
+    [otherOccupation release];
+    [otherRiderType release];
     
     [super dealloc];
 }

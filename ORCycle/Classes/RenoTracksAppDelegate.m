@@ -1,7 +1,8 @@
+
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -56,6 +57,7 @@
 #import "UIDevice+IdentifierAddition.h"
 #import "constants.h"
 #import "NoteDetailViewController.h"
+#import "CrashDetailViewController.h"
 #import "DetailViewController.h"
 #import "NoteManager.h"
 #import <CoreData/NSMappingModel.h>
@@ -112,7 +114,7 @@
     
     tabBarItem1.title = @"Record";
     tabBarItem2.title = @"Trips";
-    tabBarItem3.title = @"Safety";
+    tabBarItem3.title = @"Reports";
     tabBarItem4.title = @"User";
 
     
@@ -193,7 +195,9 @@
 - (void)initUniqueIDHash
 {
 	//self.uniqueIDHash = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier]; // save for later.
-    self.uniqueIDHash = [[UIDevice currentDevice]uniqueGlobalDeviceIdentifier];
+    //self.uniqueIDHash = [[UIDevice currentDevice]uniqueDeviceIdentifier];
+    self.uniqueIDHash = [[[UIDevice currentDevice]identifierForVendor] UUIDString];
+    
 	NSLog(@"Hashed uniqueID: %@", uniqueIDHash);
 }
 

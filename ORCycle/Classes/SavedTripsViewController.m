@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -545,7 +545,16 @@
         imageView.tag = PURPOSEICON_TAG;
         cell.accessoryView = imageView;
         
-        purposeText.text = [NSString stringWithFormat:@"%@", trip.purpose];
+        if ([trip.purpose  isEqual: kTripPurposeOtherString]) {
+            NSMutableString *purposeTitle = [trip.purpose mutableCopy];
+            [purposeTitle appendString:@" ("];
+            [purposeTitle appendString:trip.purposeOther];
+            [purposeTitle appendString:@")"];
+            purposeText.text = purposeTitle;
+        }
+        else{
+            purposeText.text = trip.purpose;
+        }
         
     }
     
@@ -563,7 +572,16 @@
         imageView.tag	= kTagImage;
         cell.accessoryView = imageView;
         
-        purposeText.text = [NSString stringWithFormat:@"%@", trip.purpose];
+        if ([trip.purpose  isEqual: kTripPurposeOtherString]) {
+            NSMutableString *purposeTitle = [trip.purpose mutableCopy];
+            [purposeTitle appendString:@" ("];
+            [purposeTitle appendString:trip.purposeOther];
+            [purposeTitle appendString:@")"];
+            purposeText.text = purposeTitle;
+        }
+        else{
+            purposeText.text = trip.purpose;
+        }
         
 //        [cell.contentView addSubview:purposeText];
 //        [cell.contentView addSubview:durationText];

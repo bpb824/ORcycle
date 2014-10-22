@@ -1,7 +1,7 @@
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, e-mail figliozzi@pdx.edu
+ * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
  *
  * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
  * Cycle Atlanta, and RenoTracks.
@@ -59,7 +59,7 @@
 
 // use these epsilons for real-time distance calculation only
 #define kEpsilonTimeInterval	10.0
-#define kEpsilonSpeed			30.0	// meters per sec = 67 mph
+#define kEpsilonSpeed			300.0	// 30 meters per sec = 67 mph -> changed to 300 to turn off feature
 
 #define kSaveProtocolVersion_1	1
 #define kSaveProtocolVersion_2	2
@@ -374,6 +374,7 @@
 			// initialize text fields to saved personal info
 			[userDict setValue:user.email           forKey:@"email"];
             [userDict setValue:user.feedback         forKey:@"feedback"];
+            [userDict setValue:user.userCreated      forKey:@"installed"];
             /*
 			[userDict setValue:user.homeZIP         forKey:@"homeZIP"];
 			[userDict setValue:user.workZIP         forKey:@"workZIP"];
@@ -438,6 +439,41 @@
                 NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                 [userResponseDict setObject:questions[i] forKey:@"question_id"];
                 [userResponseDict setObject:answers[i] forKey:@"answer_id"];
+                if (i == 1 && [answers[i] integerValue] == 12){
+                    if(user.otherGender != NULL){
+                        [userResponseDict setObject:user.otherGender forKey:@"other_text"];
+                    }
+                    else{
+                      [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                    }
+                    
+                }
+                else if (i == 2 && [answers[i] integerValue] == 19){
+                    if (user.otherEthnicity != NULL){
+                        [userResponseDict setObject:user.otherEthnicity forKey:@"other_text"];
+                    }
+                    else{
+                        [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                    }
+                }
+                else if (i == 3 && [answers[i] integerValue] == 25){
+                    if (user.otherOccupation != NULL){
+                        [userResponseDict setObject:user.otherOccupation forKey:@"other_text"];
+                    }
+                    else{
+                        [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                    }
+                    
+                }
+                else if (i == 10 && [answers[i] integerValue] == 81){
+                    if (user.otherRiderType != NULL){
+                        [userResponseDict setObject:user.otherRiderType forKey:@"other_text"];
+                    }
+                    else{
+                        [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                    }
+                    
+                }
                 NSLog(@"%@", userResponseDict);
                 userResponsesCollection[i] = userResponseDict;
             }
@@ -503,6 +539,15 @@
                     NSMutableDictionary *userResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                     [userResponseDict setObject: [NSNumber numberWithInt:10] forKey:@"question_id"];
                     [userResponseDict setObject: [NSNumber numberWithInt:i + 52] forKey:@"answer_id"];
+                    if (i == 6){
+                        if (user.otherBikeTypes != NULL){
+                            [userResponseDict setObject:user.otherBikeTypes forKey:@"other_text"];
+                        }
+                        else{
+                            [userResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                        }
+                        
+                    }
                     [userResponsesCollection addObject:userResponseDict];
                 }
             }
@@ -647,6 +692,19 @@
                 [tripResponseDict setObject:[NSNumber numberWithInt:100] forKey:@"answer_id"];
                 [tripResponsesCollection addObject:tripResponseDict];
             }
+            else if([tripPurpose isEqual:kTripPurposeOtherString]){
+                NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
+                [tripResponseDict setObject:[NSNumber numberWithInt:20] forKey:@"question_id"];
+                [tripResponseDict setObject:[NSNumber numberWithInt:101] forKey:@"answer_id"];
+                if (trip.purposeOther != NULL){
+                    [tripResponseDict setObject:trip.purposeOther forKey:@"other_text"];
+                }
+                else{
+                    [tripResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                }
+                
+                [tripResponsesCollection addObject:tripResponseDict];
+            }
             
             
             NSMutableArray *routePrefsTemp = [[tripResponse.routePrefs componentsSeparatedByString:@","] mutableCopy];
@@ -694,6 +752,15 @@
                     NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                     [tripResponseDict setObject: [NSNumber numberWithInt:21] forKey:@"question_id"];
                     [tripResponseDict setObject: [NSNumber numberWithInt:i + 103] forKey:@"answer_id"];
+                    if (i == 11){
+                        if (trip.otherRoutePrefs != NULL){
+                            [tripResponseDict setObject:trip.otherRoutePrefs forKey:@"other_text"];
+                        }
+                        else{
+                            [tripResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                        }
+                        
+                    }
                     [tripResponsesCollection addObject:tripResponseDict];
                 }
             }
@@ -727,6 +794,15 @@
                     NSMutableDictionary *tripResponseDict = [NSMutableDictionary dictionaryWithCapacity:2];
                     [tripResponseDict setObject: [NSNumber numberWithInt:27]  forKey:@"question_id"];
                     [tripResponseDict setObject: [NSNumber numberWithInt:i + 143] forKey:@"answer_id"];
+                    if (i == 7){
+                        if (trip.otherRouteStressors != NULL){
+                            [tripResponseDict setObject:trip.otherRouteStressors forKey:@"other_text"];
+                        }
+                        else{
+                            [tripResponseDict setObject:@"Other not indicated" forKey:@"other_text"];
+                        }
+                        
+                    }
                     [tripResponsesCollection addObject:tripResponseDict];
                 }
             }
