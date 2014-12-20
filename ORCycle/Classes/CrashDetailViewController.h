@@ -57,10 +57,13 @@
     //NSString *otherIssueType;
     NSString *otherConflictWith;
     
+    NSDate *reportDate;
+    
     BOOL customLoc;
     BOOL gpsLoc;
     
-
+    BOOL customDate;
+    BOOL nowDate;
     
 }
 
@@ -89,8 +92,13 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *infoTableView;
 
+@property (nonatomic, strong) NSDate *reportDate;
+
 @property (nonatomic) BOOL customLoc;
 @property (nonatomic) BOOL gpsLoc;
+
+@property (nonatomic) BOOL customDate;
+@property (nonatomic) BOOL nowDate;
 
 
 -(IBAction)back:(id)sender;

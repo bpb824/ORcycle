@@ -11,6 +11,8 @@
 #import "constants.h"
 #import "ActionSheetStringPicker.h"
 #import "SetReportLocationViewController.h"
+#import "ActionSheetDatePicker.h"
+#import "NSDate+TCUtils.h"
 
 @interface NoteDetailViewController ()
 
@@ -19,7 +21,7 @@
 @implementation NoteDetailViewController
 @synthesize noteDelegate, appDelegate, managedObjectContext, infoTableView, noteResponse;
 @synthesize urgency, issueType;
-@synthesize urgencySelectedRow, issueTypeSelectedRows, selectedItem, selectedItems, otherIssueType,gpsLoc, customLoc;
+@synthesize urgencySelectedRow, issueTypeSelectedRows, selectedItem, selectedItems, otherIssueType,gpsLoc, customLoc, customDate, nowDate, reportDate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -90,6 +92,11 @@
     
     customLoc = false;
     gpsLoc = false;
+    
+    customDate = false;
+    nowDate = false;
+    
+    self.reportDate = [[NSDate date] retain];
 
 
     CGRect pickerFrame = CGRectMake(0, 40, 0, 0);
@@ -131,6 +138,7 @@
     
     NSInteger numFields = 0;
     BOOL didPickLoc = false;
+    BOOL didPickDate = false;
     
     if (urgencySelectedRow <10 && urgencySelectedRow != 0){
         numFields = numFields +1;
@@ -139,32 +147,73 @@
         numFields = numFields + 1;
     }
     
-    if (gpsLoc || customLoc == true){
+    if (gpsLoc || customLoc ){
         didPickLoc = true;
     }
     
-    if (numFields < 2 && didPickLoc == false){
+    if (nowDate || customDate ){
+        didPickDate = true;
+    }
+    
+    if (numFields < 2 && didPickLoc == false && didPickDate == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must answer both questions about the safety/infrastructure issue."
+                              message:@"You must answer both questions about the safety issue and choose the location and time of the safety issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
         [alert show];
     }
-    else if (numFields >= 2 && didPickLoc == false){
+    else if (numFields >= 2 && didPickLoc == false && didPickDate == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must choose the location of the safety/infrastructure issue."
+                              message:@"You must choose the location and time of the safety issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
         [alert show];
     }
-    else if (numFields < 2 && didPickLoc == true){
+    else if (numFields < 2 && didPickLoc == true && didPickDate == true){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must answer both questions about the safety/infrastructure issue."
+                              message:@"You must answer both questions about the safety issue."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (numFields >= 2 && didPickLoc == true && didPickDate == false){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must choose the time of the safety issue."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    else if (numFields < 2 && didPickLoc == true && didPickDate == false){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must answer both questions about the safety issue and choose the time of the safety issue."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (numFields < 2 && didPickLoc == false && didPickDate == true){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must answer both questions about the safety issue and choose the location of the safety issue."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (numFields >= 2 && didPickLoc == false && didPickDate == true){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must choose the location of the safety issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
@@ -182,6 +231,8 @@
         [noteDelegate didPickIssueType:noteResponse.issueType];
         
         [noteDelegate didEnterOtherIssueType: self.otherIssueType];
+        
+        [noteDelegate didPickReportDate:self.reportDate];
         
         [noteDelegate didPickIsCrash: false];
         
@@ -315,7 +366,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 5;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -329,6 +380,9 @@
         case 2:
             return @"Location of infrastructure/safety issue";
             break;
+        case 3:
+            return @"Date of infrastructure/safety issue";
+            break;
     }
     return nil;
 }
@@ -339,7 +393,7 @@
     [header.textLabel setTextColor:[UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000]];
     
     CALayer *topLine = [CALayer layer];
-    topLine.frame = CGRectMake(0, 0, 320, 1);
+    topLine.frame = CGRectMake(0, 0, 320, 0.5);
     topLine.backgroundColor = [UIColor blackColor].CGColor;
     [header.layer addSublayer:topLine];
     
@@ -348,7 +402,7 @@
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section ==2){
+    if (section ==4){
         return 100;
     } else{
         return 0.01;
@@ -366,6 +420,12 @@
             break;
         case 2:
             return 50;
+            break;
+        case 3:
+            return 50;
+            break;
+        case 4:
+            return 0;
             break;
         default:
 			return 0;
@@ -385,6 +445,12 @@
             break;
         case 2:
             return 2;
+            break;
+        case 3:
+            return 2;
+            break;
+        case 4:
+            return 1;
             break;
         default:
             return 0;
@@ -410,6 +476,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+             cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
             if([issueTypeSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
@@ -482,7 +549,7 @@
             if (cell == nil) {
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             }
-            
+             cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             // inner switch statement identifies row
             switch ([indexPath indexAtPosition:1])
             {
@@ -505,7 +572,7 @@
             if (cell == nil) {
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             }
-            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             // inner switch statement identifies row
             switch ([indexPath indexAtPosition:1])
             {
@@ -516,7 +583,7 @@
                     else { cell.accessoryType = UITableViewCellAccessoryNone; }
                     break;
                 case 1:
-                    cell.textLabel.text = @"Pick custom location";
+                    cell.textLabel.text = @"Pick a custom location...";
                     if(customLoc) {
                         cell.accessoryType = UITableViewCellAccessoryCheckmark; }
                     else { cell.accessoryType = UITableViewCellAccessoryNone; }
@@ -529,9 +596,70 @@
             [cell.textLabel setNumberOfLines:0];
         }
             break;
+            
+        case 3:
+        {
+            static NSString *CellIdentifier = @"CellPickTime";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Today";
+                    if(nowDate) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark; }
+                    else { cell.accessoryType = UITableViewCellAccessoryNone; }
+                    break;
+                case 1:
+                    
+                    if(customDate) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        NSDateFormatter *outputDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                        [outputDateFormatter setDateStyle:kCFDateFormatterLongStyle];
+                        cell.textLabel.text = [outputDateFormatter stringFromDate:self.reportDate];
+                    }
+                    else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                        cell.textLabel.text = @"Pick another date...";
+                    }
+                    break;
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
+        }
+            break;
+            
+
+        case 4:
+        {
+            static NSString *CellIdentifier = @"CellSaveUser";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            cell.backgroundColor = [UIColor colorWithRed:106.0f/255.0f green:127.0f/255.0f  blue:16.0f/255.0f  alpha:1.000];
+            cell.textLabel.textColor = [UIColor whiteColor];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Save";
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    break;
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
     
     }
-    cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
     return cell;
 }
@@ -641,8 +769,103 @@
             }
             break;
         }
+        case 3:
+        {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    NSIndexPath *customIndex = [NSIndexPath indexPathForRow:1 inSection:3];
+                    UITableViewCell *customCell = [infoTableView cellForRowAtIndexPath:customIndex];
+                    if(cell.accessoryType == UITableViewCellAccessoryNone && customCell.accessoryType == UITableViewCellAccessoryNone) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        nowDate = true;
+                        customDate = false;
+                        self.reportDate = [[NSDate date]retain];
+                    }
+                    else if (cell.accessoryType ==UITableViewCellAccessoryNone && customCell.accessoryType == UITableViewCellAccessoryCheckmark){
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customCell.accessoryType = UITableViewCellAccessoryNone;
+                        nowDate = true;
+                        customDate = false;
+                        self.reportDate = [[NSDate date]retain];
+                    }
+                    else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                        nowDate = false;
+                    }
+                }
+                    break;
+                case 1:{
+                    NSIndexPath *nowIndex = [NSIndexPath indexPathForRow:0 inSection:3];
+                    UITableViewCell *nowCell = [infoTableView cellForRowAtIndexPath:nowIndex];
+                    
+                    if(cell.accessoryType == UITableViewCellAccessoryNone && nowCell.accessoryType == UITableViewCellAccessoryNone) {
+                        ActionSheetDatePicker *datePicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:self.reportDate target:self action:@selector(dateWasSelected:element:) origin:self.infoTableView];
+    
+                        [datePicker addCustomButtonWithTitle:@"Today" value:[NSDate date]];
+                        /*
+                        [datePicker addCustomButtonWithTitle:@"Yesterday" value:[[[NSDate date] retain] TC_dateByAddingCalendarUnits:NSDayCalendarUnit amount:-1]];
+                         */
+                        
+                        [datePicker setMaximumDate:[NSDate date]];
+                        datePicker.hideCancel = YES;
+                        [datePicker showActionSheetPicker];
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customDate = true;
+                        nowDate = false;
+                    }
+                    else if (cell.accessoryType == UITableViewCellAccessoryNone && nowCell.accessoryType == UITableViewCellAccessoryCheckmark){
+                        ActionSheetDatePicker *datePicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:self.reportDate target:self action:@selector(dateWasSelected:element:) origin:self.infoTableView];
+                        [datePicker addCustomButtonWithTitle:@"Today" value:[[NSDate date]retain]];
+
+                        /*
+                         [datePicker addCustomButtonWithTitle:@"Today" value:[[NSDate date]retain]];
+                         [datePicker addCustomButtonWithTitle:@"Yesterday" value:[[[NSDate date] retain] TC_dateByAddingCalendarUnits:NSDayCalendarUnit amount:-1]];
+                         */
+                        
+                        [datePicker setMaximumDate:[NSDate date]];
+                        datePicker.hideCancel = YES;
+                        [datePicker showActionSheetPicker];
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customDate = true;
+                        nowDate = false;
+                        nowCell.accessoryType = UITableViewCellAccessoryNone;
+                    }
+                    else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                        customDate = false;
+                        nowDate = true;
+                        nowCell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        self.reportDate = [[NSDate date]retain];
+                    }
+                    break;
+                }
+                    break;
+            }
+            break;
+        }
+
+        case 4:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    [self saveDetail:nil];
+                }
+            }
+            break;
+        }
     }
     [tableView reloadData];
+}
+
+- (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
+    self.reportDate = selectedDate;
+    [self.infoTableView reloadData];
+    
+    //may have originated from textField or barButtonItem, use an IBOutlet instead of element
+    //self.dateTextField.text = [self.selectedDate description];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -663,25 +886,6 @@
         }
         NSLog(@"Saved other route prefs as = %@",self.otherIssueType);
     }
-    /*
-    else if ([alertView.title isEqualToString:@"Other Conflict"]){
-        NSLog(@"Button Index =%ld",(long)buttonIndex);
-        if (buttonIndex == 1) {  //Okay
-            UITextField *otherConflictWithField= [alertView textFieldAtIndex:0];
-            self.otherConflictWith = otherConflictWithField.text;
-            if (self.otherConflictWith != NULL){
-                NSMutableString *otherConflictWithString = [NSMutableString stringWithFormat: @"Other ("];
-                [otherConflictWithString appendString:self.otherConflictWith];
-                [otherConflictWithString appendString:@")"];
-                NSIndexPath *index =  [NSIndexPath indexPathForRow:7 inSection:2];
-                UITableViewCell *cell = [self.infoTableView cellForRowAtIndexPath: index];
-                cell.textLabel.text = otherConflictWithString;
-            }
-        }
-        NSLog(@"Saved other route prefs as = %@",self.otherConflictWith);
-    }
-     */
-    
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
@@ -757,6 +961,7 @@
     //self.conflictWithSelectedRows = nil;
     self.issueType = nil;
     self.issueTypeSelectedRows = nil;
+    self.reportDate = nil;
     
     [noteDelegate release];
     [noteResponse release];

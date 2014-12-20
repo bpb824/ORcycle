@@ -27,6 +27,7 @@
 @dynamic thumbnail;
 @dynamic user;
 @dynamic uploaded;
+@dynamic reportDate;
 
 @dynamic isCrash;
 @dynamic urgency;

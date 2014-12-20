@@ -52,6 +52,7 @@
 #import "TripPurposeDelegate.h"
 #import "RenoTracksAppDelegate.h"
 #import "NoteDetailDelegate.h"
+#import "TutorialDelegate.h"
 #import "Note.h"
 
 
@@ -72,7 +73,7 @@
     NoteDetailDelegate,
 	UIActionSheetDelegate,
 	UIAlertViewDelegate,
-	UITextViewDelegate>
+	UITextViewDelegate, TutorialDelegate>
 {
     NSManagedObjectContext *managedObjectContext;
 	RenoTracksAppDelegate *appDelegate;
@@ -88,8 +89,10 @@
 	IBOutlet UIButton *saveButton;
 	IBOutlet UIButton *startButton;
     IBOutlet UIButton *noteButton;
+    IBOutlet UIButton *centerButton;
     
-    UIButton *alertCheckboxButton;
+    UIButton *welcomeCheckboxButton;
+    UIButton *tripCheckboxButton;
     
 	IBOutlet UILabel *timeCounter;
 	IBOutlet UILabel *distCounter;
@@ -99,6 +102,7 @@
     UIActionSheet *saveActionSheet;
     
     BOOL iSpeedCheck;
+    BOOL speedNoteUp;
     float timeSpeedCheck;
     float distSpeedCheck;
     float speedCheck;
@@ -134,14 +138,17 @@
 @property (nonatomic, retain) UIButton *saveButton;
 @property (nonatomic, retain) UIButton *startButton;
 @property (nonatomic, retain) UIButton *noteButton;
+@property (nonatomic, retain) UIButton *centerButton;
 
-@property (nonatomic, retain) UIButton *alertCheckboxButton;
+@property (nonatomic, retain) UIButton *welcomeCheckboxButton;
+@property (nonatomic, retain) UIButton *tripCheckboxButton;
 
 @property (nonatomic, retain) UILabel *timeCounter;
 @property (nonatomic, retain) UILabel *distCounter;
 @property (nonatomic, retain) UIActionSheet *saveActionSheet;
 
 @property (assign) BOOL iSpeedCheck;
+@property (assign) BOOL speedNoteUp;
 @property (assign) float timeSpeedCheck;
 @property (assign) float distSpeedCheck;
 @property (assign) float speedCheck;
@@ -163,6 +170,7 @@
 
 @property (nonatomic, retain) RenoTracksAppDelegate *appDelegate;
 
+
 - (void)initTripManager:(TripManager*)manager;
 
 - (void)initNoteManager:(NoteManager*)manager;
@@ -178,6 +186,8 @@
 - (IBAction)start:(UIButton *)sender;
 
 -(IBAction)notethis:(id)sender;
+
+- (void)zoomToGps:(id)sender;
 
 
 // timer methods

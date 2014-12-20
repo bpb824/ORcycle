@@ -492,7 +492,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return 6;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -536,7 +536,7 @@
     [header.textLabel setTextColor:[UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000]];
     
     CALayer *topLine = [CALayer layer];
-    topLine.frame = CGRectMake(0, 0, 320, 1);
+    topLine.frame = CGRectMake(0, 0, 320, 0.5);
     topLine.backgroundColor = [UIColor blackColor].CGColor;
     [header.layer addSublayer:topLine];
 
@@ -545,7 +545,7 @@
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section ==4){
+    if (section ==5){
         return 100;
     } else{
        return 0.01;
@@ -584,6 +584,9 @@
             break;
         case 4:
             return 50;
+            break;
+        case 5:
+            return 0;
             break;
 		default:
 			return 0;
@@ -640,6 +643,9 @@
         case 4:
             return 1;
             break;
+        case 5:
+            return 1;
+            break;
         default:
             return 0;
             break;
@@ -690,7 +696,8 @@
             
             if([routePrefsSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
-            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -752,7 +759,8 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -981,7 +989,8 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
-            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+
             if([routeStressorsSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
             if (!routeStressorsSelectedRows || ![routeStressorsSelectedRows count]){
@@ -1089,9 +1098,28 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
             break;
+        case 5:
+        {
+            static NSString *CellIdentifier = @"CellSaveUser";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            cell.backgroundColor = [UIColor colorWithRed:106.0f/255.0f green:127.0f/255.0f  blue:16.0f/255.0f  alpha:1.000];
+            cell.textLabel.textColor = [UIColor whiteColor];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Save";
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    break;
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
     }
-    cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
-    
     return cell;
 }
 
@@ -1250,6 +1278,16 @@
                     break;
                 case 1:
                     break;
+            }
+            break;
+        }
+        case 5:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    [self saveDetail:nil];
+                }
             }
             break;
         }

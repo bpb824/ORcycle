@@ -58,6 +58,7 @@
 #import "NoteManager.h"
 #import "Trip.h"
 #import "User.h"
+#import "TutorialViewController.h"
 
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
@@ -66,9 +67,9 @@
 
 @synthesize tripManager,reminderManager;
 @synthesize noteManager;
-@synthesize infoButton, saveButton, startButton, noteButton, parentView, alertCheckboxButton;
+@synthesize infoButton, saveButton, startButton, noteButton, centerButton, parentView, welcomeCheckboxButton, tripCheckboxButton;
 @synthesize timer, timeCounter, distCounter, slowSpeedsArray;
-@synthesize recording, shouldUpdateCounter, userInfoSaved, iSpeedCheck, timeSpeedCheck, distSpeedCheck, speedCheck;
+@synthesize recording, shouldUpdateCounter, userInfoSaved, iSpeedCheck, timeSpeedCheck, distSpeedCheck, speedCheck, speedNoteUp;
 @synthesize appDelegate;
 @synthesize saveActionSheet;
 
@@ -206,6 +207,7 @@
             distSpeedCheck = 0.0;
             speedCheck = 0.0;
             iSpeedCheck = true;
+            self.speedNoteUp = false;
         }
         
         else{
@@ -229,35 +231,63 @@
             soundFileURLRef = CFBundleCopyResourceURL( mainBundle, CFSTR ("bicycle-bell-normalized"), CFSTR ("aiff"), NULL );
             
             if (speedCheck < 3.0){
-                UIAlertView *slow = [[UIAlertView alloc]
-                                      initWithTitle:@"Slow Speed"
-                                      message:@"You are going slower than 3 mph, if you are not biking anymore please stop recording the trip. Thanks!"
-                                      delegate:nil
-                                      cancelButtonTitle:@"Okay"
-                                      otherButtonTitles:nil];
-                // Create a system sound object representing the sound file
-                AudioServicesCreateSystemSoundID( soundFileURLRef, &soundFileObject );
                 
-                // play audio + vibrate
-                AudioServicesPlayAlertSound( soundFileObject );
-
-                [slow show];
+                
+                UIApplication *ORcycle = [UIApplication sharedApplication];
+                if ([ORcycle applicationState] == UIApplicationStateBackground){
+                    UILocalNotification *slow = [[UILocalNotification alloc] init];
+                    slow.alertBody = @"Are you still bicycling? If not, please stop recording the trip. Thanks!";
+                    slow.soundName = @"bicycle-bell-normalized.aiff";
+                    [ORcycle presentLocalNotificationNow:slow];
+                    [slow release];
+                }
+                else{
+                    // Create a system sound object representing the sound file
+                    AudioServicesCreateSystemSoundID( soundFileURLRef, &soundFileObject );
+                    
+                    // play audio + vibrate
+                    AudioServicesPlayAlertSound( soundFileObject );
+                    
+                    if (self.speedNoteUp== false){
+                        UIAlertView *slow = [[UIAlertView alloc]
+                                             initWithTitle:@"Slow Speed"
+                                             message:@"You are going slower than 3 mph, if you are not biking anymore please stop recording the trip. Thanks!"
+                                             delegate:self
+                                             cancelButtonTitle:@"Okay"
+                                             otherButtonTitles:nil];
+                        [slow show];
+                        self.speedNoteUp = true;
+                    }
+                }
+                
             }
             else if (speedCheck > 20.0){
-                UIAlertView *fast = [[UIAlertView alloc]
-                                     initWithTitle:@"Fast Speed"
-                                     message:@"You are going faster than 20 mph, if you are not biking anymore please stop recording the trip. Thanks!"
-                                     delegate:nil
-                                     cancelButtonTitle:@"Okay"
-                                     otherButtonTitles:nil];
-                // Create a system sound object representing the sound file
-                AudioServicesCreateSystemSoundID( soundFileURLRef, &soundFileObject );
-                
-                // play audio + vibrate
-                AudioServicesPlayAlertSound( soundFileObject );
-
-                [fast show];
-                
+                UIApplication *ORcycle = [UIApplication sharedApplication];
+                if ([ORcycle applicationState] == UIApplicationStateBackground){
+                    UILocalNotification *slow = [[UILocalNotification alloc] init];
+                    slow.alertBody = @"Are you still bicycling? If not, please stop recording the trip. Thanks!";
+                    slow.soundName = @"bicycle-bell-normalized.aiff";
+                    [ORcycle presentLocalNotificationNow:slow];
+                    [slow release];
+                }
+                else{
+                    // Create a system sound object representing the sound file
+                    AudioServicesCreateSystemSoundID( soundFileURLRef, &soundFileObject );
+                    
+                    // play audio + vibrate
+                    AudioServicesPlayAlertSound( soundFileObject );
+                    
+                    if (self.speedNoteUp== false){
+                        UIAlertView *slow = [[UIAlertView alloc]
+                                             initWithTitle:@"Fast Speed"
+                                             message:@"You are going faster than 20 mph, if you are not biking anymore please stop recording the trip. Thanks!"
+                                             delegate:self
+                                             cancelButtonTitle:@"Okay"
+                                             otherButtonTitles:nil];
+                        [slow show];
+                        self.speedNoteUp = true;
+                    }
+                }
             }
             timeSpeedCheck = 0.0;
             distSpeedCheck = 0.0;
@@ -267,6 +297,7 @@
         speedCounter.text = @"0.0";
     }
 }
+
 
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -392,6 +423,18 @@
     NSLog(@"Bundle ID: %@", [[NSBundle mainBundle] bundleIdentifier]);
     [super viewDidLoad];
 	//[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"doneWithTutorial"] != true){
+        //self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        // Override point for customization after application launch.
+        TutorialViewController *tutorialView = [[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil];
+        //self.window.rootViewController = self.tutorialViewController;
+        //[self.window makeKeyAndVisible];
+        [tutorialView setTutorialDelegate:self];
+        [self.navigationController presentViewController:tutorialView animated:NO completion: ^{
+            //[self.tutorialViewController release];
+        }];
+    }
 	
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     //Navigation bar color
@@ -411,6 +454,28 @@
 	// Set up the buttons.
 	[self.view addSubview:[self createStartButton]];
     [self.view addSubview:[self createNoteButton]];
+    [self.view addSubview:[self createCenterButton]];
+    
+    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 70, self.view.bounds.size.width, 0.5)];
+    topLineView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:topLineView];
+    [topLineView release];
+    
+    if (IS_IPHONE_5){
+        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 518.5, self.view.bounds.size.width, 0.5)];
+        bottomLineView.backgroundColor = [UIColor blackColor];
+        [self.view addSubview:bottomLineView];
+        [bottomLineView release];
+
+    }
+    else{
+        UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 430, self.view.bounds.size.width, 0.5)];
+        bottomLineView.backgroundColor = [UIColor blackColor];
+        [self.view addSubview:bottomLineView];
+        [bottomLineView release];
+
+    }
+    
     
     // Start the location manager.
     CLLocationManager *locationManger = [self getLocationManager];
@@ -432,13 +497,15 @@
     // setup the noteManager
     [self initNoteManager:[[[NoteManager alloc] initWithManagedObjectContext:context]autorelease]];
     
+    /*
+    
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"Welcome"]){
         if (self.systemVersion >= 8.0){
             
             UILabel *welcomeLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(10,0,250,90)] autorelease];
-            welcomeLabel.font = [UIFont systemFontOfSize:12.0];
+            welcomeLabel.font = [UIFont systemFontOfSize:10.7];
             
-            welcomeLabel.text = @"This app will let you record your bicycle trips, display maps of your rides, and provide feedback regarding crashes or infrastructure issues. Your data and feedback are valuable and necessary to plan and build better bicycle facilities in Oregon.";
+            welcomeLabel.text = @"This app lets you record bicycle trips, display trip maps, and provide bicycle safety feedback. You can report crashes, near-misses or safety issues from anywhere: home, office, along your trip, etc. by pressing the “Report” button. To record a trip you need to press start/finish buttons before/after your trip.";
             welcomeLabel.textAlignment = NSTextAlignmentJustified;
             welcomeLabel.lineBreakMode = NSLineBreakByWordWrapping;
             welcomeLabel.numberOfLines = 0;
@@ -447,7 +514,7 @@
             
             [welcomeView addSubview:welcomeLabel];
             
-            UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, 180, 50)];
+            UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 77, 180, 50)];
             checkboxLabel.backgroundColor = [UIColor clearColor];
             checkboxLabel.textColor = [UIColor blackColor];
             checkboxLabel.text = @"Do not show again";
@@ -455,17 +522,17 @@
             [welcomeView addSubview:checkboxLabel];
             [checkboxLabel release];
             
-            //declared alertCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
-            alertCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            alertCheckboxButton.frame = CGRectMake(170, 92, 18, 18);
-            alertCheckboxButton.backgroundColor = [UIColor clearColor];
+            //declared welcomeCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+            welcomeCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            welcomeCheckboxButton.frame = CGRectMake(170, 94, 18, 18);
+            welcomeCheckboxButton.backgroundColor = [UIColor clearColor];
             UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
             UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
-            [alertCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
-            [alertCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
-            [alertCheckboxButton addTarget:self action:@selector(alertCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+            [welcomeCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+            [welcomeCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+            [welcomeCheckboxButton addTarget:self action:@selector(welcomeCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
             
-            [welcomeView addSubview: alertCheckboxButton];
+            [welcomeView addSubview: welcomeCheckboxButton];
             
             UIAlertView *welcome = [[UIAlertView alloc]
                                     initWithTitle:@"Welcome to ORcycle!"
@@ -481,8 +548,8 @@
         }
         else{
             UILabel *welcomeLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(3,0,250,90)] autorelease];
-            welcomeLabel.font = [UIFont systemFontOfSize:12.0];
-            welcomeLabel.text = @"This app will let you record your bicycle trips, display maps of your rides, and provide feedback regarding safety or infrastructure issues. Your data and feedback are valuable and necessary to plan and build better bicycle facilities in Oregon.";
+            welcomeLabel.font = [UIFont systemFontOfSize:10.7];
+            welcomeLabel.text = @"This app lets you record bicycle trips, display trip maps, and provide bicycle safety feedback. You can report crashes, near-misses or safety issues from anywhere: home, office, along your trip, etc. by pressing the “Report” button. To record a trip you need to press start/finish buttons before/after your trip.";
             welcomeLabel.lineBreakMode = NSLineBreakByWordWrapping;
             welcomeLabel.numberOfLines = 0;
             
@@ -498,17 +565,17 @@
             [welcomeView addSubview:checkboxLabel];
             [checkboxLabel release];
             
-            //declared alertCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
-            alertCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            alertCheckboxButton.frame = CGRectMake(170, 97, 18, 18);
-            alertCheckboxButton.backgroundColor = [UIColor clearColor];
+            //declared welcomeCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+            welcomeCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            welcomeCheckboxButton.frame = CGRectMake(170, 97, 18, 18);
+            welcomeCheckboxButton.backgroundColor = [UIColor clearColor];
             UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
             UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
-            [alertCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
-            [alertCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
-            [alertCheckboxButton addTarget:self action:@selector(alertCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+            [welcomeCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+            [welcomeCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+            [welcomeCheckboxButton addTarget:self action:@selector(welcomeCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
             
-            [welcomeView addSubview: alertCheckboxButton];
+            [welcomeView addSubview: welcomeCheckboxButton];
             
             UIAlertView *welcome = [[UIAlertView alloc]
                                     initWithTitle:@"Welcome to ORcycle!"
@@ -525,12 +592,15 @@
 
     }
     
+    */
+    
     
 
 	// check if any user data has already been saved and pre-select personal info cell accordingly
 	if ( [self hasUserInfoBeenSaved] )
 		[self setSaved:YES];
     else{
+        /*
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Tell us more about yourself"
                               message:@"Please answer at least the first six questions about your biking habits on the 'User' screen."
@@ -538,6 +608,7 @@
                               cancelButtonTitle:@"Later"
                               otherButtonTitles:@"Okay", nil];
         [alert show];
+         */
     }
     
     //self.slowSpeedsArray = [[NSMutableArray alloc] init];
@@ -548,18 +619,34 @@
 	NSLog(@"save");
 }
 
--(void)alertCheckboxButtonClicked{
+-(void)welcomeCheckboxButtonClicked{
     
-    //NSLog(@"AlertCheckbocButtonClicked Method called");
+    NSLog(@"welcomeCheckbocButtonClicked Method called");
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"Welcome"]){
         
         [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"Welcome"];
-        alertCheckboxButton.selected = YES;
+        welcomeCheckboxButton.selected = YES;
     }else {
         
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Welcome"];
-        alertCheckboxButton.selected = NO;
+        welcomeCheckboxButton.selected = NO;
+    }
+    
+}
+
+-(void)tripCheckboxButtonClicked{
+    
+    NSLog(@"tripCheckboxButtonClicked Method called");
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"TripLogging"]){
+        
+        [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"TripLogging"];
+        tripCheckboxButton.selected = YES;
+    }else {
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"TripLogging"];
+        tripCheckboxButton.selected = NO;
     }
     
 }
@@ -579,6 +666,8 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    NSLog(@"Button at index %i clicked",buttonIndex);
+    
     if ([alertView.title isEqualToString:@"Tell us more about yourself"]){
         if(buttonIndex == 0){
             alertView.delegate = nil;
@@ -589,6 +678,18 @@
             PersonalInfoViewController *PersonalInfoView = [[PersonalInfoViewController alloc] initWithManagedObjectContext:managedObjectContext] ;
             [PersonalInfoView initWithManagedObjectContext:managedObjectContext];
             [self.navigationController pushViewController:PersonalInfoView animated:YES];
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+    }
+    else if ([alertView.title isEqualToString:@"Ready to roll?"]){
+        if(buttonIndex == 0){
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+        if( buttonIndex == 1 ) /* Yes = 0, No = 1 */
+        {
+            [[NSUserDefaults standardUserDefaults]setBool:true forKey:@"doneWithTutorial"];
             alertView.delegate = nil;
             [alertView.delegate release];
         }
@@ -608,8 +709,38 @@
         }
 
     }
-    
+    else if([alertView.title isEqualToString:@"Urgent Safety Issue"]){
+        NSLog(@"Alertview button detected");
+        if(buttonIndex == 0){
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+        if( buttonIndex == 1 ) /* NO = 0, YES = 1 */
+        {
+            NSURL *url = [NSURL URLWithString:kUrgentURL];
+            NSURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [[UIApplication sharedApplication] openURL:[request URL]];
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+        
+    }
+    else if([alertView.title isEqualToString:@"Slow Speed"]){
+        if(buttonIndex == [alertView cancelButtonIndex]){
+            self.speedNoteUp = false;
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+    }
+    else if([alertView.title isEqualToString:@"Fast Speed"]){
+        if(buttonIndex == [alertView cancelButtonIndex]){
+            self.speedNoteUp = false;
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+    }
 }
+
 
 - (UIButton *)createNoteButton
 {
@@ -689,6 +820,49 @@
 	return startButton;
 }
 
+- (UIButton *)createCenterButton
+{
+    UIImage *buttonImage = [UIImage imageNamed:@"greyButton.png"];
+    UIImage *buttonImageHighlight = [UIImage imageNamed:@"greyButtonHighlight.png"];
+    
+    
+    if (IS_IPHONE_5) {
+        
+        [centerButton setFrame: CGRectMake(10,80,30,30)];
+        
+    }else{
+        [centerButton setFrame: CGRectMake(10,85,30,30)];
+        
+    }
+    
+    
+    [centerButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    centerButton.layer.borderWidth = 0.5f;
+    centerButton.layer.borderColor = [[UIColor blackColor] CGColor];
+    
+    [centerButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    centerButton.backgroundColor = [UIColor clearColor];
+    centerButton.enabled = YES;
+    
+    [centerButton.layer setCornerRadius:5.0f];
+    centerButton.clipsToBounds = YES;
+    [centerButton addTarget:self action:@selector(zoomToGps:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return centerButton;
+}
+
+- (void)zoomToGps:(id)sender{
+    MKCoordinateRegion region;
+    region.center.latitude = mapView.userLocation.coordinate.latitude;
+    region.center.longitude = mapView.userLocation.coordinate.longitude;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.0078; // arbitrary value seems to look OK
+    span.longitudeDelta =  0.0068; // arbitrary value seems to look OK
+    region.span = span;
+    [mapView setRegion:region animated:true];
+    
+}
 
 - (void)displayUploadedTripMap
 {
@@ -698,14 +872,174 @@
     // load map view of saved trip
     MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
     [[self navigationController] pushViewController:mvc animated:YES];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"TripLogging"]){
+        
+        NSString *tripPurposeString = @"Trip Logged";
+        NSString *tripPurposeShortString1 = @"";
+        NSString *tripPurposeShortString2 = @"";
+        
+        if (![trip.purpose isEqualToString:@"Other"]){
+            tripPurposeString = [NSString stringWithFormat:@"%@ Trip Logged", trip.purpose];
+            tripPurposeShortString1 = trip.purpose;
+            tripPurposeShortString2 = trip.purpose;
+        }
+        
+        //Route Frequency Text
+        NSString *routeFreqText = [[NSString alloc]init];
+        switch ([trip.routeFreq intValue]) {
+            case 0:
+                routeFreqText = @"no route frequency indicated";
+                break;
+            case 1:
+                routeFreqText = @"several times per week";
+                break;
+            case 2:
+                routeFreqText = @"several times per month";
+                break;
+            case 3:
+                routeFreqText = @"several times per year";
+                break;
+            case 4:
+                routeFreqText = @"once per year or less";
+                break;
+            case 5:
+                routeFreqText = @"first time ever";
+                break;
+            default:
+                routeFreqText = @"no route frequency indicated";
+                break;
+        }
+        
+        NSString *sameString = @"same";
+        NSString *routeString = @"route";
+        
+        
+        NSMutableAttributedString *messageString = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"Data for this %@ trip will be logged and uploaded. If you repeat the %@ %@ %@ there is no need to log it again. Please use ORcycle to log new trip purposes, routes, crash events, or safety issues.", tripPurposeShortString1, sameString, tripPurposeShortString2, routeString]];
+        
+        [messageString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12.0] range:NSMakeRange(0,messageString.length)];
+        
+        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range:NSMakeRange(14, tripPurposeShortString1.length)];
+        
+        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 34, sameString.length + 19)];
+        
+        [messageString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-BoldOblique" size: 12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1, tripPurposeShortString2.length)];
+        
+        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1 + tripPurposeShortString2.length + 1, routeString.length + 33)];
+        
+        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1 + tripPurposeShortString2.length + 1 + routeString.length + 1 + 60,3 )];
+        
+        NSLog(@"System verison is equal to %f",self.systemVersion);
+        
+        if (self.systemVersion >= 8.0){
+            
+            UILabel *alertLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(10,0,250,100)] autorelease];
+            
+            alertLabel.attributedText = messageString;
+            alertLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            alertLabel.numberOfLines = 0;
+            
+            UIView *tripLogAlertView = [[UIView alloc] initWithFrame:CGRectMake(0,0,200,250)];
+            
+            [tripLogAlertView addSubview:alertLabel];
+            
+            UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 80, 260, 50)];
+            checkboxLabel.backgroundColor = [UIColor clearColor];
+            checkboxLabel.textColor = [UIColor blackColor];
+            checkboxLabel.text = @"Do not show again";
+            checkboxLabel.font = [UIFont systemFontOfSize:12.0];
+            [tripLogAlertView addSubview:checkboxLabel];
+            [checkboxLabel release];
+            
+            //declared tripCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+            tripCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            tripCheckboxButton.frame = CGRectMake(180, 97, 18, 18);
+            tripCheckboxButton.backgroundColor = [UIColor clearColor];
+            UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
+            UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
+            [tripCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+            [tripCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+            [tripCheckboxButton addTarget:self action:@selector(tripCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+            
+            [tripLogAlertView addSubview: tripCheckboxButton];
+            
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:tripPurposeString
+                                  message:nil
+                                  delegate:nil
+                                  cancelButtonTitle:@"Okay"
+                                  otherButtonTitles:nil];
+            
+            [alert setValue:tripLogAlertView forKey:@"accessoryView"];
+            
+            [alert show];
+            
+        }
+        else{
+            UILabel *alertLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(0,0,200,130)] autorelease];
+            
+            alertLabel.attributedText = messageString;
+            alertLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            alertLabel.numberOfLines = 0;
+            
+            UIView *tripLogAlertView = [[UIView alloc] initWithFrame:CGRectMake(0,0,200,150)];
+            
+            [tripLogAlertView addSubview:alertLabel];
+            
+            UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 110, 260, 50)];
+            checkboxLabel.backgroundColor = [UIColor clearColor];
+            checkboxLabel.textColor = [UIColor blackColor];
+            checkboxLabel.text = @"Do not show again";
+            checkboxLabel.font = [UIFont systemFontOfSize:12.0];
+            [tripLogAlertView addSubview:checkboxLabel];
+            [checkboxLabel release];
+            
+            //declared tripCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+            tripCheckboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            tripCheckboxButton.frame = CGRectMake(150, 127, 18, 18);
+            tripCheckboxButton.backgroundColor = [UIColor clearColor];
+            UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
+            UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
+            [tripCheckboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+            [tripCheckboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+            [tripCheckboxButton addTarget:self action:@selector(tripCheckboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+            
+            [tripLogAlertView addSubview: tripCheckboxButton];
+            
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:tripPurposeString
+                                  message:nil
+                                  delegate:nil
+                                  cancelButtonTitle:@"Okay"
+                                  otherButtonTitles:nil];
+            
+            [alert setValue:tripLogAlertView forKey:@"accessoryView"];
+            
+            [alert show];
+        }
+        
+    }
+
+    
+    
     NSLog(@"displayUploadedTripMap");
     [mvc release];
 }
 
-
 - (void)displayUploadedNote
 {
     Note *note = noteManager.note;
+    
+    if([note.urgency integerValue] >= 4){
+        UIAlertView *urgent = [[UIAlertView alloc]
+                              initWithTitle:@"Urgent Safety Issue"
+                              message:@"If this safety issue is very urgent, please also report it to the local transportation agency. A web page of agency contacts can be accessed by pressing 'Report'."
+                              delegate:self
+                              cancelButtonTitle:@"Later"
+                              otherButtonTitles:@"Report",nil];
+        
+        [urgent show];
+    }
     
     // load map view of note
     NoteViewController *mvc = [[NoteViewController alloc] initWithNote:note];
@@ -716,7 +1050,7 @@
 
 
 - (void)resetTimer
-{	
+{
 	// invalidate timer
 	if ( timer )
 	{
@@ -924,6 +1258,7 @@
 }
 
 
+
 // called if the system cancels the action sheet (e.g. homescreen button has been pressed)
 - (void)actionSheetCancel:(UIActionSheet *)actionSheet
 {
@@ -937,45 +1272,49 @@
 // NOTE: method called upon closing save error / success alert
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	switch (alertView.tag) {
-		case 101:
-		{
-			NSLog(@"recording interrupted didDismissWithButtonIndex: %ld", (long)buttonIndex);
-			switch (buttonIndex) {
-				case 0:
-					// new trip => do nothing
-					break;
-				case 1:
-				default:
-					// continue => load most recent unsaved trip
-					[tripManager loadMostRecetUnSavedTrip];
-					
-					// update UI to reflect trip once loading has completed
-					[self setCounterTimeSince:tripManager.trip.start
-									 distance:[tripManager getDistanceEstimate]];
-
-					startButton.enabled = YES;
-
-                    [startButton setTitle:@"Continue" forState:UIControlStateNormal];
-					break;
-			}
-		}
-			break;
-		default:
-		{
-			NSLog(@"saving didDismissWithButtonIndex: %ld", (long)buttonIndex);
-			
-			// keep a pointer to our trip to pass to map view below
-			Trip *trip = tripManager.trip;
-			[self resetRecordingInProgress];
-			
-			// load map view of saved trip
-			MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
-			[[self navigationController] pushViewController:mvc animated:YES];
-			[mvc release];
-		}
-			break;
-	}
+  
+        switch (alertView.tag) {
+            case 101:
+            {
+                NSLog(@"recording interrupted didDismissWithButtonIndex: %ld", (long)buttonIndex);
+                switch (buttonIndex) {
+                    case 0:
+                        // new trip => do nothing
+                        break;
+                    case 1:
+                    default:
+                        // continue => load most recent unsaved trip
+                        [tripManager loadMostRecetUnSavedTrip];
+                        
+                        // update UI to reflect trip once loading has completed
+                        [self setCounterTimeSince:tripManager.trip.start
+                                         distance:[tripManager getDistanceEstimate]];
+                        
+                        startButton.enabled = YES;
+                        
+                        [startButton setTitle:@"Continue" forState:UIControlStateNormal];
+                        break;
+                }
+            }
+                break;
+                /*
+            default:
+            {
+                NSLog(@"saving didDismissWithButtonIndex: %ld", (long)buttonIndex);
+                
+                // keep a pointer to our trip to pass to map view below
+                Trip *trip = tripManager.trip;
+                [self resetRecordingInProgress];
+                
+                // load map view of saved trip
+                MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
+                [[self navigationController] pushViewController:mvc animated:YES];
+                [mvc release];
+            }
+                break;
+                 */
+        }
+	
 }
 
 
@@ -1024,7 +1363,7 @@
         [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
         [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
         [startButton setTitleColor:plainWhite forState:UIControlStateNormal];
-        [startButton setTitle:@"Save Trip" forState:UIControlStateNormal];
+        [startButton setTitle:@"Finish" forState:UIControlStateNormal];
         [startButton.layer setCornerRadius:5.0f];
         startButton.clipsToBounds = YES;
         startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
@@ -1056,61 +1395,76 @@
 }
 - (void)save
 {
-	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-	// go directly to TripPurpose, user can cancel from there
-	if ( YES )
-	{
-        /*
-        //Trip Information
-        NSLog(@"INIT + PUSH");
-        TripInfoViewController *tripInfoVC = [[TripInfoViewController alloc]
-                                              initWithNibName: @"TripInfoViewController" bundle: nil];
-        [tripInfoVC setDelegate: self];
-        [self.navigationController presentViewController: tripInfoVC animated: YES completion: nil];
-        [tripInfoVC release];
-         */
-         
+    if ([tripManager.coords count] >=1){
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey: @"pickerCategory"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        // go directly to TripPurpose, user can cancel from there
+        if ( YES )
+        {
+            /*
+             //Trip Information
+             NSLog(@"INIT + PUSH");
+             TripInfoViewController *tripInfoVC = [[TripInfoViewController alloc]
+             initWithNibName: @"TripInfoViewController" bundle: nil];
+             [tripInfoVC setDelegate: self];
+             [self.navigationController presentViewController: tripInfoVC animated: YES completion: nil];
+             [tripInfoVC release];
+             */
+            
+            
+            // Trip Purpose
+            NSLog(@"INIT + PUSH");
+            PickerViewController *tripPurposePickerView = [[PickerViewController alloc]
+                                                           //initWithPurpose:[tripManager getPurposeIndex]];
+                                                           initWithNibName:@"TripPurposePicker" bundle:nil];
+            [tripPurposePickerView setDelegate:self];
+            //[[self navigationController] pushViewController:pickerViewController animated:YES];
+            [self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
+            [tripPurposePickerView release];
+            
+        }
         
-		// Trip Purpose
-		NSLog(@"INIT + PUSH");
-		PickerViewController *tripPurposePickerView = [[PickerViewController alloc]
-													  //initWithPurpose:[tripManager getPurposeIndex]];
-													  initWithNibName:@"TripPurposePicker" bundle:nil];
-		[tripPurposePickerView setDelegate:self];
-		//[[self navigationController] pushViewController:pickerViewController animated:YES];
-		[self.navigationController presentViewController:tripPurposePickerView animated:YES completion:nil];
-		[tripPurposePickerView release];
-        
+        // prompt to confirm first
+        else
+        {
+            // pause updating the counter
+            shouldUpdateCounter = NO;
+            
+            // construct purpose confirmation string
+            NSString *purpose = nil;
+            if ( tripManager != nil )
+                purpose = [self getPurposeString:[tripManager getPurposeIndex]];
+            
+            NSString *confirm = [NSString stringWithFormat:@"Stop recording & save this trip?"];
+            
+            // present action sheet
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:confirm
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"Cancel"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"Save", nil];
+            
+            actionSheet.actionSheetStyle		= UIActionSheetStyleBlackTranslucent;
+            UIViewController *pvc = self.parentViewController;
+            UITabBarController *tbc = (UITabBarController *)pvc.parentViewController;
+            
+            [actionSheet showFromTabBar:tbc.tabBar];
+            [actionSheet release];
+        }
+ 
     }
-	
-	// prompt to confirm first
-	else
-	{
-		// pause updating the counter
-		shouldUpdateCounter = NO;
-		
-		// construct purpose confirmation string
-		NSString *purpose = nil;
-		if ( tripManager != nil )
-			purpose = [self getPurposeString:[tripManager getPurposeIndex]];
-		
-		NSString *confirm = [NSString stringWithFormat:@"Stop recording & save this trip?"];
-		
-		// present action sheet
-		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:confirm
-																 delegate:self
-														cancelButtonTitle:@"Cancel"
-												   destructiveButtonTitle:nil
-														otherButtonTitles:@"Save", nil];
-		
-		actionSheet.actionSheetStyle		= UIActionSheetStyleBlackTranslucent;
-		UIViewController *pvc = self.parentViewController;
-		UITabBarController *tbc = (UITabBarController *)pvc.parentViewController;
-		
-		[actionSheet showFromTabBar:tbc.tabBar];
-		[actionSheet release];
-	}
+    else{
+        UIAlertView *noGPS = [[UIAlertView alloc]
+                              initWithTitle:@"Not enough GPS points"
+                              message:@"This trip is very short or you do not have a sufficient GPS signal. Please try recording a trip again."
+                              delegate:self
+                              cancelButtonTitle:@"Okay"
+                              otherButtonTitles:nil];
+        [noGPS show];
+        [noGPS release];
+        [self resetRecordingInProgress];
+
+    }
     
 }
 
@@ -1355,6 +1709,21 @@ shouldSelectViewController:(UIViewController *)viewController
 	shouldUpdateCounter = YES;
 }
 
+-(void)didFinishTutorial
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    UIAlertView *tutorial = [[UIAlertView alloc]
+                         initWithTitle:@"Ready to roll?"
+                         message:@"Do you want to see the tutorial again next time you start ORcycle?"
+                         delegate:self
+                         cancelButtonTitle:@"Yes"
+                         otherButtonTitles:@"No",nil];
+    [tutorial show];
+    [tutorial release];
+
+}
 
 - (void)didCancelNote
 {
@@ -1571,6 +1940,11 @@ shouldSelectViewController:(UIViewController *)viewController
     NSLog(@"VAccuracy: %f", [noteManager.note.vAccuracy doubleValue]);
 }
 
+-(void) didPickReportDate:(NSDate *)date{
+    [noteManager.note setReportDate: date];
+    NSLog(@"Did pick report date: %@", date);
+}
+
 
 - (void)didEnterNoteDetails:(NSString *)details{
     [noteManager.note setDetails:details];
@@ -1649,6 +2023,7 @@ shouldSelectViewController:(UIViewController *)viewController
     self.infoButton = nil;
     self.saveButton = nil;
     self.noteButton = nil;
+    self.centerButton = nil;
     self.timeCounter = nil;
     self.distCounter = nil;
     self.saveActionSheet = nil;
@@ -1666,6 +2041,7 @@ shouldSelectViewController:(UIViewController *)viewController
     [saveButton release];
     [startButton release];
     [noteButton release];
+    [centerButton release];
     [timeCounter release];
     [distCounter release];
     [speedCounter release];

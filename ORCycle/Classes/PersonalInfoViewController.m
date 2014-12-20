@@ -48,6 +48,7 @@
 #import "User.h"
 #import "constants.h"
 #import "ActionSheetStringPicker.h"
+#import "ActionSheetDatePicker.h"
 
 #define kMaxCyclingFreq 3
 
@@ -57,7 +58,7 @@
 @synthesize age, email, feedback, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
 @synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
 @synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem, choiceButton;
-@synthesize bikeTypesSelectedRows, selectedItems, otherBikeTypes, otherEthnicity, otherGender, otherOccupation, otherRiderType;
+@synthesize bikeTypesSelectedRows, selectedItems, otherBikeTypes, otherEthnicity, otherGender, otherOccupation, otherRiderType, reminderOneTime, reminderTwoTime;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -126,25 +127,6 @@
 	return textField;
 }
 
-/*
-- (UITextView*)initTextViewFeedback
-{
-	CGRect frame = CGRectMake( 10, 7, 300, 100 );
-	UITextView *textView = [[UITextView alloc] initWithFrame:frame];
-	textView.autocapitalizationType = UITextAutocapitalizationTypeNone,
-	[textView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [textView.layer setBorderWidth:0.5];
-    textView.layer.cornerRadius = 5;
-    textView.clipsToBounds = YES;
-	textView.textAlignment = NSTextAlignmentLeft;
-	textView.keyboardType = UIKeyboardTypeDefault;
-	textView.returnKeyType = UIReturnKeyDone;
-    textView.font = [UIFont systemFontOfSize:17];
-	textView.delegate = self;
-	return textView;
-}
- */
-
 
 - (UITextField*)initTextFieldNumeric
 {
@@ -183,6 +165,8 @@
     NSLog(@"User's current time in their preference format:%@",dateCreated);
     
     [noob setUserCreated:dateCreated];
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
 	
 	return [noob autorelease];
 }
@@ -239,11 +223,33 @@
     pickerView.delegate = self;
    
     
+    if (!([[NSUserDefaults standardUserDefaults]objectForKey:@"reminderOneTime"] == NULL)){
+        self.reminderOneTime = [[NSUserDefaults standardUserDefaults]objectForKey:@"reminderOneTime"];
+    }
+    else{
+        NSString *str =@"8:00 AM";
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"HH:mm a"];
+        NSDate *date = [formatter dateFromString:str];
+        self.reminderOneTime = date;
+    }
+    
+    if (!([[NSUserDefaults standardUserDefaults]objectForKey:@"reminderTwoTime"] == NULL)){
+        self.reminderTwoTime = [[NSUserDefaults standardUserDefaults]objectForKey:@"reminderTwoTime"];
+    }
+    else{
+        NSString *str =@"5:00 PM";
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"HH:mm a"];
+        NSDate *date = [formatter dateFromString:str];
+        self.reminderTwoTime = date;
+    }
+
+    
     
 	// initialize text fields
 	self.age		= [self initTextFieldAlpha];
 	self.email		= [self initTextFieldEmail];
-    //self.feedback	= [self initTextViewFeedback];
 	self.gender		= [self initTextFieldAlpha];
     self.ethnicity  = [self initTextFieldAlpha];
     self.occupation    = [self initTextFieldAlpha];
@@ -422,8 +428,9 @@
 
 #pragma mark UITextFieldDelegate methods
 
+
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == email || textField != email){
+    if(currentTextField == email){
         NSLog(@"currentTextField: text2");
         [currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -432,6 +439,17 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)myTextField{
+    
+    if (myTextField == email){
+        [currentTextField resignFirstResponder];
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.35f];
+        CGPoint offset = self.tableView.contentOffset;
+        offset.y += 170; // You can change this, but 200 doesn't create any problems
+        [self.tableView setContentOffset:offset];
+        [UIView commitAnimations];
+    }
+
     
     currentTextField = myTextField;
     
@@ -678,6 +696,7 @@
 {
 	NSLog(@"textFieldShouldReturn");
 	[textField resignFirstResponder];
+    //[self.view endEditing:YES];
 	return YES;
 }
 
@@ -708,9 +727,11 @@
             }
             NSLog(@"saving email: %@", email.text);
 			[user setEmail:email.text];
-            [textField resignFirstResponder];
             
 		}
+        
+        //[textField resignFirstResponder];
+        //[self.view endEditing:YES];
     
 		NSError *error;
 		if (![managedObjectContext save:&error]) {
@@ -720,23 +741,6 @@
 	}
 }
 
-/*
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-    if (textView == feedback){
-        [currentTextField resignFirstResponder];
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.35f];
-        CGPoint offset = self.tableView.contentOffset;
-        offset.y += 100; // You can change this, but 200 doesn't create any problems
-        [self.tableView setContentOffset:offset];
-        [UIView commitAnimations];
-        //[textView resignFirstResponder];
-    }
-    else{
-        return;
-    }
-}
- */
 
 // save the new value for this textField
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -876,7 +880,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 12;
+    return 14;
 }
 
 
@@ -916,10 +920,13 @@
             return @"Comment here if you would like to provide feedback about the app or desirable features:";
             break;
         case 11:
-            return @"Application Version:";
+            return @"1.) Remind me to record a trip or report at...";
             break;
         case 12:
-			return nil;
+            return @"2.) Remind me to record a trip or report at...";
+            break;
+        case 13:
+			return @"Application Version";
 			break;
         
 	}
@@ -933,14 +940,14 @@
     [header.textLabel setTextColor:[UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000]];
     
     CALayer *topLine = [CALayer layer];
-    topLine.frame = CGRectMake(0, 0, 320, 1);
+    topLine.frame = CGRectMake(0, 0, 320, 0.5);
     topLine.backgroundColor = [UIColor blackColor].CGColor;
     [header.layer addSublayer:topLine];
 }
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section ==11){
+    if (section ==13){
         return 100;
     } else{
         return 0.01;
@@ -985,6 +992,12 @@
             return 65;
             break;
         case 11:
+            return 50;
+            break;
+        case 12:
+            return 50;
+            break;
+        case 13:
             return 35;
             break;
 		default:
@@ -1032,12 +1045,15 @@
             return 1;
             break;
         case 11:
-            return 1;
+            return 2;
             break;
         case 12:
+            return 2;
+            break;
+        case 13:
             return 1;
             break;
-		default:
+        default:
 			return 0;
 	}
     return 0;
@@ -1328,7 +1344,8 @@
             switch ([indexPath indexAtPosition:1])
             {
                 case 0:
-                    cell.textLabel.text = @"Save User Info";
+                    cell.textLabel.text = @"Save";
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
                     //[cell.contentView addSubview:feedback];
                     break;
             }
@@ -1351,6 +1368,7 @@
 			{
 				case 0:
                     cell.textLabel.text = @"Send Feedback";
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
 					//[cell.contentView addSubview:feedback];
 					break;
             }
@@ -1359,6 +1377,110 @@
 		}
 			break;
         case 11:
+        {
+            static NSString *CellIdentifier = @"CellReminderOne";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    NSDate *time = self.reminderOneTime;
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"h:mm a"];
+                    cell.textLabel.text = [dateFormatter stringFromDate:time];
+                    UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
+                    cell.accessoryView = switchview;
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reminderOneSet"]){
+                        [switchview setOn:true];
+                    }
+                    else{
+                        [switchview setOn:false];
+                    }
+                    switchview.tag = 1;
+                    [switchview addTarget:self action:@selector(updateSwitch:) forControlEvents:UIControlEventTouchUpInside];
+                    [switchview release];
+                }
+                     break;
+                case 1:{
+                    NSArray *dayOptions = [NSArray arrayWithObjects: @"Every Day", @"Weekdays", @"Weekends", nil];
+                    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:dayOptions];
+                    segmentedControl.frame = CGRectMake(10, 5, 300, 33);
+                    [segmentedControl addTarget:self action:@selector(segmentControlOne:) forControlEvents: UIControlEventValueChanged];
+                    NSInteger dayIndex = [[[NSUserDefaults standardUserDefaults]valueForKey:@"reminderOneDays"] intValue];
+                    if (dayIndex){
+                        segmentedControl.selectedSegmentIndex = dayIndex;
+                        
+                    }
+                    else{
+                        segmentedControl.selectedSegmentIndex = 0;
+                    }
+                    [cell addSubview:segmentedControl];
+                }
+                    break;
+                
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+            break;
+            
+        case 12:
+        {
+            static NSString *CellIdentifier = @"CellReminderTwo";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    NSDate *time = self.reminderTwoTime;
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"h:mm a"];
+                    cell.textLabel.text = [dateFormatter stringFromDate:time];
+                    UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
+                    cell.accessoryView = switchview;
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reminderTwoSet"]){
+                        [switchview setOn:true];
+                    }
+                    else{
+                        [switchview setOn:false];
+                    }
+                    switchview.tag = 2;
+                    [switchview addTarget:self action:@selector(updateSwitch:) forControlEvents:UIControlEventTouchUpInside];
+                    [switchview release];
+                }
+                    break;
+                case 1:{
+                    NSArray *dayOptions = [NSArray arrayWithObjects: @"Every Day", @"Weekdays", @"Weekends", nil];
+                    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:dayOptions];
+                    segmentedControl.frame = CGRectMake(10, 5, 300, 33);
+                    [segmentedControl addTarget:self action:@selector(segmentControlTwo:) forControlEvents: UIControlEventValueChanged];
+                    NSInteger dayIndex = [[[NSUserDefaults standardUserDefaults]valueForKey:@"reminderTwoDays"] intValue];
+                    if (dayIndex){
+                        segmentedControl.selectedSegmentIndex = dayIndex;
+
+                    }
+                    else{
+                        segmentedControl.selectedSegmentIndex = 0;
+                    }
+                    [cell addSubview:segmentedControl];
+                }
+                    break;
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+            break;
+        case 13:
         {
             static NSString *CellIdentifier = @"CellAppVersion";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1388,6 +1510,496 @@
 	//NSLog(@"%@", [cell subviews]);
     return cell;
 }
+
+- (void)segmentControlOne:(UISegmentedControl *)segment
+{
+    NSInteger reminderOne = 1;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reminderOneSet"]){
+        
+        if(segment.selectedSegmentIndex == 0)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:0] forKey:@"reminderOneDays"];
+            [self updateTime:reminderOne];
+        }
+        else if(segment.selectedSegmentIndex == 1)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:1] forKey:@"reminderOneDays"];
+            [self updateTime:reminderOne];
+        }
+        else if(segment.selectedSegmentIndex == 2)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:2] forKey:@"reminderOneDays"];
+            [self updateTime:reminderOne];
+        }
+    }
+    else{
+        
+        if(segment.selectedSegmentIndex == 0)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:0] forKey:@"reminderOneDays"];
+        }
+        else if(segment.selectedSegmentIndex == 1)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:1] forKey:@"reminderOneDays"];
+        }
+        else if(segment.selectedSegmentIndex == 2)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:2] forKey:@"reminderOneDays"];
+        }
+    }
+}
+
+- (void)segmentControlTwo:(UISegmentedControl *)segment
+{
+    NSInteger reminderTwo = 2;
+    NSLog(@"Detecting segment control two change");
+    NSLog(@"Segment two choice is %i",segment.selectedSegmentIndex);
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reminderTwoSet"]){
+        
+        if(segment.selectedSegmentIndex == 0)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:0] forKey:@"reminderTwoDays"];
+            [self updateTime:reminderTwo];
+            NSLog(@"Detecting segment zero choice");
+        }
+        else if(segment.selectedSegmentIndex == 1)
+        {
+            
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:1] forKey:@"reminderTwoDays"];
+            [self updateTime:reminderTwo];
+        }
+        else if(segment.selectedSegmentIndex == 2)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:2] forKey:@"reminderTwoDays"];
+            [self updateTime:reminderTwo];
+        }
+    }
+    else{
+        
+        if(segment.selectedSegmentIndex == 0)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:0] forKey:@"reminderTwoDays"];
+        }
+        else if(segment.selectedSegmentIndex == 1)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:1] forKey:@"reminderTwoDays"];
+        }
+        else if(segment.selectedSegmentIndex == 2)
+        {
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:2] forKey:@"reminderTwoDays"];
+        }
+    }
+}
+
+-(void)updateTime:(NSInteger)reminderNum
+{
+    if (reminderNum==1){
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reminderOneSet"]){
+            
+            UIApplication *app = [UIApplication sharedApplication];
+            NSArray *eventArray = [app scheduledLocalNotifications];
+            NSLog(@"Event  Array = %@",eventArray);
+            for (int i=0; i<[eventArray count]; i++)
+            {
+                UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+                NSDictionary *userInfoCurrent = oneEvent.userInfo;
+                if ([[userInfoCurrent valueForKey:@"reminderNum"] isEqualToString:@"One"])
+                {
+                    //Cancelling local notification
+                    [app cancelLocalNotification:oneEvent];
+                }
+            }
+            
+            NSArray *days = [[NSArray alloc]init];
+            
+            switch ([[[NSUserDefaults standardUserDefaults] valueForKey:@"reminderOneDays"] integerValue]){
+                case 0:{
+                    days = @[@1,@2,@3,@4,@5,@6,@7];
+                }
+                    break;
+                case 1:{
+                    days = @[@2,@3,@4,@5,@6];
+                }
+                    break;
+                case 2: {
+                    days = @[@1,@7];
+                }
+                    break;
+                default: {
+                    days = @[@1,@2,@3,@4,@5,@6,@7];
+                }
+                    break;
+            };
+            
+            for (int i = 0;i<[days count];i++){
+                NSInteger day = [[days objectAtIndex:i] integerValue];
+                NSLog(@"day = %i",day);
+                NSDate *today = [NSDate date];
+                NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+                NSInteger currentWeekday = components.weekday;
+                NSLog(@"CurrentWeekday = %i",currentWeekday);
+                NSInteger diff = day - currentWeekday;
+                NSLog(@"Diff = %i",diff);
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"h:mm a"];
+                NSString *timeString = [dateFormatter stringFromDate:self.reminderOneTime];
+                NSArray *timeArray = [timeString componentsSeparatedByString: @":"];
+                NSInteger hour = [timeArray[0] integerValue];
+                NSArray *back = [timeArray[1] componentsSeparatedByString:@" "];
+                NSInteger min = [back[0] integerValue];
+                if (back.count >1){
+                    NSString *ampm = back[1];
+                    if ([ampm isEqualToString: @"AM"]){
+                        [components setHour: hour];
+                    }
+                    else{
+                        [components setHour: hour + 12 ];
+                    }
+                }
+                else{
+                    [components setHour: hour];
+                }
+                [components setMinute: min];
+                [components setSecond: 0];
+                NSCalendar *calendar = [NSCalendar currentCalendar];
+                [calendar setTimeZone: [NSTimeZone defaultTimeZone]];
+                NSDate *dateToFire = [[calendar dateFromComponents:components] dateByAddingTimeInterval:diff*86400];
+                
+                NSLog(@"Date to fire =%@", dateToFire);
+                
+                UIApplication *ORcycle = [UIApplication sharedApplication];
+                UILocalNotification *remind = [[UILocalNotification alloc] init];
+                remind.alertBody = @"ORcycle is reminding you to log a trip.";
+                remind.soundName = @"bicycle-bell-normalized.aiff";
+                remind.fireDate = dateToFire;
+                NSLog(@"remind.firedate =%@", remind.fireDate);
+                remind.timeZone = [NSTimeZone defaultTimeZone];
+                remind.repeatInterval = NSWeekCalendarUnit;
+                remind.userInfo = [NSMutableDictionary dictionaryWithObject:@"One"
+                                                                     forKey:@"reminderNum"];
+                [ORcycle scheduleLocalNotification:remind];
+                [remind release];
+                NSLog(@"remind.userinfo =%@", remind.userInfo);
+            }
+            
+            
+        }
+
+    }
+    else if (reminderNum ==2){
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reminderTwoSet"]){
+            
+            UIApplication *app = [UIApplication sharedApplication];
+            NSArray *eventArray = [app scheduledLocalNotifications];
+            for (int i=0; i<[eventArray count]; i++)
+            {
+                UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+                NSDictionary *userInfoCurrent = oneEvent.userInfo;
+                if ([[userInfoCurrent valueForKey:@"reminderNum"] isEqualToString:@"Two"])
+                {
+                    //Cancelling local notification
+                    [app cancelLocalNotification:oneEvent];
+                }
+            }
+            
+            NSArray *days = [[NSArray alloc]init];
+            
+            switch ([[[NSUserDefaults standardUserDefaults] valueForKey:@"reminderTwoDays"] integerValue]){
+                case 0:{
+                    days = @[@1,@2,@3,@4,@5,@6,@7];
+                }
+                    break;
+                case 1:{
+                    days = @[@2,@3,@4,@5,@6];
+                }
+                    break;
+                case 2: {
+                    days = @[@1,@7];
+                }
+                    break;
+                default: {
+                    days = @[@1,@2,@3,@4,@5,@6,@7];
+                }
+                    break;
+            };
+            
+            for (int i = 0;i<[days count];i++){
+                NSInteger day = [[days objectAtIndex:i] integerValue];
+                NSLog(@"day = %i",day);
+                NSDate *today = [NSDate date];
+                NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+                NSInteger currentWeekday = components.weekday;
+                NSLog(@"CurrentWeekday = %i",currentWeekday);
+                NSInteger diff = day - currentWeekday;
+                NSLog(@"Diff = %i",diff);
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"h:mm a"];
+                NSString *timeString = [dateFormatter stringFromDate:self.reminderTwoTime];
+                NSArray *timeArray = [timeString componentsSeparatedByString: @":"];
+                NSInteger hour = [timeArray[0] integerValue];
+                NSArray *back = [timeArray[1] componentsSeparatedByString:@" "];
+                NSInteger min = [back[0] integerValue];
+                if (back.count >1){
+                    NSString *ampm = back[1];
+                    if ([ampm isEqualToString: @"AM"]){
+                        [components setHour: hour];
+                    }
+                    else{
+                        [components setHour: hour + 12 ];
+                    }
+                }
+                else{
+                    [components setHour: hour];
+                }
+                [components setMinute: min];
+                [components setSecond: 0];
+                NSCalendar *calendar = [NSCalendar currentCalendar];
+                [calendar setTimeZone: [NSTimeZone defaultTimeZone]];
+                NSDate *dateToFire = [[calendar dateFromComponents:components] dateByAddingTimeInterval:diff*86400];
+                
+                NSLog(@"Date to fire =%@", dateToFire);
+                
+                UIApplication *ORcycle = [UIApplication sharedApplication];
+                UILocalNotification *remind = [[UILocalNotification alloc] init];
+                remind.alertBody = @"ORcycle is reminding you to log a trip.";
+                remind.soundName = @"bicycle-bell-normalized.aiff";
+                remind.fireDate = dateToFire;
+                NSLog(@"remind.firedate =%@", remind.fireDate);
+                remind.timeZone = [NSTimeZone defaultTimeZone];
+                remind.repeatInterval = NSWeekCalendarUnit;
+                remind.userInfo = [NSMutableDictionary dictionaryWithObject:@"Two"
+                                                                     forKey:@"reminderNum"];
+                [ORcycle scheduleLocalNotification:remind];
+                [remind release];
+                
+                
+            }
+            
+        }
+
+    }
+}
+
+- (void)updateSwitch:(UISwitch *)switchView {
+    NSInteger reminderNum = switchView.tag;
+    
+    NSIndexPath *index1 =  [NSIndexPath indexPathForRow:0 inSection:11];
+    UITableViewCell *cell1 = [self.tableView cellForRowAtIndexPath: index1];
+    NSIndexPath *index2 =  [NSIndexPath indexPathForRow:0 inSection:12];
+    UITableViewCell *cell2 = [self.tableView cellForRowAtIndexPath: index2];
+    if (![cell1.accessoryView isOn] && ![cell2.accessoryView isOn]){
+         [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"reminderOneSet"];
+        [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"reminderTwoSet"];
+
+    }
+    else{
+        if (reminderNum == 1){
+            if ([switchView isOn]){
+                [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"reminderOneSet"];
+                
+                NSArray *days = [[NSArray alloc]init];
+                
+                switch ([[[NSUserDefaults standardUserDefaults] valueForKey:@"reminderOneDays"] integerValue]){
+                    case 0:{
+                        days = @[@1,@2,@3,@4,@5,@6,@7];
+                    }
+                        break;
+                    case 1:{
+                        days = @[@2,@3,@4,@5,@6];
+                    }
+                        break;
+                    case 2: {
+                        days = @[@1,@7];
+                    }
+                        break;
+                    default: {
+                        days = @[@1,@2,@3,@4,@5,@6,@7];
+                    }
+                        break;
+                };
+                
+                NSLog(@"Days are equal to=%@",days);
+                
+                for (int i = 0;i<[days count];i++){
+                    NSInteger day = [[days objectAtIndex:i] integerValue];
+                    NSLog(@"day = %i",day);
+                    NSDate *today = [NSDate date];
+                    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+                    NSInteger currentWeekday = components.weekday;
+                    NSLog(@"CurrentWeekday = %i",currentWeekday);
+                    NSInteger diff = day - currentWeekday;
+                    NSLog(@"Diff = %i",diff);
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"h:mm a"];
+                    NSString *timeString = [dateFormatter stringFromDate:self.reminderOneTime];
+                    NSArray *timeArray = [timeString componentsSeparatedByString: @":"];
+                    NSInteger hour = [timeArray[0] integerValue];
+                    NSArray *back = [timeArray[1] componentsSeparatedByString:@" "];
+                    NSInteger min = [back[0] integerValue];
+                    if (back.count >1){
+                        NSString *ampm = back[1];
+                        if ([ampm isEqualToString: @"AM"]){
+                            [components setHour: hour];
+                        }
+                        else{
+                            [components setHour: hour + 12 ];
+                        }
+                    }
+                    else{
+                        [components setHour: hour];
+                    }
+                    
+                    [components setMinute: min];
+                    [components setSecond: 0];
+                    NSCalendar *calendar = [NSCalendar currentCalendar];
+                    [calendar setTimeZone: [NSTimeZone defaultTimeZone]];
+                    NSDate *dateToFire = [[calendar dateFromComponents:components] dateByAddingTimeInterval:diff*86400];
+                    
+                    //NSLog(@"today is %@", [NSDate date]);
+                    //NSLog(@"reminder one time is %@", timeArray);
+                    //NSLog(@"Date to fire components=%@", components);
+                    NSLog(@"Date to fire =%@", dateToFire);
+                    
+                    UIApplication *ORcycle = [UIApplication sharedApplication];
+                    UILocalNotification *remind = [[UILocalNotification alloc] init];
+                    remind.alertBody = @"ORcycle is reminding you to log a trip.";
+                    remind.soundName = @"bicycle-bell-normalized.aiff";
+                    remind.fireDate = dateToFire;
+                    NSLog(@"remind.firedate =%@", remind.fireDate);
+                    remind.timeZone = [NSTimeZone defaultTimeZone];
+                    remind.repeatInterval = NSWeekCalendarUnit;
+                    remind.userInfo = [NSMutableDictionary dictionaryWithObject:@"One"
+                                                                         forKey:@"reminderNum"];
+                    [ORcycle scheduleLocalNotification:remind];
+                    [remind release];
+                }
+                
+                
+            }
+            else{
+                [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"reminderOneSet"];
+                UIApplication *app = [UIApplication sharedApplication];
+                NSArray *eventArray = [app scheduledLocalNotifications];
+                for (int i=0; i<[eventArray count]; i++)
+                {
+                    UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+                    NSDictionary *userInfoCurrent = oneEvent.userInfo;
+                    if ([[userInfoCurrent valueForKey:@"reminderNum"] isEqualToString:@"One"])
+                    {
+                        //Cancelling local notification
+                        [app cancelLocalNotification:oneEvent];
+                        break;
+                    }
+                }
+            }
+        }
+        else if (reminderNum == 2){
+            if ([switchView isOn]){
+                [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"reminderTwoSet"];
+                NSArray *days = [[NSArray alloc]init];
+                
+                switch ([[[NSUserDefaults standardUserDefaults] valueForKey:@"reminderTwoDays"] integerValue]){
+                    case 0:{
+                        days = @[@1,@2,@3,@4,@5,@6,@7];
+                    }
+                        break;
+                    case 1:{
+                        days = @[@2,@3,@4,@5,@6];
+                    }
+                        break;
+                    case 2: {
+                        days = @[@1,@7];
+                    }
+                        break;
+                    default: {
+                        days = @[@1,@2,@3,@4,@5,@6,@7];
+                    }
+                        break;
+                };
+                
+                for (int i = 0;i<[days count];i++){
+                    NSInteger day = [[days objectAtIndex:i] integerValue];
+                    NSLog(@"day = %i",day);
+                    NSDate *today = [NSDate date];
+                    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+                    NSInteger currentWeekday = components.weekday;
+                    NSLog(@"CurrentWeekday = %i",currentWeekday);
+                    NSInteger diff = day - currentWeekday;
+                    NSLog(@"Diff = %i",diff);
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"h:mm a"];
+                    NSString *timeString = [dateFormatter stringFromDate:self.reminderTwoTime];
+                    NSArray *timeArray = [timeString componentsSeparatedByString: @":"];
+                    NSInteger hour = [timeArray[0] integerValue];
+                    NSArray *back = [timeArray[1] componentsSeparatedByString:@" "];
+                    NSInteger min = [back[0] integerValue];
+                    if (back.count >1){
+                        NSString *ampm = back[1];
+                        if ([ampm isEqualToString: @"AM"]){
+                            [components setHour: hour];
+                        }
+                        else{
+                            [components setHour: hour + 12 ];
+                        }
+                    }
+                    else{
+                        [components setHour: hour];
+                    }
+                    [components setMinute: min];
+                    [components setSecond: 0];
+                    NSCalendar *calendar = [NSCalendar currentCalendar];
+                    [calendar setTimeZone: [NSTimeZone defaultTimeZone]];
+                    NSDate *dateToFire = [[calendar dateFromComponents:components] dateByAddingTimeInterval:diff*86400];
+                    
+                    NSLog(@"today is %@", [NSDate date]);
+                    NSLog(@"reminder one time is %@", timeArray);
+                    NSLog(@"Date to fire components=%@", components);
+                    NSLog(@"Date to fire =%@", dateToFire);
+                    
+                    UIApplication *ORcycle = [UIApplication sharedApplication];
+                    UILocalNotification *remind = [[UILocalNotification alloc] init];
+                    remind.alertBody = @"ORcycle is reminding you to log a trip.";
+                    remind.soundName = @"bicycle-bell-normalized.aiff";
+                    remind.fireDate = dateToFire;
+                    NSLog(@"remind.firedate =%@", remind.fireDate);
+                    remind.timeZone = [NSTimeZone defaultTimeZone];
+                    remind.repeatInterval = NSWeekCalendarUnit;
+                    remind.userInfo = [NSMutableDictionary dictionaryWithObject:@"Two"
+                                                                         forKey:@"reminderNum"];
+                    [ORcycle scheduleLocalNotification:remind];
+                    [remind release];
+                }
+                
+                
+            }
+            else{
+                [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"reminderTwoSet"];
+                
+                UIApplication *app = [UIApplication sharedApplication];
+                NSArray *eventArray = [app scheduledLocalNotifications];
+                for (int i=0; i<[eventArray count]; i++)
+                {
+                    UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+                    NSDictionary *userInfoCurrent = oneEvent.userInfo;
+                    if ([[userInfoCurrent valueForKey:@"reminderNum"] isEqualToString:@"Two"])
+                    {
+                        //Cancelling local notification
+                        [app cancelLocalNotification:oneEvent];
+                        break;
+                    }
+                }
+            }
+        }
+        
+
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    //[switchView release];
+}
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -1495,7 +2107,7 @@
                 self.navigationItem.rightBarButtonItem.enabled = YES;
                 if ([indexPath indexAtPosition:1]==6){
                     NSLog(@"Trying to bring up other text view");
-                    UIAlertView* otherBikeTypesView = [[UIAlertView alloc] initWithTitle:@"Other Bike Type" message:@"Please describe why you what other type of bicycle you own." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+                    UIAlertView* otherBikeTypesView = [[UIAlertView alloc] initWithTitle:@"Other Bike Type" message:@"Please describe what other type of bicycle you own." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
                     otherBikeTypesView.alertViewStyle = UIAlertViewStylePlainTextInput;
                     [otherBikeTypesView show];
                 }
@@ -1553,7 +2165,276 @@
 			}
 			break;
 		}
+        case 11:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    NSLog(@"User selected index path = %@",indexPath);
+                    NSInteger minuteInterval = 5;
+                    //clamp date
+                    NSInteger referenceTimeInterval = (NSInteger)[self.reminderOneTime timeIntervalSinceReferenceDate];
+                    NSInteger remainingSeconds = referenceTimeInterval % (minuteInterval *60);
+                    NSInteger timeRoundedTo5Minutes = referenceTimeInterval - remainingSeconds;
+                    if(remainingSeconds>((minuteInterval*60)/2)) {/// round up
+                        timeRoundedTo5Minutes = referenceTimeInterval +((minuteInterval*60)-remainingSeconds);
+                    }
+                    
+                    self.reminderOneTime = [NSDate dateWithTimeIntervalSinceReferenceDate:(NSTimeInterval)timeRoundedTo5Minutes];
+                    
+                    ActionSheetDatePicker *datePicker = [[ActionSheetDatePicker alloc] initWithTitle:
+                                                    @"Select a time" datePickerMode:UIDatePickerModeTime selectedDate:self.reminderOneTime target:self action:@selector(time1WasSelected:element:) origin:self.tableView];
+                    datePicker.minuteInterval = minuteInterval;
+                    [datePicker showActionSheetPicker];
+                    
+                  break;
+                }
+                    
+            }
+            break;
+        }
+        case 12:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    NSLog(@"User selected index path = %@",indexPath);
+                    NSInteger minuteInterval = 5;
+                    //clamp date
+                    NSInteger referenceTimeInterval = (NSInteger)[self.reminderTwoTime timeIntervalSinceReferenceDate];
+                    NSInteger remainingSeconds = referenceTimeInterval % (minuteInterval *60);
+                    NSInteger timeRoundedTo5Minutes = referenceTimeInterval - remainingSeconds;
+                    if(remainingSeconds>((minuteInterval*60)/2)) {/// round up
+                        timeRoundedTo5Minutes = referenceTimeInterval +((minuteInterval*60)-remainingSeconds);
+                    }
+                    
+                    self.reminderTwoTime = [NSDate dateWithTimeIntervalSinceReferenceDate:(NSTimeInterval)timeRoundedTo5Minutes];
+                    
+                    ActionSheetDatePicker *datePicker = [[ActionSheetDatePicker alloc] initWithTitle:
+                                                         @"Select a time" datePickerMode:UIDatePickerModeTime selectedDate:self.reminderTwoTime target:self action:@selector(time2WasSelected:element:) origin:self.tableView];
+                    datePicker.minuteInterval = minuteInterval;
+                    [datePicker showActionSheetPicker];
+                    
+                    break;
+                }
+            }
+            break;
+        }
+
 	}
+}
+
+-(void)time1WasSelected:(NSDate *)selectedTime element:(id)element {
+    NSDate *oldTime = self.reminderOneTime;
+    NSLog(@"old time = %@",oldTime);
+    NSLog(@"new time = %@",selectedTime);
+    self.reminderOneTime = selectedTime;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"h:mm a"];
+    NSIndexPath *index =  [NSIndexPath indexPathForRow:0 inSection:11];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: index];
+    cell.textLabel.text = [dateFormatter stringFromDate:selectedTime];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:selectedTime forKey: @"reminderOneTime"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (!([self.reminderOneTime compare: oldTime]==NSOrderedSame) && [[NSUserDefaults standardUserDefaults] boolForKey:@"reminderOneSet"]){
+        
+        NSLog(@"made it to if statement");
+        
+        UIApplication *app = [UIApplication sharedApplication];
+        NSArray *eventArray = [app scheduledLocalNotifications];
+        NSLog(@"Event  Array = %@",eventArray);
+        for (int i=0; i<[eventArray count]; i++)
+        {
+            UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+            NSDictionary *userInfoCurrent = oneEvent.userInfo;
+            if ([[userInfoCurrent valueForKey:@"reminderNum"] isEqualToString:@"One"])
+            {
+                //Cancelling local notification
+                [app cancelLocalNotification:oneEvent];
+            }
+        }
+        
+        NSArray *days = [[NSArray alloc]init];
+        
+        switch ([[[NSUserDefaults standardUserDefaults] valueForKey:@"reminderOneDays"] integerValue]){
+            case 0:{
+                days = @[@1,@2,@3,@4,@5,@6,@7];
+            }
+                break;
+            case 1:{
+                days = @[@2,@3,@4,@5,@6];
+            }
+                break;
+            case 2: {
+                days = @[@1,@7];
+            }
+                break;
+            default: {
+                days = @[@1,@2,@3,@4,@5,@6,@7];
+            }
+                break;
+        };
+        
+        for (int i = 0;i<[days count];i++){
+            NSInteger day = [[days objectAtIndex:i] integerValue];
+            NSLog(@"day = %i",day);
+            NSDate *today = [NSDate date];
+            NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+            NSInteger currentWeekday = components.weekday;
+            NSLog(@"CurrentWeekday = %i",currentWeekday);
+            NSInteger diff = day - currentWeekday;
+            NSLog(@"Diff = %i",diff);
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"h:mm a"];
+            NSString *timeString = [dateFormatter stringFromDate:self.reminderOneTime];
+            NSArray *timeArray = [timeString componentsSeparatedByString: @":"];
+            NSInteger hour = [timeArray[0] integerValue];
+            NSArray *back = [timeArray[1] componentsSeparatedByString:@" "];
+            NSInteger min = [back[0] integerValue];
+            if (back.count >1){
+                NSString *ampm = back[1];
+                if ([ampm isEqualToString: @"AM"]){
+                    [components setHour: hour];
+                }
+                else{
+                    [components setHour: hour + 12 ];
+                }
+            }
+            else{
+                [components setHour: hour];
+            }
+            [components setMinute: min];
+            [components setSecond: 0];
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            [calendar setTimeZone: [NSTimeZone defaultTimeZone]];
+            NSDate *dateToFire = [[calendar dateFromComponents:components] dateByAddingTimeInterval:diff*86400];
+            
+            NSLog(@"Date to fire =%@", dateToFire);
+            
+            UIApplication *ORcycle = [UIApplication sharedApplication];
+            UILocalNotification *remind = [[UILocalNotification alloc] init];
+            remind.alertBody = @"ORcycle is reminding you to log a trip.";
+            remind.soundName = @"bicycle-bell-normalized.aiff";
+            remind.fireDate = dateToFire;
+            NSLog(@"remind.firedate =%@", remind.fireDate);
+            remind.timeZone = [NSTimeZone defaultTimeZone];
+            remind.repeatInterval = NSWeekCalendarUnit;
+            remind.userInfo = [NSMutableDictionary dictionaryWithObject:@"One"
+                                                                 forKey:@"reminderNum"];
+            [ORcycle scheduleLocalNotification:remind];
+            [remind release];
+            NSLog(@"remind.userinfo =%@", remind.userInfo);
+        }
+        
+        
+    }
+
+}
+
+-(void)time2WasSelected:(NSDate *)selectedTime element:(id)element {
+    NSDate *oldTime = self.reminderTwoTime;
+    self.reminderTwoTime = selectedTime;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"h:mm a"];
+    NSIndexPath *index =  [NSIndexPath indexPathForRow:0 inSection:12];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath: index];
+    cell.textLabel.text = [dateFormatter stringFromDate:selectedTime];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:selectedTime forKey: @"reminderTwoTime"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (!([self.reminderTwoTime compare: oldTime]==NSOrderedSame) && [[NSUserDefaults standardUserDefaults] boolForKey:@"reminderTwoSet"]){
+        NSLog(@"made it to if statement");
+        
+        UIApplication *app = [UIApplication sharedApplication];
+        NSArray *eventArray = [app scheduledLocalNotifications];
+        for (int i=0; i<[eventArray count]; i++)
+        {
+            UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+            NSDictionary *userInfoCurrent = oneEvent.userInfo;
+            if ([[userInfoCurrent valueForKey:@"reminderNum"] isEqualToString:@"Two"])
+            {
+                //Cancelling local notification
+                [app cancelLocalNotification:oneEvent];
+            }
+        }
+        
+        NSArray *days = [[NSArray alloc]init];
+        
+        switch ([[[NSUserDefaults standardUserDefaults] valueForKey:@"reminderTwoDays"] integerValue]){
+            case 0:{
+                days = @[@1,@2,@3,@4,@5,@6,@7];
+            }
+                break;
+            case 1:{
+                days = @[@2,@3,@4,@5,@6];
+            }
+                break;
+            case 2: {
+                days = @[@1,@7];
+            }
+                break;
+            default: {
+                days = @[@1,@2,@3,@4,@5,@6,@7];
+            }
+                break;
+        };
+        
+        for (int i = 0;i<[days count];i++){
+            NSInteger day = [[days objectAtIndex:i] integerValue];
+            NSLog(@"day = %i",day);
+            NSDate *today = [NSDate date];
+            NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+            NSInteger currentWeekday = components.weekday;
+            NSLog(@"CurrentWeekday = %i",currentWeekday);
+            NSInteger diff = day - currentWeekday;
+            NSLog(@"Diff = %i",diff);
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"h:mm a"];
+            NSString *timeString = [dateFormatter stringFromDate:self.reminderTwoTime];
+            NSArray *timeArray = [timeString componentsSeparatedByString: @":"];
+            NSInteger hour = [timeArray[0] integerValue];
+            NSArray *back = [timeArray[1] componentsSeparatedByString:@" "];
+            NSInteger min = [back[0] integerValue];
+            if (back.count >1){
+                NSString *ampm = back[1];
+                if ([ampm isEqualToString: @"AM"]){
+                    [components setHour: hour];
+                }
+                else{
+                    [components setHour: hour + 12 ];
+                }
+            }
+            else{
+                [components setHour: hour];
+            }
+            [components setMinute: min];
+            [components setSecond: 0];
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            [calendar setTimeZone: [NSTimeZone defaultTimeZone]];
+            NSDate *dateToFire = [[calendar dateFromComponents:components] dateByAddingTimeInterval:diff*86400];
+            
+            NSLog(@"Date to fire =%@", dateToFire);
+            
+            UIApplication *ORcycle = [UIApplication sharedApplication];
+            UILocalNotification *remind = [[UILocalNotification alloc] init];
+            remind.alertBody = @"ORcycle is reminding you to log a trip.";
+            remind.soundName = @"bicycle-bell-normalized.aiff";
+            remind.fireDate = dateToFire;
+            NSLog(@"remind.firedate =%@", remind.fireDate);
+            remind.timeZone = [NSTimeZone defaultTimeZone];
+            remind.repeatInterval = NSWeekCalendarUnit;
+            remind.userInfo = [NSMutableDictionary dictionaryWithObject:@"Two"
+                                                                 forKey:@"reminderNum"];
+            [ORcycle scheduleLocalNotification:remind];
+            [remind release];
+        }
+        
+        
+    }
+
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -1762,142 +2643,6 @@
     return tView;
 }
 
-/*
-
-- (void)doneButtonPressed:(id)sender{
-    
-    NSInteger selectedRow;
-    selectedRow = [pickerView selectedRowInComponent:0];
-    if(currentTextField == gender){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.gender integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        genderSelectedRow = selectedRow;
-        NSString *genderSelect = [genderArray objectAtIndex:selectedRow];
-        gender.text = genderSelect;
-    }
-    if(currentTextField == age){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.age integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        ageSelectedRow = selectedRow;
-        NSString *ageSelect = [ageArray objectAtIndex:selectedRow];
-        age.text = ageSelect;
-    }
-    if(currentTextField == ethnicity){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.ethnicity integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        ethnicitySelectedRow = selectedRow;
-        NSString *ethnicitySelect = [ethnicityArray objectAtIndex:selectedRow];
-        ethnicity.text = ethnicitySelect;
-    }
-    if(currentTextField == occupation){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.occupation integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        occupationSelectedRow = selectedRow;
-        NSString *occupationSelect = [occupationArray objectAtIndex:selectedRow];
-        occupation.text = occupationSelect;
-    }
-    if(currentTextField == income){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.income integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        incomeSelectedRow = selectedRow;
-        NSString *incomeSelect = [incomeArray objectAtIndex:selectedRow];
-        income.text = incomeSelect;
-    }
-    if(currentTextField == hhWorkers){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.hhWorkers integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        hhWorkersSelectedRow = selectedRow;
-        NSString *hhWorkersSelect = [hhWorkersArray objectAtIndex:selectedRow];
-        hhWorkers.text = hhWorkersSelect;
-    }
-    if(currentTextField == hhVehicles){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.hhVehicles integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        hhVehiclesSelectedRow = selectedRow;
-        NSString *hhVehiclesSelect = [hhVehiclesArray objectAtIndex:selectedRow];
-        hhVehicles.text = hhVehiclesSelect;
-    }
-    if(currentTextField == numBikes){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.numBikes integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        numBikesSelectedRow = selectedRow;
-        NSString *numBikesSelect = [numBikesArray objectAtIndex:selectedRow];
-        numBikes.text = numBikesSelect;
-    }
-    if(currentTextField == cyclingFreq){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.cyclingFreq integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        cyclingFreqSelectedRow = selectedRow;
-        NSString *cyclingFreqSelect = [cyclingFreqArray objectAtIndex:selectedRow];
-        cyclingFreq.text = cyclingFreqSelect;
-    }
-    if(currentTextField == cyclingWeather){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.cyclingWeather integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        cyclingWeatherSelectedRow = selectedRow;
-        NSString *cyclingWeatherSelect = [cyclingWeatherArray objectAtIndex:selectedRow];
-        cyclingWeather.text = cyclingWeatherSelect;
-    }
-    if(currentTextField == riderAbility){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.riderAbility integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        riderAbilitySelectedRow = selectedRow;
-        NSString *riderAbilitySelect = [riderAbilityArray objectAtIndex:selectedRow];
-        riderAbility.text = riderAbilitySelect;
-    }
-    if(currentTextField == riderType){
-        //enable save button if value has been changed.
-        if (selectedRow != [user.riderType integerValue]){
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }
-        
-        riderTypeSelectedRow = selectedRow;
-        NSString *riderTypeSelect = [riderTypeArray objectAtIndex:selectedRow];
-        riderType.text = riderTypeSelect;
-    }
-    
-    //[actionSheet dismissWithClickedButtonIndex:1 animated:YES];
-    
-    [alertView dismissWithClickedButtonIndex:1 animated:YES];
-}
-
-- (void)cancelButtonPressed:(id)sender{
-    //[actionSheet dismissWithClickedButtonIndex:1 animated:YES];
-    [alertView dismissWithClickedButtonIndex:1 animated:YES];
-}
- */
 
 - (void) viewWillAppear:(BOOL)animated
 {

@@ -42,4 +42,6 @@
 @property (nonatomic, retain) NSString *otherCrashActions;
 @property (nonatomic, retain) NSString *otherCrashReasons;
 
+@property (nonatomic, retain) NSDate *reportDate;
+
 @end

@@ -153,7 +153,7 @@
     if (!tView)
     {
         
-        CGRect frame = CGRectMake(0.0, 0.0, 320, 200);
+        CGRect frame = CGRectMake(0.0, 0.0, 280, 200);
         tView = [[UILabel alloc] initWithFrame:frame];
         [tView setFont:[UIFont fontWithName:@"Helvetica" size:15]];
         [tView setTextAlignment:NSTextAlignmentCenter];

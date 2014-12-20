@@ -117,6 +117,9 @@
     NSString *otherGender;
     NSString *otherOccupation;
     NSString *otherRiderType;
+    
+    NSDate *reminderOneTime;
+    NSDate *reminderTwoTime;
 }
 
 
@@ -167,6 +170,9 @@
 
 @property (nonatomic,retain) NSMutableArray *selectedItems;
 @property (nonatomic,retain) NSMutableArray *bikeTypesSelectedRows;
+
+@property (nonatomic,retain) NSDate *reminderOneTime;
+@property (nonatomic,retain) NSDate *reminderTwoTime;
 
 @property (nonatomic,retain) IBOutlet UIButton *choiceButton;
 

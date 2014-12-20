@@ -26,6 +26,7 @@
 - (void)openDetailPage;
 - (void)openCustomLocation;
 - (void)revertGPSLocation;
+- (void)didPickReportDate:(NSDate *)date;
 - (void)saveCustomLocation:(CLLocation*)customLocation;
 - (void)backOut;
 

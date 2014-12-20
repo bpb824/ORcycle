@@ -35,8 +35,21 @@
 		1F0E4D8519B7D3E70015B943 /* noteIssuePickerBlack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7B19B7D3E70015B943 /* noteIssuePickerBlack@2x.png */; };
 		1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */; };
 		1F4DFE7019BD760D00ED40F8 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */; };
-		1F4DFE7319BD798700ED40F8 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE7219BD798700ED40F8 /* AbstractActionSheetPicker.m */; };
 		1F4DFE7619BD79BA00ED40F8 /* SWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */; };
+		1F4EE8761A3F61E900C73D00 /* HomeScreen_3.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE8751A3F61E900C73D00 /* HomeScreen_3.5.png */; };
+		1F4EE8781A3F61F500C73D00 /* HomeScreen_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE8771A3F61F500C73D00 /* HomeScreen_4.png */; };
+		1F4EE87F1A43586A00C73D00 /* iOS_TutorialScreen1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE87B1A43586A00C73D00 /* iOS_TutorialScreen1.png */; };
+		1F4EE8801A43586A00C73D00 /* iOS_TutorialScreen2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE87C1A43586A00C73D00 /* iOS_TutorialScreen2.png */; };
+		1F4EE8811A43586A00C73D00 /* iOS_TutorialScreen3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE87D1A43586A00C73D00 /* iOS_TutorialScreen3.png */; };
+		1F4EE8821A43586A00C73D00 /* iOS_TutorialScreen4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE87E1A43586A00C73D00 /* iOS_TutorialScreen4.png */; };
+		1F4EE8881A44735B00C73D00 /* 1to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE8871A44735B00C73D00 /* 1to6.xcmappingmodel */; };
+		1F4EE88A1A44737100C73D00 /* 2to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE8891A44737100C73D00 /* 2to6.xcmappingmodel */; };
+		1F4EE88C1A44738500C73D00 /* 3to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE88B1A44738500C73D00 /* 3to6.xcmappingmodel */; };
+		1F4EE88E1A44739500C73D00 /* 4to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE88D1A44739500C73D00 /* 4to6.xcmappingmodel */; };
+		1F4EE8901A4473A600C73D00 /* 5to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE88F1A4473A600C73D00 /* 5to6.xcmappingmodel */; };
+		1F4EE8931A447DAA00C73D00 /* NSDate+TCUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE8921A447DAA00C73D00 /* NSDate+TCUtils.m */; };
+		1F4EE8971A44C8F900C73D00 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE8961A44C8F900C73D00 /* AbstractActionSheetPicker.m */; };
+		1F4EE89A1A44C9A600C73D00 /* ActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE8991A44C9A600C73D00 /* ActionSheetDatePicker.m */; };
 		1F540F9E19C49A7F0029CEA5 /* 1. note_severity_map_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F540F9919C49A7E0029CEA5 /* 1. note_severity_map_icon.png */; };
 		1F540F9F19C49A7F0029CEA5 /* 2. note_severity_map_icon_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F540F9A19C49A7E0029CEA5 /* 2. note_severity_map_icon_green.png */; };
 		1F540FA019C49A7F0029CEA5 /* 3. note_severity_map_icon_yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F540F9B19C49A7E0029CEA5 /* 3. note_severity_map_icon_yellow.png */; };
@@ -45,10 +58,6 @@
 		1F540FA519C4A0940029CEA5 /* UIDevice+IdentifierAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F540FA419C4A0940029CEA5 /* UIDevice+IdentifierAddition.m */; };
 		1F78150519EF321800100D47 /* CrashDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F78150419EF321800100D47 /* CrashDetailViewController.xib */; };
 		1F78150819EF325000100D47 /* CrashDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F78150719EF325000100D47 /* CrashDetailViewController.m */; };
-		1F78151B19F2F29900100D47 /* 1to5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F78151A19F2F29900100D47 /* 1to5.xcmappingmodel */; };
-		1F78151D19F2F2B000100D47 /* 2to5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F78151C19F2F2B000100D47 /* 2to5.xcmappingmodel */; };
-		1F78151F19F2F2BE00100D47 /* 3to5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F78151E19F2F2BE00100D47 /* 3to5.xcmappingmodel */; };
-		1F78152119F2F2CA00100D47 /* 4to5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F78152019F2F2CA00100D47 /* 4to5.xcmappingmodel */; };
 		1F78152419F56E5F00100D47 /* SetReportLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F78152319F56E5F00100D47 /* SetReportLocationViewController.m */; };
 		1F78152819F573F100100D47 /* cross-hairs-small-black-cropped.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F78152719F573F100100D47 /* cross-hairs-small-black-cropped.png */; };
 		1F78152A19F5741D00100D47 /* SetReportLocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F78152919F5741D00100D47 /* SetReportLocationView.xib */; };
@@ -91,6 +100,10 @@
 		1FD9E14219F6C3E300A0189B /* WarmRedCrashSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9E12C19F6C3E300A0189B /* WarmRedCrashSmall.png */; };
 		1FD9E14319F6C3E300A0189B /* WarmYellowCrash.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9E12D19F6C3E300A0189B /* WarmYellowCrash.png */; };
 		1FD9E14419F6C3E300A0189B /* WarmYellowCrashSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9E12E19F6C3E300A0189B /* WarmYellowCrashSmall.png */; };
+		1FE958BC1A3E1CDD0016FAEF /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE958B71A3E1CDD0016FAEF /* TutorialViewController.m */; };
+		1FE958BD1A3E1CDD0016FAEF /* TutorialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FE958B81A3E1CDD0016FAEF /* TutorialViewController.xib */; };
+		1FE958BE1A3E1CDD0016FAEF /* TutorialChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE958BA1A3E1CDD0016FAEF /* TutorialChildViewController.m */; };
+		1FE958BF1A3E1CDD0016FAEF /* TutorialChildViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FE958BB1A3E1CDD0016FAEF /* TutorialChildViewController.xib */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
 		6411996210683D7500C201F0 /* RecordTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6411996110683D7500C201F0 /* RecordTripViewController.m */; };
@@ -241,10 +254,27 @@
 		1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalInfoViewController.m; sourceTree = "<group>"; };
 		1F4DFE6E19BD760D00ED40F8 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetStringPicker.h; sourceTree = "<group>"; };
 		1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
-		1F4DFE7119BD798700ED40F8 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
-		1F4DFE7219BD798700ED40F8 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
 		1F4DFE7419BD79BA00ED40F8 /* SWActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWActionSheet.h; sourceTree = "<group>"; };
 		1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWActionSheet.m; sourceTree = "<group>"; };
+		1F4EE8751A3F61E900C73D00 /* HomeScreen_3.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HomeScreen_3.5.png; path = "Report Icons/HomeScreen_3.5.png"; sourceTree = "<group>"; };
+		1F4EE8771A3F61F500C73D00 /* HomeScreen_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HomeScreen_4.png; path = "Report Icons/HomeScreen_4.png"; sourceTree = "<group>"; };
+		1F4EE87B1A43586A00C73D00 /* iOS_TutorialScreen1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOS_TutorialScreen1.png; sourceTree = "<group>"; };
+		1F4EE87C1A43586A00C73D00 /* iOS_TutorialScreen2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOS_TutorialScreen2.png; sourceTree = "<group>"; };
+		1F4EE87D1A43586A00C73D00 /* iOS_TutorialScreen3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOS_TutorialScreen3.png; sourceTree = "<group>"; };
+		1F4EE87E1A43586A00C73D00 /* iOS_TutorialScreen4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOS_TutorialScreen4.png; sourceTree = "<group>"; };
+		1F4EE8861A4472A700C73D00 /* ORcycle6-12.19.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ORcycle6-12.19.xcdatamodel"; sourceTree = "<group>"; };
+		1F4EE8871A44735B00C73D00 /* 1to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 1to6.xcmappingmodel; sourceTree = "<group>"; };
+		1F4EE8891A44737100C73D00 /* 2to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 2to6.xcmappingmodel; sourceTree = "<group>"; };
+		1F4EE88B1A44738500C73D00 /* 3to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 3to6.xcmappingmodel; sourceTree = "<group>"; };
+		1F4EE88D1A44739500C73D00 /* 4to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 4to6.xcmappingmodel; sourceTree = "<group>"; };
+		1F4EE88F1A4473A600C73D00 /* 5to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 5to6.xcmappingmodel; sourceTree = "<group>"; };
+		1F4EE8911A447DAA00C73D00 /* NSDate+TCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TCUtils.h"; sourceTree = "<group>"; };
+		1F4EE8921A447DAA00C73D00 /* NSDate+TCUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TCUtils.m"; sourceTree = "<group>"; };
+		1F4EE8941A44C7A700C73D00 /* ActionSheetCustomPickerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActionSheetCustomPickerDelegate.h; sourceTree = "<group>"; };
+		1F4EE8951A44C8F900C73D00 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
+		1F4EE8961A44C8F900C73D00 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
+		1F4EE8981A44C9A600C73D00 /* ActionSheetDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDatePicker.h; sourceTree = "<group>"; };
+		1F4EE8991A44C9A600C73D00 /* ActionSheetDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDatePicker.m; sourceTree = "<group>"; };
 		1F540F9919C49A7E0029CEA5 /* 1. note_severity_map_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "1. note_severity_map_icon.png"; path = "TripPurposePickerIcons/1. note_severity_map_icon.png"; sourceTree = SOURCE_ROOT; };
 		1F540F9A19C49A7E0029CEA5 /* 2. note_severity_map_icon_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "2. note_severity_map_icon_green.png"; path = "TripPurposePickerIcons/2. note_severity_map_icon_green.png"; sourceTree = SOURCE_ROOT; };
 		1F540F9B19C49A7E0029CEA5 /* 3. note_severity_map_icon_yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "3. note_severity_map_icon_yellow.png"; path = "TripPurposePickerIcons/3. note_severity_map_icon_yellow.png"; sourceTree = SOURCE_ROOT; };
@@ -256,10 +286,6 @@
 		1F78150619EF325000100D47 /* CrashDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashDetailViewController.h; sourceTree = "<group>"; };
 		1F78150719EF325000100D47 /* CrashDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashDetailViewController.m; sourceTree = "<group>"; };
 		1F78150919EF812D00100D47 /* ORcycle5-10.15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ORcycle5-10.15.xcdatamodel"; sourceTree = "<group>"; };
-		1F78151A19F2F29900100D47 /* 1to5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 1to5.xcmappingmodel; sourceTree = "<group>"; };
-		1F78151C19F2F2B000100D47 /* 2to5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 2to5.xcmappingmodel; sourceTree = "<group>"; };
-		1F78151E19F2F2BE00100D47 /* 3to5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 3to5.xcmappingmodel; sourceTree = "<group>"; };
-		1F78152019F2F2CA00100D47 /* 4to5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 4to5.xcmappingmodel; sourceTree = "<group>"; };
 		1F78152219F56E5800100D47 /* SetReportLocationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetReportLocationViewController.h; sourceTree = "<group>"; };
 		1F78152319F56E5F00100D47 /* SetReportLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetReportLocationViewController.m; sourceTree = "<group>"; };
 		1F78152719F573F100100D47 /* cross-hairs-small-black-cropped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-hairs-small-black-cropped.png"; sourceTree = "<group>"; };
@@ -310,6 +336,13 @@
 		1FD9E12C19F6C3E300A0189B /* WarmRedCrashSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WarmRedCrashSmall.png; sourceTree = "<group>"; };
 		1FD9E12D19F6C3E300A0189B /* WarmYellowCrash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WarmYellowCrash.png; sourceTree = "<group>"; };
 		1FD9E12E19F6C3E300A0189B /* WarmYellowCrashSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WarmYellowCrashSmall.png; sourceTree = "<group>"; };
+		1FE958B61A3E1CDD0016FAEF /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
+		1FE958B71A3E1CDD0016FAEF /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
+		1FE958B81A3E1CDD0016FAEF /* TutorialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialViewController.xib; sourceTree = "<group>"; };
+		1FE958B91A3E1CDD0016FAEF /* TutorialChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialChildViewController.h; sourceTree = "<group>"; };
+		1FE958BA1A3E1CDD0016FAEF /* TutorialChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialChildViewController.m; sourceTree = "<group>"; };
+		1FE958BB1A3E1CDD0016FAEF /* TutorialChildViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialChildViewController.xib; sourceTree = "<group>"; };
+		1FE958C21A3E33370016FAEF /* TutorialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TutorialDelegate.h; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -500,10 +533,15 @@
 				642F15261071DA700050BCB9 /* MapViewController.m */,
 				1F4DFE7419BD79BA00ED40F8 /* SWActionSheet.h */,
 				1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */,
-				1F4DFE7119BD798700ED40F8 /* AbstractActionSheetPicker.h */,
-				1F4DFE7219BD798700ED40F8 /* AbstractActionSheetPicker.m */,
+				1F4EE8941A44C7A700C73D00 /* ActionSheetCustomPickerDelegate.h */,
+				1F4EE8951A44C8F900C73D00 /* AbstractActionSheetPicker.h */,
+				1F4EE8961A44C8F900C73D00 /* AbstractActionSheetPicker.m */,
 				1F4DFE6E19BD760D00ED40F8 /* ActionSheetStringPicker.h */,
 				1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */,
+				1F4EE8981A44C9A600C73D00 /* ActionSheetDatePicker.h */,
+				1F4EE8991A44C9A600C73D00 /* ActionSheetDatePicker.m */,
+				1F4EE8911A447DAA00C73D00 /* NSDate+TCUtils.h */,
+				1F4EE8921A447DAA00C73D00 /* NSDate+TCUtils.m */,
 				8FB7C20B16C55EB9001A8A48 /* NoteManager.h */,
 				8FB7C20C16C55EB9001A8A48 /* NoteManager.m */,
 				8FBCD3C716E0E58100C11EBE /* NoteViewController.h */,
@@ -548,6 +586,13 @@
 				1F540FA419C4A0940029CEA5 /* UIDevice+IdentifierAddition.m */,
 				9D504D9F16B6CF4000B99EBC /* ZipUtil.h */,
 				9D504DA016B6CF4000B99EBC /* ZipUtil.m */,
+				1FE958B61A3E1CDD0016FAEF /* TutorialViewController.h */,
+				1FE958B71A3E1CDD0016FAEF /* TutorialViewController.m */,
+				1FE958B81A3E1CDD0016FAEF /* TutorialViewController.xib */,
+				1FE958C21A3E33370016FAEF /* TutorialDelegate.h */,
+				1FE958B91A3E1CDD0016FAEF /* TutorialChildViewController.h */,
+				1FE958BA1A3E1CDD0016FAEF /* TutorialChildViewController.m */,
+				1FE958BB1A3E1CDD0016FAEF /* TutorialChildViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -678,10 +723,11 @@
 		6411992B1068371B00C201F0 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				1F78151A19F2F29900100D47 /* 1to5.xcmappingmodel */,
-				1F78151C19F2F2B000100D47 /* 2to5.xcmappingmodel */,
-				1F78151E19F2F2BE00100D47 /* 3to5.xcmappingmodel */,
-				1F78152019F2F2CA00100D47 /* 4to5.xcmappingmodel */,
+				1F4EE8871A44735B00C73D00 /* 1to6.xcmappingmodel */,
+				1F4EE8891A44737100C73D00 /* 2to6.xcmappingmodel */,
+				1F4EE88B1A44738500C73D00 /* 3to6.xcmappingmodel */,
+				1F4EE88D1A44739500C73D00 /* 4to6.xcmappingmodel */,
+				1F4EE88F1A4473A600C73D00 /* 5to6.xcmappingmodel */,
 				1FD4FDF919D4EF43005A7542 /* ORcycle.xcdatamodeld */,
 				8F9C086B16DC947A003EA308 /* Coord.h */,
 				8F9C086C16DC947A003EA308 /* Coord.m */,
@@ -713,6 +759,12 @@
 		6411A16A106A05DE00C201F0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1F4EE87B1A43586A00C73D00 /* iOS_TutorialScreen1.png */,
+				1F4EE87C1A43586A00C73D00 /* iOS_TutorialScreen2.png */,
+				1F4EE87D1A43586A00C73D00 /* iOS_TutorialScreen3.png */,
+				1F4EE87E1A43586A00C73D00 /* iOS_TutorialScreen4.png */,
+				1F4EE8751A3F61E900C73D00 /* HomeScreen_3.5.png */,
+				1F4EE8771A3F61F500C73D00 /* HomeScreen_4.png */,
 				1FD9E11819F6C3E300A0189B /* Report Icons */,
 				1F78152B19F574F500100D47 /* iconLocation.png */,
 				1F78152C19F574F500100D47 /* iconLocation@2x.png */,
@@ -934,9 +986,11 @@
 				1FD9E13819F6C3E300A0189B /* noteassetmapglyph_high-red.png in Resources */,
 				9D4647C11604EBF400A4F9CB /* redButton.png in Resources */,
 				1FD9E13B19F6C3E300A0189B /* WarmBlueCrash.png in Resources */,
+				1F4EE8781A3F61F500C73D00 /* HomeScreen_4.png in Resources */,
 				1F78153B19F59E1A00100D47 /* iconMap@2x.png in Resources */,
 				1FD9E13F19F6C3E300A0189B /* WarmOrangeCrash.png in Resources */,
 				A2B2631B1801C8140015F89B /* errands.png in Resources */,
+				1F4EE8811A43586A00C73D00 /* iOS_TutorialScreen3.png in Resources */,
 				1FD9E13919F6C3E300A0189B /* noteassetmapglyph_high-white.png in Resources */,
 				1FD9E13E19F6C3E300A0189B /* WarmGreenCrashSmall.png in Resources */,
 				1FD9E13619F6C3E300A0189B /* noteassetmapglyph_high-green.png in Resources */,
@@ -945,6 +999,7 @@
 				9D4647C31604EBF400A4F9CB /* redButtonHighlight.png in Resources */,
 				9D4647C41604EBF400A4F9CB /* redButtonHighlight@2x.png in Resources */,
 				1CCF0DC0183809390047129B /* tabBarSelected.png in Resources */,
+				1F4EE8801A43586A00C73D00 /* iOS_TutorialScreen2.png in Resources */,
 				A2B2632C1801C8140015F89B /* other@2x.png in Resources */,
 				A2B2632D1801C8140015F89B /* school.png in Resources */,
 				1FD9E13219F6C3E300A0189B /* noteassetmapglyph-red.png in Resources */,
@@ -953,11 +1008,14 @@
 				1C9419671825F0F600D5925A /* tabbar_notes.png in Resources */,
 				1FD9E12F19F6C3E300A0189B /* noteassetmapglyph-blue.png in Resources */,
 				A2B2632B1801C8140015F89B /* other.png in Resources */,
+				1FE958BD1A3E1CDD0016FAEF /* TutorialViewController.xib in Resources */,
 				A20B63161801E06A0039391D /* AppIcon57x57@2x.png in Resources */,
 				1F78150519EF321800100D47 /* CrashDetailViewController.xib in Resources */,
 				1F78153219F574F500100D47 /* iconAirplane@2x.png in Resources */,
+				1F4EE8821A43586A00C73D00 /* iOS_TutorialScreen4.png in Resources */,
 				A2B263311801C8140015F89B /* social.png in Resources */,
 				A2B263381801C8140015F89B /* workRelated@2x.png in Resources */,
+				1F4EE87F1A43586A00C73D00 /* iOS_TutorialScreen1.png in Resources */,
 				A2B263341801C8140015F89B /* tripEnd@2x.png in Resources */,
 				A2B2631C1801C8140015F89B /* errands@2x.png in Resources */,
 				A21F08151800DCD600638A15 /* yellowButton@2x.png in Resources */,
@@ -985,9 +1043,11 @@
 				8F1B1D41164B94E90022B776 /* DetailView.xib in Resources */,
 				9D3CDAD416D6F7A900F423B8 /* lcdScreen.png in Resources */,
 				9D3CDAD516D6F7A900F423B8 /* lcdScreen@2x.png in Resources */,
+				1FE958BF1A3E1CDD0016FAEF /* TutorialChildViewController.xib in Resources */,
 				9D3CDAD616D6F7A900F423B8 /* photoFrame.png in Resources */,
 				9D3CDAD716D6F7A900F423B8 /* photoFrame@2x.png in Resources */,
 				1C9419661825F0F600D5925A /* tabbar_instructions@2x.png in Resources */,
+				1F4EE8761A3F61E900C73D00 /* HomeScreen_3.5.png in Resources */,
 				9D3CDADE16D7041F00F423B8 /* whiteButton.png in Resources */,
 				9D3CDADF16D7041F00F423B8 /* whiteButton@2x.png in Resources */,
 				A2B2633C1801D6460015F89B /* greyButtonHighlight@2x.png in Resources */,
@@ -1037,29 +1097,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1F4EE89A1A44C9A600C73D00 /* ActionSheetDatePicker.m in Sources */,
 				1D3623260D0F684500981E51 /* RenoTracksAppDelegate.m in Sources */,
 				6411996210683D7500C201F0 /* RecordTripViewController.m in Sources */,
 				641199B2106851AA00C201F0 /* SavedTripsViewController.m in Sources */,
-				1F78151F19F2F2BE00100D47 /* 3to5.xcmappingmodel in Sources */,
 				64119AAD1068672100C201F0 /* CustomView.m in Sources */,
 				64119AAE1068672100C201F0 /* CustomPickerDataSource.m in Sources */,
+				1F4EE88E1A44739500C73D00 /* 4to6.xcmappingmodel in Sources */,
 				1FD4FDFC19D4EF43005A7542 /* ORcycle.xcdatamodeld in Sources */,
+				1F4EE8901A4473A600C73D00 /* 5to6.xcmappingmodel in Sources */,
 				64119ABF10689ED800C201F0 /* PickerViewController.m in Sources */,
 				64119F041069ACF800C201F0 /* TripManager.m in Sources */,
 				64F823E1106AC151001413F8 /* SaveRequest.m in Sources */,
 				642F15271071DA700050BCB9 /* MapViewController.m in Sources */,
 				1F78152419F56E5F00100D47 /* SetReportLocationViewController.m in Sources */,
+				1F4EE88A1A44737100C73D00 /* 2to6.xcmappingmodel in Sources */,
 				642F161D1071ED1C0050BCB9 /* MapCoord.m in Sources */,
 				1FC3737C1979CD3300332B0C /* Checkbox.m in Sources */,
 				6426476E1073FEC300E43DEF /* ReminderManager.m in Sources */,
 				64210F6111350C8500415F1A /* AboutViewController.m in Sources */,
 				1F4DFE7619BD79BA00ED40F8 /* SWActionSheet.m in Sources */,
 				1FC294E2198B136E00225AAD /* CustomCell.m in Sources */,
+				1F4EE8971A44C8F900C73D00 /* AbstractActionSheetPicker.m in Sources */,
 				645E4EDC1200C1C800EFF0E6 /* LoadingView.m in Sources */,
-				1F78152119F2F2CA00100D47 /* 4to5.xcmappingmodel in Sources */,
-				1F78151B19F2F29900100D47 /* 1to5.xcmappingmodel in Sources */,
 				1F540FA519C4A0940029CEA5 /* UIDevice+IdentifierAddition.m in Sources */,
 				1F78150819EF325000100D47 /* CrashDetailViewController.m in Sources */,
+				1F4EE88C1A44738500C73D00 /* 3to6.xcmappingmodel in Sources */,
 				8F5E60661602CBE000D8F85D /* NSString+MD5Addition.m in Sources */,
 				1F0E4D7619B0EFD90015B943 /* NoteResponse.m in Sources */,
 				8F1B1D3F164B94C60022B776 /* DetailViewController.m in Sources */,
@@ -1067,6 +1130,7 @@
 				8FB7C20D16C55EB9001A8A48 /* NoteManager.m in Sources */,
 				8F9C086416DC9479003EA308 /* Note.m in Sources */,
 				1F4DFE7019BD760D00ED40F8 /* ActionSheetStringPicker.m in Sources */,
+				1FE958BE1A3E1CDD0016FAEF /* TutorialChildViewController.m in Sources */,
 				1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */,
 				8F9C086716DC9479003EA308 /* Trip.m in Sources */,
 				8F9C086A16DC947A003EA308 /* User.m in Sources */,
@@ -1074,13 +1138,14 @@
 				1F78153719F583A600100D47 /* LocationController.m in Sources */,
 				8FBCD3CA16E0E58100C11EBE /* NoteViewController.m in Sources */,
 				1FC294CD197DFB5000225AAD /* TripResponse.m in Sources */,
-				1F78151D19F2F2B000100D47 /* 2to5.xcmappingmodel in Sources */,
 				8F25EC7916E13E7C004263D4 /* SavedNotesViewController.m in Sources */,
 				8F20B0AC16F0F08A00031712 /* TripDetailViewController.m in Sources */,
+				1F4EE8881A44735B00C73D00 /* 1to6.xcmappingmodel in Sources */,
 				8FAD930516F189EE00082B6F /* UIImageViewResizable.m in Sources */,
 				9DD65FBB16FEA3CC00F2EB63 /* ImageResize.m in Sources */,
 				1F0E4D7219B0ECAA0015B943 /* NoteDetailViewController.m in Sources */,
-				1F4DFE7319BD798700ED40F8 /* AbstractActionSheetPicker.m in Sources */,
+				1F4EE8931A447DAA00C73D00 /* NSDate+TCUtils.m in Sources */,
+				1FE958BC1A3E1CDD0016FAEF /* TutorialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1100,11 +1165,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "afde5f68-5366-4ae7-b597-8209ea23e5ed";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "afde5f68-5366-4ae7-b597-8209ea23e5ed";
-				SDKROOT = iphoneos7.1;
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1120,10 +1185,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
-				PROVISIONING_PROFILE = "dace357a-3270-4c40-81a5-360e48bfb5a5";
-				SDKROOT = iphoneos7.1;
+				PROVISIONING_PROFILE = "fbc3c95e-f345-4364-98e0-137eca493a69";
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1132,14 +1197,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos7.1]" = "iPhone Distribution: Miguel Figliozzi (58PVL896L5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Distribution: Miguel Figliozzi (58PVL896L5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos7.1]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos7.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "fbc3c95e-f345-4364-98e0-137eca493a69";
+				SDKROOT = iphoneos7.0;
 			};
 			name = Distribution;
 		};
@@ -1154,11 +1219,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "da9eee31-254b-4797-8846-6d34a65a5d49";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "dace357a-3270-4c40-81a5-360e48bfb5a5";
-				SDKROOT = iphoneos7.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "fbc3c95e-f345-4364-98e0-137eca493a69";
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
@@ -1168,14 +1233,14 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos7.1]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos7.1]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos7.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
+				SDKROOT = iphoneos7.0;
 			};
 			name = Beta;
 		};
@@ -1193,10 +1258,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "CEE0985D-C26B-4FA2-BFBE-786219176367";
-				SDKROOT = iphoneos7.1;
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Beta;
@@ -1205,14 +1270,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos7.1]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos7.1]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos7.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
+				SDKROOT = iphoneos7.0;
 			};
 			name = "Release Beta";
 		};
@@ -1228,10 +1293,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos7.1;
+				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Release Beta";
@@ -1240,14 +1305,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos7.1]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos7.1]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos7.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
+				SDKROOT = iphoneos7.0;
 			};
 			name = Debug;
 		};
@@ -1255,14 +1320,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos7.1]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos7.1]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
-				SDKROOT = iphoneos7.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
+				SDKROOT = iphoneos7.0;
 			};
 			name = Release;
 		};
@@ -1299,13 +1364,14 @@
 		1FD4FDF919D4EF43005A7542 /* ORcycle.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				1F4EE8861A4472A700C73D00 /* ORcycle6-12.19.xcdatamodel */,
 				1F78150919EF812D00100D47 /* ORcycle5-10.15.xcdatamodel */,
 				1FD4FE1219E487F4005A7542 /* ORcycle4-10.07.xcdatamodel */,
 				1FD4FE0319D5CF13005A7542 /* ORcycle3-9.26.xcdatamodel */,
 				1FD4FDFA19D4EF43005A7542 /* ORcycle1.xcdatamodel */,
 				1FD4FDFB19D4EF43005A7542 /* ORcycle2-9.25.xcdatamodel */,
 			);
-			currentVersion = 1F78150919EF812D00100D47 /* ORcycle5-10.15.xcdatamodel */;
+			currentVersion = 1F4EE8861A4472A700C73D00 /* ORcycle6-12.19.xcdatamodel */;
 			path = ORcycle.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

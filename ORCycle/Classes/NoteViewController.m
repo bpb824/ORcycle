@@ -86,12 +86,7 @@
     //Mark date details
     NSDateFormatter *outputDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [outputDateFormatter setDateStyle:kCFDateFormatterLongStyle];
-    
-    NSDateFormatter *outputTimeFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [outputTimeFormatter setTimeStyle:kCFDateFormatterShortStyle];
-    
-    NSString *newDateString = [outputDateFormatter stringFromDate:self.note.recorded];
-    NSString *newTimeString = [outputTimeFormatter stringFromDate:self.note.recorded];
+    NSString *newDateString =[outputDateFormatter stringFromDate:note.reportDate];
     
 /////CRASH NOTE
     if (self.note.isCrash){
@@ -296,8 +291,6 @@
         if (crashReasonsString.length == 0){
             crashReasonsString = [NSMutableString stringWithFormat:@"No crash reasons documented"];
         }
-
-
         
         if (self.note.image_data != nil && textLength != 0) {
             infoView.alpha = 1.0;
@@ -337,7 +330,7 @@
             notesText.backgroundColor	= [UIColor clearColor];
             notesText.editable			= NO;
             notesText.font				= [UIFont systemFontOfSize:16.0];
-            notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nSeverity Level: %@ \nCrash Conflict(s): %@ \nCrash Action(s): %@ \nCrash Reason(s): %@ \nComments: %@", newDateString, newTimeString, severityString, conflictWithString, crashActionsString, crashReasonsString, self.note.details];
+            notesText.text				= [NSString stringWithFormat:@"Date: %@ \nSeverity Level: %@ \nCrash Conflict(s): %@ \nCrash Action(s): %@ \nCrash Reason(s): %@ \nComments: %@", newDateString,  severityString, conflictWithString, crashActionsString, crashReasonsString, self.note.details];
             NSLog(@"note text = %@",notesText.text);
             notesText.textColor			= [UIColor whiteColor];
             [infoView addSubview:notesText];
@@ -380,7 +373,7 @@
             notesText.backgroundColor	= [UIColor clearColor];
             notesText.editable			= NO;
             notesText.font				= [UIFont systemFontOfSize:16.0];
-            notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nSeverity Level: %@ \nCrash Cause(s): %@ \nCrash Action(s): %@ \nCrash Reason(s): %@", newDateString, newTimeString, severityString, conflictWithString, crashActionsString, crashReasonsString];
+            notesText.text				= [NSString stringWithFormat:@"Date: %@ \nSeverity Level: %@ \nCrash Cause(s): %@ \nCrash Action(s): %@ \nCrash Reason(s): %@", newDateString, severityString, conflictWithString, crashActionsString, crashReasonsString];
             NSLog(@"note text = %@",notesText.text);
             notesText.textColor			= [UIColor whiteColor];
             [infoView addSubview:notesText];
@@ -402,7 +395,7 @@
             notesText.backgroundColor	= [UIColor clearColor];
             notesText.editable			= NO;
             notesText.font				= [UIFont systemFontOfSize:16.0];
-            notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nSeverity Level: %@ \n\nCrash Cause(s): %@ \n\nCrash Action(s): %@ \n\nCrash Reason(s): %@\n\nComments: %@", newDateString, newTimeString, severityString, conflictWithString, crashActionsString, crashReasonsString, self.note.details];
+            notesText.text				= [NSString stringWithFormat:@"Date: %@ \n\nSeverity Level: %@ \n\nCrash Cause(s): %@ \n\nCrash Action(s): %@ \n\nCrash Reason(s): %@\n\nComments: %@", newDateString, severityString, conflictWithString, crashActionsString, crashReasonsString, self.note.details];
             NSLog(@"note text = %@",notesText.text);
             notesText.textColor			= [UIColor whiteColor];
             [infoView addSubview:notesText];
@@ -424,7 +417,7 @@
             notesText.backgroundColor	= [UIColor clearColor];
             notesText.editable			= NO;
             notesText.font				= [UIFont systemFontOfSize:16.0];
-            notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nSeverity Level: %@ \n\nCrash Cause(s): %@ \n\nCrash Action(s): %@ \n\nCrash Reason(s): %@", newDateString, newTimeString, severityString, conflictWithString, crashActionsString, crashReasonsString];
+            notesText.text				= [NSString stringWithFormat:@"Date: %@ \n\nSeverity Level: %@ \n\nCrash Cause(s): %@ \n\nCrash Action(s): %@ \n\nCrash Reason(s): %@", newDateString, severityString, conflictWithString, crashActionsString, crashReasonsString];
             NSLog(@"note text = %@",notesText.text);
             notesText.textColor			= [UIColor whiteColor];
             [infoView addSubview:notesText];
@@ -570,7 +563,7 @@
             notesText.backgroundColor	= [UIColor clearColor];
             notesText.editable			= NO;
             notesText.font				= [UIFont systemFontOfSize:16.0];
-            notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \nIssue Type(s): %@ \nUrgency Level: %@  \nComments: %@", newDateString, newTimeString, issueTypeString, urgencyString, self.note.details];
+            notesText.text				= [NSString stringWithFormat:@"Date: %@ \nIssue Type(s): %@ \nUrgency Level: %@  \nComments: %@", newDateString, issueTypeString, urgencyString, self.note.details];
             NSLog(@"note text = %@",notesText.text);
             notesText.textColor			= [UIColor whiteColor];
             [infoView addSubview:notesText];
@@ -613,7 +606,7 @@
             notesText.backgroundColor	= [UIColor clearColor];
             notesText.editable			= NO;
             notesText.font				= [UIFont systemFontOfSize:16.0];
-            notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ Issue Type(s): %@ \nUrgency Level: %@", newDateString, newTimeString, issueTypeString, urgencyString];
+            notesText.text				= [NSString stringWithFormat:@"Date: %@ \nIssue Type(s): %@ \nUrgency Level: %@", newDateString, issueTypeString, urgencyString];
             NSLog(@"note text = %@",notesText.text);
             notesText.textColor			= [UIColor whiteColor];
             [infoView addSubview:notesText];
@@ -635,7 +628,7 @@
             notesText.backgroundColor	= [UIColor clearColor];
             notesText.editable			= NO;
             notesText.font				= [UIFont systemFontOfSize:16.0];
-            notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nIssue Type(s): %@ \n\nUrgency Level: %@  \n\nComments: %@", newDateString, newTimeString, issueTypeString, urgencyString, self.note.details];
+            notesText.text				= [NSString stringWithFormat:@"Date: %@ \n\nIssue Type(s): %@ \n\nUrgency Level: %@  \n\nComments: %@", newDateString, issueTypeString, urgencyString, self.note.details];
             NSLog(@"note text = %@",notesText.text);
             notesText.textColor			= [UIColor whiteColor];
             [infoView addSubview:notesText];
@@ -657,7 +650,7 @@
             notesText.backgroundColor	= [UIColor clearColor];
             notesText.editable			= NO;
             notesText.font				= [UIFont systemFontOfSize:16.0];
-            notesText.text				= [NSString stringWithFormat:@"Date: %@ at %@ \n\nIssue Type(s): %@ \n\nUrgency Level: %@", newDateString, newTimeString, issueTypeString, urgencyString];
+            notesText.text				= [NSString stringWithFormat:@"Date: %@ \n\nIssue Type(s): %@ \n\nUrgency Level: %@", newDateString, issueTypeString, urgencyString];
             NSLog(@"note text = %@",notesText.text);
             notesText.textColor			= [UIColor whiteColor];
             [infoView addSubview:notesText];

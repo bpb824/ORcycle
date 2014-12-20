@@ -11,6 +11,8 @@
 #import "constants.h"
 #import "ActionSheetStringPicker.h"
 #import "SetReportLocationViewController.h"
+#import "ActionSheetDatePicker.h"
+#import "NSDate+TCUtils.h"
 
 
 @interface CrashDetailViewController ()
@@ -20,7 +22,7 @@
 @implementation CrashDetailViewController
 @synthesize noteDelegate, appDelegate, managedObjectContext, infoTableView, noteResponse;
 @synthesize severity;
-@synthesize severitySelectedRow, conflictWithSelectedRows, selectedItem, selectedItems, crashActionsSelectedRows, crashReasonsSelectedRows, otherCrashActions, otherCrashReasons, otherConflictWith, gpsLoc, customLoc;
+@synthesize severitySelectedRow, conflictWithSelectedRows, selectedItem, selectedItems, crashActionsSelectedRows, crashReasonsSelectedRows, otherCrashActions, otherCrashReasons, otherConflictWith, gpsLoc, customLoc,customDate, nowDate, reportDate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,6 +91,11 @@
     
     customLoc = false;
     gpsLoc = false;
+    
+    customDate = false;
+    nowDate = false;
+    self.reportDate = [[NSDate date] retain];
+
    
     CGRect pickerFrame = CGRectMake(0, 40, 0, 0);
     pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
@@ -193,6 +200,8 @@
         
         [noteDelegate didEnterOtherCrashReasons: self.otherCrashReasons];
         
+        [noteDelegate didPickReportDate:self.reportDate];
+        
         [noteDelegate didPickIsCrash: true];
         
         [noteDelegate openDetailPage];
@@ -218,45 +227,7 @@
     if(myTextField == severity){
         
         [myTextField resignFirstResponder];
-        /*
         
-        actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]; //as we want to display a subview we won't be using the default buttons but rather we're need to create a toolbar to display the buttons on
-        
-        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
-        
-        [actionSheet addSubview:pickerView];
-        
-        doneToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        doneToolbar.barStyle = UIBarStyleDefault;
-        [doneToolbar sizeToFit];
-        
-        NSMutableArray *barItems = [[[NSMutableArray alloc] init] autorelease];
-        
-        UIBarButtonItem *flexSpace = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil] autorelease];
-        [barItems addObject:flexSpace];
-        
-        UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
-        [barItems addObject:cancelBtn];
-        
-        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonPressed:)];
-        [barItems addObject:doneBtn];
-        
-        [doneToolbar setItems:barItems animated:YES];
-        
-        [actionSheet addSubview:doneToolbar];
-        
-        selectedItem = 0;
-        
-        [pickerView selectRow:selectedItem inComponent:0 animated:NO];
-        
-        [pickerView reloadAllComponents];
-        
-        [actionSheet addSubview:pickerView];
-        
-        [actionSheet showInView:self.view];
-        
-        [actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
-         */
         if (myTextField == severity){
             
             ActionStringDoneBlock done = ^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
@@ -381,7 +352,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return 7;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -401,6 +372,9 @@
         case 4:
             return @"Location of crash event";
             break;
+        case 5:
+            return @"Date of crash event";
+            break;
     }
     return nil;
 }
@@ -411,7 +385,7 @@
     [header.textLabel setTextColor:[UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000]];
     
     CALayer *topLine = [CALayer layer];
-    topLine.frame = CGRectMake(0, 0, 320, 1);
+    topLine.frame = CGRectMake(0, 0, 320, 0.5);
     topLine.backgroundColor = [UIColor blackColor].CGColor;
     [header.layer addSublayer:topLine];
     
@@ -420,7 +394,7 @@
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section ==4){
+    if (section ==6){
         return 100;
     } else{
         return 0.01;
@@ -444,6 +418,12 @@
             break;
         case 4:
             return 35;
+            break;
+        case 5:
+            return 35;
+            break;
+        case 6:
+            return 0;
             break;
         default:
 			return 0;
@@ -470,6 +450,12 @@
         case 4:
             return 2;
             break;
+        case 5:
+            return 2;
+            break;
+        case 6:
+            return 1;
+            break;
         default:
             return 0;
             break;
@@ -494,6 +480,7 @@
 			if (cell == nil) {
 				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
 			// inner switch statement identifies row
 			switch ([indexPath indexAtPosition:1])
@@ -519,7 +506,7 @@
             }
             
             if([conflictWithSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
-            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             
             // inner switch statement identifies row
             switch ([indexPath indexAtPosition:1])
@@ -580,7 +567,7 @@
             
             if([crashActionsSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
-            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             // inner switch statement identifies row
             switch ([indexPath indexAtPosition:1])
             {
@@ -640,7 +627,7 @@
             
             if([crashReasonsSelectedRows containsObject:indexPath]) { cell.accessoryType = UITableViewCellAccessoryCheckmark; } else { cell.accessoryType = UITableViewCellAccessoryNone; }
             
-            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
             // inner switch statement identifies row
             switch ([indexPath indexAtPosition:1])
             {
@@ -701,6 +688,8 @@
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             }
             
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            
             // inner switch statement identifies row
             switch ([indexPath indexAtPosition:1])
             {
@@ -724,9 +713,69 @@
             [cell.textLabel setNumberOfLines:0];
             }
             break;
+        case 5:
+        {
+            static NSString *CellIdentifier = @"CellPickTime";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Today";
+                    if(nowDate) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark; }
+                    else { cell.accessoryType = UITableViewCellAccessoryNone; }
+                    break;
+                case 1:
+                    
+                    if(customDate) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        NSDateFormatter *outputDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                        [outputDateFormatter setDateStyle:kCFDateFormatterLongStyle];
+                        cell.textLabel.text = [outputDateFormatter stringFromDate:self.reportDate];
+                    }
+                    else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                        cell.textLabel.text = @"Pick another date...";
+                    }
+                    break;
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:15]];
+            cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            cell.textLabel.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+            [cell.textLabel setNumberOfLines:0];
         }
-    cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            break;
+        case 6:
+        {
+            static NSString *CellIdentifier = @"CellSaveUser";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
             
+            cell.backgroundColor = [UIColor colorWithRed:106.0f/255.0f green:127.0f/255.0f  blue:16.0f/255.0f  alpha:1.000];
+            cell.textLabel.textColor = [UIColor whiteColor];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Save";
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    break;
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+    }
+    
+    
+    
     return cell;
 }
 
@@ -880,9 +929,101 @@
             }
             break;
         }
+        case 5:
+        {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    NSIndexPath *customIndex = [NSIndexPath indexPathForRow:1 inSection:5];
+                    UITableViewCell *customCell = [infoTableView cellForRowAtIndexPath:customIndex];
+                    if(cell.accessoryType == UITableViewCellAccessoryNone && customCell.accessoryType == UITableViewCellAccessoryNone) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        nowDate = true;
+                        customDate = false;
+                        self.reportDate = [[NSDate date]retain];
+                    }
+                    else if (cell.accessoryType ==UITableViewCellAccessoryNone && customCell.accessoryType == UITableViewCellAccessoryCheckmark){
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customCell.accessoryType = UITableViewCellAccessoryNone;
+                        nowDate = true;
+                        customDate = false;
+                        self.reportDate = [[NSDate date]retain];
+                    }
+                    else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                        nowDate = false;
+                    }
+                }
+                    break;
+                case 1:{
+                    NSIndexPath *nowIndex = [NSIndexPath indexPathForRow:0 inSection:5];
+                    UITableViewCell *nowCell = [infoTableView cellForRowAtIndexPath:nowIndex];
+                    
+                    if(cell.accessoryType == UITableViewCellAccessoryNone && nowCell.accessoryType == UITableViewCellAccessoryNone) {
+                        ActionSheetDatePicker *datePicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:self.reportDate target:self action:@selector(dateWasSelected:element:) origin:self.infoTableView];
+                        /*
+                         [datePicker addCustomButtonWithTitle:@"Today" value:[[NSDate date]retain]];
+                         [datePicker addCustomButtonWithTitle:@"Yesterday" value:[[[NSDate date] retain] TC_dateByAddingCalendarUnits:NSDayCalendarUnit amount:-1]];
+                         */
+                        
+                        [datePicker setMaximumDate:[NSDate date]];
+                        datePicker.hideCancel = YES;
+                        [datePicker showActionSheetPicker];
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customDate = true;
+                        nowDate = false;
+                    }
+                    else if (cell.accessoryType == UITableViewCellAccessoryNone && nowCell.accessoryType == UITableViewCellAccessoryCheckmark){
+                        ActionSheetDatePicker *datePicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:self.reportDate target:self action:@selector(dateWasSelected:element:) origin:self.infoTableView];
+                        /*
+                         [datePicker addCustomButtonWithTitle:@"Today" value:[[NSDate date]retain]];
+                         [datePicker addCustomButtonWithTitle:@"Yesterday" value:[[[NSDate date] retain] TC_dateByAddingCalendarUnits:NSDayCalendarUnit amount:-1]];
+                         */
+                        
+                        [datePicker setMaximumDate:[NSDate date]];
+                        datePicker.hideCancel = YES;
+                        [datePicker showActionSheetPicker];
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        customDate = true;
+                        nowDate = false;
+                        nowCell.accessoryType = UITableViewCellAccessoryNone;
+                    }
+                    else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                        customDate = false;
+                        nowDate = true;
+                        nowCell.accessoryType = UITableViewCellAccessoryCheckmark;
+                        self.reportDate = [[NSDate date]retain];
+                    }
+                    break;
+                }
+                    break;
+            }
+            break;
+        }
+
+        case 6:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    [self saveDetail:nil];
+                }
+            }
+            break;
+        }
 
     }
     [tableView reloadData];
+}
+
+- (void)dateWasSelected:(NSDate *)selectedDate element:(id)element {
+    self.reportDate = selectedDate;
+    [self.infoTableView reloadData];
+    
+    //may have originated from textField or barButtonItem, use an IBOutlet instead of element
+    //self.dateTextField.text = [self.selectedDate description];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -1012,6 +1153,7 @@
     self.conflictWithSelectedRows = nil;
     self.crashReasonsSelectedRows = nil;
     self.crashActionsSelectedRows = nil;
+    self.reportDate = nil;
     //self.issueType = nil;
     //self.issueTypeSelectedRows = nil;
     

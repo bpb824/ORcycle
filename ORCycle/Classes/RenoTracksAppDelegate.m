@@ -1,4 +1,5 @@
 
+
 /**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
@@ -75,122 +76,125 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	// disable screen lock
-	//[UIApplication sharedApplication].idleTimerDisabled = NO;
     
-    [self.locationManager requestAlwaysAuthorization];
-    
-	[UIApplication sharedApplication].idleTimerDisabled = YES;
- 
-    UITabBar *tabBar = tabBarController.tabBar;
-    //set TabBarColor
-    //[[UITabBar appearance] setBarTintColor:psuGreen];
-    tabBarController.tabBar.translucent = false;
-    
-    // set color of selected icons and text to white
-    //tabBar.tintColor = plainWhite;
-    //[[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: plainWhite, NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
-    
-    // set color of unselected text to light grey
-    //[[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: unSelected, NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
-    
-    // set selected and unselected icons
-    UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
-    UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
-    UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
-    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
-    // set unslected icons to default color of .png
-    tabBarItem1.image = [[UIImage imageNamed:@"tabbar_record.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    tabBarItem2.image = [[UIImage imageNamed:@"tabbar_view.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    tabBarItem3.image = [[UIImage imageNamed:@"tabbar_notes.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    tabBarItem4.image = [[UIImage imageNamed:@"tabbar_settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    //set selected icons to tabBar.tintColor
-//    tabBarItem1.selectedImage = [UIImage imageNamed:@"tabbar_record.png"];
-//    tabBarItem2.selectedImage = [UIImage imageNamed:@"tabbar_view.png"];
-//    tabBarItem3.selectedImage = [UIImage imageNamed:@"tabbar_notes.png"];
-//    tabBarItem4.selectedImage = [UIImage imageNamed:@"tabbar_settings.png"];
-    
-    tabBarItem1.title = @"Record";
-    tabBarItem2.title = @"Trips";
-    tabBarItem3.title = @"Reports";
-    tabBarItem4.title = @"User";
-
-    
-	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-    
-    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
-        [[UINavigationBar appearance] setTintColor:psuGreen];
-        [[UITabBar appearance] setTintColor:psuGreen];
-    }
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        [[UINavigationBar appearance] setTintColor:[UIColor  blackColor]];
-        //[[UITabBar appearance] setTintColor:plainWhite];
-        [[UITabBar appearance] setBarTintColor:psuGreen];
-        //[[UITabBar appearance] setSelectedImageTintColor:plainWhite];
-        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:plainWhite, NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+        // disable screen lock
+        //[UIApplication sharedApplication].idleTimerDisabled = NO;
         
-        [[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tabBarSelected.png"]];
+        [self.locationManager requestAlwaysAuthorization];
         
-//        UIImage *selectionIndicatorImage = [[UIImage imageNamed:@"tabBarSelected.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 0, 0, 0)];
-//        
-//        [[UITabBar appearance] setSelectionIndicatorImage:selectionIndicatorImage];
-
-
-
-    }
-
-    NSManagedObjectContext *context = [self managedObjectContext];
-    if (!context) {
-        // Handle the error.
-    }
-	
-	// init our unique ID hash
-	[self initUniqueIDHash];
-	
-	// initialize trip manager with the managed object context
-	TripManager *tripManager = [[[TripManager alloc] initWithManagedObjectContext:context] autorelease];
-    NoteManager *noteManager = [[[NoteManager alloc] initWithManagedObjectContext:context] autorelease];
-	
-	UINavigationController	*recordNav	= (UINavigationController*)[tabBarController.viewControllers 
-																	objectAtIndex:0];
-	//[navCon popToRootViewControllerAnimated:NO];
-	RecordTripViewController *recordVC	= (RecordTripViewController *)[recordNav topViewController];
-	[recordVC initTripManager:tripManager];
-    [recordVC initNoteManager:noteManager];
-	
-	
-	UINavigationController	*tripsNav	= (UINavigationController*)[tabBarController.viewControllers 
-																	objectAtIndex:1];
-	//[navCon popToRootViewControllerAnimated:NO];
-	SavedTripsViewController *tripsVC	= (SavedTripsViewController *)[tripsNav topViewController];
-	tripsVC.delegate					= recordVC;
-	[tripsVC initTripManager:tripManager];
-
-	// select Record tab at launch
-	tabBarController.selectedIndex = 0;
-	
-	// set delegate to prevent changing tabs when locked
-	tabBarController.delegate = recordVC;
-	
-	// set parent view so we can apply opacity mask to it
-	recordVC.parentView = tabBarController.view;
-    
-    UINavigationController *notesNav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:2];
-    
-    SavedNotesViewController *notesVC = (SavedNotesViewController *)[notesNav topViewController];
-    [notesVC initNoteManager:noteManager];
-	
-	UINavigationController	*nav	= (UINavigationController*)[tabBarController.viewControllers 
-															 objectAtIndex:3];
-	PersonalInfoViewController *vc	= (PersonalInfoViewController *)[nav topViewController];
-	vc.managedObjectContext			= context;
-
-    window.rootViewController = tabBarController;
-	[window makeKeyAndVisible];
-    
+        [UIApplication sharedApplication].idleTimerDisabled = YES;
+        
+        UITabBar *tabBar = tabBarController.tabBar;
+        //set TabBarColor
+        //[[UITabBar appearance] setBarTintColor:psuGreen];
+        tabBarController.tabBar.translucent = false;
+        
+        // set color of selected icons and text to white
+        //tabBar.tintColor = plainWhite;
+        //[[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: plainWhite, NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+        
+        // set color of unselected text to light grey
+        //[[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: unSelected, NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+        
+        // set selected and unselected icons
+        UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
+        UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
+        UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
+        UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
+        // set unslected icons to default color of .png
+        tabBarItem1.image = [[UIImage imageNamed:@"tabbar_record.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        tabBarItem2.image = [[UIImage imageNamed:@"tabbar_view.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        tabBarItem3.image = [[UIImage imageNamed:@"tabbar_notes.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        tabBarItem4.image = [[UIImage imageNamed:@"tabbar_settings.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        //set selected icons to tabBar.tintColor
+        //    tabBarItem1.selectedImage = [UIImage imageNamed:@"tabbar_record.png"];
+        //    tabBarItem2.selectedImage = [UIImage imageNamed:@"tabbar_view.png"];
+        //    tabBarItem3.selectedImage = [UIImage imageNamed:@"tabbar_notes.png"];
+        //    tabBarItem4.selectedImage = [UIImage imageNamed:@"tabbar_settings.png"];
+        
+        tabBarItem1.title = @"Record";
+        tabBarItem2.title = @"Trips";
+        tabBarItem3.title = @"Reports";
+        tabBarItem4.title = @"User";
+        
+        
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+        
+        if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+            [[UINavigationBar appearance] setTintColor:psuGreen];
+            [[UITabBar appearance] setTintColor:psuGreen];
+        }
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            [[UINavigationBar appearance] setTintColor:[UIColor  blackColor]];
+            //[[UITabBar appearance] setTintColor:plainWhite];
+            [[UITabBar appearance] setBarTintColor:psuGreen];
+            //[[UITabBar appearance] setSelectedImageTintColor:plainWhite];
+            [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:plainWhite, NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+            
+            [[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tabBarSelected.png"]];
+            
+            //        UIImage *selectionIndicatorImage = [[UIImage imageNamed:@"tabBarSelected.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 0, 0, 0)];
+            //
+            //        [[UITabBar appearance] setSelectionIndicatorImage:selectionIndicatorImage];
+            
+            
+            
+        }
+        
+        NSManagedObjectContext *context = [self managedObjectContext];
+        if (!context) {
+            // Handle the error.
+        }
+        
+        // init our unique ID hash
+        [self initUniqueIDHash];
+        
+        // initialize trip manager with the managed object context
+        TripManager *tripManager = [[[TripManager alloc] initWithManagedObjectContext:context] autorelease];
+        NoteManager *noteManager = [[[NoteManager alloc] initWithManagedObjectContext:context] autorelease];
+        
+        UINavigationController	*recordNav	= (UINavigationController*)[tabBarController.viewControllers
+                                                                        objectAtIndex:0];
+        //[navCon popToRootViewControllerAnimated:NO];
+        RecordTripViewController *recordVC	= (RecordTripViewController *)[recordNav topViewController];
+        [recordVC initTripManager:tripManager];
+        [recordVC initNoteManager:noteManager];
+        
+        
+        UINavigationController	*tripsNav	= (UINavigationController*)[tabBarController.viewControllers
+                                                                        objectAtIndex:1];
+        //[navCon popToRootViewControllerAnimated:NO];
+        SavedTripsViewController *tripsVC	= (SavedTripsViewController *)[tripsNav topViewController];
+        tripsVC.delegate					= recordVC;
+        [tripsVC initTripManager:tripManager];
+        
+        // select Record tab at launch
+        tabBarController.selectedIndex = 0;
+        
+        // set delegate to prevent changing tabs when locked
+        tabBarController.delegate = recordVC;
+        
+        // set parent view so we can apply opacity mask to it
+        recordVC.parentView = tabBarController.view;
+        
+        UINavigationController *notesNav = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:2];
+        
+        SavedNotesViewController *notesVC = (SavedNotesViewController *)[notesNav topViewController];
+        [notesVC initNoteManager:noteManager];
+        
+        UINavigationController	*nav	= (UINavigationController*)[tabBarController.viewControllers 
+                                                                    objectAtIndex:3];
+        PersonalInfoViewController *vc	= (PersonalInfoViewController *)[nav topViewController];
+        vc.managedObjectContext			= context;
+        
+        window.rootViewController = tabBarController;
+        [window makeKeyAndVisible];
+        return YES;
 }
+
 
 - (void)initUniqueIDHash
 {
@@ -226,6 +230,14 @@
         NSLog(@"BACKGROUNDED and sitting idle"); //set location service to startMonitoringSignificantLocationChanges
         [appDelegate.locationManager stopUpdatingLocation];
         //[appDelegate.locationManager startMonitoringSignificantLocationChanges];
+    }
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    UIApplicationState applicationState = application.applicationState;
+    if (applicationState == UIApplicationStateBackground) {
+        [application presentLocalNotificationNow:notification];
     }
 }
 
@@ -306,7 +318,6 @@
 	
     return persistentStoreCoordinator;
 }
-
 
 #pragma mark -
 #pragma mark Application's Documents directory

@@ -51,6 +51,7 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
     UIWindow *window;
+    
     UITabBarController *tabBarController;
 	NSString *uniqueIDHash;
     //UIAlertView *consentFor18;
