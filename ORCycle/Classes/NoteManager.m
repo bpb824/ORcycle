@@ -881,6 +881,8 @@
 	[outputFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDateFormatter *outputFormatterURL = [[[NSDateFormatter alloc] init] autorelease];
 	[outputFormatterURL setDateFormat:@"yyyy-MM-dd-HH-mm-ss"];
+    NSDateFormatter *reportDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [reportDateFormatter setDateFormat:@"yyyy-MM-dd"];
     
     NSLog(@"saving using protocol version 4");
 	
@@ -896,7 +898,9 @@
     
     NSString *newDateString = [outputFormatter stringFromDate:note.recorded];
     NSString *newDateStringURL = [outputFormatterURL stringFromDate:note.recorded];
+    NSString *reportDateString = [reportDateFormatter stringFromDate:note.reportDate];
     [noteDict setValue:newDateString forKey:@"r"];    //recorded timestamp
+    [noteDict setValue:reportDateString forKey:@"reportDate"];
     
     RenoTracksAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.deviceUniqueIdHash1 = delegate.uniqueIDHash;

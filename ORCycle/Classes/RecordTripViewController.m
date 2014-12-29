@@ -682,7 +682,7 @@
             [alertView.delegate release];
         }
     }
-    else if ([alertView.title isEqualToString:@"Ready to roll?"]){
+    else if ([alertView.title isEqualToString:@"Tutorial"]){
         if(buttonIndex == 0){
             alertView.delegate = nil;
             [alertView.delegate release];
@@ -709,7 +709,7 @@
         }
 
     }
-    else if([alertView.title isEqualToString:@"Urgent Safety Issue"]){
+    else if([alertView.title isEqualToString:@"Report Problem"]){
         NSLog(@"Alertview button detected");
         if(buttonIndex == 0){
             alertView.delegate = nil;
@@ -828,10 +828,10 @@
     
     if (IS_IPHONE_5) {
         
-        [centerButton setFrame: CGRectMake(10,80,30,30)];
+        [centerButton setFrame: CGRectMake(10,82,33,33)];
         
     }else{
-        [centerButton setFrame: CGRectMake(10,85,30,30)];
+        [centerButton setFrame: CGRectMake(10,82,33,33)];
         
     }
     
@@ -1030,16 +1030,14 @@
 {
     Note *note = noteManager.note;
     
-    if([note.urgency integerValue] >= 4){
-        UIAlertView *urgent = [[UIAlertView alloc]
-                              initWithTitle:@"Urgent Safety Issue"
-                              message:@"If this safety issue is very urgent, please also report it to the local transportation agency. A web page of agency contacts can be accessed by pressing 'Report'."
+    UIAlertView *urgent = [[UIAlertView alloc]
+                              initWithTitle:@"Report Problem"
+                              message:@"Contact the agency that has jurisdiction over the facility to ensure a prompt response to a road hazard."
                               delegate:self
                               cancelButtonTitle:@"Later"
-                              otherButtonTitles:@"Report",nil];
+                              otherButtonTitles:@"Now",nil];
         
-        [urgent show];
-    }
+    [urgent show];
     
     // load map view of note
     NoteViewController *mvc = [[NoteViewController alloc] initWithNote:note];
@@ -1169,6 +1167,7 @@
             case 0:
             {
                 NSLog(@"Discard!!!!");
+                [self.tripManager discardTrip];
                 [self resetRecordingInProgress];
                 //discard that trip
                 break;
@@ -1715,8 +1714,8 @@ shouldSelectViewController:(UIViewController *)viewController
     appDelegate = [[UIApplication sharedApplication] delegate];
     
     UIAlertView *tutorial = [[UIAlertView alloc]
-                         initWithTitle:@"Ready to roll?"
-                         message:@"Do you want to see the tutorial again next time you start ORcycle?"
+                         initWithTitle:@"Tutorial"
+                         message:@"Do you want to see the tutorial again next time you open ORcycle?"
                          delegate:self
                          cancelButtonTitle:@"Yes"
                          otherButtonTitles:@"No",nil];

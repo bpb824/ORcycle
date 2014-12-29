@@ -67,6 +67,24 @@
                 
             }
                 break;
+            case 4:{
+                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+                imageView.frame = CGRectMake( 37.25, 16, 245.5, 436 );
+                [self.view addSubview:imageView];
+                
+                
+            }
+                break;
+            case 5:{
+                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+                imageView.frame = CGRectMake( 37.25, 16, 245.5, 436 );
+                [self.view addSubview:imageView];
+                
+                
+            }
+                break;
         }
 
     }
@@ -94,6 +112,24 @@
             }
                 break;
             case 3:{
+                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+                imageView.frame = CGRectMake( 53, 16, 214.0, 380 );
+                [self.view addSubview:imageView];
+                
+                
+            }
+                break;
+            case 4:{
+                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+                imageView.frame = CGRectMake( 53, 16, 214.0, 380 );
+                [self.view addSubview:imageView];
+                
+                
+            }
+                break;
+            case 5:{
                 UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
                 imageView.frame = CGRectMake( 53, 16, 214.0, 380 );

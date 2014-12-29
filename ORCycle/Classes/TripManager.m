@@ -1367,8 +1367,9 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"countUnSavedTrips = %ld", (long)count);
-	
+    if (count){
+       NSLog(@"countUnSavedTrips = %ld", (long)count);
+    }
 	[request release];
 	return count;
 }
@@ -1392,9 +1393,10 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"countUnSyncedTrips = %ld", (long)
-          count);
-	
+    if (count){
+        NSLog(@"countUnSyncedTrips = %ld", (long)
+              count);
+    }
 	[request release];
 	return count;
 }
@@ -1418,8 +1420,9 @@
 	
 	NSError *error;
 	NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
-	NSLog(@"countZeroDistanceTrips = %ld", (long)count);
-	
+    if (count){
+        NSLog(@"countZeroDistanceTrips = %ld", (long)count);
+    }
 	[request release];
 	return count;
 }
@@ -1460,6 +1463,24 @@
 	[mutableFetchResults release];
 	[request release];
 	return success;
+}
+
+-(void)discardTrip
+{
+    //delete trip from trip manager
+    NSLog(@"discardTrip");
+    
+    // delete trip instance
+    if (trip != nil) [managedObjectContext deleteObject:trip];
+    
+    NSError *error;
+    if (![managedObjectContext save:&error]) {
+        // Handle the error.
+        NSLog(@"discardTrip save error %@, %@", error, [error localizedDescription]);
+    }
+    
+    self.trip = nil;
+    
 }
 
 

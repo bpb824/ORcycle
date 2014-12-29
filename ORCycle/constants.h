@@ -102,7 +102,7 @@
 
 //#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
 #define kSaveURL            @"http://orcycle2.cecs.pdx.edu/post/"
-#define kUrgentURL          @"https://www.portlandoregon.gov/transportation/article/299189"
+#define kUrgentURL          @"http://www.pdx.edu/transportation-lab/reporting-road-hazards"
 
 //Reno Tracks Green
 #define psuGreen [UIColor colorWithRed:106.0f/255.0f green:127.0f/255.0f blue:16.0f/255.0f alpha:1.000]

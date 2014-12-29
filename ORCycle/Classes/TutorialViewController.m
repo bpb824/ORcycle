@@ -36,40 +36,7 @@
     [self addChildViewController:self.pageController];
     [[self view] addSubview:[self.pageController view]];
     [self.pageController didMoveToParentViewController:self];
-    
-    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
-                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight.png"]
-                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIButton *readyButton = [[UIButton alloc]init];
-    if(IS_IPHONE_5){
-        readyButton = [[UIButton alloc]initWithFrame:CGRectMake(25,475,270,50)];
-    }
-    else{
-        readyButton = [[UIButton alloc]initWithFrame:CGRectMake(25,401.4,270,50)];
-    }
-    
-    
-    
-    [readyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    readyButton.layer.borderWidth = 0.5f;
-    readyButton.layer.borderColor = [[UIColor blackColor] CGColor];
-    
-    [readyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    
-    readyButton.backgroundColor = [UIColor clearColor];
-    readyButton.enabled = YES;
-    
-    [readyButton setTitle:@"Ready to use ORcycle!" forState:UIControlStateNormal];
-    [readyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    readyButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
-    [readyButton.layer setCornerRadius:5.0f];
-    readyButton.clipsToBounds = YES;
-    readyButton.titleLabel.textColor = [UIColor whiteColor];
-    [readyButton addTarget:self action:@selector(didFinishTutorial:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:readyButton];
 
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,6 +50,41 @@
         
     TutorialChildViewController *childViewController = [[TutorialChildViewController alloc] initWithNibName:@"TutorialChildViewController" bundle:nil];
     childViewController.index = index;
+    if (index ==5){
+        
+        UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+        UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight.png"]
+                                         resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+        UIButton *readyButton = [[UIButton alloc]init];
+        if(IS_IPHONE_5){
+            readyButton = [[UIButton alloc]initWithFrame:CGRectMake(25,475,270,50)];
+        }
+        else{
+            readyButton = [[UIButton alloc]initWithFrame:CGRectMake(25,401.4,270,50)];
+        }
+        
+        
+        
+        [readyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        readyButton.layer.borderWidth = 0.5f;
+        readyButton.layer.borderColor = [[UIColor blackColor] CGColor];
+        
+        [readyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+        
+        readyButton.backgroundColor = [UIColor clearColor];
+        readyButton.enabled = YES;
+        
+        [readyButton setTitle:@"Ready to use ORcycle!" forState:UIControlStateNormal];
+        [readyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        readyButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
+        [readyButton.layer setCornerRadius:5.0f];
+        readyButton.clipsToBounds = YES;
+        readyButton.titleLabel.textColor = [UIColor whiteColor];
+        [readyButton addTarget:self action:@selector(didFinishTutorial:) forControlEvents:UIControlEventTouchUpInside];
+        [childViewController.view addSubview:readyButton];
+    }
+
     
     return childViewController;
     
@@ -109,7 +111,7 @@
     
     index++;
     
-    if (index == 4) {
+    if (index == 6) {
         return nil;
     }
     
@@ -119,7 +121,7 @@
 
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
     // The number of items reflected in the page indicator.
-    return 4;
+    return 6;
 }
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {

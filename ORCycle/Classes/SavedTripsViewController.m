@@ -253,13 +253,14 @@
 
 	// update conditionally as needed
 	[self refreshTableView];
-    
+    /*
 	if ( tripManager.dirty )
 	{
 		NSLog(@"dirty => refresh");
 		[self refreshTableView];
 		tripManager.dirty = NO;
 	}
+     */
     
 	[super viewWillAppear:animated];
 
@@ -703,6 +704,7 @@
 	
 	// identify trip by row
 	//NSLog(@"didSelectRow: %d", indexPath.row);
+    [selectedTrip release];
 	selectedTrip = (Trip *)[trips objectAtIndex:indexPath.row];
 	//NSLog(@"%@", selectedTrip);
 

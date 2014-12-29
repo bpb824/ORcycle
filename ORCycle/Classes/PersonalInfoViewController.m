@@ -1012,7 +1012,7 @@
 	switch ( section )
 	{
         case 0:
-            return 2;
+            return 3;
             break;
         case 1:
             return 1;
@@ -1090,6 +1090,15 @@
                     [cell.textLabel setAttributedText:attributedString];
 					break;
                 case 1:
+                    cell.textLabel.text = @"Report to Transportation Agencies";
+                    [cell.textLabel setTextColor:[UIColor blueColor]];
+                    NSMutableAttributedString *attributedStringTwo = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
+                    NSInteger lenTwo = cell.textLabel.text.length;
+                    // Add attribute NSUnderlineStyleAttributeName
+                    [attributedStringTwo addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, lenTwo)];
+                    [cell.textLabel setAttributedText:attributedStringTwo];
+                    break;
+                case 2:
 					cell.textLabel.text = @"Privacy Policy";
                     [cell.textLabel setTextColor:[UIColor blueColor]];
                     NSMutableAttributedString *attributedStringThree = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
@@ -1101,7 +1110,7 @@
 
 			}
 			
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.selectionStyle = UITableViewCellSelectionStyleDefault;
 		}
 			break;
             
@@ -2023,6 +2032,9 @@
     NSURL *privacyURL = [NSURL URLWithString:kPrivacyURL];
     NSURLRequest *privacyRequest = [NSMutableURLRequest requestWithURL:privacyURL];
     
+    NSURL *urgentURL = [NSURL URLWithString:kUrgentURL];
+    NSURLRequest *urgentRequest = [NSMutableURLRequest requestWithURL:urgentURL];
+    
 	switch ([indexPath indexAtPosition:0])
 	{
 		case 0:
@@ -2034,6 +2046,9 @@
                     [[UIApplication sharedApplication] openURL:[request URL]];
 					break;
                 case 1:
+                    [[UIApplication sharedApplication] openURL:[urgentRequest URL]];
+                    break;
+                case 2:
                     [[UIApplication sharedApplication] openURL:[privacyRequest URL]];
                     break;
 			}

@@ -962,8 +962,9 @@
                     
                     if(cell.accessoryType == UITableViewCellAccessoryNone && nowCell.accessoryType == UITableViewCellAccessoryNone) {
                         ActionSheetDatePicker *datePicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:self.reportDate target:self action:@selector(dateWasSelected:element:) origin:self.infoTableView];
-                        /*
+                        
                          [datePicker addCustomButtonWithTitle:@"Today" value:[[NSDate date]retain]];
+                        /*
                          [datePicker addCustomButtonWithTitle:@"Yesterday" value:[[[NSDate date] retain] TC_dateByAddingCalendarUnits:NSDayCalendarUnit amount:-1]];
                          */
                         
@@ -976,8 +977,8 @@
                     }
                     else if (cell.accessoryType == UITableViewCellAccessoryNone && nowCell.accessoryType == UITableViewCellAccessoryCheckmark){
                         ActionSheetDatePicker *datePicker = [[ActionSheetDatePicker alloc] initWithTitle:@"" datePickerMode:UIDatePickerModeDate selectedDate:self.reportDate target:self action:@selector(dateWasSelected:element:) origin:self.infoTableView];
+                        [datePicker addCustomButtonWithTitle:@"Today" value:[[NSDate date]retain]];
                         /*
-                         [datePicker addCustomButtonWithTitle:@"Today" value:[[NSDate date]retain]];
                          [datePicker addCustomButtonWithTitle:@"Yesterday" value:[[[NSDate date] retain] TC_dateByAddingCalendarUnits:NSDayCalendarUnit amount:-1]];
                          */
                         
