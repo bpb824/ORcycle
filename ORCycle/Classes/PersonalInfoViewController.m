@@ -227,10 +227,12 @@
         self.reminderOneTime = [[NSUserDefaults standardUserDefaults]objectForKey:@"reminderOneTime"];
     }
     else{
-        NSString *str =@"8:00 AM";
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"HH:mm a"];
-        NSDate *date = [formatter dateFromString:str];
+        NSDate *today = [NSDate date];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+        [components setHour:8];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        [calendar setTimeZone: [NSTimeZone defaultTimeZone]];
+        NSDate *date = [calendar dateFromComponents:components];
         self.reminderOneTime = date;
     }
     
@@ -238,10 +240,12 @@
         self.reminderTwoTime = [[NSUserDefaults standardUserDefaults]objectForKey:@"reminderTwoTime"];
     }
     else{
-        NSString *str =@"5:00 PM";
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"HH:mm a"];
-        NSDate *date = [formatter dateFromString:str];
+        NSDate *today = [NSDate date];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+        [components setHour:16];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        [calendar setTimeZone: [NSTimeZone defaultTimeZone]];
+        NSDate *date = [calendar dateFromComponents:components];
         self.reminderTwoTime = date;
     }
 
@@ -920,10 +924,10 @@
             return @"Comment here if you would like to provide feedback about the app or desirable features:";
             break;
         case 11:
-            return @"1.) Remind me to record a trip or report at...";
+            return @"1. Remind me to record a trip or report at...";
             break;
         case 12:
-            return @"2.) Remind me to record a trip or report at...";
+            return @"2. Remind me to record a trip or report at...";
             break;
         case 13:
 			return @"Application Version";

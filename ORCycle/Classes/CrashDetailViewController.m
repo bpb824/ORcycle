@@ -136,6 +136,7 @@
     
     NSInteger numFields = 0;
     BOOL didPickLoc = false;
+    BOOL didPickDate = false;
     
     if (severitySelectedRow < 10 && severitySelectedRow !=0){
         numFields = numFields +1;
@@ -153,28 +154,69 @@
         didPickLoc = true;
     }
     
-    if (numFields < 4 && didPickLoc == false){
+    if (nowDate || customDate ){
+        didPickDate = true;
+    }
+    
+    if (numFields < 4 && didPickLoc == false && didPickDate == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must answer all 4 questions about the crash event and choose the location of the crash event."
+                              message:@"You must answer all questions about the crash event and choose the location and date of the crash event."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
         [alert show];
     }
-    else if (numFields >= 4 && didPickLoc == false){
+    else if (numFields >= 4 && didPickLoc == false && didPickDate == false){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must choose the location and date of the crash event."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (numFields < 4 && didPickLoc == true && didPickDate == true){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must answer all questions about the crash event."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (numFields >= 4 && didPickLoc == true && didPickDate == false){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must choose the date of the crash event."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    else if (numFields < 4 && didPickLoc == true && didPickDate == false){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must answer all questions about the crash event and choose the date of the crash event."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (numFields < 4 && didPickLoc == false && didPickDate == true){
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Insufficient Data"
+                              message:@"You must answer all questions about the crash event and choose the location of the crash event."
+                              delegate:nil
+                              cancelButtonTitle:@"Back"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (numFields >= 4 && didPickLoc == false && didPickDate == true){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
                               message:@"You must choose the location of the crash event."
-                              delegate:nil
-                              cancelButtonTitle:@"Back"
-                              otherButtonTitles:nil];
-        [alert show];
-    }
-    else if (numFields < 4 && didPickLoc == true){
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle:@"Insufficient Data"
-                              message:@"You must answer all 4 questions about the crash event."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];

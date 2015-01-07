@@ -158,7 +158,7 @@
     if (numFields < 2 && didPickLoc == false && didPickDate == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must answer both questions about the safety issue and choose the location and time of the safety issue."
+                              message:@"You must answer both questions about the safety issue and choose the location and date of the safety issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
@@ -167,7 +167,7 @@
     else if (numFields >= 2 && didPickLoc == false && didPickDate == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must choose the location and time of the safety issue."
+                              message:@"You must choose the location and date of the safety issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
@@ -185,7 +185,7 @@
     else if (numFields >= 2 && didPickLoc == true && didPickDate == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must choose the time of the safety issue."
+                              message:@"You must choose the date of the safety issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];
@@ -195,7 +195,7 @@
     else if (numFields < 2 && didPickLoc == true && didPickDate == false){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must answer both questions about the safety issue and choose the time of the safety issue."
+                              message:@"You must answer both questions about the safety issue and choose the date of the safety issue."
                               delegate:nil
                               cancelButtonTitle:@"Back"
                               otherButtonTitles:nil];

@@ -22,6 +22,8 @@
     
     [super viewDidLoad];
     
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     
     self.pageController.dataSource = self;
@@ -61,7 +63,7 @@
             readyButton = [[UIButton alloc]initWithFrame:CGRectMake(25,475,270,50)];
         }
         else{
-            readyButton = [[UIButton alloc]initWithFrame:CGRectMake(25,401.4,270,50)];
+            readyButton = [[UIButton alloc]initWithFrame:CGRectMake(25,392,270,50)];
         }
         
         

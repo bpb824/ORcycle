@@ -1713,6 +1713,8 @@ shouldSelectViewController:(UIViewController *)viewController
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     appDelegate = [[UIApplication sharedApplication] delegate];
     
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
     UIAlertView *tutorial = [[UIAlertView alloc]
                          initWithTitle:@"Tutorial"
                          message:@"Do you want to see the tutorial again next time you open ORcycle?"

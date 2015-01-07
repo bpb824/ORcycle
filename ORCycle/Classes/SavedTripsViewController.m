@@ -212,6 +212,8 @@
 	// check for countZeroDistanceTrips
 	if ( [tripManager countZeroDistanceTrips] )
 	{
+        [tripManager recalculateTripDistances];
+        /*
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kZeroDistanceTitle
 														message:kZeroDistanceMessage
 													   delegate:self
@@ -220,6 +222,7 @@
 		alert.tag = 202;
 		[alert show];
 		[alert release];
+         */
 	}
 	
 	// check for countUnSyncedTrips

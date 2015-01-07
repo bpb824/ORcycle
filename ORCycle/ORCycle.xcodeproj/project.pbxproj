@@ -34,14 +34,14 @@
 		1F0E4D8419B7D3E70015B943 /* noteIssuePickerBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7A19B7D3E70015B943 /* noteIssuePickerBlack.png */; };
 		1F0E4D8519B7D3E70015B943 /* noteIssuePickerBlack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F0E4D7B19B7D3E70015B943 /* noteIssuePickerBlack@2x.png */; };
 		1F2798BD19785DAD00204876 /* PersonalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */; };
+		1F4CD8661A586484009934AE /* iOS-HomeStart.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8601A586484009934AE /* iOS-HomeStart.png */; };
+		1F4CD8671A586484009934AE /* iOS-Report.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8611A586484009934AE /* iOS-Report.png */; };
+		1F4CD8681A586484009934AE /* iOS-ReportsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8621A586484009934AE /* iOS-ReportsButton.png */; };
+		1F4CD8691A586484009934AE /* iOSHomeFeedback.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8631A586484009934AE /* iOSHomeFeedback.png */; };
+		1F4CD86A1A586484009934AE /* iOSHomeTrip.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8641A586484009934AE /* iOSHomeTrip.png */; };
+		1F4CD86B1A586484009934AE /* iOSRemindTrip.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8651A586484009934AE /* iOSRemindTrip.png */; };
 		1F4DFE7019BD760D00ED40F8 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */; };
 		1F4DFE7619BD79BA00ED40F8 /* SWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */; };
-		1F4EE8761A3F61E900C73D00 /* HomeScreen_3.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE8751A3F61E900C73D00 /* HomeScreen_3.5.png */; };
-		1F4EE8781A3F61F500C73D00 /* HomeScreen_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE8771A3F61F500C73D00 /* HomeScreen_4.png */; };
-		1F4EE87F1A43586A00C73D00 /* iOS_TutorialScreen1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE87B1A43586A00C73D00 /* iOS_TutorialScreen1.png */; };
-		1F4EE8801A43586A00C73D00 /* iOS_TutorialScreen2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE87C1A43586A00C73D00 /* iOS_TutorialScreen2.png */; };
-		1F4EE8811A43586A00C73D00 /* iOS_TutorialScreen3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE87D1A43586A00C73D00 /* iOS_TutorialScreen3.png */; };
-		1F4EE8821A43586A00C73D00 /* iOS_TutorialScreen4.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4EE87E1A43586A00C73D00 /* iOS_TutorialScreen4.png */; };
 		1F4EE8881A44735B00C73D00 /* 1to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE8871A44735B00C73D00 /* 1to6.xcmappingmodel */; };
 		1F4EE88A1A44737100C73D00 /* 2to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE8891A44737100C73D00 /* 2to6.xcmappingmodel */; };
 		1F4EE88C1A44738500C73D00 /* 3to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE88B1A44738500C73D00 /* 3to6.xcmappingmodel */; };
@@ -252,16 +252,16 @@
 		1F0E4D7B19B7D3E70015B943 /* noteIssuePickerBlack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePickerBlack@2x.png"; path = "TripPurposePickerIcons/noteIssuePickerBlack@2x.png"; sourceTree = SOURCE_ROOT; };
 		1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalInfoViewController.h; sourceTree = "<group>"; };
 		1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalInfoViewController.m; sourceTree = "<group>"; };
+		1F4CD8601A586484009934AE /* iOS-HomeStart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS-HomeStart.png"; sourceTree = "<group>"; };
+		1F4CD8611A586484009934AE /* iOS-Report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS-Report.png"; sourceTree = "<group>"; };
+		1F4CD8621A586484009934AE /* iOS-ReportsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS-ReportsButton.png"; sourceTree = "<group>"; };
+		1F4CD8631A586484009934AE /* iOSHomeFeedback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOSHomeFeedback.png; sourceTree = "<group>"; };
+		1F4CD8641A586484009934AE /* iOSHomeTrip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOSHomeTrip.png; sourceTree = "<group>"; };
+		1F4CD8651A586484009934AE /* iOSRemindTrip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOSRemindTrip.png; sourceTree = "<group>"; };
 		1F4DFE6E19BD760D00ED40F8 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetStringPicker.h; sourceTree = "<group>"; };
 		1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
 		1F4DFE7419BD79BA00ED40F8 /* SWActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWActionSheet.h; sourceTree = "<group>"; };
 		1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWActionSheet.m; sourceTree = "<group>"; };
-		1F4EE8751A3F61E900C73D00 /* HomeScreen_3.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HomeScreen_3.5.png; path = "Report Icons/HomeScreen_3.5.png"; sourceTree = "<group>"; };
-		1F4EE8771A3F61F500C73D00 /* HomeScreen_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HomeScreen_4.png; path = "Report Icons/HomeScreen_4.png"; sourceTree = "<group>"; };
-		1F4EE87B1A43586A00C73D00 /* iOS_TutorialScreen1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOS_TutorialScreen1.png; sourceTree = "<group>"; };
-		1F4EE87C1A43586A00C73D00 /* iOS_TutorialScreen2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOS_TutorialScreen2.png; sourceTree = "<group>"; };
-		1F4EE87D1A43586A00C73D00 /* iOS_TutorialScreen3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOS_TutorialScreen3.png; sourceTree = "<group>"; };
-		1F4EE87E1A43586A00C73D00 /* iOS_TutorialScreen4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOS_TutorialScreen4.png; sourceTree = "<group>"; };
 		1F4EE8861A4472A700C73D00 /* ORcycle6-12.19.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ORcycle6-12.19.xcdatamodel"; sourceTree = "<group>"; };
 		1F4EE8871A44735B00C73D00 /* 1to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 1to6.xcmappingmodel; sourceTree = "<group>"; };
 		1F4EE8891A44737100C73D00 /* 2to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 2to6.xcmappingmodel; sourceTree = "<group>"; };
@@ -623,6 +623,20 @@
 			path = TabBarIcons;
 			sourceTree = "<group>";
 		};
+		1F4CD85F1A586484009934AE /* Tutorial Screens */ = {
+			isa = PBXGroup;
+			children = (
+				1F4CD8601A586484009934AE /* iOS-HomeStart.png */,
+				1F4CD8611A586484009934AE /* iOS-Report.png */,
+				1F4CD8621A586484009934AE /* iOS-ReportsButton.png */,
+				1F4CD8631A586484009934AE /* iOSHomeFeedback.png */,
+				1F4CD8641A586484009934AE /* iOSHomeTrip.png */,
+				1F4CD8651A586484009934AE /* iOSRemindTrip.png */,
+			);
+			name = "Tutorial Screens";
+			path = "Images/Tutorial Screens";
+			sourceTree = "<group>";
+		};
 		1FD9E11819F6C3E300A0189B /* Report Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -759,12 +773,7 @@
 		6411A16A106A05DE00C201F0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				1F4EE87B1A43586A00C73D00 /* iOS_TutorialScreen1.png */,
-				1F4EE87C1A43586A00C73D00 /* iOS_TutorialScreen2.png */,
-				1F4EE87D1A43586A00C73D00 /* iOS_TutorialScreen3.png */,
-				1F4EE87E1A43586A00C73D00 /* iOS_TutorialScreen4.png */,
-				1F4EE8751A3F61E900C73D00 /* HomeScreen_3.5.png */,
-				1F4EE8771A3F61F500C73D00 /* HomeScreen_4.png */,
+				1F4CD85F1A586484009934AE /* Tutorial Screens */,
 				1FD9E11819F6C3E300A0189B /* Report Icons */,
 				1F78152B19F574F500100D47 /* iconLocation.png */,
 				1F78152C19F574F500100D47 /* iconLocation@2x.png */,
@@ -943,6 +952,7 @@
 				64577E29106DC2FD003ACBFD /* dist.plist in Resources */,
 				1FD4FE1A19EB0E19005A7542 /* checked_checkbox_small.png in Resources */,
 				642F150C1071D9910050BCB9 /* MapViewController.xib in Resources */,
+				1F4CD8671A586484009934AE /* iOS-Report.png in Resources */,
 				A20B63151801E06A0039391D /* AppIcon57x57.png in Resources */,
 				6458114E107AA4D30075DABD /* bicycle-bell-normalized.aiff in Resources */,
 				64210F29113508B800415F1A /* MainWindow.xib in Resources */,
@@ -958,6 +968,7 @@
 				64C8D40311386B26008BCADE /* RecordMap.xib in Resources */,
 				9D4647B71604EBF400A4F9CB /* blueButton.png in Resources */,
 				1C9419651825F0F600D5925A /* tabbar_instructions.png in Resources */,
+				1F4CD8661A586484009934AE /* iOS-HomeStart.png in Resources */,
 				9D4647B81604EBF400A4F9CB /* blueButton@2x.png in Resources */,
 				9D4647B91604EBF400A4F9CB /* blueButtonHighlight.png in Resources */,
 				1C4134CF186CDB8200116DCA /* otherRed.png in Resources */,
@@ -986,11 +997,9 @@
 				1FD9E13819F6C3E300A0189B /* noteassetmapglyph_high-red.png in Resources */,
 				9D4647C11604EBF400A4F9CB /* redButton.png in Resources */,
 				1FD9E13B19F6C3E300A0189B /* WarmBlueCrash.png in Resources */,
-				1F4EE8781A3F61F500C73D00 /* HomeScreen_4.png in Resources */,
 				1F78153B19F59E1A00100D47 /* iconMap@2x.png in Resources */,
 				1FD9E13F19F6C3E300A0189B /* WarmOrangeCrash.png in Resources */,
 				A2B2631B1801C8140015F89B /* errands.png in Resources */,
-				1F4EE8811A43586A00C73D00 /* iOS_TutorialScreen3.png in Resources */,
 				1FD9E13919F6C3E300A0189B /* noteassetmapglyph_high-white.png in Resources */,
 				1FD9E13E19F6C3E300A0189B /* WarmGreenCrashSmall.png in Resources */,
 				1FD9E13619F6C3E300A0189B /* noteassetmapglyph_high-green.png in Resources */,
@@ -999,23 +1008,21 @@
 				9D4647C31604EBF400A4F9CB /* redButtonHighlight.png in Resources */,
 				9D4647C41604EBF400A4F9CB /* redButtonHighlight@2x.png in Resources */,
 				1CCF0DC0183809390047129B /* tabBarSelected.png in Resources */,
-				1F4EE8801A43586A00C73D00 /* iOS_TutorialScreen2.png in Resources */,
 				A2B2632C1801C8140015F89B /* other@2x.png in Resources */,
 				A2B2632D1801C8140015F89B /* school.png in Resources */,
 				1FD9E13219F6C3E300A0189B /* noteassetmapglyph-red.png in Resources */,
 				A2B2631D1801C8140015F89B /* exercise.png in Resources */,
 				1F0E4D8519B7D3E70015B943 /* noteIssuePickerBlack@2x.png in Resources */,
 				1C9419671825F0F600D5925A /* tabbar_notes.png in Resources */,
+				1F4CD8691A586484009934AE /* iOSHomeFeedback.png in Resources */,
 				1FD9E12F19F6C3E300A0189B /* noteassetmapglyph-blue.png in Resources */,
 				A2B2632B1801C8140015F89B /* other.png in Resources */,
 				1FE958BD1A3E1CDD0016FAEF /* TutorialViewController.xib in Resources */,
 				A20B63161801E06A0039391D /* AppIcon57x57@2x.png in Resources */,
 				1F78150519EF321800100D47 /* CrashDetailViewController.xib in Resources */,
 				1F78153219F574F500100D47 /* iconAirplane@2x.png in Resources */,
-				1F4EE8821A43586A00C73D00 /* iOS_TutorialScreen4.png in Resources */,
 				A2B263311801C8140015F89B /* social.png in Resources */,
 				A2B263381801C8140015F89B /* workRelated@2x.png in Resources */,
-				1F4EE87F1A43586A00C73D00 /* iOS_TutorialScreen1.png in Resources */,
 				A2B263341801C8140015F89B /* tripEnd@2x.png in Resources */,
 				A2B2631C1801C8140015F89B /* errands@2x.png in Resources */,
 				A21F08151800DCD600638A15 /* yellowButton@2x.png in Resources */,
@@ -1024,6 +1031,8 @@
 				9D4648271604EF2F00A4F9CB /* lcd-screen.png in Resources */,
 				9D4648281604EF2F00A4F9CB /* lcd-screen@2x.png in Resources */,
 				A2B263321801C8140015F89B /* social@2x.png in Resources */,
+				1F4CD86B1A586484009934AE /* iOSRemindTrip.png in Resources */,
+				1F4CD86A1A586484009934AE /* iOSHomeTrip.png in Resources */,
 				A2B263301801C8140015F89B /* shopping@2x.png in Resources */,
 				1C94196E1825F0F600D5925A /* tabbar_view@2x.png in Resources */,
 				A20B63201801E5160039391D /* AppIcon40x40.png in Resources */,
@@ -1047,7 +1056,6 @@
 				9D3CDAD616D6F7A900F423B8 /* photoFrame.png in Resources */,
 				9D3CDAD716D6F7A900F423B8 /* photoFrame@2x.png in Resources */,
 				1C9419661825F0F600D5925A /* tabbar_instructions@2x.png in Resources */,
-				1F4EE8761A3F61E900C73D00 /* HomeScreen_3.5.png in Resources */,
 				9D3CDADE16D7041F00F423B8 /* whiteButton.png in Resources */,
 				9D3CDADF16D7041F00F423B8 /* whiteButton@2x.png in Resources */,
 				A2B2633C1801D6460015F89B /* greyButtonHighlight@2x.png in Resources */,
@@ -1082,6 +1090,7 @@
 				A2B263191801C8140015F89B /* commute.png in Resources */,
 				1FD9E13C19F6C3E300A0189B /* WarmBlueCrashSmall.png in Resources */,
 				A2B263361801C8140015F89B /* tripStart@2x.png in Resources */,
+				1F4CD8681A586484009934AE /* iOS-ReportsButton.png in Resources */,
 				1F0E4D8419B7D3E70015B943 /* noteIssuePickerBlack.png in Resources */,
 				1F78153A19F59E1A00100D47 /* iconMap.png in Resources */,
 				1C9419691825F0F600D5925A /* tabbar_record.png in Resources */,

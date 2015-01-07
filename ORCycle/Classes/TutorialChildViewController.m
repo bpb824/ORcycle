@@ -38,48 +38,48 @@
     if(IS_IPHONE_5){
         switch (self.index){
             case 0:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen1.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOS-Report.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 33, 16, 246, 436 );
+                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 1:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen2.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOS-ReportsButton.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 40, 16, 248, 436 );
+                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 2:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen3.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOS-HomeStart.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 33.75, 16, 252.5, 436 );
+                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 3:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOSHomeTrip.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 37.25, 16, 245.5, 436 );
+                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
                 [self.view addSubview:imageView];
                 
                 
             }
                 break;
             case 4:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOSHomeFeedback.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 37.25, 16, 245.5, 436 );
+                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
                 [self.view addSubview:imageView];
                 
                 
             }
                 break;
             case 5:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOSRemindTrip.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 37.25, 16, 245.5, 436 );
+                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
                 [self.view addSubview:imageView];
                 
                 
@@ -91,48 +91,44 @@
     else{
         switch (self.index){
             case 0:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen1.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOS-Report.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 52.8, 16, 214.5, 380 );
+                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 1:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen2.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOS-ReportsButton.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 51.9, 16, 216.2, 380 );
+                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 2:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen3.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOS-HomeStart.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 50, 16, 220.1, 380 );
+                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 3:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOSHomeTrip.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 53, 16, 214.0, 380 );
+                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
                 [self.view addSubview:imageView];
-                
-                
             }
                 break;
             case 4:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOSHomeFeedback.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 53, 16, 214.0, 380 );
+                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
                 [self.view addSubview:imageView];
-                
-                
             }
                 break;
             case 5:{
-                UIImage		*image		= [UIImage imageNamed:@"iOS_TutorialScreen4.png"];
+                UIImage		*image		= [UIImage imageNamed:@"iOSRemindTrip.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 53, 16, 214.0, 380 );
+                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
                 [self.view addSubview:imageView];
                 
                 
