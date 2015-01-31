@@ -807,8 +807,9 @@
                         /*
                         [datePicker addCustomButtonWithTitle:@"Yesterday" value:[[[NSDate date] retain] TC_dateByAddingCalendarUnits:NSDayCalendarUnit amount:-1]];
                          */
-                        
-                        [datePicker setMaximumDate:[NSDate date]];
+                        NSDate *today = [NSDate date];
+                        [datePicker setMaximumDate:today];
+                        [datePicker setMinimumDate: [today dateByAddingTimeInterval:-5*31558149.7676]];
                         datePicker.hideCancel = YES;
                         [datePicker showActionSheetPicker];
                         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -823,7 +824,9 @@
                          [datePicker addCustomButtonWithTitle:@"Yesterday" value:[[[NSDate date] retain] TC_dateByAddingCalendarUnits:NSDayCalendarUnit amount:-1]];
                          */
                         
-                        [datePicker setMaximumDate:[NSDate date]];
+                        NSDate *today = [NSDate date];
+                        [datePicker setMaximumDate:today];
+                        [datePicker setMinimumDate: [today dateByAddingTimeInterval:-5*31558149.7676]];
                         datePicker.hideCancel = YES;
                         [datePicker showActionSheetPicker];
                         cell.accessoryType = UITableViewCellAccessoryCheckmark;

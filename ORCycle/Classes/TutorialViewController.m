@@ -52,7 +52,7 @@
         
     TutorialChildViewController *childViewController = [[TutorialChildViewController alloc] initWithNibName:@"TutorialChildViewController" bundle:nil];
     childViewController.index = index;
-    if (index ==5){
+    if (index ==6){
         
         UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"]
                                 resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
@@ -113,7 +113,7 @@
     
     index++;
     
-    if (index == 6) {
+    if (index == 7) {
         return nil;
     }
     
@@ -123,7 +123,7 @@
 
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
     // The number of items reflected in the page indicator.
-    return 6;
+    return 7;
 }
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {

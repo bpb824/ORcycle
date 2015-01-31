@@ -1,38 +1,57 @@
-/**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
- *
- * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
- *
- * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
- * Cycle Atlanta, and RenoTracks.
- *
-** Reno Tracks, Copyright 2012, 2013 Hack4Reno
- *
- *   @author Brad.Hellyar <bradhellyar@gmail.com>
- *
- *   Updated/Modified for Reno, Nevada app deployment. Based on the
- *   CycleTracks codebase for SFCTA, and the Atlanta Cycle app repo.
- *
- ** CycleTracks, Copyright 2009,2010 San Francisco County Transportation Authority
- *                                    San Francisco, CA, USA
- *
- *   @author Matt Paul <mattpaul@mopimp.com>
- *
- *   This file is part of CycleTracks.
- *
- *   CycleTracks is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
- *   CycleTracks is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
- */
+/*
+**	ORcycle, Copyright 2014, 2015, PSU Transportation, Technology, and People Lab. 
+* 
+*	ORcycle 2.2.0 has introduced new app features: safety focus with new buttons 
+*	to report safety issues and crashes (new questionnaires), expanded trip 
+*	questionnaire (adding questions besides trip purpose), app utilization 
+*	reminders, app tutorial, and updated font and color schemes. 
+*
+*	@author Bryan.Blanc <bryanpblanc@gmail.com>    (code)
+*	@author Miguel Figliozzi <figliozzi@pdx.edu> and ORcycle team (general app 
+*	design and features, report questionnaires and new ORcycle features) 
+*
+*	For more information on the project, go to 
+* 	http://www.pdx.edu/transportation-lab/orcycle 
+*
+*	Updated/modified for Oregon pilot study and app deployment. 
+*
+*	ORcycle is free software: you can redistribute it and/or modify it under the 
+*	terms of the GNU General Public License as published by the Free Software 
+*	Foundation, either version 3 of the License, or any later version.
+*	ORcycle is distributed in the hope that it will be useful, but WITHOUT ANY 
+*	WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR 
+*	A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*	You should have received a copy of the GNU General Public License along with 
+*	ORcycle. If not, see <http://www.gnu.org/licenses/>.
+*
+*
+** 	Reno Tracks, Copyright 2012, 2013 Hack4Reno
+*
+*   @author Brad.Hellyar <bradhellyar@gmail.com>
+*
+*   Updated/Modified for Reno, Nevada app deployment. Based on the
+*   CycleTracks codebase for SFCTA, and the Atlanta Cycle app repo.
+*
+** 	CycleTracks, Copyright 2009,2010 San Francisco County Transportation Authority
+*                                    San Francisco, CA, USA
+*
+*   @author Matt Paul <mattpaul@mopimp.com>
+*
+*   This file is part of CycleTracks.
+*
+*   CycleTracks is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   CycleTracks is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 //
 //  PersonalInfoViewController.m
@@ -884,14 +903,14 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 14;
+    return 15;
 }
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	switch (section) {
         case 0:
-			return @"Links";
+			return @"Links (open a web page)";
 			break;
 		case 1:
 			return @"How would you rate your overall skill and experience level regarding cycling?";
@@ -915,7 +934,7 @@
             return @"Tell us about yourself";
             break;
         case 8:
-            return @"To see your routes and reports in the future and receive updates/news, please provide your email  (email will not be shared, see privacy policy).";
+            return @"To receive updates and news about project outcomes and enhancements (e.g. data maps), please provide your email. Your EMAIL WILL NOT BE SHARED, see our strict privacy policy.";
             break;
         case 9:
             return nil;
@@ -932,6 +951,9 @@
         case 13:
 			return @"Application Version";
 			break;
+        case 14:
+            return @"See tutorial when starting ORcycle?";
+            break;
         
 	}
     return nil;
@@ -942,6 +964,15 @@
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     [header.textLabel setTextColor:[UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000]];
+    if (section == 0){
+        header.textLabel.text = @"LINKS (open a web page)";
+    }
+    else if (section == 8){
+        header.textLabel.text = @"To receive updates and news about project outcomes and enhancements (e.g. data maps), please provide your email. Your EMAIL WILL NOT BE SHARED, see our strict privacy policy.";
+    }
+    else if (section == 10){
+        header.textLabel.text = @"Comment here if you would like to provide feedback about the app or desirable features:";
+    }
     
     CALayer *topLine = [CALayer layer];
     topLine.frame = CGRectMake(0, 0, 320, 0.5);
@@ -951,7 +982,7 @@
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section ==13){
+    if (section ==14){
         return 100;
     } else{
         return 0.01;
@@ -993,16 +1024,19 @@
             return 0;
             break;
         case 10:
-            return 65;
+            return 95;
             break;
         case 11:
-            return 50;
+            return 80;
             break;
         case 12:
             return 50;
             break;
         case 13:
-            return 35;
+            return 65;
+            break;
+        case 14:
+            return 50;
             break;
 		default:
 			return 0;
@@ -1016,7 +1050,7 @@
 	switch ( section )
 	{
         case 0:
-            return 3;
+            return 4;
             break;
         case 1:
             return 1;
@@ -1057,6 +1091,9 @@
         case 13:
             return 1;
             break;
+        case 14:
+            return 1;
+            break;
         default:
 			return 0;
 	}
@@ -1094,7 +1131,7 @@
                     [cell.textLabel setAttributedText:attributedString];
 					break;
                 case 1:
-                    cell.textLabel.text = @"Report to Transportation Agencies";
+                    cell.textLabel.text = @"ORcycle maps";
                     [cell.textLabel setTextColor:[UIColor blueColor]];
                     NSMutableAttributedString *attributedStringTwo = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
                     NSInteger lenTwo = cell.textLabel.text.length;
@@ -1103,6 +1140,15 @@
                     [cell.textLabel setAttributedText:attributedStringTwo];
                     break;
                 case 2:
+                    cell.textLabel.text = @"Report to transportation agencies";
+                    [cell.textLabel setTextColor:[UIColor blueColor]];
+                    NSMutableAttributedString *attributedStringFour = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
+                    NSInteger lenFour = cell.textLabel.text.length;
+                    // Add attribute NSUnderlineStyleAttributeName
+                    [attributedStringFour addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleSingle] range:NSMakeRange(0, lenFour)];
+                    [cell.textLabel setAttributedText:attributedStringFour];
+                    break;
+                case 3:
 					cell.textLabel.text = @"Privacy Policy";
                     [cell.textLabel setTextColor:[UIColor blueColor]];
                     NSMutableAttributedString *attributedStringThree = [[NSMutableAttributedString alloc] initWithString:cell.textLabel.text];
@@ -1511,8 +1557,41 @@
                                             [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
                                             [[UIDevice currentDevice] systemVersion]];
                     cell.textLabel.text = appVersion;
-                    break;
                 }
+                    break;
+
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+            break;
+        case 14:
+        {
+            static NSString *CellIdentifier = @"CellTutorialSwitch";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:{
+                    cell.textLabel.text = @"Tutorial";
+                    UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
+                    cell.accessoryView = switchview;
+                    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"doneWithTutorial"]){
+                        [switchview setOn:false];
+                    }
+                    else{
+                        [switchview setOn:true];
+                    }
+                    switchview.tag = 3;
+                    [switchview addTarget:self action:@selector(tutorialSwitch:) forControlEvents:UIControlEventTouchUpInside];
+                    [switchview release];
+                }
+                break;
             }
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -1793,6 +1872,15 @@
     }
 }
 
+- (void)tutorialSwitch:(UISwitch *)switchView {
+    if([switchView isOn]){
+        [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"doneWithTutorial"];
+    }
+    else{
+        [[NSUserDefaults standardUserDefaults] setBool:true forKey:@"doneWithTutorial"];
+    }
+}
+
 - (void)updateSwitch:(UISwitch *)switchView {
     NSInteger reminderNum = switchView.tag;
     
@@ -2036,8 +2124,11 @@
     NSURL *privacyURL = [NSURL URLWithString:kPrivacyURL];
     NSURLRequest *privacyRequest = [NSMutableURLRequest requestWithURL:privacyURL];
     
-    NSURL *urgentURL = [NSURL URLWithString:kUrgentURL];
-    NSURLRequest *urgentRequest = [NSMutableURLRequest requestWithURL:urgentURL];
+    NSURL *agencyURL = [NSURL URLWithString:kAgencyURL];
+    NSURLRequest *agencyRequest = [NSMutableURLRequest requestWithURL:agencyURL];
+    
+    NSURL *reportMapURL = [NSURL URLWithString:kReportMapURL];
+    NSURLRequest *reportMapRequest = [NSMutableURLRequest requestWithURL:reportMapURL];
     
 	switch ([indexPath indexAtPosition:0])
 	{
@@ -2050,9 +2141,12 @@
                     [[UIApplication sharedApplication] openURL:[request URL]];
 					break;
                 case 1:
-                    [[UIApplication sharedApplication] openURL:[urgentRequest URL]];
+                    [[UIApplication sharedApplication] openURL:[reportMapRequest URL]];
                     break;
                 case 2:
+                    [[UIApplication sharedApplication] openURL:[agencyRequest URL]];
+                    break;
+                case 3:
                     [[UIApplication sharedApplication] openURL:[privacyRequest URL]];
                     break;
 			}

@@ -1,4 +1,4 @@
-/**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
+/**ORcycle, Copyright 2014 & 2015, Portland State University Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
  * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
@@ -118,7 +118,7 @@
     //detailTextView.layer.borderColor = [[UIColor blackColor] CGColor];
     
     routeFreqArray = [[NSArray alloc] initWithObjects:@" ", @"Several times per week", @"Several times per month", @"Several times per year", @"Once per year or less", @"First time ever", nil];
-    routePrefsArray = [[NSArray alloc] initWithObjects:@" ", @"It is direct/fast", @"It has good bicycle facilities", @"It is enjoyable/has nice scenery", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few busy intersections", @"It has few/easy hills", @"It has other riders/people",  @"It is good for families/kids", @"I do not know/have another route", @"I found it on my phone/online", @"Other", nil];
+    routePrefsArray = [[NSArray alloc] initWithObjects:@" ",  @"It is enjoyable/has nice scenery", @"It is good for a workout", @"It has low traffic/low speeds", @"It has few busy intersections", @"It has good bicycle facilities", @"It has few/easy hills", @"It has other riders/people",  @"It is good for families/kids", @"It is direct/fast", @"I do not know/have another route", @"I found it on my phone/online", @"Other", nil];
     routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Good (even for families/children)" , @"Good (for most riders)", @"Average", @"Bad (only for confident riders)", @"Very Bad (unacceptable for most riders)", nil];
     routeSafetyArray = [[NSArray alloc] initWithObjects:@" ", @"Safe/comfortable for families, children, or new riders", @"Safe/comfortable for most riders", @"Safe/comfortable for the average confident rider", @"Only for the highly experienced and/or confident riders (not neccesarily comfortable)", @"Unacceptable", nil];
     ridePassengersArray = [[NSArray alloc] initWithObjects:@" ", @"Alone", @"With a child under 2", @"With a child between 2 and 10", @"With a child/teen over 10", @"With 1 adult", @"With 2+ adults", nil];
@@ -182,31 +182,30 @@
 -(IBAction)saveDetail:(id)sender{
     NSLog(@"Save Detail");
     
-    if ((routeFreqSelectedRow > 10 || routeFreqSelectedRow ==0)){
+    NSInteger numFields = 0;
+    
+    if (routeFreqSelectedRow < 10 && routeFreqSelectedRow !=0){
+       numFields = numFields +1;
+    }
+    
+    if (routeComfortSelectedRow < 10 && routeComfortSelectedRow !=0){
+        numFields = numFields +1;
+    }
+    
+    if ([routePrefsSelectedRows count]!=0){
+        numFields = numFields + 1;
+    }
+    
+    if(numFields < 3 ){
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Insufficient Data"
-                              message:@"You must answer the question 'How often do you ride this route?'"
+                              message:@"You must answer at least the the first three questions about your trip."
                               delegate:nil
                               cancelButtonTitle:@"Okay"
                               otherButtonTitles:nil];
         [alert show];
     }
-   
     else{
-        /*
-        if (routeFreqSelectedRow == 1){
-            
-            
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"High Route Frequency"
-                                  message:@"Thank you for sharing this ride with us. If you ride this route often, there is no need to log/upload it more than a couple of times."
-                                  delegate:nil
-                                  cancelButtonTitle:@"Okay"
-                                  otherButtonTitles:nil];
-            [alert show];
-        }
-         */
-        
         [infoTableView resignFirstResponder];
         [delegate didCancelNote];
         
@@ -500,10 +499,10 @@
         case 0:
 			return @"How often do you ride this route?";
 			break;
-        case 1:
+        case 2:
             return @"I chose this route because... (can select more than one)";
             break;
-        case 2:
+        case 1:
             return @"In terms of comfort, this route is...";
             break;
             /*
@@ -559,26 +558,12 @@
         case 0:
             return 35;
             break;
-        case 1:
+        case 2:
             return 50;
             break;
-		case 2:
+		case 1:
 			return 35;
 			break;
-            /*
-		case 3:
-			return 35;
-			break;
-        case 4:
-			return 50;
-			break;
-        case 5:
-			return 65;
-			break;
-        case 6:
-            return 50;
-            break;
-             */
         case 3:
             return 80;
             break;
@@ -602,36 +587,12 @@
         case 0:
             return 1;
             break;
-        case 1:
+        case 2:
             return 12;
             break;
-        case 2:
+        case 1:
             return 1;
             break;
-            /*
-        case 3:
-            return 1;
-            break;
-        case 4:
-            if (isAlone){
-                return 1;
-            }
-            else{
-                return 6;
-            }
-            break;
-        case 5:
-            if (isNone){
-                return 1;
-            }
-            else{
-                return 5;
-            }
-            break;
-        case 6:
-            return 1;
-            break;
-             */
         case 3:
             if (isNotConcerned){
                 return 1;
@@ -686,7 +647,7 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
-        case 1:
+        case 2:
 		{
 			static NSString *CellIdentifier = @"CellRoutePrefs";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -752,7 +713,7 @@
             [cell.textLabel setNumberOfLines:0];
 		}
 			break;
-        case 2:
+        case 1:
 		{
 			static NSString *CellIdentifier = @"CellRouteComfort";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1151,7 +1112,7 @@
 			}
 			break;
         }
-        case 1:
+        case 2:
 		{
             UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             if(cell.accessoryType == UITableViewCellAccessoryNone) {
@@ -1170,7 +1131,7 @@
             }
             break;
         }
-        case 2:
+        case 1:
 		{
             switch ([indexPath indexAtPosition:1])
 			{
@@ -1309,7 +1270,7 @@
                 NSMutableString *otherRoutePrefsString = [NSMutableString stringWithFormat: @"Other ("];
                 [otherRoutePrefsString appendString:self.otherRoutePrefs];
                 [otherRoutePrefsString appendString:@")"];
-                NSIndexPath *index =  [NSIndexPath indexPathForRow:11 inSection:1];
+                NSIndexPath *index =  [NSIndexPath indexPathForRow:11 inSection:2];
                 UITableViewCell *cell = [self.infoTableView cellForRowAtIndexPath: index];
                 cell.textLabel.text = otherRoutePrefsString;
             }

@@ -1,38 +1,57 @@
-/**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
- *
- * @author Bryan.Blanc <bryanpblanc@gmail.com>
- * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle
- *
- * Updated/modified for Oregon Department of Transportation app deployment. Based on the CycleTracks codebase for SFCTA
- * Cycle Atlanta, and RenoTracks.
- *
-** Reno Tracks, Copyright 2012, 2013 Hack4Reno
- *
- *   @author Brad.Hellyar <bradhellyar@gmail.com>
- *
- *   Updated/Modified for Reno, Nevada app deployment. Based on the
- *   CycleTracks codebase for SFCTA, and the Atlanta Cycle app repo.
- *
- ** CycleTracks, Copyright 2009,2010 San Francisco County Transportation Authority
- *                                    San Francisco, CA, USA
- *
- *   @author Matt Paul <mattpaul@mopimp.com>
- *
- *   This file is part of CycleTracks.
- *
- *   CycleTracks is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
- *   CycleTracks is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
- */
+/*
+**	ORcycle, Copyright 2014, 2015, PSU Transportation, Technology, and People Lab. 
+* 
+*	ORcycle 2.2.0 has introduced new app features: safety focus with new buttons 
+*	to report safety issues and crashes (new questionnaires), expanded trip 
+*	questionnaire (adding questions besides trip purpose), app utilization 
+*	reminders, app tutorial, and updated font and color schemes. 
+*
+*	@author Bryan.Blanc <bryanpblanc@gmail.com>    (code)
+*	@author Miguel Figliozzi <figliozzi@pdx.edu> and ORcycle team (general app 
+*	design and features, report questionnaires and new ORcycle features) 
+*
+*	For more information on the project, go to 
+* 	http://www.pdx.edu/transportation-lab/orcycle 
+*
+*	Updated/modified for Oregon pilot study and app deployment. 
+*
+*	ORcycle is free software: you can redistribute it and/or modify it under the 
+*	terms of the GNU General Public License as published by the Free Software 
+*	Foundation, either version 3 of the License, or any later version.
+*	ORcycle is distributed in the hope that it will be useful, but WITHOUT ANY 
+*	WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR 
+*	A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+*	You should have received a copy of the GNU General Public License along with 
+*	ORcycle. If not, see <http://www.gnu.org/licenses/>.
+*
+*
+** 	Reno Tracks, Copyright 2012, 2013 Hack4Reno
+*
+*   @author Brad.Hellyar <bradhellyar@gmail.com>
+*
+*   Updated/Modified for Reno, Nevada app deployment. Based on the
+*   CycleTracks codebase for SFCTA, and the Atlanta Cycle app repo.
+*
+** 	CycleTracks, Copyright 2009,2010 San Francisco County Transportation Authority
+*                                    San Francisco, CA, USA
+*
+*   @author Matt Paul <mattpaul@mopimp.com>
+*
+*   This file is part of CycleTracks.
+*
+*   CycleTracks is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   CycleTracks is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with CycleTracks.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 //
 //  RecordTripViewController.m
@@ -91,7 +110,7 @@
                 break;
             case kCLAuthorizationStatusDenied:
             {
-                UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"Error" message:@"App level settings has been denied" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+                UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"Error" message:@"App level settings have been denied. Please allow ORcycle to access location services in Settings>Privacy>Location Services." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
                 [alert show];
                 alert= nil;
             }
@@ -600,7 +619,7 @@
 	if ( [self hasUserInfoBeenSaved] )
 		[self setSaved:YES];
     else{
-        /*
+        
         UIAlertView *alert = [[UIAlertView alloc]
                               initWithTitle:@"Tell us more about yourself"
                               message:@"Please answer at least the first six questions about your biking habits on the 'User' screen."
@@ -608,7 +627,7 @@
                               cancelButtonTitle:@"Later"
                               otherButtonTitles:@"Okay", nil];
         [alert show];
-         */
+    
     }
     
     //self.slowSpeedsArray = [[NSMutableArray alloc] init];
@@ -709,7 +728,7 @@
         }
 
     }
-    else if([alertView.title isEqualToString:@"Report Problem"]){
+    else if([alertView.title isEqualToString:@"Report Map"]){
         NSLog(@"Alertview button detected");
         if(buttonIndex == 0){
             alertView.delegate = nil;
@@ -717,7 +736,7 @@
         }
         if( buttonIndex == 1 ) /* NO = 0, YES = 1 */
         {
-            NSURL *url = [NSURL URLWithString:kUrgentURL];
+            NSURL *url = [NSURL URLWithString:kReportMapURL];
             NSURLRequest *request = [NSMutableURLRequest requestWithURL:url];
             [[UIApplication sharedApplication] openURL:[request URL]];
             alertView.delegate = nil;
@@ -1031,8 +1050,8 @@
     Note *note = noteManager.note;
     
     UIAlertView *urgent = [[UIAlertView alloc]
-                              initWithTitle:@"Report Problem"
-                              message:@"Contact the agency that has jurisdiction over the facility to ensure a prompt response to a road hazard."
+                              initWithTitle:@"Report Map"
+                              message:@"To see maps with reported safety issues visit the ORcycle webpage."
                               delegate:self
                               cancelButtonTitle:@"Later"
                               otherButtonTitles:@"Now",nil];
@@ -1717,7 +1736,7 @@ shouldSelectViewController:(UIViewController *)viewController
     
     UIAlertView *tutorial = [[UIAlertView alloc]
                          initWithTitle:@"Tutorial"
-                         message:@"Do you want to see the tutorial again next time you open ORcycle?"
+                         message:@"You can turn the tutorial on/off in the user screen. Do you want to see the tutorial next time you open ORcycle"
                          delegate:self
                          cancelButtonTitle:@"Yes"
                          otherButtonTitles:@"No",nil];

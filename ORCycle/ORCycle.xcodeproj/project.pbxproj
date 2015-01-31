@@ -40,6 +40,7 @@
 		1F4CD8691A586484009934AE /* iOSHomeFeedback.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8631A586484009934AE /* iOSHomeFeedback.png */; };
 		1F4CD86A1A586484009934AE /* iOSHomeTrip.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8641A586484009934AE /* iOSHomeTrip.png */; };
 		1F4CD86B1A586484009934AE /* iOSRemindTrip.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4CD8651A586484009934AE /* iOSRemindTrip.png */; };
+		1F4DF07A1A7AE52200EC1E5B /* iOS-LinkOut.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F4DF0791A7AE52200EC1E5B /* iOS-LinkOut.png */; };
 		1F4DFE7019BD760D00ED40F8 /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */; };
 		1F4DFE7619BD79BA00ED40F8 /* SWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4DFE7519BD79BA00ED40F8 /* SWActionSheet.m */; };
 		1F4EE8881A44735B00C73D00 /* 1to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F4EE8871A44735B00C73D00 /* 1to6.xcmappingmodel */; };
@@ -258,6 +259,7 @@
 		1F4CD8631A586484009934AE /* iOSHomeFeedback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOSHomeFeedback.png; sourceTree = "<group>"; };
 		1F4CD8641A586484009934AE /* iOSHomeTrip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOSHomeTrip.png; sourceTree = "<group>"; };
 		1F4CD8651A586484009934AE /* iOSRemindTrip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iOSRemindTrip.png; sourceTree = "<group>"; };
+		1F4DF0791A7AE52200EC1E5B /* iOS-LinkOut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS-LinkOut.png"; sourceTree = "<group>"; };
 		1F4DFE6E19BD760D00ED40F8 /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetStringPicker.h; sourceTree = "<group>"; };
 		1F4DFE6F19BD760D00ED40F8 /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
 		1F4DFE7419BD79BA00ED40F8 /* SWActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWActionSheet.h; sourceTree = "<group>"; };
@@ -626,6 +628,7 @@
 		1F4CD85F1A586484009934AE /* Tutorial Screens */ = {
 			isa = PBXGroup;
 			children = (
+				1F4DF0791A7AE52200EC1E5B /* iOS-LinkOut.png */,
 				1F4CD8601A586484009934AE /* iOS-HomeStart.png */,
 				1F4CD8611A586484009934AE /* iOS-Report.png */,
 				1F4CD8621A586484009934AE /* iOS-ReportsButton.png */,
@@ -984,6 +987,7 @@
 				A20B63231801E5160039391D /* AppIcon60x60@2x.png in Resources */,
 				1F540F9E19C49A7F0029CEA5 /* 1. note_severity_map_icon.png in Resources */,
 				9D4647BD1604EBF400A4F9CB /* greenButtonHighlight.png in Resources */,
+				1F4DF07A1A7AE52200EC1E5B /* iOS-LinkOut.png in Resources */,
 				1FD9E13719F6C3E300A0189B /* noteassetmapglyph_high-orange.png in Resources */,
 				1F0E4D7319B0ECAA0015B943 /* NoteDetailViewController.xib in Resources */,
 				1C94196B1825F0F600D5925A /* tabbar_settings.png in Resources */,
@@ -1166,7 +1170,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1176,7 +1180,7 @@
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
-				PROVISIONING_PROFILE = "afde5f68-5366-4ae7-b597-8209ea23e5ed";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "afde5f68-5366-4ae7-b597-8209ea23e5ed";
 				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1188,7 +1192,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Miguel Figliozzi (58PVL896L5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1196,7 +1200,7 @@
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
-				PROVISIONING_PROFILE = "fbc3c95e-f345-4364-98e0-137eca493a69";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1212,7 +1216,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "fbc3c95e-f345-4364-98e0-137eca493a69";
+				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "1623304a-ac55-4a10-82fd-f718cfa8c5d5";
 				SDKROOT = iphoneos7.0;
 			};
 			name = Distribution;
@@ -1222,7 +1226,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Miguel Figliozzi (58PVL896L5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1230,8 +1234,8 @@
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
-				PROVISIONING_PROFILE = "da9eee31-254b-4797-8846-6d34a65a5d49";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "fbc3c95e-f345-4364-98e0-137eca493a69";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1623304a-ac55-4a10-82fd-f718cfa8c5d5";
 				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1259,7 +1263,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Miguel Figliozzi (58PVL896L5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1269,7 +1273,7 @@
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = ORcycle;
-				PROVISIONING_PROFILE = "CEE0985D-C26B-4FA2-BFBE-786219176367";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos7.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1296,7 +1300,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

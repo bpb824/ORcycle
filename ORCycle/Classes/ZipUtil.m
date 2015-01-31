@@ -1,4 +1,4 @@
-/**ORcycle, Copyright 2014, PSU Transportation, Technology, and People Lab
+/**ORcycle, Copyright 2014 & 2015, Portland State University Transportation, Technology, and People Lab
  *
  * @author Bryan.Blanc <bryanpblanc@gmail.com>
  * For more info on the project, go to http://www.pdx.edu/transportation-lab/orcycle

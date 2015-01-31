@@ -40,28 +40,28 @@
             case 0:{
                 UIImage		*image		= [UIImage imageNamed:@"iOS-Report.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
+                imageView.frame = CGRectMake( 13.52, 10, 292.96, 520 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 1:{
                 UIImage		*image		= [UIImage imageNamed:@"iOS-ReportsButton.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
+                imageView.frame = CGRectMake( 13.52, 10, 292.96, 520 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 2:{
                 UIImage		*image		= [UIImage imageNamed:@"iOS-HomeStart.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
+                imageView.frame = CGRectMake( 13.52, 10, 292.96, 520 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 3:{
                 UIImage		*image		= [UIImage imageNamed:@"iOSHomeTrip.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
+                imageView.frame = CGRectMake( 13.52, 10, 292.96, 520 );
                 [self.view addSubview:imageView];
                 
                 
@@ -70,7 +70,7 @@
             case 4:{
                 UIImage		*image		= [UIImage imageNamed:@"iOSHomeFeedback.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
+                imageView.frame = CGRectMake( 13.52, 10, 292.96, 520 );
                 [self.view addSubview:imageView];
                 
                 
@@ -79,7 +79,16 @@
             case 5:{
                 UIImage		*image		= [UIImage imageNamed:@"iOSRemindTrip.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 34.93, 16, 250.14, 444 );
+                imageView.frame = CGRectMake( 13.52, 10, 292.96, 520 );
+                [self.view addSubview:imageView];
+                
+                
+            }
+                break;
+            case 6:{
+                UIImage		*image		= [UIImage imageNamed:@"iOS-LinkOut.png"];
+                UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+                imageView.frame = CGRectMake( 13.52, 10, 292.96, 520 );
                 [self.view addSubview:imageView];
                 
                 
@@ -93,47 +102,57 @@
             case 0:{
                 UIImage		*image		= [UIImage imageNamed:@"iOS-Report.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
+                imageView.frame = CGRectMake( 41.13, 10, 237.75, 422 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 1:{
                 UIImage		*image		= [UIImage imageNamed:@"iOS-ReportsButton.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
+                imageView.frame = CGRectMake( 41.13, 10, 237.75, 422 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 2:{
                 UIImage		*image		= [UIImage imageNamed:@"iOS-HomeStart.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
+                imageView.frame = CGRectMake( 41.13, 10, 237.75, 422 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 3:{
                 UIImage		*image		= [UIImage imageNamed:@"iOSHomeTrip.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
+                imageView.frame = CGRectMake( 41.13, 10, 237.75, 422 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 4:{
                 UIImage		*image		= [UIImage imageNamed:@"iOSHomeFeedback.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
+                imageView.frame = CGRectMake( 41.13, 10, 237.75, 422 );
                 [self.view addSubview:imageView];
             }
                 break;
             case 5:{
                 UIImage		*image		= [UIImage imageNamed:@"iOSRemindTrip.png"];
                 UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
-                imageView.frame = CGRectMake( 58.59, 16, 202.82, 360 );
+                imageView.frame = CGRectMake( 41.13, 10, 237.75, 422 );
                 [self.view addSubview:imageView];
                 
                 
             }
                 break;
+            case 6:{
+                UIImage		*image		= [UIImage imageNamed:@"iOS-LinkOut.png"];
+                UIImageView *imageView	= [[[UIImageView alloc] initWithImage:image] autorelease];
+                imageView.frame = CGRectMake( 41.13, 10, 237.75, 422 );
+                [self.view addSubview:imageView];
+                
+                
+            }
+                break;
+
         }
 
     }
