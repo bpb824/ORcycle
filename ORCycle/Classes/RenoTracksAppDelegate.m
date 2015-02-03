@@ -13,7 +13,7 @@
 *	design and features, report questionnaires and new ORcycle features) 
 *
 *	For more information on the project, go to 
-* 	http://www.pdx.edu/transportation-lab/orcycle 
+* 	http://www.pdx.edu/transportation-lab/orcycle  and http://www.pdx.edu/transportation-lab/app-development
 *
 *	Updated/modified for Oregon pilot study and app deployment. 
 *
