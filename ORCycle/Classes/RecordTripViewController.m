@@ -1736,7 +1736,7 @@ shouldSelectViewController:(UIViewController *)viewController
     
     UIAlertView *tutorial = [[UIAlertView alloc]
                          initWithTitle:@"Tutorial"
-                         message:@"You can turn the tutorial on/off in the user screen. Do you want to see the tutorial next time you open ORcycle"
+                         message:@"You can turn the tutorial on/off in the user screen. Do you want to see the tutorial next time you open ORcycle?"
                          delegate:self
                          cancelButtonTitle:@"Yes"
                          otherButtonTitles:@"No",nil];
