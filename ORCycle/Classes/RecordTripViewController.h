@@ -66,6 +66,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "ActivityIndicatorDelegate.h"
 #import <MapKit/MapKit.h>
+#import <MessageUI/MessageUI.h>
 #import "PersonalInfoDelegate.h"
 #import "RecordingInProgressDelegate.h"
 #import "TripPurposeDelegate.h"
@@ -92,7 +93,7 @@
     NoteDetailDelegate,
 	UIActionSheetDelegate,
 	UIAlertViewDelegate,
-	UITextViewDelegate, TutorialDelegate>
+	UITextViewDelegate, TutorialDelegate, MFMailComposeViewControllerDelegate>
 {
     NSManagedObjectContext *managedObjectContext;
 	RenoTracksAppDelegate *appDelegate;

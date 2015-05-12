@@ -70,6 +70,9 @@
 		1F78153719F583A600100D47 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F78153619F583A600100D47 /* LocationController.m */; };
 		1F78153A19F59E1A00100D47 /* iconMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F78153819F59E1A00100D47 /* iconMap.png */; };
 		1F78153B19F59E1A00100D47 /* iconMap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F78153919F59E1A00100D47 /* iconMap@2x.png */; };
+		1FA717501B015B390014E263 /* EmailReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA7174F1B015B390014E263 /* EmailReportViewController.xib */; };
+		1FA717531B0164080014E263 /* MessageComposerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FA717521B0164080014E263 /* MessageComposerAppDelegate.m */; };
+		1FA717551B0164880014E263 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA717541B0164880014E263 /* MessageUI.framework */; };
 		1FBEA49B1A9D4F5900603FD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FBEA49A1A9D4F5900603FD3 /* Images.xcassets */; };
 		1FC294CD197DFB5000225AAD /* TripResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294CC197DFB5000225AAD /* TripResponse.m */; };
 		1FC294E2198B136E00225AAD /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC294E1198B136E00225AAD /* CustomCell.m */; };
@@ -302,6 +305,10 @@
 		1F78153619F583A600100D47 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		1F78153819F59E1A00100D47 /* iconMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconMap.png; sourceTree = "<group>"; };
 		1F78153919F59E1A00100D47 /* iconMap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconMap@2x.png"; sourceTree = "<group>"; };
+		1FA7174F1B015B390014E263 /* EmailReportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmailReportViewController.xib; sourceTree = "<group>"; };
+		1FA717511B0164080014E263 /* MessageComposerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerAppDelegate.h; sourceTree = "<group>"; };
+		1FA717521B0164080014E263 /* MessageComposerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposerAppDelegate.m; sourceTree = "<group>"; };
+		1FA717541B0164880014E263 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		1FBEA49A1A9D4F5900603FD3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1FC294CB197DFB5000225AAD /* TripResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripResponse.h; sourceTree = "<group>"; };
 		1FC294CC197DFB5000225AAD /* TripResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripResponse.m; sourceTree = "<group>"; };
@@ -497,6 +504,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FA717551B0164880014E263 /* MessageUI.framework in Frameworks */,
 				9D504DA416B6D0AE00B99EBC /* libz.dylib in Frameworks */,
 				8FD696E91655E36600324E6E /* MediaPlayer.framework in Frameworks */,
 				8FD696E61655E35800324E6E /* MobileCoreServices.framework in Frameworks */,
@@ -597,6 +605,8 @@
 				1FE958B91A3E1CDD0016FAEF /* TutorialChildViewController.h */,
 				1FE958BA1A3E1CDD0016FAEF /* TutorialChildViewController.m */,
 				1FE958BB1A3E1CDD0016FAEF /* TutorialChildViewController.xib */,
+				1FA717511B0164080014E263 /* MessageComposerAppDelegate.h */,
+				1FA717521B0164080014E263 /* MessageComposerAppDelegate.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -717,6 +727,7 @@
 				64119A9B1068665B00C201F0 /* TripPurposePicker.xib */,
 				8F1B1D40164B94E90022B776 /* DetailView.xib */,
 				64FCC5B311352242000FA1B6 /* PersonalInfo.xib */,
+				1FA7174F1B015B390014E263 /* EmailReportViewController.xib */,
 				1F78152919F5741D00100D47 /* SetReportLocationView.xib */,
 			);
 			name = Resources;
@@ -725,6 +736,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FA717541B0164880014E263 /* MessageUI.framework */,
 				8FD696E81655E36600324E6E /* MediaPlayer.framework */,
 				8FD696E51655E35800324E6E /* MobileCoreServices.framework */,
 				642647FC107435A200E43DEF /* AudioToolbox.framework */,
@@ -981,6 +993,7 @@
 				A20B63211801E5160039391D /* AppIcon40x40@2x.png in Resources */,
 				1FD4FE1F19EB2EB8005A7542 /* checked_checkbox.png in Resources */,
 				1F78153419F57B7100100D47 /* cross-hairs-small-yellow-cropped.png in Resources */,
+				1FA717501B015B390014E263 /* EmailReportViewController.xib in Resources */,
 				9D4647BA1604EBF400A4F9CB /* blueButtonHighlight@2x.png in Resources */,
 				1C77FC1918B276B400E1E30F /* scalleyCat.png in Resources */,
 				9D4647BB1604EBF400A4F9CB /* greenButton.png in Resources */,
@@ -1125,6 +1138,7 @@
 				1F4EE8901A4473A600C73D00 /* 5to6.xcmappingmodel in Sources */,
 				64119ABF10689ED800C201F0 /* PickerViewController.m in Sources */,
 				64119F041069ACF800C201F0 /* TripManager.m in Sources */,
+				1FA717531B0164080014E263 /* MessageComposerAppDelegate.m in Sources */,
 				64F823E1106AC151001413F8 /* SaveRequest.m in Sources */,
 				642F15271071DA700050BCB9 /* MapViewController.m in Sources */,
 				1F78152419F56E5F00100D47 /* SetReportLocationViewController.m in Sources */,
@@ -1182,7 +1196,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "afde5f68-5366-4ae7-b597-8209ea23e5ed";
@@ -1202,7 +1216,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1218,7 +1232,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "1623304a-ac55-4a10-82fd-f718cfa8c5d5";
 				SDKROOT = iphoneos;
@@ -1236,7 +1250,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1623304a-ac55-4a10-82fd-f718cfa8c5d5";
@@ -1254,7 +1268,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
 				SDKROOT = iphoneos;
@@ -1275,7 +1289,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1291,7 +1305,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
 				SDKROOT = iphoneos;
@@ -1310,7 +1324,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1326,7 +1340,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
 				SDKROOT = iphoneos;
@@ -1341,7 +1355,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "7682DFBF-AE70-4C0B-AED0-DC1BBCD2D87F";
 				SDKROOT = iphoneos;
