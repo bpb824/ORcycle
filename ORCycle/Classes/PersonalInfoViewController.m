@@ -2646,6 +2646,11 @@
             self.feedback = mutableFeedback;
             [user setFeedback:feedback];
             NSLog(@"saved feedback: %@", user.feedback);
+            
+            UIAlertView* feedbackSaved = [[UIAlertView alloc] initWithTitle:@"Feedback was saved" message:@"Your feedback has been receieved, thank you!" delegate:self cancelButtonTitle:@"Done" otherButtonTitles: nil];
+            [feedbackSaved show];
+            
+            
 
         }
     }

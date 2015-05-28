@@ -948,7 +948,7 @@
                         crashReasonsString = [NSMutableString stringWithFormat:@"No crash reasons documented"];
                     }
                     
-                    emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>E-mail address for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap];
+                    emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap];
 
                     
                 }else{
@@ -1045,7 +1045,7 @@
                             break;
                     }
 
-                    emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>E-mail address for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Location: %@",urgencyString,issueTypeString,googleMap];
+                    emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Location: %@",urgencyString,issueTypeString,googleMap];
                     
                 }
                 
@@ -1404,7 +1404,7 @@
     
     UIAlertView *urgent = [[UIAlertView alloc]
                               initWithTitle:@"Send E-mail?"
-                              message:@"Do you want to send an e-mail including report info for faster response?"
+                              message:@"Would you like to send an auto-generated e-mail to a transportation agency regarding your report? Please include your name and phone number so you can be contacted regarding the report."
                               delegate:self
                               cancelButtonTitle:@"No"
                               otherButtonTitles:@"Yes",nil];
