@@ -728,6 +728,21 @@
         }
 
     }
+    else if([alertView.title isEqualToString:@"Report Map"]){
+        if(buttonIndex == 0){
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+        if( buttonIndex == 1 ) /* NO = 0, YES = 1 */
+        {
+            NSURL *url = [NSURL URLWithString:kReportMapURL];
+            NSURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+            [[UIApplication sharedApplication] openURL:[request URL]];
+            alertView.delegate = nil;
+            [alertView.delegate release];
+        }
+        
+    }
     else if([alertView.title isEqualToString:@"Send E-mail?"]){
         NSLog(@"Alertview button detected");
         if(buttonIndex == 0){
@@ -1112,6 +1127,16 @@
     }
     
     [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    
+    UIAlertView *reportMap = [[UIAlertView alloc]
+                          initWithTitle:@"Report Map"
+                          message:@"To see maps with reported safety issues visit the ORcycle webpage."
+                          delegate:self
+                          cancelButtonTitle:@"Later"
+                          otherButtonTitles:@"Now", nil];
+    [reportMap show];
+    
 }
 
 - (UIButton *)createNoteButton
@@ -1402,14 +1427,14 @@
 {
     Note *note = noteManager.note;
     
-    UIAlertView *urgent = [[UIAlertView alloc]
+    UIAlertView *email = [[UIAlertView alloc]
                               initWithTitle:@"Send E-mail?"
                               message:@"Would you like to send an auto-generated e-mail to a transportation agency regarding your report? Please include your name and phone number so you can be contacted regarding the report."
                               delegate:self
                               cancelButtonTitle:@"No"
                               otherButtonTitles:@"Yes",nil];
         
-    [urgent show];
+    [email show];
     
     // load map view of note
     NoteViewController *mvc = [[NoteViewController alloc] initWithNote:note];
