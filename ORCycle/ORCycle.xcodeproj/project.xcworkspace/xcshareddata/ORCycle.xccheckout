@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>5FC3878D-F239-4B22-B0C6-B763B0B43A84</string>
 	<key>IDESourceControlProjectName</key>
-	<string>ORCycle</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>AA7A6B02226AD467B676C9311C1A12C2DDE0B1ED</key>
 		<string>https://github.com/bpb824/ORcycle.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ORCycle/ORCycle.xcodeproj</string>
+	<string>ORCycle/ORCycle.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>AA7A6B02226AD467B676C9311C1A12C2DDE0B1ED</key>

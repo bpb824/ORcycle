@@ -47,6 +47,8 @@
 @property (nonatomic, retain) NSData * thumbnail;
 @property (nonatomic, retain) NSDate * uploaded;
 @property (nonatomic, retain) User *user;
+@property (nonatomic, retain) NSNumber *imageLatitude;
+@property (nonatomic, retain) NSNumber * imageLongitude;
 
 @property (nonatomic) BOOL isCrash;
 @property (nonatomic, retain) NSNumber *urgency;

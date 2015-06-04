@@ -55,6 +55,10 @@
 
 #import "DetailViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
+#import <AssetsLibrary/ALAsset.h>
+#import <AssetsLibrary/ALAssetRepresentation.h>
+#import <ImageIO/CGImageSource.h>
+#import <ImageIO/CGImageProperties.h>
 #import "NoteManager.h"
 #import "ImageResize.h"
 
@@ -75,6 +79,7 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 @synthesize imageFrameView;
 @synthesize lastChosenMediaType;
 @synthesize imageData;
+@synthesize imgLat, imgLong, metaInfo;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -154,6 +159,11 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
     [noteDelegate didEnterNoteDetails:details];
     [noteDelegate didSaveImage:imageData];
     
+    if (self.imgLong && self.imgLat){
+        [noteDelegate didSaveImgLat:self.imgLat];
+        [noteDelegate didSaveImgLong:self.imgLong];
+    }
+    
     //[self dismissViewControllerAnimated:YES completion:nil];
     
     [noteDelegate saveNote];
@@ -209,6 +219,40 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
+    
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera){
+        CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+        [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        [locationManager setDelegate:self]; // Not necessary in this case
+        [locationManager startUpdatingLocation];
+        
+        self.imgLat = [NSNumber numberWithDouble: locationManager.location.coordinate.latitude];
+        self.imgLong = [NSNumber numberWithDouble: locationManager.location.coordinate.longitude];
+        [locationManager release];
+        
+    }else{
+        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+        [library assetForURL:[info objectForKey:UIImagePickerControllerReferenceURL]
+                 resultBlock:^(ALAsset *asset) {
+                     
+                     self.metaInfo = asset.defaultRepresentation.metadata;
+                     NSLog(@"Metadata dictionary inside result block: %@",self.metaInfo);
+                     self.imgLat = [NSNumber numberWithDouble: [metaInfo[@"{GPS}"][@"Latitude"] doubleValue]];
+                     self.imgLong = [NSNumber numberWithDouble: [metaInfo[@"{GPS}"][@"Longitude"] doubleValue]*-1];
+                     NSLog(@"GPS Latitude: %@",metaInfo[@"{GPS}"][@"Latitude"]);
+                     NSLog(@"GPS Longitude: %@",metaInfo[@"{GPS}"][@"Longitude"]);
+                 }
+                failureBlock:^(NSError *error) {
+                    NSLog(@"couldn't get asset: %@", error);
+                }
+         ];
+    }
+    
+    
+    NSLog(@"Metadata dictionary: %@",self.metaInfo);
+    
+   // NSLog(@"Picture information: %@",info);
+    
     //original
     UIImage *castedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     //save to library
@@ -232,6 +276,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     }];
     
 }
+
+
 
 #pragma mark  -
 
@@ -308,7 +354,11 @@ static UIImage *shrinkImage(UIImage *original, CGSize size) {
     self.imageFrame = nil;
     self.imageData = nil;
     self.lastChosenMediaType = nil;
-    
+    self.imgLat = nil;
+    self.imgLong = nil;
+
+    [imgLong release];
+    [imgLat release];
     [noteDelegate release];
     [detailTextView release];
     [addPicButton release];

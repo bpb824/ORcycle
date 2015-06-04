@@ -63,6 +63,8 @@
 //	e-mail Billy Charlton at the SFCTA <billy.charlton@sfcta.org>
 
 #include <AudioToolbox/AudioToolbox.h>
+#import <QuartzCore/QuartzCore.h>
+#import "EXF.h"
 #import "constants.h"
 #import "MapViewController.h"
 #import "NoteViewController.h"
@@ -765,8 +767,9 @@
                 NSString *urgencyString = [[NSString alloc]init];
                 NSMutableString *issueTypeString = [[NSMutableString alloc]init];
                 NSString *googleMap = [[NSString alloc]init];
-                googleMap = [NSString stringWithFormat:@"<a href = 'http://maps.google.com/maps?q=%@,%@&ll=%@,%@&z=16'>Google Map</a>",noteManager.note.latitude,noteManager.note.longitude,noteManager.note.latitude,noteManager.note.longitude];
+
                 
+                googleMap = [NSString stringWithFormat:@"<a href = 'http://maps.google.com/maps?q=%@,%@&ll=%@,%@&z=16'>Google Map</a>",noteManager.note.latitude,noteManager.note.longitude,noteManager.note.latitude,noteManager.note.longitude];
                 
                 if(noteManager.note.isCrash){
                     reportType = @"Crash Report";
@@ -963,7 +966,30 @@
                         crashReasonsString = [NSMutableString stringWithFormat:@"No crash reasons documented"];
                     }
                     
-                    emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap];
+                    if([noteManager.note.imageLatitude doubleValue] !=0){
+                        
+                        NSString *imageMap = [[NSString alloc]init];
+                        
+                        NSNumber *latVal = noteManager.note.imageLatitude;
+                        NSNumber *longVal = noteManager.note.imageLongitude;
+                        
+                        
+                        NSLog(@"Longitude: %@, Latitude: %@",longVal,latVal);
+                        
+                        
+                        imageMap = [NSString stringWithFormat:@"<a href = 'http://maps.google.com/maps?q=%@,%@&ll=%@,%@&z=16'>Google Map</a>",latVal,longVal,latVal,longVal];
+                        
+                        NSLog(@"%@",imageMap);
+                        
+                        
+                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Location: %@ <br><br/>Image Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap,imageMap];
+                    }else{
+                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Location: %@ ",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap];
+                        
+                    }
+
+                    
+                    
 
                     
                 }else{
@@ -1060,7 +1086,28 @@
                             break;
                     }
 
-                    emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Location: %@",urgencyString,issueTypeString,googleMap];
+                    if([noteManager.note.imageLatitude doubleValue] !=0){
+                        
+                        NSString *imageMap = [[NSString alloc]init];
+                        
+                        NSNumber *latVal = noteManager.note.imageLatitude;
+                        NSNumber *longVal = noteManager.note.imageLongitude;
+                        
+                        
+                        NSLog(@"Longitude: %@, Latitude: %@",longVal,latVal);
+                        
+                        
+                        imageMap = [NSString stringWithFormat:@"<a href = 'http://maps.google.com/maps?q=%@,%@&ll=%@,%@&z=16'>Google Map</a>",latVal,longVal,latVal,longVal];
+                        
+                        NSLog(@"%@",imageMap);
+
+                        
+                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Location: %@ <br><br/>Image Location: %@",urgencyString,issueTypeString,googleMap,imageMap];
+                    }else{
+                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Location: %@ ",urgencyString,issueTypeString,googleMap];
+                        
+                    }
+                    
                     
                 }
                 
@@ -1077,7 +1124,7 @@
                 
                 
                 if(noteManager.note.image_data){
-                    [mail addAttachmentData:noteManager.note.image_data mimeType:@"image/jpeg" fileName: [NSString stringWithFormat:@"Report_%@",reportDate]];
+                    [mail addAttachmentData:noteManager.note.image_data mimeType:@"image/jpeg" fileName: [NSString stringWithFormat:@"Report_%@.jpg",reportDate]];
                 }
                 
                 
@@ -2352,6 +2399,18 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void)didSaveImage:(NSData *)imgData{
     [noteManager.note setImage_data:imgData];
     NSLog(@"Added image, Size of Image(bytes):%lu", (unsigned long)[imgData length]);
+    //[imgData release];
+}
+
+- (void)didSaveImgLat:(NSNumber *)imgLat{
+    [noteManager.note setImageLatitude:imgLat];
+    NSLog(@"Added image with latitude =%@", imgLat);
+    //[imgData release];
+}
+
+- (void)didSaveImgLong:(NSNumber *)imgLong{
+    [noteManager.note setImageLongitude:imgLong];
+    NSLog(@"Added image with longitude =%@", imgLong);
     //[imgData release];
 }
 

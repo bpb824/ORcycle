@@ -67,6 +67,8 @@
 #import "ActivityIndicatorDelegate.h"
 #import <MapKit/MapKit.h>
 #import <MessageUI/MessageUI.h>
+#import <ImageIO/ImageIO.h>
+#import "EXF.h"
 #import "PersonalInfoDelegate.h"
 #import "RecordingInProgressDelegate.h"
 #import "TripPurposeDelegate.h"

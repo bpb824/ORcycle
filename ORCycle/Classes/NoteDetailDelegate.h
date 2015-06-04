@@ -21,6 +21,8 @@
 - (void)didPickNoteType:(NSNumber *)index;
 - (void)didEnterNoteDetails:(NSString *)details;
 - (void)didSaveImage:(NSData *)imgData;
+- (void)didSaveImgLat:(NSNumber *)imgLat;
+- (void)didSaveImgLong:(NSNumber *)imgLong;
 - (void)getNoteThumbnail:(NSData *)imgData;
 - (void)saveNote;
 - (void)openDetailPage;

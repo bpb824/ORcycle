@@ -216,6 +216,10 @@
 		A2B263381801C8140015F89B /* workRelated@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263181801C8140015F89B /* workRelated@2x.png */; };
 		A2B2633B1801D6460015F89B /* greyButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B263391801D6460015F89B /* greyButtonHighlight.png */; };
 		A2B2633C1801D6460015F89B /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */; };
+		D95842E91B1E2A1C00F1E646 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95842E81B1E2A1B00F1E646 /* ImageIO.framework */; };
+		D95842EB1B1E41C300F1E646 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95842EA1B1E41C300F1E646 /* CoreImage.framework */; };
+		D958430D1B1E57C800F1E646 /* libiphone-exif-universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D958430C1B1E57C800F1E646 /* libiphone-exif-universal.a */; };
+		D95843101B1EA2EE00F1E646 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */; };
 		D9DB91AB1B17651E00C9D8BF /* 1to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A61B17651E00C9D8BF /* 1to6.xcmappingmodel */; };
 		D9DB91AC1B17651E00C9D8BF /* 2to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A71B17651E00C9D8BF /* 2to6.xcmappingmodel */; };
 		D9DB91AD1B17651E00C9D8BF /* 3to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A81B17651E00C9D8BF /* 3to6.xcmappingmodel */; };
@@ -492,6 +496,21 @@
 		A2B263181801C8140015F89B /* workRelated@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "workRelated@2x.png"; path = "TripPurposePickerIcons/workRelated@2x.png"; sourceTree = SOURCE_ROOT; };
 		A2B263391801D6460015F89B /* greyButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButtonHighlight.png; sourceTree = "<group>"; };
 		A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
+		D95842E81B1E2A1B00F1E646 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		D95842EA1B1E41C300F1E646 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		D95842FE1B1E560200F1E646 /* EXF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXF.h; sourceTree = "<group>"; };
+		D95842FF1B1E560200F1E646 /* EXFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFConstants.h; sourceTree = "<group>"; };
+		D95843001B1E560200F1E646 /* EXFGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFGPS.h; sourceTree = "<group>"; };
+		D95843011B1E560200F1E646 /* EXFHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFHandlers.h; sourceTree = "<group>"; };
+		D95843021B1E560200F1E646 /* EXFJFIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJFIF.h; sourceTree = "<group>"; };
+		D95843031B1E560200F1E646 /* EXFJpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJpeg.h; sourceTree = "<group>"; };
+		D95843041B1E560200F1E646 /* EXFLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFLogging.h; sourceTree = "<group>"; };
+		D95843051B1E560200F1E646 /* EXFMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFMetaData.h; sourceTree = "<group>"; };
+		D95843061B1E560200F1E646 /* EXFTagDefinitionHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFTagDefinitionHolder.h; sourceTree = "<group>"; };
+		D95843071B1E560200F1E646 /* EXFUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFUtils.h; sourceTree = "<group>"; };
+		D958430C1B1E57C800F1E646 /* libiphone-exif-universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libiphone-exif-universal.a"; sourceTree = "<group>"; };
+		D958430E1B1E97A400F1E646 /* ORcycle7-06.02.15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ORcycle7-06.02.15.xcdatamodel"; sourceTree = "<group>"; };
+		D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D9DB91A61B17651E00C9D8BF /* 1to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 1to6.xcmappingmodel; sourceTree = "<group>"; };
 		D9DB91A71B17651E00C9D8BF /* 2to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 2to6.xcmappingmodel; sourceTree = "<group>"; };
 		D9DB91A81B17651E00C9D8BF /* 3to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 3to6.xcmappingmodel; sourceTree = "<group>"; };
@@ -505,6 +524,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D95843101B1EA2EE00F1E646 /* AssetsLibrary.framework in Frameworks */,
+				D95842EB1B1E41C300F1E646 /* CoreImage.framework in Frameworks */,
+				D95842E91B1E2A1C00F1E646 /* ImageIO.framework in Frameworks */,
+				D958430D1B1E57C800F1E646 /* libiphone-exif-universal.a in Frameworks */,
 				1FA717551B0164880014E263 /* MessageUI.framework in Frameworks */,
 				9D504DA416B6D0AE00B99EBC /* libz.dylib in Frameworks */,
 				8FD696E91655E36600324E6E /* MediaPlayer.framework in Frameworks */,
@@ -701,6 +724,16 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D95842FE1B1E560200F1E646 /* EXF.h */,
+				D95842FF1B1E560200F1E646 /* EXFConstants.h */,
+				D95843001B1E560200F1E646 /* EXFGPS.h */,
+				D95843011B1E560200F1E646 /* EXFHandlers.h */,
+				D95843021B1E560200F1E646 /* EXFJFIF.h */,
+				D95843031B1E560200F1E646 /* EXFJpeg.h */,
+				D95843041B1E560200F1E646 /* EXFLogging.h */,
+				D95843051B1E560200F1E646 /* EXFMetaData.h */,
+				D95843061B1E560200F1E646 /* EXFTagDefinitionHolder.h */,
+				D95843071B1E560200F1E646 /* EXFUtils.h */,
 				64F823B6106AB402001413F8 /* constants.h */,
 				D9DB91B11B1766D400C9D8BF /* ORcycle.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -738,6 +771,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */,
+				D958430C1B1E57C800F1E646 /* libiphone-exif-universal.a */,
+				D95842EA1B1E41C300F1E646 /* CoreImage.framework */,
+				D95842E81B1E2A1B00F1E646 /* ImageIO.framework */,
 				1FA717541B0164880014E263 /* MessageUI.framework */,
 				8FD696E81655E36600324E6E /* MediaPlayer.framework */,
 				8FD696E51655E35800324E6E /* MobileCoreServices.framework */,
@@ -1199,6 +1236,12 @@
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bblanc/iOS,
+					"Libs/iphone-exif-0-9.1/Release-iphoneos",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1219,6 +1262,12 @@
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bblanc/iOS,
+					"Libs/iphone-exif-0-9.1/Release-iphoneos",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1254,6 +1303,12 @@
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bblanc/iOS,
+					"Libs/iphone-exif-0-9.1/Release-iphoneos",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1294,6 +1349,12 @@
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bblanc/iOS,
+					"Libs/iphone-exif-0-9.1/Release-iphoneos",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1330,6 +1391,12 @@
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				INFOPLIST_FILE = ORcycle.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/bblanc/iOS,
+					"Libs/iphone-exif-0-9.1/Release-iphoneos",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1402,6 +1469,7 @@
 		1FD4FDF919D4EF43005A7542 /* ORcycle.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D958430E1B1E97A400F1E646 /* ORcycle7-06.02.15.xcdatamodel */,
 				1F4EE8861A4472A700C73D00 /* ORcycle6-12.19.xcdatamodel */,
 				1F78150919EF812D00100D47 /* ORcycle5-10.15.xcdatamodel */,
 				1FD4FE1219E487F4005A7542 /* ORcycle4-10.07.xcdatamodel */,
@@ -1409,7 +1477,7 @@
 				1FD4FDFA19D4EF43005A7542 /* ORcycle1.xcdatamodel */,
 				1FD4FDFB19D4EF43005A7542 /* ORcycle2-9.25.xcdatamodel */,
 			);
-			currentVersion = 1F4EE8861A4472A700C73D00 /* ORcycle6-12.19.xcdatamodel */;
+			currentVersion = D958430E1B1E97A400F1E646 /* ORcycle7-06.02.15.xcdatamodel */;
 			path = ORcycle.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -56,14 +56,18 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "NoteDetailDelegate.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface DetailViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UIAlertViewDelegate>{
+@interface DetailViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UIAlertViewDelegate, CLLocationManagerDelegate>{
     id <NoteDetailDelegate> noteDelegate;
     UITextView *detailTextView;
     UIButton *addPicButton;
     NSString *details;
     UIImage *image;
     NSData *imageData;
+    NSDictionary *metaInfo;
+    NSNumber *imgLat;
+    NSNumber *imgLong;
 }
 
 @property (nonatomic, retain) id <NoteDetailDelegate> noteDelegate;
@@ -81,6 +85,10 @@
 @property (nonatomic,retain) UIImagePickerController *imagePickerController;
 
 @property (copy, nonatomic) NSString *lastChosenMediaType;
+
+@property (nonatomic, retain) NSDictionary *metaInfo;
+@property (nonatomic, retain) NSNumber * imgLat;
+@property (nonatomic, retain) NSNumber * imgLong;
 
 - (IBAction)skip:(id)sender;
 - (IBAction)saveDetail:(id)sender;

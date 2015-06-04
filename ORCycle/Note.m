@@ -47,6 +47,8 @@
 @dynamic user;
 @dynamic uploaded;
 @dynamic reportDate;
+@dynamic imageLatitude;
+@dynamic imageLongitude;
 
 @dynamic isCrash;
 @dynamic urgency;
