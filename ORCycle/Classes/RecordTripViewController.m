@@ -982,9 +982,9 @@
                         NSLog(@"%@",imageMap);
                         
                         
-                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Location: %@ <br><br/>Image Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap,imageMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Report Location: %@ <br><br/>Image Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap,imageMap];
                     }else{
-                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Location: %@ ",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Report Location: %@ ",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap];
                         
                     }
 
@@ -1102,9 +1102,9 @@
                         NSLog(@"%@",imageMap);
 
                         
-                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Location: %@ <br><br/>Image Location: %@",urgencyString,issueTypeString,googleMap,imageMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Report Location: %@ <br><br/>Image Location: %@",urgencyString,issueTypeString,googleMap,imageMap];
                     }else{
-                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Location: %@ ",urgencyString,issueTypeString,googleMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Report Location: %@ ",urgencyString,issueTypeString,googleMap];
                         
                     }
                     

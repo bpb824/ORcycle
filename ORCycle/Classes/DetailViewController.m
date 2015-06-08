@@ -237,8 +237,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                      
                      self.metaInfo = asset.defaultRepresentation.metadata;
                      NSLog(@"Metadata dictionary inside result block: %@",self.metaInfo);
-                     self.imgLat = [NSNumber numberWithDouble: [metaInfo[@"{GPS}"][@"Latitude"] doubleValue]];
-                     self.imgLong = [NSNumber numberWithDouble: [metaInfo[@"{GPS}"][@"Longitude"] doubleValue]*-1];
+                     double latNorth = -1;
+                     double longWest = 1;
+                     if ([metaInfo[@"{GPS}"][@"LatitudeRef"] isEqualToString:@"N"]){
+                         latNorth = 1;
+                     }
+                     if ([metaInfo[@"{GPS}"][@"LongitudeRef"] isEqualToString:@"W"]){
+                         longWest = -1;
+                     }
+                     self.imgLat = [NSNumber numberWithDouble: [metaInfo[@"{GPS}"][@"Latitude"] doubleValue]*latNorth];
+                     self.imgLong = [NSNumber numberWithDouble: [metaInfo[@"{GPS}"][@"Longitude"] doubleValue]*longWest];
                      NSLog(@"GPS Latitude: %@",metaInfo[@"{GPS}"][@"Latitude"]);
                      NSLog(@"GPS Longitude: %@",metaInfo[@"{GPS}"][@"Longitude"]);
                  }
