@@ -1817,13 +1817,13 @@
             
             for (int i = 0;i<[days count];i++){
                 NSInteger day = [[days objectAtIndex:i] integerValue];
-                NSLog(@"day = %i",day);
+                NSLog(@"day = %f",(double)day);
                 NSDate *today = [NSDate date];
-                NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+                NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:today];
                 NSInteger currentWeekday = components.weekday;
-                NSLog(@"CurrentWeekday = %i",currentWeekday);
+                NSLog(@"CurrentWeekday = %f",(double)currentWeekday);
                 NSInteger diff = day - currentWeekday;
-                NSLog(@"Diff = %i",diff);
+                NSLog(@"Diff = %f", (double)diff);
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 [dateFormatter setDateFormat:@"h:mm a"];
                 NSString *timeString = [dateFormatter stringFromDate:self.reminderTwoTime];
@@ -1924,13 +1924,13 @@
                 
                 for (int i = 0;i<[days count];i++){
                     NSInteger day = [[days objectAtIndex:i] integerValue];
-                    NSLog(@"day = %i",day);
+                    NSLog(@"day = %li",(long)day);
                     NSDate *today = [NSDate date];
-                    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+                    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:today];
                     NSInteger currentWeekday = components.weekday;
-                    NSLog(@"CurrentWeekday = %i",currentWeekday);
+                    NSLog(@"CurrentWeekday = %f", (double)currentWeekday);
                     NSInteger diff = day - currentWeekday;
-                    NSLog(@"Diff = %i",diff);
+                    NSLog(@"Diff = %f",(double)diff);
                     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                     [dateFormatter setDateFormat:@"h:mm a"];
                     NSString *timeString = [dateFormatter stringFromDate:self.reminderOneTime];
@@ -2021,13 +2021,13 @@
                 
                 for (int i = 0;i<[days count];i++){
                     NSInteger day = [[days objectAtIndex:i] integerValue];
-                    NSLog(@"day = %i",day);
+                    NSLog(@"day = %f",(double)day);
                     NSDate *today = [NSDate date];
-                    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+                    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:today];
                     NSInteger currentWeekday = components.weekday;
-                    NSLog(@"CurrentWeekday = %i",currentWeekday);
+                    NSLog(@"CurrentWeekday = %f", (double)currentWeekday);
                     NSInteger diff = day - currentWeekday;
-                    NSLog(@"Diff = %i",diff);
+                    NSLog(@"Diff = %f",(double)diff);
                     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                     [dateFormatter setDateFormat:@"h:mm a"];
                     NSString *timeString = [dateFormatter stringFromDate:self.reminderTwoTime];
@@ -2392,13 +2392,13 @@
         
         for (int i = 0;i<[days count];i++){
             NSInteger day = [[days objectAtIndex:i] integerValue];
-            NSLog(@"day = %i",day);
+            NSLog(@"day = %li",(long)day);
             NSDate *today = [NSDate date];
-            NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+            NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:today];
             NSInteger currentWeekday = components.weekday;
-            NSLog(@"CurrentWeekday = %i",currentWeekday);
+            NSLog(@"CurrentWeekday = %f",(double)currentWeekday);
             NSInteger diff = day - currentWeekday;
-            NSLog(@"Diff = %i",diff);
+            NSLog(@"Diff = %f", (double)diff);
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"h:mm a"];
             NSString *timeString = [dateFormatter stringFromDate:self.reminderOneTime];
@@ -2497,13 +2497,13 @@
         
         for (int i = 0;i<[days count];i++){
             NSInteger day = [[days objectAtIndex:i] integerValue];
-            NSLog(@"day = %i",day);
+            NSLog(@"day = %f",(double)day);
             NSDate *today = [NSDate date];
-            NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSWeekdayCalendarUnit fromDate:today];
+            NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday fromDate:today];
             NSInteger currentWeekday = components.weekday;
-            NSLog(@"CurrentWeekday = %i",currentWeekday);
+            NSLog(@"CurrentWeekday = %f",(double)currentWeekday);
             NSInteger diff = day - currentWeekday;
-            NSLog(@"Diff = %i",diff);
+            NSLog(@"Diff = %f",(double)diff);
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"h:mm a"];
             NSString *timeString = [dateFormatter stringFromDate:self.reminderTwoTime];
@@ -2538,7 +2538,7 @@
             remind.fireDate = dateToFire;
             NSLog(@"remind.firedate =%@", remind.fireDate);
             remind.timeZone = [NSTimeZone defaultTimeZone];
-            remind.repeatInterval = NSWeekCalendarUnit;
+            remind.repeatInterval = NSCalendarUnitWeekOfYear;
             remind.userInfo = [NSMutableDictionary dictionaryWithObject:@"Two"
                                                                  forKey:@"reminderNum"];
             [ORcycle scheduleLocalNotification:remind];

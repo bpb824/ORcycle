@@ -211,6 +211,16 @@
         
         window.rootViewController = tabBarController;
         [window makeKeyAndVisible];
+    
+    if (__IPHONE_OS_VERSION_MAX_ALLOWED>= 80000){
+        // The following line must only run under iOS 8. This runtime check prevents
+        // it from running if it doesn't exist (such as running under iOS 7 or earlier).
+        if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+            [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+        }
+
+    }
+    
         return YES;
 }
 

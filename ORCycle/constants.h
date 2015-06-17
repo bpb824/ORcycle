@@ -114,17 +114,16 @@
 #define kSaveAccepted		@"Your trip has already been uploaded. Thank you."
 #define kSaveError			@"Your trip has been saved. Please try uploading again later."
 
-#define kInfoURL			@"http://renotracks.nevadabike.org/"
-#define kInstructionsURL	@"http://www.pdx.edu/transportation-lab/ios-instructions"
-#define kMainURL            @"http://www.pdx.edu/transportation-lab/orcycle"
-#define kPrivacyURL         @"http://www.pdx.edu/transportation-lab/privacy-policy"
+#define kInfoURL			@"https://renotracks.nevadabike.org/"
+#define kInstructionsURL	@"https://www.pdx.edu/transportation-lab/ios-instructions"
+#define kMainURL            @"https://www.pdx.edu/transportation-lab/orcycle"
+#define kPrivacyURL         @"https://www.pdx.edu/transportation-lab/privacy-policy"
 
-//#define kSaveURL			@"http://renotracks.nevadabike.org/post/"
 #define kSaveURL            @"http://orcycle2.cecs.pdx.edu/post/"
-#define kAgencyURL          @"http://www.pdx.edu/transportation-lab/reporting-road-hazards"
-#define kReportMapURL       @"http://www.pdx.edu/transportation-lab/orcycle-maps"
+#define kAgencyURL          @"https://www.pdx.edu/transportation-lab/reporting-road-hazards"
+#define kReportMapURL       @"https://www.pdx.edu/transportation-lab/orcycle-maps"
 
-//Reno Tracks Green
+//Colors 
 #define psuGreen [UIColor colorWithRed:106.0f/255.0f green:127.0f/255.0f blue:16.0f/255.0f alpha:1.000]
 #define plainWhite [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:1.000]
 #define unSelected [UIColor colorWithRed:207.0f/255.0f green:207.0f/255.0f blue:207.0f/255.0f alpha:1.000]

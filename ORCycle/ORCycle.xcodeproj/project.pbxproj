@@ -65,7 +65,6 @@
 		1F78153719F583A600100D47 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F78153619F583A600100D47 /* LocationController.m */; };
 		1F78153A19F59E1A00100D47 /* iconMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F78153819F59E1A00100D47 /* iconMap.png */; };
 		1F78153B19F59E1A00100D47 /* iconMap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F78153919F59E1A00100D47 /* iconMap@2x.png */; };
-		1FA717501B015B390014E263 /* EmailReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FA7174F1B015B390014E263 /* EmailReportViewController.xib */; };
 		1FA717531B0164080014E263 /* MessageComposerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FA717521B0164080014E263 /* MessageComposerAppDelegate.m */; };
 		1FA717551B0164880014E263 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA717541B0164880014E263 /* MessageUI.framework */; };
 		1FBEA49B1A9D4F5900603FD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FBEA49A1A9D4F5900603FD3 /* Images.xcassets */; };
@@ -304,7 +303,6 @@
 		1F78153619F583A600100D47 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		1F78153819F59E1A00100D47 /* iconMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconMap.png; sourceTree = "<group>"; };
 		1F78153919F59E1A00100D47 /* iconMap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconMap@2x.png"; sourceTree = "<group>"; };
-		1FA7174F1B015B390014E263 /* EmailReportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmailReportViewController.xib; sourceTree = "<group>"; };
 		1FA717511B0164080014E263 /* MessageComposerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerAppDelegate.h; sourceTree = "<group>"; };
 		1FA717521B0164080014E263 /* MessageComposerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposerAppDelegate.m; sourceTree = "<group>"; };
 		1FA717541B0164880014E263 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -498,16 +496,6 @@
 		A2B2633A1801D6460015F89B /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
 		D95842E81B1E2A1B00F1E646 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		D95842EA1B1E41C300F1E646 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		D95842FE1B1E560200F1E646 /* EXF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXF.h; sourceTree = "<group>"; };
-		D95842FF1B1E560200F1E646 /* EXFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFConstants.h; sourceTree = "<group>"; };
-		D95843001B1E560200F1E646 /* EXFGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFGPS.h; sourceTree = "<group>"; };
-		D95843011B1E560200F1E646 /* EXFHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFHandlers.h; sourceTree = "<group>"; };
-		D95843021B1E560200F1E646 /* EXFJFIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJFIF.h; sourceTree = "<group>"; };
-		D95843031B1E560200F1E646 /* EXFJpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJpeg.h; sourceTree = "<group>"; };
-		D95843041B1E560200F1E646 /* EXFLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFLogging.h; sourceTree = "<group>"; };
-		D95843051B1E560200F1E646 /* EXFMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFMetaData.h; sourceTree = "<group>"; };
-		D95843061B1E560200F1E646 /* EXFTagDefinitionHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFTagDefinitionHolder.h; sourceTree = "<group>"; };
-		D95843071B1E560200F1E646 /* EXFUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFUtils.h; sourceTree = "<group>"; };
 		D958430E1B1E97A400F1E646 /* ORcycle7-06.02.15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ORcycle7-06.02.15.xcdatamodel"; sourceTree = "<group>"; };
 		D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D9A3164E1B260954004B6559 /* 6to7.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 6to7.xcmappingmodel; sourceTree = "<group>"; };
@@ -723,16 +711,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D95842FE1B1E560200F1E646 /* EXF.h */,
-				D95842FF1B1E560200F1E646 /* EXFConstants.h */,
-				D95843001B1E560200F1E646 /* EXFGPS.h */,
-				D95843011B1E560200F1E646 /* EXFHandlers.h */,
-				D95843021B1E560200F1E646 /* EXFJFIF.h */,
-				D95843031B1E560200F1E646 /* EXFJpeg.h */,
-				D95843041B1E560200F1E646 /* EXFLogging.h */,
-				D95843051B1E560200F1E646 /* EXFMetaData.h */,
-				D95843061B1E560200F1E646 /* EXFTagDefinitionHolder.h */,
-				D95843071B1E560200F1E646 /* EXFUtils.h */,
 				64F823B6106AB402001413F8 /* constants.h */,
 				D9DB91B11B1766D400C9D8BF /* ORcycle.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -761,7 +739,6 @@
 				64119A9B1068665B00C201F0 /* TripPurposePicker.xib */,
 				8F1B1D40164B94E90022B776 /* DetailView.xib */,
 				64FCC5B311352242000FA1B6 /* PersonalInfo.xib */,
-				1FA7174F1B015B390014E263 /* EmailReportViewController.xib */,
 				1F78152919F5741D00100D47 /* SetReportLocationView.xib */,
 			);
 			name = Resources;
@@ -976,7 +953,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0700;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = 58PVL896L5;
@@ -1031,7 +1008,6 @@
 				A20B63211801E5160039391D /* AppIcon40x40@2x.png in Resources */,
 				1FD4FE1F19EB2EB8005A7542 /* checked_checkbox.png in Resources */,
 				1F78153419F57B7100100D47 /* cross-hairs-small-yellow-cropped.png in Resources */,
-				1FA717501B015B390014E263 /* EmailReportViewController.xib in Resources */,
 				9D4647BA1604EBF400A4F9CB /* blueButtonHighlight@2x.png in Resources */,
 				1C77FC1918B276B400E1E30F /* scalleyCat.png in Resources */,
 				9D4647BB1604EBF400A4F9CB /* greenButton.png in Resources */,
@@ -1242,6 +1218,7 @@
 					"Libs/iphone-exif-0-9.1/Release-iphoneos",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.pdx.cecs.orcycle;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1268,6 +1245,7 @@
 					"Libs/iphone-exif-0-9.1/Release-iphoneos",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.pdx.cecs.orcycle;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1309,6 +1287,7 @@
 					"Libs/iphone-exif-0-9.1/Release-iphoneos",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.pdx.cecs.orcycle;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1355,6 +1334,7 @@
 					"Libs/iphone-exif-0-9.1/Release-iphoneos",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.pdx.cecs.orcycle;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1397,6 +1377,7 @@
 					"Libs/iphone-exif-0-9.1/Release-iphoneos",
 					"$(PROJECT_DIR)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.pdx.cecs.orcycle;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1409,6 +1390,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

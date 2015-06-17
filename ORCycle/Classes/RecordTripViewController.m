@@ -64,7 +64,6 @@
 
 #include <AudioToolbox/AudioToolbox.h>
 #import <QuartzCore/QuartzCore.h>
-#import "EXF.h"
 #import "constants.h"
 #import "MapViewController.h"
 #import "NoteViewController.h"
@@ -107,7 +106,7 @@
         
         
         switch ([CLLocationManager authorizationStatus]) {
-            case kCLAuthorizationStatusAuthorized:
+            case kCLAuthorizationStatusAuthorizedAlways:
             {NSLog(@"GPS Services functioning properly");}
                 break;
             case kCLAuthorizationStatusDenied:
@@ -687,7 +686,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"Button at index %i clicked",buttonIndex);
+    NSLog(@"Button at index %li clicked",(long)buttonIndex);
     
     if ([alertView.title isEqualToString:@"Tell us more about yourself"]){
         if(buttonIndex == 0){
@@ -767,6 +766,16 @@
                 NSString *urgencyString = [[NSString alloc]init];
                 NSMutableString *issueTypeString = [[NSMutableString alloc]init];
                 NSString *googleMap = [[NSString alloc]init];
+                
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+                NSString *reportDate =  [dateFormatter stringFromDate:noteManager.note.reportDate];
+                
+                NSDateFormatter *uploadDateFormatter = [[NSDateFormatter alloc] init];
+                [uploadDateFormatter setDateStyle:NSDateFormatterMediumStyle];
+                [uploadDateFormatter setTimeStyle:NSDateFormatterNoStyle];
+                NSString *uploadDate =  [uploadDateFormatter stringFromDate:noteManager.note.recorded];
 
                 
                 googleMap = [NSString stringWithFormat:@"<a href = 'http://maps.google.com/maps?q=%@,%@&ll=%@,%@&z=16'>Google Map</a>",noteManager.note.latitude,noteManager.note.longitude,noteManager.note.latitude,noteManager.note.longitude];
@@ -982,9 +991,9 @@
                         NSLog(@"%@",imageMap);
                         
                         
-                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Report Location: %@ <br><br/>Image Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap,imageMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ <br><br/>Image Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,noteManager.note.details,uploadDate,reportDate, googleMap,imageMap];
                     }else{
-                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Report Location: %@ ",severityString,conflictWithString,crashActionsString,crashReasonsString,googleMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ ",severityString,conflictWithString,crashActionsString,crashReasonsString,noteManager.note.details,uploadDate,reportDate,googleMap];
                         
                     }
 
@@ -1102,19 +1111,15 @@
                         NSLog(@"%@",imageMap);
 
                         
-                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Report Location: %@ <br><br/>Image Location: %@",urgencyString,issueTypeString,googleMap,imageMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ <br><br/>Image Location: %@",urgencyString,issueTypeString,noteManager.note.details,uploadDate,reportDate, googleMap,imageMap];
                     }else{
-                        emailMessage = [NSMutableString stringWithFormat: @"Phone number for contact: <br><br/>Name for contact: <br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Report Location: %@ ",urgencyString,issueTypeString,googleMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ ",urgencyString,issueTypeString,noteManager.note.details,uploadDate,reportDate,googleMap];
                         
                     }
                     
                     
                 }
                 
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-                [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-                NSString *reportDate =  [dateFormatter stringFromDate:noteManager.note.reportDate];
                 NSString *subject = [NSString stringWithFormat: @"%@: %@",reportType,reportDate];
                 [mail setSubject: subject];
                 
@@ -1551,7 +1556,7 @@
     
     NSError *error;
     NSInteger count = [tripManager.managedObjectContext countForFetchRequest:request error:&error];
-    NSLog(@"count = %d", count);
+    NSLog(@"count = %ld", (long)count);
     
     NSMutableArray *mutableFetchResults = [[tripManager.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
     
@@ -2198,7 +2203,7 @@ shouldSelectViewController:(UIViewController *)viewController
     
     NSError *error;
     NSInteger count = [noteManager.managedObjectContext countForFetchRequest:request error:&error];
-    NSLog(@"count = %d", count);
+    NSLog(@"count = %ld", (long)count);
     
     NSMutableArray *mutableFetchResults = [[noteManager.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
     
