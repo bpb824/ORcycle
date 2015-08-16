@@ -5,12 +5,12 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>658CE9CC-20A4-44A5-8006-F4E3A57801EF</UUID>
-        <nextObjectID>205</nextObjectID>
+        <nextObjectID>225</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
                     <key>NSPersistenceFrameworkVersion</key>
-                    <integer>526</integer>
+                    <integer>634</integer>
                     <key>NSStoreModelVersionHashes</key>
                     <dict>
                         <key>XDDevAttributeMapping</key>
@@ -147,7 +147,7 @@
         <attribute name="destinationname" type="string">Note</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z201"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z148 z113 z205 z130 z165 z125 z198 z180 z136 z196 z142 z172 z121 z199 z135 z186 z161 z132 z174 z155 z190 z127 z116 z185 z138"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z172 z155 z198 z180 z165 z196 z113 z185 z209 z148 z208 z190 z161 z132 z121 z205 z174 z136 z142 z199 z186 z138 z130 z135 z127 z116 z125"></relationship>
         <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z160 z156"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z125">
@@ -548,5 +548,199 @@ CA9VJG51bGzTCQoLDA0OViRjbGFzc18QEE5TRXhwcmVzc2lvblR5cGVfEBhOU0NvbnN0YW50VmFsdWVD
 </attribute>
         <attribute name="name" type="string">crashActions</attribute>
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z124"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z206">
+        <attribute name="sourcename" type="string">NoteResponse</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">NoteResponse</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z207">
+        <attribute name="sourcename" type="string">User</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">User</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVATTRIBUTEMAPPING" id="z208">
+        <attribute name="valueexpressiondata" type="binary">YnBsaXN0MDDUAQIDBAUGFhdYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoKMH
+CA9VJG51bGzTCQoLDA0OViRjbGFzc18QEE5TRXhwcmVzc2lvblR5cGVfEBhOU0NvbnN0YW50VmFsdWVDbGFzc05hbWWAAhAAgADSEBESE1okY2xhc3NuYW1lWCRjbGFzc2VzXxAZTlNDb25zdGFudFZhbHVlRXhwcmVzc2lvbqMSFBVcTlNFeHByZXNzaW9uWE5TT2JqZWN0XxAPTlNLZXllZEFyY2hpdmVy0RgZVHJvb3SAAQgRGiMtMjc7QUhPYn1/gYOIk5y4vMnS5OfsAAAAAAAAAQEAAAAAAAAAGgAAAAAAAAAAAAAAAAAAAO4=
+</attribute>
+        <attribute name="name" type="string">imageLatitude</attribute>
+        <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z124"></relationship>
+    </object>
+    <object type="XDDEVATTRIBUTEMAPPING" id="z209">
+        <attribute name="valueexpressiondata" type="binary">YnBsaXN0MDDUAQIDBAUGFhdYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoKMH
+CA9VJG51bGzTCQoLDA0OViRjbGFzc18QEE5TRXhwcmVzc2lvblR5cGVfEBhOU0NvbnN0YW50VmFsdWVDbGFzc05hbWWAAhAAgADSEBESE1okY2xhc3NuYW1lWCRjbGFzc2VzXxAZTlNDb25zdGFudFZhbHVlRXhwcmVzc2lvbqMSFBVcTlNFeHByZXNzaW9uWE5TT2JqZWN0XxAPTlNLZXllZEFyY2hpdmVy0RgZVHJvb3SAAQgRGiMtMjc7QUhPYn1/gYOIk5y4vMnS5OfsAAAAAAAAAQEAAAAAAAAAGgAAAAAAAAAAAAAAAAAAAO4=
+</attribute>
+        <attribute name="name" type="string">imageLongitude</attribute>
+        <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z124"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z210">
+        <attribute name="sourcename" type="string">Trip</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Trip</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z211">
+        <attribute name="sourcename" type="string">Note</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Note</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z212">
+        <attribute name="sourcename" type="string">Coord</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Coord</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z213">
+        <attribute name="sourcename" type="string">TripResponse</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">TripResponse</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z214">
+        <attribute name="sourcename" type="string">NoteResponse</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">NoteResponse</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z215">
+        <attribute name="sourcename" type="string">TripResponse</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">TripResponse</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z216">
+        <attribute name="sourcename" type="string">Coord</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Coord</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z217">
+        <attribute name="sourcename" type="string">User</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">User</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z218">
+        <attribute name="sourcename" type="string">Trip</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Trip</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z219">
+        <attribute name="sourcename" type="string">Coord</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Coord</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z220">
+        <attribute name="sourcename" type="string">TripResponse</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">TripResponse</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z221">
+        <attribute name="sourcename" type="string">Note</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Note</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z222">
+        <attribute name="sourcename" type="string">Trip</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Trip</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z223">
+        <attribute name="sourcename" type="string">NoteResponse</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">NoteResponse</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z224">
+        <attribute name="sourcename" type="string">Note</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">Note</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
+    </object>
+    <object type="XDDEVENTITYMAPPING" id="z225">
+        <attribute name="sourcename" type="string">User</attribute>
+        <attribute name="mappingtypename" type="string">Undefined</attribute>
+        <attribute name="mappingnumber" type="int16">0</attribute>
+        <attribute name="destinationname" type="string">User</attribute>
+        <attribute name="autogenerateexpression" type="bool">1</attribute>
+        <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING"></relationship>
     </object>
 </database>

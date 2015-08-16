@@ -49,6 +49,7 @@
 @dynamic reportDate;
 @dynamic imageLatitude;
 @dynamic imageLongitude;
+@dynamic sentEmail;
 
 @dynamic isCrash;
 @dynamic urgency;

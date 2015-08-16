@@ -426,12 +426,13 @@
 		NSLog(@"no unsaved trips found");
 }
 
-
+/*
 - (void)infoAction:(id)sender
 {
 	if ( !recording )
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString: kInfoURL]];
 }
+ */
 
 
 - (void)viewDidLoad
@@ -744,404 +745,6 @@
         }
         
     }
-    else if([alertView.title isEqualToString:@"Send E-mail?"]){
-        NSLog(@"Alertview button detected");
-        if(buttonIndex == 0){
-            alertView.delegate = nil;
-            [alertView.delegate release];
-        }
-        if( buttonIndex == 1 ) /* NO = 0, YES = 1 */
-        {
-            if ([MFMailComposeViewController canSendMail])
-            {
-                MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
-                mail.mailComposeDelegate = self;
-                
-                NSString *reportType = [[NSString alloc]init];
-                NSMutableString *emailMessage = [[NSMutableString alloc]init];
-                NSString *severityString = [[NSString alloc]init];
-                NSMutableString *conflictWithString = [[NSMutableString alloc]init];
-                NSMutableString *crashActionsString = [[NSMutableString alloc]init];
-                NSMutableString *crashReasonsString = [[NSMutableString alloc]init];
-                NSString *urgencyString = [[NSString alloc]init];
-                NSMutableString *issueTypeString = [[NSMutableString alloc]init];
-                NSString *googleMap = [[NSString alloc]init];
-                
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-                [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-                NSString *reportDate =  [dateFormatter stringFromDate:noteManager.note.reportDate];
-                
-                NSDateFormatter *uploadDateFormatter = [[NSDateFormatter alloc] init];
-                [uploadDateFormatter setDateStyle:NSDateFormatterMediumStyle];
-                [uploadDateFormatter setTimeStyle:NSDateFormatterNoStyle];
-                NSString *uploadDate =  [uploadDateFormatter stringFromDate:noteManager.note.recorded];
-
-                
-                googleMap = [NSString stringWithFormat:@"<a href = 'http://maps.google.com/maps?q=%@,%@&ll=%@,%@&z=16'>Google Map</a>",noteManager.note.latitude,noteManager.note.longitude,noteManager.note.latitude,noteManager.note.longitude];
-                
-                if(noteManager.note.isCrash){
-                    reportType = @"Crash Report";
-                    switch ([noteManager.note.note_type intValue]) {
-                        case 0:
-                            severityString = @"Crash (No severity level indicated)";
-                            break;
-                        case 1:
-                            severityString = @"Crash - Major injuries (required hospitalization)";
-                            break;
-                        case 2:
-                            severityString = @"Crash - Severe (required visit to ER)";
-                            break;
-                        case 3:
-                            severityString = @"Crash - Minor injury (no visit to ER)";
-                            break;
-                        case 4:
-                            severityString = @"Crash - Property damage only";
-                            break;
-                        case 5:
-                            severityString = @"Near-Crash (no damage or injury)";
-                            break;
-                        default:
-                            severityString = @"Crash (No severity level indicated)";
-                            break;
-                    }
-                    NSMutableArray *conflictWithTemp = [[noteManager.note.conflictWith componentsSeparatedByString:@","] mutableCopy];
-                    
-                    if([conflictWithTemp count] != 0){
-                        NSMutableArray *conflictWithArray = [[NSMutableArray alloc] init];
-                        for (NSString *s in conflictWithTemp)
-                        {
-                            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
-                            [conflictWithArray addObject:num];
-                        }
-                        
-                        if ([conflictWithArray[0] integerValue]==1){
-                            [conflictWithString appendString:@", Small/medium car"];
-                        }
-                        if ([conflictWithArray[1] integerValue]==1){
-                            [conflictWithString appendString:@", Large car/Van/SUV"];
-                        }
-                        if ([conflictWithArray[2] integerValue]==1){
-                            [conflictWithString appendString:@", Pickup truck"];
-                        }
-                        if ([conflictWithArray[3] integerValue]==1){
-                            [conflictWithString appendString:@", Large commercial vehicles (trucks)"];
-                        }
-                        if ([conflictWithArray[4] integerValue]==1){
-                            [conflictWithString appendString:@", Public transportation (buses, light rail, streetcar)"];
-                        }
-                        if ([conflictWithArray[5] integerValue]==1){
-                            [conflictWithString appendString:@", Another bicycle"];
-                        }
-                        if ([conflictWithArray[6] integerValue]==1){
-                            [conflictWithString appendString:@", Pedestrian"];
-                        }
-                        if ([conflictWithArray[7] integerValue]==1){
-                            [conflictWithString appendString:@", Pole or fixed object"];
-                        }
-                        if ([conflictWithArray[8] integerValue]==1){
-                            [conflictWithString appendString:@", Cyclist fell (or almost fell)"];
-                        }
-                        if ([conflictWithArray[9] integerValue]==1){
-                            if (noteManager.note.otherConflictWith.length > 0){
-                                [conflictWithString appendString:@", Other ("];
-                                [conflictWithString appendString: noteManager.note.otherConflictWith];
-                                [conflictWithString appendString: @")"];
-                            }else{
-                                [conflictWithString appendString:@", Other"];
-                            }
-                        }
-                        if (conflictWithString.length != 0){
-                            NSRange range = {0,2};
-                            [conflictWithString deleteCharactersInRange:range];
-                        }
-                    }
-                    if (conflictWithString.length == 0){
-                        conflictWithString = [NSMutableString stringWithFormat:@"No conflicts documented"];
-                    }
-                    
-                    NSMutableArray *crashActionsTemp = [[noteManager.note.crashActions componentsSeparatedByString:@","] mutableCopy];
-                    
-                    
-                    if([crashActionsTemp count] != 0){
-                        NSMutableArray *crashActionsArray = [[NSMutableArray alloc] init];
-                        for (NSString *s in crashActionsTemp)
-                        {
-                            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
-                            [crashActionsArray addObject:num];
-                        }
-                        
-                        if ([crashActionsArray[0] integerValue]==1){
-                            [crashActionsString appendString:@", Right-turning vehicle"];
-                        }
-                        if ([crashActionsArray[1] integerValue]==1){
-                            [crashActionsString appendString:@", Left-turning vehicle"];
-                        }
-                        if ([crashActionsArray[2] integerValue]==1){
-                            [crashActionsString appendString:@", Parking or backing up vehicle"];
-                        }
-                        if ([crashActionsArray[3] integerValue]==1){
-                            [crashActionsString appendString:@", Person exiting a vehicle"];
-                        }
-                        if ([crashActionsArray[4] integerValue]==1){
-                            [crashActionsString appendString:@", Cyclist changed lane or direction of travel"];
-                        }
-                        if ([crashActionsArray[5] integerValue]==1){
-                            [crashActionsString appendString:@", Vehicle changed lane or direction of travel"];
-                        }
-                        if ([crashActionsArray[6] integerValue]==1){
-                            [crashActionsString appendString:@", Cyclist did not stop"];
-                        }
-                        if ([crashActionsArray[7] integerValue]==1){
-                            [crashActionsString appendString:@", Driver did not stop"];
-                        }
-                        if ([crashActionsArray[8] integerValue]==1){
-                            [crashActionsString appendString:@", Cyclist lost control of the bike"];
-                        }
-                        if ([crashActionsArray[9] integerValue]==1){
-                            if (noteManager.note.otherCrashActions.length > 0){
-                                [crashActionsString appendString:@", Other ("];
-                                [crashActionsString appendString:noteManager.note.otherCrashActions];
-                                [crashActionsString appendString:@")"];
-                            }else{
-                                [crashActionsString appendString:@", Other"];
-                            }
-                        }
-                        if (crashActionsString.length != 0){
-                            NSRange range = {0,2};
-                            [crashActionsString deleteCharactersInRange:range];
-                        }
-                    }
-                    if (crashActionsString.length == 0){
-                        crashActionsString = [NSMutableString stringWithFormat:@"No crash actions documented"];
-                    }
-                    
-                    NSMutableArray *crashReasonsTemp = [[noteManager.note.crashReasons componentsSeparatedByString:@","] mutableCopy];
-                    
-                    
-                    if([crashReasonsTemp count] != 0){
-                        NSMutableArray *crashReasonsArray = [[NSMutableArray alloc] init];
-                        for (NSString *s in crashReasonsTemp)
-                        {
-                            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
-                            [crashReasonsArray addObject:num];
-                        }
-                        
-                        if ([crashReasonsArray[0] integerValue]==1){
-                            [crashReasonsString appendString:@", Debris or pavement quality"];
-                        }
-                        if ([crashReasonsArray[1] integerValue]==1){
-                            [crashReasonsString appendString:@", Poor lighting or visibility"];
-                        }
-                        if ([crashReasonsArray[2] integerValue]==1){
-                            [crashReasonsString appendString:@", Cyclist was outside bike lane or area"];
-                        }
-                        if ([crashReasonsArray[3] integerValue]==1){
-                            [crashReasonsString appendString:@", Vehicle entered bike lane or area"];
-                        }
-                        if ([crashReasonsArray[4] integerValue]==1){
-                            [crashReasonsString appendString:@", Cyclist did not obey stop sign or red light"];
-                        }
-                        if ([crashReasonsArray[5] integerValue]==1){
-                            [crashReasonsString appendString:@", Vehicle did not obey stop sign or red light"];
-                        }
-                        if ([crashReasonsArray[6] integerValue]==1){
-                            [crashReasonsString appendString:@", Cyclist did not yield"];
-                        }
-                        if ([crashReasonsArray[7] integerValue]==1){
-                            [crashReasonsString appendString:@", Vehicle did not yield"];
-                        }
-                        if ([crashReasonsArray[8] integerValue]==1){
-                            [crashReasonsString appendString:@", Cyclist was distracted"];
-                        }
-                        if ([crashReasonsArray[9] integerValue]==1){
-                            [crashReasonsString appendString:@", Careless driving or high vehicle speed"];
-                        }
-                        if ([crashReasonsArray[10] integerValue]==1){
-                            if (noteManager.note.otherCrashReasons.length > 0){
-                                [crashReasonsString appendString:@", Other ("];
-                                [crashReasonsString appendString:noteManager.note.otherCrashReasons];
-                                [crashReasonsString appendString:@")"];
-                            }else{
-                                [crashReasonsString appendString:@", Other"];
-                            }
-                        }
-                        if (crashReasonsString.length != 0){
-                            NSRange range = {0,2};
-                            [crashReasonsString deleteCharactersInRange:range];
-                        }
-                    }
-                    if (crashReasonsString.length == 0){
-                        crashReasonsString = [NSMutableString stringWithFormat:@"No crash reasons documented"];
-                    }
-                    
-                    if([noteManager.note.imageLatitude doubleValue] !=0){
-                        
-                        NSString *imageMap = [[NSString alloc]init];
-                        
-                        NSNumber *latVal = noteManager.note.imageLatitude;
-                        NSNumber *longVal = noteManager.note.imageLongitude;
-                        
-                        
-                        NSLog(@"Longitude: %@, Latitude: %@",longVal,latVal);
-                        
-                        
-                        imageMap = [NSString stringWithFormat:@"<a href = 'http://maps.google.com/maps?q=%@,%@&ll=%@,%@&z=16'>Google Map</a>",latVal,longVal,latVal,longVal];
-                        
-                        NSLog(@"%@",imageMap);
-                        
-                        
-                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ <br><br/>Image Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,noteManager.note.details,uploadDate,reportDate, googleMap,imageMap];
-                    }else{
-                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ ",severityString,conflictWithString,crashActionsString,crashReasonsString,noteManager.note.details,uploadDate,reportDate,googleMap];
-                        
-                    }
-
-                    
-                    
-
-                    
-                }else{
-                    reportType = @"Issue Report";
-                    NSMutableArray *issueTypeTemp = [[noteManager.note.issueType componentsSeparatedByString:@","] mutableCopy];
-                    
-                    if([issueTypeTemp count] != 0){
-                        NSMutableArray *issueTypeArray = [[NSMutableArray alloc] init];
-                        for (NSString *s in issueTypeTemp)
-                        {
-                            NSNumber *num = [NSNumber numberWithInt:[s intValue]];
-                            [issueTypeArray addObject:num];
-                        }
-                        
-                        if ([issueTypeArray[0] integerValue]==1){
-                            [issueTypeString appendString:@", Narrow bike lane"];
-                        }
-                        if ([issueTypeArray[1] integerValue]==1){
-                            [issueTypeString appendString:@", No bike lane or shoulder"];
-                        }
-                        if ([issueTypeArray[2] integerValue]==1){
-                            [issueTypeString appendString:@", High traffic speed"];
-                        }
-                        if ([issueTypeArray[3] integerValue]==1){
-                            [issueTypeString appendString:@", High traffic volume"];
-                        }
-                        if ([issueTypeArray[4] integerValue]==1){
-                            [issueTypeString appendString:@", Right-turning vehicles"];
-                        }
-                        if ([issueTypeArray[5] integerValue]==1){
-                            [issueTypeString appendString:@", Left-turning vehicles"];
-                        }
-                        if ([issueTypeArray[6] integerValue]==1){
-                            [issueTypeString appendString:@", Short green time (traffic signal)"];
-                        }
-                        if ([issueTypeArray[7] integerValue]==1){
-                            [issueTypeString appendString:@", Long wait time (traffic signal)"];
-                        }
-                        if ([issueTypeArray[8] integerValue]==1){
-                            [issueTypeString appendString:@", No push button or detection (traffic signal)"];
-                        }
-                        if ([issueTypeArray[9] integerValue]==1){
-                            [issueTypeString appendString:@", Truck traffic"];
-                        }
-                        if ([issueTypeArray[10] integerValue]==1){
-                            [issueTypeString appendString:@", Bus traffic/stop"];
-                        }
-                        if ([issueTypeArray[11] integerValue]==1){
-                            [issueTypeString appendString:@", Parked vehicles"];
-                        }
-                        if ([issueTypeArray[12] integerValue]==1){
-                            [issueTypeString appendString:@", Pavement condition"];
-                        }
-                        if ([issueTypeArray[13] integerValue]==1){
-                            if (noteManager.note.otherIssueType.length > 0){
-                                [issueTypeString appendString:@", Other ("];
-                                [issueTypeString appendString:noteManager.note.otherIssueType];
-                                [issueTypeString appendString:@")"];
-                            }
-                            else{
-                                [issueTypeString appendString:@", Other"];
-                            }
-                        }
-                        if (issueTypeString.length != 0){
-                            NSRange range = {0,2};
-                            [issueTypeString deleteCharactersInRange:range];
-                        }
-                    }
-                    if(issueTypeString.length == 0){
-                        issueTypeString = [NSMutableString stringWithFormat:@"No infrastructure issues documented"];
-                    }
-                
-                    switch ([noteManager.note.urgency intValue]) {
-                        case 0:
-                            urgencyString = @"No urgency level indicated";
-                            break;
-                        case 1:
-                            urgencyString = @"1 (not urgent)";
-                            break;
-                        case 2:
-                            urgencyString = @"2";
-                            break;
-                        case 3:
-                            urgencyString = @"3 (somewhat urgent)";
-                            break;
-                        case 4:
-                            urgencyString = @"4";
-                            break;
-                        case 5:
-                            urgencyString = @"5 (urgent)";
-                            break;
-                        default:
-                            urgencyString = @"No urgency level indicated";
-                            break;
-                    }
-
-                    if([noteManager.note.imageLatitude doubleValue] !=0){
-                        
-                        NSString *imageMap = [[NSString alloc]init];
-                        
-                        NSNumber *latVal = noteManager.note.imageLatitude;
-                        NSNumber *longVal = noteManager.note.imageLongitude;
-                        
-                        
-                        NSLog(@"Longitude: %@, Latitude: %@",longVal,latVal);
-                        
-                        
-                        imageMap = [NSString stringWithFormat:@"<a href = 'http://maps.google.com/maps?q=%@,%@&ll=%@,%@&z=16'>Google Map</a>",latVal,longVal,latVal,longVal];
-                        
-                        NSLog(@"%@",imageMap);
-
-                        
-                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ <br><br/>Image Location: %@",urgencyString,issueTypeString,noteManager.note.details,uploadDate,reportDate, googleMap,imageMap];
-                    }else{
-                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ ",urgencyString,issueTypeString,noteManager.note.details,uploadDate,reportDate,googleMap];
-                        
-                    }
-                    
-                    
-                }
-                
-                NSString *subject = [NSString stringWithFormat: @"%@: %@",reportType,reportDate];
-                [mail setSubject: subject];
-                
-                
-                [mail setMessageBody:emailMessage isHTML:YES];
-                [mail setToRecipients:@[@"bblanc@pdx.edu"]];
-                
-                
-                if(noteManager.note.image_data){
-                    [mail addAttachmentData:noteManager.note.image_data mimeType:@"image/jpeg" fileName: [NSString stringWithFormat:@"Report_%@.jpg",reportDate]];
-                }
-                
-                
-                [self presentViewController:mail animated:YES completion:NULL];
-            }
-            else
-            {
-                NSLog(@"This device cannot send email");
-            }
-        }
-        
-    }
     else if([alertView.title isEqualToString:@"Slow Speed"]){
         if(buttonIndex == [alertView cancelButtonIndex]){
             self.speedNoteUp = false;
@@ -1158,38 +761,7 @@
     }
 }
 
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    switch (result) {
-        case MFMailComposeResultSent:
-            NSLog(@"You sent the email.");
-            break;
-        case MFMailComposeResultSaved:
-            NSLog(@"You saved a draft of this email");
-            break;
-        case MFMailComposeResultCancelled:
-            NSLog(@"You cancelled sending this email.");
-            break;
-        case MFMailComposeResultFailed:
-            NSLog(@"Mail failed:  An error occurred when trying to compose this email");
-            break;
-        default:
-            NSLog(@"An error occurred when trying to compose this email");
-            break;
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
-    
-    UIAlertView *reportMap = [[UIAlertView alloc]
-                          initWithTitle:@"Report Map"
-                          message:@"To see maps with reported safety issues visit the ORcycle webpage."
-                          delegate:self
-                          cancelButtonTitle:@"Later"
-                          otherButtonTitles:@"Now", nil];
-    [reportMap show];
-    
-}
+
 
 - (UIButton *)createNoteButton
 {
@@ -1318,20 +890,71 @@
     Trip *trip = tripManager.trip;
     [self resetRecordingInProgress];
     
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *eventArray = [app scheduledLocalNotifications];
+    
+    if ([eventArray count]>0){
+        for (int i=0; i<[eventArray count]; i++)
+        {
+            UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+            NSDictionary *userInfoCurrent = oneEvent.userInfo;
+            if ([[userInfoCurrent valueForKey:@"reminderNum"] isEqualToString:@"Three"])
+            {
+                //Cancelling local notification
+                NSLog(@"Found notification %@",oneEvent);
+                [app cancelLocalNotification:oneEvent];
+            }
+        }
+    }
+    
+    NSDate *today = [NSDate date];
+    
+    //First Reminder
+    
+    NSDate *dateToFire = [today dateByAddingTimeInterval:3600*24];
+    
+    UILocalNotification *remind = [[UILocalNotification alloc] init];
+    remind.alertBody = @"You haven't logged a trip in three months. Please return to log another trip!";
+    remind.soundName = @"bicycle-bell-normalized.aiff";
+    remind.fireDate = dateToFire;
+    NSLog(@"Trip reminder firedate =%@", remind.fireDate);
+    remind.timeZone = [NSTimeZone defaultTimeZone];
+    remind.userInfo = [NSMutableDictionary dictionaryWithObject:@"Three"
+                                                         forKey:@"reminderNum"];
+    [app scheduleLocalNotification:remind];
+    [remind release];
+    
+    //Second Reminder
+    
+    NSDate *dateToFireAgain = [today dateByAddingTimeInterval:3600*25];
+    
+    UILocalNotification *remindAgain = [[UILocalNotification alloc] init];
+    remindAgain.alertBody = @"You haven't logged a trip in three months. Please return to log another trip!";
+    remindAgain.soundName = @"bicycle-bell-normalized.aiff";
+    remindAgain.fireDate = dateToFireAgain;
+    NSLog(@"Trip reminder firedate =%@", remindAgain.fireDate);
+    remindAgain.timeZone = [NSTimeZone defaultTimeZone];
+    remindAgain.userInfo = [NSMutableDictionary dictionaryWithObject:@"Three"
+                                                         forKey:@"reminderNum"];
+    [app scheduleLocalNotification:remindAgain];
+    [remindAgain release];
+    
     // load map view of saved trip
     MapViewController *mvc = [[MapViewController alloc] initWithTrip:trip];
     [[self navigationController] pushViewController:mvc animated:YES];
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"TripLogging"]){
         
+        
         NSString *tripPurposeString = @"Trip Logged";
-        NSString *tripPurposeShortString1 = @"";
-        NSString *tripPurposeShortString2 = @"";
+        //NSString *tripPurposeShortString1 = @"";
+        //NSString *tripPurposeShortString2 = @"";
+        
         
         if (![trip.purpose isEqualToString:@"Other"]){
             tripPurposeString = [NSString stringWithFormat:@"%@ Trip Logged", trip.purpose];
-            tripPurposeShortString1 = trip.purpose;
-            tripPurposeShortString2 = trip.purpose;
+            //tripPurposeShortString1 = trip.purpose;
+            //tripPurposeShortString2 = trip.purpose;
         }
         
         //Route Frequency Text
@@ -1360,23 +983,21 @@
                 break;
         }
         
-        NSString *sameString = @"same";
-        NSString *routeString = @"route";
+        NSString *string1 = trip.purpose;
+        NSString *string2 = @"optional";
+        NSString *string3 = trip.purpose;
         
+        NSMutableAttributedString *messageString = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"%@ trip logged. To reduce user burden, it is %@ to log frequent (repeated) %@ trips. We will remind you to log a new trip after 3 months without loggings.", string1,string2, string3]];
         
-        NSMutableAttributedString *messageString = [[NSMutableAttributedString alloc] initWithString: [NSString stringWithFormat:@"Data for this %@ trip will be logged and uploaded. If you repeat the %@ %@ %@ there is no need to log it again. Please use ORcycle to log new trip purposes, routes, crash events, or safety issues.", tripPurposeShortString1, sameString, tripPurposeShortString2, routeString]];
         
         [messageString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12.0] range:NSMakeRange(0,messageString.length)];
         
-        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range:NSMakeRange(14, tripPurposeShortString1.length)];
+        [messageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:12.0] range:NSMakeRange(0, string1.length)];
         
-        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 34, sameString.length + 19)];
+        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(string1.length+ 43, string2.length)];
         
-        [messageString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-BoldOblique" size: 12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1, tripPurposeShortString2.length)];
+        [messageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:12.0] range: NSMakeRange(string1.length+ 43 +string2.length + 28, string3.length)];
         
-        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1 + tripPurposeShortString2.length + 1, routeString.length + 33)];
-        
-        [messageString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0] range: NSMakeRange(14 + tripPurposeShortString1.length + 53 + sameString.length + 1 + tripPurposeShortString2.length + 1 + routeString.length + 1 + 60,3 )];
         
         NSLog(@"System verison is equal to %f",self.systemVersion);
         
@@ -1479,20 +1100,22 @@
 {
     Note *note = noteManager.note;
     
-    UIAlertView *email = [[UIAlertView alloc]
-                              initWithTitle:@"Send E-mail?"
-                              message:@"Would you like to send an auto-generated e-mail to a transportation agency regarding your report? Please include your name and phone number so you can be contacted regarding the report."
-                              delegate:self
-                              cancelButtonTitle:@"No"
-                              otherButtonTitles:@"Yes",nil];
-        
-    [email show];
+    /*
     
+    UIAlertView *reportMap = [[UIAlertView alloc]
+                              initWithTitle:@"Report Map"
+                              message:@"To see maps with reported safety issues visit the ORcycle webpage."
+                              delegate:self
+                              cancelButtonTitle:@"Later"
+                              otherButtonTitles:@"Now", nil];
+
+    */
     // load map view of note
     NoteViewController *mvc = [[NoteViewController alloc] initWithNote:note];
     [[self navigationController] pushViewController:mvc animated:YES];
     NSLog(@"displayUploadedNote");
     [mvc release];
+    //[reportMap show];
 }
 
 
@@ -2453,12 +2076,9 @@ shouldSelectViewController:(UIViewController *)viewController
 }
 
 - (void)saveNote{
-    [noteManager saveNote];
+    [noteManager promptEmail];
     NSLog(@"Save note");
 }
-
-
-
 
 #pragma mark RecordingInProgressDelegate method
 

@@ -164,9 +164,12 @@ static UIImage *shrinkImage(UIImage *original, CGSize size);
         [noteDelegate didSaveImgLong:self.imgLong];
     }
     
+    [noteDelegate saveNote];
+    
+    
     //[self dismissViewControllerAnimated:YES completion:nil];
     
-    [noteDelegate saveNote];
+    //E-mail crash data
     
 }
 

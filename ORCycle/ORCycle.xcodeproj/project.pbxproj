@@ -172,7 +172,6 @@
 		9D4648291604EF2F00A4F9CB /* MapCoord.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D4648241604EF2F00A4F9CB /* MapCoord.png */; };
 		9D46482A1604EF2F00A4F9CB /* record-map-frame-288x141.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D4648251604EF2F00A4F9CB /* record-map-frame-288x141.png */; };
 		9D504DA116B6CF4000B99EBC /* ZipUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D504DA016B6CF4000B99EBC /* ZipUtil.m */; };
-		9D504DA416B6D0AE00B99EBC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D504DA316B6D0AE00B99EBC /* libz.dylib */; };
 		9DD65FBB16FEA3CC00F2EB63 /* ImageResize.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD65FBA16FEA3CC00F2EB63 /* ImageResize.m */; };
 		A20B63151801E06A0039391D /* AppIcon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = A20B63131801E06A0039391D /* AppIcon57x57.png */; };
 		A20B63161801E06A0039391D /* AppIcon57x57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A20B63141801E06A0039391D /* AppIcon57x57@2x.png */; };
@@ -218,6 +217,7 @@
 		D95842E91B1E2A1C00F1E646 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95842E81B1E2A1B00F1E646 /* ImageIO.framework */; };
 		D95842EB1B1E41C300F1E646 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95842EA1B1E41C300F1E646 /* CoreImage.framework */; };
 		D95843101B1EA2EE00F1E646 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */; };
+		D964C0491B32237200ACA930 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D964C0481B32237200ACA930 /* libz.dylib */; };
 		D9A3164F1B260954004B6559 /* 6to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9A3164E1B260954004B6559 /* 6to7.xcmappingmodel */; };
 		D9DB91AB1B17651E00C9D8BF /* 1to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A61B17651E00C9D8BF /* 1to7.xcmappingmodel */; };
 		D9DB91AC1B17651E00C9D8BF /* 2to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A71B17651E00C9D8BF /* 2to7.xcmappingmodel */; };
@@ -259,7 +259,7 @@
 		1F0E4D7A19B7D3E70015B943 /* noteIssuePickerBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noteIssuePickerBlack.png; path = TripPurposePickerIcons/noteIssuePickerBlack.png; sourceTree = SOURCE_ROOT; };
 		1F0E4D7B19B7D3E70015B943 /* noteIssuePickerBlack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noteIssuePickerBlack@2x.png"; path = "TripPurposePickerIcons/noteIssuePickerBlack@2x.png"; sourceTree = SOURCE_ROOT; };
 		1F2798BB19785DAD00204876 /* PersonalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalInfoViewController.h; sourceTree = "<group>"; };
-		1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalInfoViewController.m; sourceTree = "<group>"; };
+		1F2798BC19785DAD00204876 /* PersonalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PersonalInfoViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1F4CD8601A586484009934AE /* iOS-HomeStart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS-HomeStart.png"; sourceTree = "<group>"; };
 		1F4CD8611A586484009934AE /* iOS-Report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS-Report.png"; sourceTree = "<group>"; };
 		1F4CD8621A586484009934AE /* iOS-ReportsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iOS-ReportsButton.png"; sourceTree = "<group>"; };
@@ -450,7 +450,6 @@
 		9D4648251604EF2F00A4F9CB /* record-map-frame-288x141.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record-map-frame-288x141.png"; sourceTree = "<group>"; };
 		9D504D9F16B6CF4000B99EBC /* ZipUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtil.h; sourceTree = "<group>"; };
 		9D504DA016B6CF4000B99EBC /* ZipUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtil.m; sourceTree = "<group>"; };
-		9D504DA316B6D0AE00B99EBC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		9DD65FB916FEA3CC00F2EB63 /* ImageResize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageResize.h; sourceTree = "<group>"; };
 		9DD65FBA16FEA3CC00F2EB63 /* ImageResize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageResize.m; sourceTree = "<group>"; };
 		A20B63131801E06A0039391D /* AppIcon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon57x57.png; path = "Button Icons/AppIcon57x57.png"; sourceTree = "<group>"; };
@@ -498,6 +497,7 @@
 		D95842EA1B1E41C300F1E646 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		D958430E1B1E97A400F1E646 /* ORcycle7-06.02.15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ORcycle7-06.02.15.xcdatamodel"; sourceTree = "<group>"; };
 		D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		D964C0481B32237200ACA930 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D9A3164E1B260954004B6559 /* 6to7.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 6to7.xcmappingmodel; sourceTree = "<group>"; };
 		D9DB91A61B17651E00C9D8BF /* 1to7.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 1to7.xcmappingmodel; sourceTree = "<group>"; };
 		D9DB91A71B17651E00C9D8BF /* 2to7.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 2to7.xcmappingmodel; sourceTree = "<group>"; };
@@ -512,11 +512,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D964C0491B32237200ACA930 /* libz.dylib in Frameworks */,
 				D95843101B1EA2EE00F1E646 /* AssetsLibrary.framework in Frameworks */,
 				D95842EB1B1E41C300F1E646 /* CoreImage.framework in Frameworks */,
 				D95842E91B1E2A1C00F1E646 /* ImageIO.framework in Frameworks */,
 				1FA717551B0164880014E263 /* MessageUI.framework in Frameworks */,
-				9D504DA416B6D0AE00B99EBC /* libz.dylib in Frameworks */,
 				8FD696E91655E36600324E6E /* MediaPlayer.framework in Frameworks */,
 				8FD696E61655E35800324E6E /* MobileCoreServices.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -696,7 +696,6 @@
 			isa = PBXGroup;
 			children = (
 				1FBEA49A1A9D4F5900603FD3 /* Images.xcassets */,
-				9D504DA316B6D0AE00B99EBC /* libz.dylib */,
 				64119AA81068672100C201F0 /* Trip Purpose data source */,
 				6411992B1068371B00C201F0 /* Data Model */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -747,6 +746,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D964C0481B32237200ACA930 /* libz.dylib */,
 				D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */,
 				D95842EA1B1E41C300F1E646 /* CoreImage.framework */,
 				D95842E81B1E2A1B00F1E646 /* ImageIO.framework */,
@@ -1256,15 +1256,16 @@
 		64577E10106DB5D8003ACBFD /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Developer: Miguel Figliozzi (7M6LM9U5S5)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Miguel Figliozzi (58PVL896L5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Distribution: Miguel Figliozzi (58PVL896L5)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREFIX_HEADER = ORcycle.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
-				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "";
+				PROVISIONING_PROFILE = "f4879f19-c743-4b88-8afc-fed1f484071a";
+				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "f4879f19-c743-4b88-8afc-fed1f484071a";
 				SDKROOT = iphoneos;
 			};
 			name = Distribution;

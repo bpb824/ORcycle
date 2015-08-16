@@ -114,12 +114,12 @@
 #define kSaveAccepted		@"Your trip has already been uploaded. Thank you."
 #define kSaveError			@"Your trip has been saved. Please try uploading again later."
 
-#define kInfoURL			@"https://renotracks.nevadabike.org/"
+//#define kInfoURL			@"https://renotracks.nevadabike.org/"
 #define kInstructionsURL	@"https://www.pdx.edu/transportation-lab/ios-instructions"
 #define kMainURL            @"https://www.pdx.edu/transportation-lab/orcycle"
 #define kPrivacyURL         @"https://www.pdx.edu/transportation-lab/privacy-policy"
 
-#define kSaveURL            @"http://orcycle2.cecs.pdx.edu/post/"
+#define kSaveURL            @"https://orcycle2.cecs.pdx.edu/post/"
 #define kAgencyURL          @"https://www.pdx.edu/transportation-lab/reporting-road-hazards"
 #define kReportMapURL       @"https://www.pdx.edu/transportation-lab/orcycle-maps"
 

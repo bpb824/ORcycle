@@ -30,6 +30,7 @@
 - (void)revertGPSLocation;
 - (void)didPickReportDate:(NSDate *)date;
 - (void)saveCustomLocation:(CLLocation*)customLocation;
+- (void)promptEmail;
 - (void)backOut;
 
 - (void)didPickIsCrash:(BOOL *)boolean;

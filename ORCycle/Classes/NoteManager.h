@@ -68,11 +68,12 @@
 #import "ActivityIndicatorDelegate.h"
 #import "LoadingView.h"
 #import "Note.h"
+#import <MessageUI/MessageUI.h>
 
 @class Note;
 
 
-@interface NoteManager : NSObject <ActivityIndicatorDelegate, UIAlertViewDelegate, UITextViewDelegate>
+@interface NoteManager : NSObject <ActivityIndicatorDelegate, UIAlertViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate>
 {
 	Note *note;
 
@@ -107,6 +108,7 @@
 
 - (void)saveNote;
 - (void)saveNote:(Note*)note;
+- (void)promptEmail;
 
 - (void)createNote;
 
