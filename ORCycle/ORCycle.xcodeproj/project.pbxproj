@@ -218,6 +218,7 @@
 		D95842EB1B1E41C300F1E646 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95842EA1B1E41C300F1E646 /* CoreImage.framework */; };
 		D95843101B1EA2EE00F1E646 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */; };
 		D964C0491B32237200ACA930 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D964C0481B32237200ACA930 /* libz.dylib */; };
+		D980AC371B83EFC4009C9BDD /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D980AC361B83EFC4009C9BDD /* CoreMotion.framework */; };
 		D9A3164F1B260954004B6559 /* 6to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9A3164E1B260954004B6559 /* 6to7.xcmappingmodel */; };
 		D9DB91AB1B17651E00C9D8BF /* 1to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A61B17651E00C9D8BF /* 1to7.xcmappingmodel */; };
 		D9DB91AC1B17651E00C9D8BF /* 2to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A71B17651E00C9D8BF /* 2to7.xcmappingmodel */; };
@@ -498,6 +499,7 @@
 		D958430E1B1E97A400F1E646 /* ORcycle7-06.02.15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ORcycle7-06.02.15.xcdatamodel"; sourceTree = "<group>"; };
 		D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D964C0481B32237200ACA930 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D980AC361B83EFC4009C9BDD /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		D9A3164E1B260954004B6559 /* 6to7.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 6to7.xcmappingmodel; sourceTree = "<group>"; };
 		D9DB91A61B17651E00C9D8BF /* 1to7.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 1to7.xcmappingmodel; sourceTree = "<group>"; };
 		D9DB91A71B17651E00C9D8BF /* 2to7.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 2to7.xcmappingmodel; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D980AC371B83EFC4009C9BDD /* CoreMotion.framework in Frameworks */,
 				D964C0491B32237200ACA930 /* libz.dylib in Frameworks */,
 				D95843101B1EA2EE00F1E646 /* AssetsLibrary.framework in Frameworks */,
 				D95842EB1B1E41C300F1E646 /* CoreImage.framework in Frameworks */,
@@ -746,6 +749,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D980AC361B83EFC4009C9BDD /* CoreMotion.framework */,
 				D964C0481B32237200ACA930 /* libz.dylib */,
 				D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */,
 				D95842EA1B1E41C300F1E646 /* CoreImage.framework */,

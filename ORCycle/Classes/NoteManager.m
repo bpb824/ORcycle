@@ -82,7 +82,7 @@
 @implementation NoteManager
 
 @synthesize note, managedObjectContext, receivedDataNoted;
-@synthesize uploadingView, parent;
+@synthesize uploadingView, parent,checkboxButton;
 @synthesize deviceUniqueIdHash1;
 
 // change initialization values
@@ -894,7 +894,7 @@
     if (!note.isCrash){
         UIAlertView *email = [[UIAlertView alloc]
                               initWithTitle:@"Send E-mail?"
-                              message:@"Would you like to send an e-mail to ODOT with your report data? Click ‘Yes’ and please include your name and phone number in the e-mail."
+                              message:@"Would you like to send an auto-generated e-mail to ODOT with your report data? Click ‘Yes’ and please include your name and phone number in the e-mail."
                               delegate:self
                               cancelButtonTitle:@"No"
                               otherButtonTitles:@"Yes",nil];
@@ -1208,12 +1208,32 @@
             [note setSentEmail:TRUE];
             NSLog(@"You sent the email.");
             
+            UIView *sentAlertView = [[UIView alloc] initWithFrame:CGRectMake(0,0,240,100)];
+            
+            
+            NSMutableAttributedString *messageString = [[NSMutableAttributedString alloc] initWithString: @"Thank you for your report. ODOT will only investigate the report if it is located adjacent to a state facility; otherwise the report will be forwarded to a local jurisdiction. NOTE: ODOT will only pursue reports located in the state of Oregon."];
+            
+            [messageString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:11.0] range:NSMakeRange(0,messageString.length)];
+            
+            [messageString addAttribute:NSFontAttributeName value:[UIFont italicSystemFontOfSize:11.0] range:NSMakeRange(177,messageString.length-177)];
+            
+            UILabel *messageView	= [[[UILabel alloc] initWithFrame:CGRectMake(10,0,240,100)] autorelease];
+            
+            messageView.attributedText = messageString;
+            messageView.lineBreakMode = NSLineBreakByWordWrapping;
+            messageView.numberOfLines = 0;
+            
+            [sentAlertView addSubview:messageView];
+
+            
+            
             UIAlertView *postEmail = [[UIAlertView alloc]
                                   initWithTitle:@"Thank You"
-                                  message:@"Thank you for your report. ODOT will only investigate the report if is located adjacent to a state facility; otherwise it will be forwarded to a local jurisdiction. ODOT will only pursue reports located in the state of Oregon."
+                                  message:nil
                                   delegate:self
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
+            [postEmail setValue:sentAlertView forKey:@"accessoryView"];
             
             [postEmail show];
             
@@ -1245,6 +1265,55 @@
     if([alertView.title isEqualToString:@"Thank You"]){
         alertView.delegate = nil;
         [alertView.delegate release];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"reportReminder"] != true){
+            UILabel *alertLabel		= [[[UILabel alloc] initWithFrame:CGRectMake(10,0,240,100)] autorelease];
+            
+            alertLabel.text= @"If you add your name and/or phone number in the user section of ORcycle, they can be automatically included in the next e-mail to ODOT.";
+            alertLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            alertLabel.numberOfLines = 0;
+            alertLabel.font = [UIFont systemFontOfSize:12.0];
+            
+            UIView *reportAlertView = [[UIView alloc] initWithFrame:CGRectMake(0,0,240,250)];
+            [reportAlertView addSubview:alertLabel];
+            
+            UILabel *checkboxLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 80, 200, 50)];
+            checkboxLabel.backgroundColor = [UIColor clearColor];
+            checkboxLabel.textColor = [UIColor blackColor];
+            checkboxLabel.text = @"Do not show again";
+            checkboxLabel.font = [UIFont systemFontOfSize:11.0];
+            [reportAlertView addSubview:checkboxLabel];
+            [checkboxLabel release];
+            
+            //declared tripCheckboxButton in the header due to errors I was getting when referring to the button in the button's method below
+            checkboxButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            checkboxButton.frame = CGRectMake(180, 97, 18, 18);
+            checkboxButton.backgroundColor = [UIColor clearColor];
+            UIImage *alertButtonImageNormal = [UIImage imageNamed:@"unchecked_checkbox.png"];
+            UIImage *alertButtonImageChecked = [UIImage imageNamed:@"checked_checkbox.png"];
+            [checkboxButton setImage:alertButtonImageNormal forState:UIControlStateNormal];
+            [checkboxButton setImage:alertButtonImageChecked forState:UIControlStateSelected];
+            [checkboxButton addTarget:self action:@selector(checkboxButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+            
+            [reportAlertView addSubview: checkboxButton];
+            
+            
+            UIAlertView *dialog3 = [[UIAlertView alloc]
+                                    initWithTitle:@"Reminder"
+                                    message:nil
+                                    delegate:self
+                                    cancelButtonTitle:@"OK"
+                                    otherButtonTitles:nil];
+            [dialog3 setValue:reportAlertView forKey:@"accessoryView"];
+            
+            [dialog3 show];
+        }
+
+    }
+    
+    else if([alertView.title isEqualToString:@"Reminder"]){
+        alertView.delegate=nil;
+        [alertView.delegate release];
     }
     
     else if([alertView.title isEqualToString:@"Send E-mail?"]){
@@ -1262,6 +1331,35 @@
             {
                 MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
                 mail.mailComposeDelegate = self;
+                
+                //Fetch user data for phone and name
+                NSFetchRequest		*request = [[NSFetchRequest alloc] init];
+                NSEntityDescription *entity = [NSEntityDescription entityForName:@"User" inManagedObjectContext:managedObjectContext];
+                [request setEntity:entity];
+                
+                NSError *error;
+                NSInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+                
+                NSString *nameString = [[NSString alloc]initWithString:@""];
+                NSString *phoneString = [[NSString alloc]initWithString:@""];
+                
+                if ( count )
+                {
+                    NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+                    if (mutableFetchResults == nil) {
+                        // Handle the error.
+                        NSLog(@"no saved user");
+                        if ( error != nil )
+                            NSLog(@"TripManager fetch saved user data error %@, %@", error, [error localizedDescription]);
+                    }
+                    
+                    User *user = [mutableFetchResults objectAtIndex:0];
+                    
+                    nameString = user.name;
+                    phoneString = user.phoneNum;
+                }
+
+                
                 
                 NSString *reportType = [[NSString alloc]init];
                 NSMutableString *emailMessage = [[NSMutableString alloc]init];
@@ -1497,9 +1595,9 @@
                         NSLog(@"%@",imageMap);
                         
                         
-                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ <br><br/>Image Location: %@",severityString,conflictWithString,crashActionsString,crashReasonsString,note.details,uploadDate,reportDate, googleMap,imageMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name: %@</b> <br><br/><b>Phone Number: %@</b><br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ <br><br/>Image Location: %@",nameString,phoneString,severityString,conflictWithString,crashActionsString,crashReasonsString,note.details,uploadDate,reportDate, googleMap,imageMap];
                     }else{
-                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ ",severityString,conflictWithString,crashActionsString,crashReasonsString,note.details,uploadDate,reportDate,googleMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name: %@</b> <br><br/><b>Phone Number: %@</b><br><br/>Crash Event Severity: %@ <br><br/>Conflicting Vehicle/Object: %@ <br><br/>Crash Actions: %@ <br><br/>Crash Reasons: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ ",nameString,phoneString, severityString,conflictWithString,crashActionsString,crashReasonsString,note.details,uploadDate,reportDate,googleMap];
                         
                     }
                     
@@ -1617,9 +1715,9 @@
                         NSLog(@"%@",imageMap);
                         
                         
-                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ <br><br/>Image Location: %@",urgencyString,issueTypeString,note.details,uploadDate,reportDate, googleMap,imageMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name: %@</b> <br><br/><b>Phone Number: %@</b><br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ <br><br/>Image Location: %@",nameString,phoneString, urgencyString,issueTypeString,note.details,uploadDate,reportDate, googleMap,imageMap];
                     }else{
-                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name:</b> <br><br/><b>Phone Number: </b><br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ ",urgencyString,issueTypeString,note.details,uploadDate,reportDate,googleMap];
+                        emailMessage = [NSMutableString stringWithFormat: @"<b>Contact Name: %@</b> <br><br/><b>Phone Number: %@</b><br><br/>Issue Urgency: %@ <br><br/>Issue Type: %@ <br><br/>Additional Details:%@ <br></br>Upload Date: %@ <br></br>Report Date: %@ <br></br>Report Location: %@ ",nameString,phoneString, urgencyString,issueTypeString,note.details,uploadDate,reportDate,googleMap];
                         
                     }
                     
@@ -1631,7 +1729,7 @@
                 
                 
                 [mail setMessageBody:emailMessage isHTML:YES];
-                [mail setToRecipients:@[@"orcycle@pdx.edu"]];
+                [mail setToRecipients:@[@"bblanc@pdx.edu"]];
                 
                 
                 if(note.image_data){
@@ -1648,6 +1746,22 @@
         }
         
     }
+}
+
+-(void)checkboxButtonClicked{
+    
+    NSLog(@"reportCheckboxButtonClicked Method called");
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"reportReminder"]){
+        
+        [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"reportReminder"];
+        checkboxButton.selected = YES;
+    }else {
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"reportReminder"];
+        checkboxButton.selected = NO;
+    }
+    
 }
 
 

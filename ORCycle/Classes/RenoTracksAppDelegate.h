@@ -62,6 +62,8 @@
 //	For more information on the project, 
 //	e-mail Billy Charlton at the SFCTA <billy.charlton@sfcta.org>
 #import <CoreLocation/CoreLocation.h>
+#import <CoreMotion/CoreMotion.h>
+
 
 @interface RenoTracksAppDelegate : NSObject <UIApplicationDelegate>
 {
@@ -77,7 +79,10 @@
     // added to handle location manager background service switching
     BOOL isRecording;
     CLLocationManager *locationManager;
+    CMMotionManager *motionManager;
 }
+
+@property (readonly) CMMotionManager *motionManager;
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;

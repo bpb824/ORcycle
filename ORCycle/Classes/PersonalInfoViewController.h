@@ -98,6 +98,9 @@
     UIPickerView *pickerView;
     UITextField *currentTextField;
     
+    UITextField *name;
+    UITextField *phoneNum;
+    
     NSArray *genderArray;
     NSArray *ageArray;
     NSArray *ethnicityArray;
@@ -148,6 +151,8 @@
 
 @property (nonatomic, retain) UITextField	*age;
 @property (nonatomic, retain) UITextField	*email;
+@property (nonatomic, retain) UITextField	*name;
+@property (nonatomic, retain) UITextField	*phoneNum;
 @property (nonatomic, retain) NSString	*feedback;
 @property (nonatomic, retain) UITextField	*gender;
 @property (nonatomic, retain) UITextField   *ethnicity;

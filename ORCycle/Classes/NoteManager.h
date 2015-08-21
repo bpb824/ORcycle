@@ -80,6 +80,7 @@
     NSManagedObjectContext *managedObjectContext;
     
 	NSMutableData *receivedDataNoted;
+    UIButton *tripCheckboxButton;
 	
 	//NSMutableArray *unSavedNote;
 	//NSMutableArray *unSyncedNote;
@@ -102,6 +103,8 @@
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 @property (nonatomic, retain) NSMutableData *receivedDataNoted;
+
+@property (nonatomic, retain) UIButton *checkboxButton;
 
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext*)context;

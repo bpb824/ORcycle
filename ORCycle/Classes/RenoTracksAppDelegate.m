@@ -358,6 +358,13 @@
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
+- (CMMotionManager *)motionManager
+{
+    if (!motionManager) motionManager = [[CMMotionManager alloc] init];
+    
+    return motionManager;
+}
+
 
 #pragma mark -
 #pragma mark Memory management

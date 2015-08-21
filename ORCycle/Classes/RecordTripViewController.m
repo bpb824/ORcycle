@@ -93,6 +93,22 @@
 @synthesize appDelegate;
 @synthesize saveActionSheet;
 
+#pragma mark CMMotionManagerDelegate methods
+
+- (CMMotionManager *)getMotionManager
+{
+    CMMotionManager *motionManager = nil;
+    
+    appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    if ([appDelegate respondsToSelector:@selector(motionManager)]) {
+        motionManager = [appDelegate motionManager];
+    }
+    
+    return motionManager;
+}
+
+
 #pragma mark CLLocationManagerDelegate methods
 
 
@@ -196,6 +212,9 @@
 		CLLocationDistance distance = [tripManager addCoord:newLocation];
 		self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
         
+        
+        
+        /*
         //Calory text
         double calory = 49 * distance / 1609.344 - 1.69;
         if (calory <= 0) {
@@ -206,7 +225,7 @@
         
         //CO2 text
         C02Count.text = [NSString stringWithFormat:@"%.1f", 0.93 * distance / 1609.344];
-        
+        */
         
         NSArray *timeArray = [timeCounter.text componentsSeparatedByString:@":"];
         //NSLog(timeCounter.text);
@@ -505,6 +524,16 @@
     }
     
     [locationManger startUpdatingLocation];
+    
+    //start the motion manager
+    CMMotionManager *motionManager = [self getMotionManager];
+    self.motionManager = motionManager;
+    if([motionManager respondsToSelector:@selector(requestAlwaysAuthorization)]){
+        [motionManager performSelector:@selector(requestAlwaysAuthorization)];
+    }
+    //add motion to CoreData
+    self.motionManager.accelerometerUpdateInterval = 0.01;
+    [self.motionManager startAccelerometerUpdates];
 	
     appDelegate = [[UIApplication sharedApplication] delegate];
     appDelegate.isRecording = NO;

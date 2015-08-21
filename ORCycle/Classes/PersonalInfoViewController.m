@@ -74,7 +74,7 @@
 @implementation PersonalInfoViewController
 
 @synthesize delegate, managedObjectContext, user;
-@synthesize age, email, feedback, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP;
+@synthesize age, email, feedback, gender, ethnicity, occupation, income, hhWorkers, hhVehicles, numBikes, homeZIP, workZIP, schoolZIP,name,phoneNum;
 @synthesize cyclingFreq, cyclingWeather, riderAbility, riderType, riderHistory;
 @synthesize ageSelectedRow, genderSelectedRow, ethnicitySelectedRow, occupationSelectedRow, incomeSelectedRow, hhWorkersSelectedRow, hhVehiclesSelectedRow, numBikesSelectedRow, cyclingFreqSelectedRow, cyclingWeatherSelectedRow, riderAbilitySelectedRow, riderTypeSelectedRow, riderHistorySelectedRow, selectedItem, choiceButton;
 @synthesize bikeTypesSelectedRows, selectedItems, otherBikeTypes, otherEthnicity, otherGender, otherOccupation, otherRiderType, reminderOneTime, reminderTwoTime;
@@ -144,6 +144,20 @@
 	textField.returnKeyType = UIReturnKeyDone;
 	textField.delegate = self;
 	return textField;
+}
+
+- (UITextField*)initTextFieldString
+{
+    CGRect frame = CGRectMake( 145, 7, 165, 29 );
+    UITextField *textField = [[UITextField alloc] initWithFrame:frame];
+    textField.autocapitalizationType = UITextAutocapitalizationTypeNone,
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.textAlignment = NSTextAlignmentRight;
+    textField.placeholder = @"";
+    textField.keyboardType = UIKeyboardTypeEmailAddress;
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.delegate = self;
+    return textField;
 }
 
 
@@ -284,6 +298,8 @@
     self.cyclingWeather = [self initTextFieldBeta];
     self.riderAbility  =  [self initTextFieldBeta];
     self.riderType  =  [self initTextFieldBeta];
+    self.name = [self initTextFieldString];
+    self.phoneNum = [self initTextFieldString];
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -329,6 +345,8 @@
 		age.text            = [ageArray objectAtIndex:[user.age integerValue]];
         ageSelectedRow      = [user.age integerValue];
 		email.text          = user.email;
+        name.text           =user.name;
+        phoneNum.text       = user.phoneNum;
         //feedback.text          = user.feedback;
         NSLog(@"Other gender loaded as %@",user.otherGender);
         if ([user.gender integerValue] == 3 && user.otherGender != NULL){
@@ -453,7 +471,7 @@
 
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    if(currentTextField == email){
+    if(currentTextField == email || currentTextField == name || currentTextField==phoneNum){
         NSLog(@"currentTextField: text2");
         [currentTextField resignFirstResponder];
         [textField resignFirstResponder];
@@ -463,7 +481,7 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)myTextField{
     
-    if (myTextField == email){
+    if (currentTextField == email || currentTextField == name || currentTextField==phoneNum){
         [currentTextField resignFirstResponder];
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.35f];
@@ -752,6 +770,34 @@
 			[user setEmail:email.text];
             
 		}
+        else if ( textField == name)
+        {
+            //enable save button if value has been changed.
+            if (name.text != user.name){
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+            }
+            NSLog(@"saving email: %@", name.text);
+            [user setName:name.text];
+            
+            if(name.text.length >0){
+                [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"reportReminder"];
+            }
+            
+        }
+        else if ( textField == phoneNum)
+        {
+            //enable save button if value has been changed.
+            if (phoneNum.text != user.phoneNum){
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+            }
+            NSLog(@"saving email: %@", phoneNum.text);
+            [user setPhoneNum:phoneNum.text];
+            
+            if(phoneNum.text.length >0){
+                [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"reportReminder"];
+            }
+            
+        }
         
         //[textField resignFirstResponder];
         //[self.view endEditing:YES];
@@ -798,6 +844,10 @@
 {
     [email resignFirstResponder];
     
+    [name resignFirstResponder];
+    
+    [phoneNum resignFirstResponder];
+    
     NSLog(@"Saving User Data");
 	if ( user != nil )
 	{
@@ -806,6 +856,20 @@
         
 		[user setEmail:email.text];
         NSLog(@"saved email: %@", user.email);
+        
+        [user setName:name.text];
+        NSLog(@"saved name: %@", user.name);
+        
+        if(name.text.length >0){
+            [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"reportReminder"];
+        }
+        
+        [user setPhoneNum:phoneNum.text];
+        NSLog(@"saved phone number: %@", user.phoneNum);
+        
+        if(phoneNum.text.length >0){
+            [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"reportReminder"];
+        }
         
 		[user setGender:[NSNumber numberWithInt:genderSelectedRow]];
 		NSLog(@"saved gender index: %@ and text: %@", user.gender, gender.text);
@@ -937,21 +1001,24 @@
             return @"To receive updates and news about project outcomes and enhancements (e.g. data maps), please provide your email. Your EMAIL WILL NOT BE SHARED, see our strict privacy policy.";
             break;
         case 9:
-            return nil;
+            return @"To facilitate e-mail autogeneration to ODOT, please provide your name and contact phone number. Your name and number will be stored ONLY IN YOUR PHONE and will not be shared, see our strict privacy policy.";
             break;
         case 10:
-            return @"Comment here if you would like to provide feedback about the app or desirable features:";
+            return nil;
             break;
         case 11:
-            return @"1. Remind me to record a trip or report at...";
+            return @"Comment here if you would like to provide feedback about the app or desirable features:";
             break;
         case 12:
-            return @"2. Remind me to record a trip or report at...";
+            return @"1. Remind me to record a trip or report at...";
             break;
         case 13:
+            return @"2. Remind me to record a trip or report at...";
+            break;
+        case 14:
 			return @"Application Version";
 			break;
-        case 14:
+        case 15:
             return @"See tutorial when starting ORcycle?";
             break;
         
@@ -970,7 +1037,10 @@
     else if (section == 8){
         header.textLabel.text = @"To receive updates and news about project outcomes and enhancements (e.g. data maps), please provide your email. Your EMAIL WILL NOT BE SHARED, see our strict privacy policy.";
     }
-    else if (section == 10){
+    else if (section == 9){
+        header.textLabel.text = @"To facilitate e-mail autogeneration to ODOT, please provide your name and contact phone number. Your name and number will be stored ONLY IN YOUR PHONE and will not be shared, see our strict privacy policy.";
+    }
+    else if (section == 11){
         header.textLabel.text = @"Comment here if you would like to provide feedback about the app or desirable features:";
     }
     
@@ -1021,21 +1091,24 @@
             return 100;
             break;
         case 9:
-            return 0;
+            return 100;
             break;
         case 10:
-            return 95;
+            return 0;
             break;
         case 11:
-            return 80;
+            return 95;
             break;
         case 12:
-            return 50;
+            return 80;
             break;
         case 13:
-            return 65;
+            return 50;
             break;
         case 14:
+            return 65;
+            break;
+        case 15:
             return 50;
             break;
 		default:
@@ -1077,21 +1150,24 @@
             return 1;
             break;
         case 9:
-            return 1;
+            return 2;
             break;
         case 10:
             return 1;
             break;
         case 11:
-            return 2;
+            return 1;
             break;
         case 12:
             return 2;
             break;
         case 13:
-            return 1;
+            return 2;
             break;
         case 14:
+            return 1;
+            break;
+        case 15:
             return 1;
             break;
         default:
@@ -1389,7 +1465,32 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
 			break;
+            
         case 9:
+        {
+            static NSString *CellIdentifier = @"CellEmail";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            cell.textLabel.textColor = [UIColor colorWithRed:164.0f/255.0f green:65.0f/255.0f  blue:34.0f/255.0f  alpha:1.000];
+            // inner switch statement identifies row
+            switch ([indexPath indexAtPosition:1])
+            {
+                case 0:
+                    cell.textLabel.text = @"Name";
+                    [cell.contentView addSubview:name];
+                    break;
+                case 1:
+                    cell.textLabel.text = @"Phone Number";
+                    [cell.contentView addSubview:phoneNum];
+                    break;
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+            break;
+        case 10:
         {
             static NSString *CellIdentifier = @"CellSaveUser";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1412,7 +1513,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
             break;
-        case 10:
+        case 11:
 		{
 			static NSString *CellIdentifier = @"CellFeedback";
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1435,7 +1536,7 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
 			break;
-        case 11:
+        case 12:
         {
             static NSString *CellIdentifier = @"CellReminderOne";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1488,7 +1589,7 @@
         }
             break;
             
-        case 12:
+        case 13:
         {
             static NSString *CellIdentifier = @"CellReminderTwo";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1539,7 +1640,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
             break;
-        case 13:
+        case 14:
         {
             static NSString *CellIdentifier = @"CellAppVersion";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -1565,7 +1666,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
             break;
-        case 14:
+        case 15:
         {
             static NSString *CellIdentifier = @"CellTutorialSwitch";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -2257,6 +2358,17 @@
         {
             switch ([indexPath indexAtPosition:1])
             {
+                case 0:
+                    break;
+                case 1:
+                    break;
+            }
+            break;
+        }
+        case 10:
+        {
+            switch ([indexPath indexAtPosition:1])
+            {
                 case 0:{
                     [self done];
                 }
@@ -2264,7 +2376,7 @@
             }
             break;
         }
-        case 10:
+        case 11:
 		{
 			switch ([indexPath indexAtPosition:1])
 			{
@@ -2278,7 +2390,7 @@
 			}
 			break;
 		}
-        case 11:
+        case 12:
         {
             switch ([indexPath indexAtPosition:1])
             {
@@ -2306,7 +2418,7 @@
             }
             break;
         }
-        case 12:
+        case 13:
         {
             switch ([indexPath indexAtPosition:1])
             {
@@ -2776,6 +2888,8 @@
     self.user = nil;
     self.age = nil;
     self.email = nil;
+    self.name = nil;
+    self.phoneNum = nil;
     self.feedback = nil;
     self.gender = nil;
     self.ethnicity = nil;
@@ -2817,6 +2931,8 @@
     [user release];
     [age release];
     [email release];
+    [name release];
+    [phoneNum release];
     [feedback release];
     [gender release];
     [ethnicity release];

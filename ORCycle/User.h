@@ -51,6 +51,8 @@
 @property (nonatomic, retain) NSString * workZIP;
 @property (nonatomic, retain) NSNumber * gender;
 @property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * phoneNum;
 @property (nonatomic, retain) NSString * feedback;
 
 @property (nonatomic, retain) NSString * userCreated;

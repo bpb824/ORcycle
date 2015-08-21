@@ -51,6 +51,8 @@
 @dynamic workZIP;
 @dynamic gender;
 @dynamic email;
+@dynamic name;
+@dynamic phoneNum;
 @dynamic feedback;
 
 @dynamic userCreated;

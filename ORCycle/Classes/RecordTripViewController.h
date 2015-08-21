@@ -64,6 +64,7 @@
 
 
 #import <CoreLocation/CoreLocation.h>
+#import <CoreMotion/CoreMotion.h>
 #import "ActivityIndicatorDelegate.h"
 #import <MapKit/MapKit.h>
 #import <ImageIO/ImageIO.h>
@@ -104,6 +105,7 @@
 	*/
 	BOOL				didUpdateUserLocation;
 	IBOutlet MKMapView	*mapView;
+    
 	
 	IBOutlet UIButton *infoButton;
 	IBOutlet UIButton *saveButton;
@@ -154,6 +156,9 @@
 @property (nonatomic, retain) UITableViewCell	*tripPurposeCell;
 @property (nonatomic, retain) UITableViewCell	*personalInfoCell;
 */
+
+@property (strong, nonatomic) CMMotionManager *motionManager;
+
 @property (nonatomic, retain) UIButton *infoButton;
 @property (nonatomic, retain) UIButton *saveButton;
 @property (nonatomic, retain) UIButton *startButton;
