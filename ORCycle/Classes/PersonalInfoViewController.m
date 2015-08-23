@@ -967,7 +967,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 15;
+    return 16;
 }
 
 
@@ -1052,7 +1052,7 @@
 
 -(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section ==14){
+    if (section ==15){
         return 100;
     } else{
         return 0.01;
@@ -1088,28 +1088,28 @@
             return 35;
             break;
         case 8:
-            return 100;
+            return 120;
             break;
         case 9:
-            return 100;
+            return 120;
             break;
         case 10:
             return 0;
             break;
         case 11:
-            return 95;
+            return 80;
             break;
         case 12:
-            return 80;
+            return 50;
             break;
         case 13:
             return 50;
             break;
         case 14:
-            return 65;
+            return 40;
             break;
         case 15:
-            return 50;
+            return 40;
             break;
 		default:
 			return 0;
@@ -1468,7 +1468,7 @@
             
         case 9:
         {
-            static NSString *CellIdentifier = @"CellEmail";
+            static NSString *CellIdentifier = @"CellNamePhone";
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             if (cell == nil) {
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
