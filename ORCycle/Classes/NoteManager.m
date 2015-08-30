@@ -902,7 +902,7 @@
         [email show];
     }else{
         [note setSentEmail:false];
-        [self saveNote];
+        [self saveNote:note];
     }
 }
 
@@ -939,7 +939,13 @@
     [noteDict setValue:newDateString forKey:@"r"];    //recorded timestamp
     [noteDict setValue:reportDateString forKey:@"reportDate"];
     
-    [noteDict setValue:[NSNumber numberWithBool:note.sentEmail ] forKey:@"e"];
+    if(note.sentEmail){
+        [noteDict setValue:[NSNumber numberWithBool: TRUE] forKey:@"e"];
+    }else{
+        [noteDict setValue:[NSNumber numberWithBool: false] forKey:@"e"];
+    }
+    
+    
     
     RenoTracksAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     self.deviceUniqueIdHash1 = delegate.uniqueIDHash;
@@ -1079,9 +1085,9 @@
     [noteDict setValue:reportDateString forKey:@"reportDate"];
     
     if(note.sentEmail){
-        [noteDict setValue:note.sentEmail forKey:@"e"];
+        [noteDict setValue:[NSNumber numberWithBool: TRUE] forKey:@"e"];
     }else{
-        [noteDict setValue:false forKey:@"e"];
+        [noteDict setValue:[NSNumber numberWithBool: false] forKey:@"e"];
     }
     
     
@@ -1254,7 +1260,7 @@
             break;
     }
     
-    [parent dismissViewControllerAnimated:YES completion:^{[self saveNote];}];
+    [parent dismissViewControllerAnimated:YES completion:^{[self saveNote:note];}];
     
 }
 
@@ -1730,6 +1736,7 @@
                 
                 [mail setMessageBody:emailMessage isHTML:YES];
                 [mail setToRecipients:@[@"bblanc@pdx.edu"]];
+                [mail setCcRecipients:@[@"orcycle@pdx.edu"]];
                 
                 
                 if(note.image_data){
