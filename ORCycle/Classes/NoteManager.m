@@ -1735,7 +1735,7 @@
                 
                 
                 [mail setMessageBody:emailMessage isHTML:YES];
-                [mail setToRecipients:@[@"bblanc@pdx.edu"]];
+                [mail setToRecipients:@[@"ttplab@pdx.edu"]];
                 [mail setCcRecipients:@[@"orcycle@pdx.edu"]];
                 
                 

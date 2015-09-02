@@ -940,7 +940,7 @@
     
     //First Reminder
     
-    NSDate *dateToFire = [today dateByAddingTimeInterval:3600*24];
+    NSDate *dateToFire = [today dateByAddingTimeInterval:3600*24*7*12];
     
     UILocalNotification *remind = [[UILocalNotification alloc] init];
     remind.alertBody = @"You haven't logged a trip in three months. Please return to log another trip!";
@@ -955,7 +955,7 @@
     
     //Second Reminder
     
-    NSDate *dateToFireAgain = [today dateByAddingTimeInterval:3600*25];
+    NSDate *dateToFireAgain = [today dateByAddingTimeInterval:3600*24*7*13];
     
     UILocalNotification *remindAgain = [[UILocalNotification alloc] init];
     remindAgain.alertBody = @"You haven't logged a trip in three months. Please return to log another trip!";
