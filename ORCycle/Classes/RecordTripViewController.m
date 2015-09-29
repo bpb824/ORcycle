@@ -92,6 +92,7 @@
 @synthesize recording, shouldUpdateCounter, userInfoSaved, iSpeedCheck, timeSpeedCheck, distSpeedCheck, speedCheck, speedNoteUp;
 @synthesize appDelegate;
 @synthesize saveActionSheet;
+@synthesize accelDataHolder;
 
 #pragma mark CMMotionManagerDelegate methods
 
@@ -106,6 +107,77 @@
     }
     
     return motionManager;
+}
+
+- (void)newAccelData
+{
+    NSMutableArray *emptyArray = [[NSMutableArray alloc]init];
+    self.accelDataHolder = emptyArray;
+}
+
+- (void) addAccelObs: (CMAccelerometerData *)accelObs
+{
+    [self.accelDataHolder addObject:accelObs];
+    
+}
+
+- (NSNumber *)meanOf:(NSMutableArray *)array
+{
+    double runningTotal = 0.0;
+    
+    for(NSNumber *number in array)
+    {
+        runningTotal += [number doubleValue];
+    }
+    
+    return [NSNumber numberWithDouble:(runningTotal / [array count])];
+}
+
+- (NSNumber *)ssDiffOf:(NSMutableArray *)array
+{
+    if(![array count]) return nil;
+    
+    double mean = [[self meanOf:array] doubleValue];
+    double sumOfSquaredDifferences = 0.0;
+    
+    for(NSNumber *number in array)
+    {
+        double valueOfNumber = [number doubleValue];
+        double difference = valueOfNumber - mean;
+        sumOfSquaredDifferences += difference * difference;
+    }
+    
+    return [NSNumber numberWithDouble:sumOfSquaredDifferences];
+}
+ 
+
+
+- (NSMutableDictionary *)aggAccelData:(NSMutableArray *)accelArray
+{
+    NSMutableDictionary *aggData = [NSMutableDictionary dictionaryWithCapacity:7];
+    
+    NSMutableArray *xData = [[NSMutableArray alloc]init];
+    NSMutableArray *yData = [[NSMutableArray alloc]init];
+    NSMutableArray *zData = [[NSMutableArray alloc]init];
+    
+    for (int i=0; i < [accelArray count];i++){
+        CMAccelerometerData *accelObs = [accelArray objectAtIndex:i];
+        [xData addObject:[NSNumber numberWithDouble: accelObs.acceleration.x]];
+        [yData addObject:[NSNumber numberWithDouble: accelObs.acceleration.y]];
+        [zData addObject:[NSNumber numberWithDouble: accelObs.acceleration.z]];
+    }
+    
+    [aggData setValue: [self meanOf:xData] forKey: @"x_avg"];
+    [aggData setValue:[self meanOf:yData] forKey: @"y_avg"];
+    [aggData setValue:[self meanOf:zData] forKey: @"z_avg"];
+    
+    [aggData setValue: [self ssDiffOf:xData] forKey: @"x_ss"];
+    [aggData setValue:[self ssDiffOf:yData] forKey: @"y_ss"];
+    [aggData setValue:[self ssDiffOf:zData] forKey: @"z_ss"];
+    
+    [aggData setValue:[NSNumber numberWithInteger:[accelArray count]] forKey: @"numObs"];
+
+    return aggData;
 }
 
 
@@ -209,7 +281,9 @@
 	if ( recording )
 	{
 		// add to CoreData store
-		CLLocationDistance distance = [tripManager addCoord:newLocation];
+        NSMutableDictionary *aggedAccelData = [self aggAccelData:self.accelDataHolder];
+        [self newAccelData];
+        CLLocationDistance distance = [tripManager addCoord:newLocation withAccel:aggedAccelData];
 		self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
         
         
@@ -525,16 +599,20 @@
     
     [locationManger startUpdatingLocation];
     
-    //start the motion manager
-    CMMotionManager *motionManager = [self getMotionManager];
-    self.motionManager = motionManager;
-    if([motionManager respondsToSelector:@selector(requestAlwaysAuthorization)]){
-        [motionManager performSelector:@selector(requestAlwaysAuthorization)];
-    }
-    //add motion to CoreData
-    self.motionManager.accelerometerUpdateInterval = 0.01;
-    [self.motionManager startAccelerometerUpdates];
-	
+    self.motionManager = [self getMotionManager];
+    self.motionManager.accelerometerUpdateInterval = .2;
+    
+    [self newAccelData];
+    
+    [self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
+                                             withHandler:^(CMAccelerometerData  *accelerometerData, NSError *error) {
+                                                 [self addAccelObs:accelerometerData];
+                                                 if(error){
+                                                     
+                                                     NSLog(@"%@", error);
+                                                 }
+                                             }];
+    
     appDelegate = [[UIApplication sharedApplication] delegate];
     appDelegate.isRecording = NO;
 	self.recording = NO;
@@ -2000,6 +2078,14 @@ shouldSelectViewController:(UIViewController *)viewController
 - (void) didEnterOtherCrashReasons:(NSString *)otherCrashReasonsString{
     [noteManager.note setOtherCrashReasons:otherCrashReasonsString];
     NSLog(@"Saved other crash reasons: %@",otherCrashReasonsString);
+}
+
+-(BOOL) noteLocExists{
+    if (noteManager.note.latitude != NULL && noteManager.note.longitude !=NULL){
+        return TRUE;
+    }else{
+        return false;
+    }
 }
 
 - (void) saveCustomLocation:(CLLocation *)customLocation{

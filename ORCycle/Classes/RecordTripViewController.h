@@ -130,6 +130,8 @@
     float speedCheck;
 
 	NSTimer *timer;
+    
+    NSMutableArray *accelDataHolder;
 	
 	// pointer to opacity mask, TabBar view
 	UIView *opacityMask;
@@ -171,6 +173,8 @@
 @property (nonatomic, retain) UILabel *timeCounter;
 @property (nonatomic, retain) UILabel *distCounter;
 @property (nonatomic, retain) UIActionSheet *saveActionSheet;
+
+@property (nonatomic,retain) NSMutableArray *accelDataHolder;
 
 @property (assign) BOOL iSpeedCheck;
 @property (assign) BOOL speedNoteUp;
@@ -228,5 +232,9 @@
 
 - (void)displayUploadedTripMap;
 - (void)displayUploadedNote;
+
+//Math
+- (NSNumber *)meanOf:(NSMutableArray *)array;
+- (NSNumber *)ssDiffOf:(NSMutableArray *)array;
 
 @end

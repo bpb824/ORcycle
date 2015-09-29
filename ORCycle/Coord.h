@@ -42,4 +42,13 @@
 @property (nonatomic, retain) NSNumber * altitude;
 @property (nonatomic, retain) Trip *trip;
 
+@property (nonatomic, retain) NSNumber * accel_x;
+@property (nonatomic, retain) NSNumber * accel_y;
+@property (nonatomic, retain) NSNumber * accel_z;
+@property (nonatomic, retain) NSNumber * ss_x;
+@property (nonatomic, retain) NSNumber * ss_y;
+@property (nonatomic, retain) NSNumber * ss_z;
+@property (nonatomic, retain) NSNumber * numAccelObs;
+
+
 @end

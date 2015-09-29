@@ -353,6 +353,78 @@
 	return distance;
 }
 
+- (CLLocationDistance)addCoord:(CLLocation *)location withAccel:(NSMutableDictionary *)accelDict
+{
+    NSLog(@"addCoord");
+    
+    if ( !trip )
+        [self createTrip];
+    
+    // Create and configure a new instance of the Coord entity
+    Coord *coord = (Coord *)[NSEntityDescription insertNewObjectForEntityForName:@"Coord" inManagedObjectContext:managedObjectContext];
+    
+    [coord setAltitude:[NSNumber numberWithDouble:location.altitude]];
+    [coord setLatitude:[NSNumber numberWithDouble:location.coordinate.latitude]];
+    [coord setLongitude:[NSNumber numberWithDouble:location.coordinate.longitude]];
+    
+    // NOTE: location.timestamp is a constant value on Simulator
+    //[coord setRecorded:[NSDate date]];
+    [coord setRecorded:location.timestamp];
+    
+    [coord setSpeed:[NSNumber numberWithDouble:location.speed]];
+    [coord setHAccuracy:[NSNumber numberWithDouble:location.horizontalAccuracy]];
+    [coord setVAccuracy:[NSNumber numberWithDouble:location.verticalAccuracy]];
+    
+    NSLog(@"Agg Acceleration Data: %@",accelDict);
+    
+    //Add acceleration data to coord
+    [coord setAccel_x: [accelDict valueForKey:@"x_avg"]];
+    [coord setAccel_y: [accelDict valueForKey:@"y_avg"]];
+    [coord setAccel_z: [accelDict valueForKey:@"z_avg"]];
+    [coord setSs_x:[accelDict valueForKey:@"x_ss"]];
+    [coord setSs_y:[accelDict valueForKey:@"y_ss"]];
+    [coord setSs_z:[accelDict valueForKey:@"z_ss"]];
+    [coord setNumAccelObs:[accelDict valueForKey:@"numObs"]];
+    
+    [trip addCoordsObject:coord];
+    //[coord setTrip:trip];
+    
+    // check to see if the coords array is empty
+    if ( [coords count] == 0 )
+    {
+        NSLog(@"updated trip start time");
+        // this is the first coord of a new trip => update start
+        [trip setStart:[coord recorded]];
+        dirty = YES;
+    }
+    else
+    {
+        // update distance estimate by tabulating deltaDist with a low tolerance for noise
+        Coord *prev  = [coords objectAtIndex:0];
+        distance	+= [self distanceFrom:prev to:coord realTime:YES];
+        [trip setDistance:[NSNumber numberWithDouble:distance]];
+        
+        // update duration
+        Coord *first	= [coords lastObject];
+        NSTimeInterval duration = [coord.recorded timeIntervalSinceDate:first.recorded];
+        //NSLog(@"duration = %.0fs", duration);
+        [trip setDuration:[NSNumber numberWithDouble:duration]];
+        
+    }
+    
+    NSError *error;
+    if (![managedObjectContext save:&error]) {
+        // Handle the error.
+        NSLog(@"TripManager addCoord error %@, %@", error, [error localizedDescription]);
+    }
+    
+    [coords insertObject:coord atIndex:0];
+    //NSLog(@"# coords = %d", [coords count]);
+    
+    return distance;
+}
+
+
 
 - (CLLocationDistance)getDistanceEstimate
 {
@@ -1069,7 +1141,7 @@
         // create a tripDict entry for each coord
         while (coord = [enumerator nextObject])
         {
-            NSMutableDictionary *coordsDict = [NSMutableDictionary dictionaryWithCapacity:7];
+            NSMutableDictionary *coordsDict = [NSMutableDictionary dictionaryWithCapacity:8];
             [coordsDict setValue:coord.altitude  forKey:@"a"];  //altitude
             [coordsDict setValue:coord.latitude  forKey:@"l"];  //latitude
             [coordsDict setValue:coord.longitude forKey:@"n"];  //longitude
@@ -1079,24 +1151,54 @@
             
             NSString *newDateString = [outputFormatter stringFromDate:coord.recorded];
             [coordsDict setValue:newDateString forKey:@"r"];    //recorded timestamp
+            
+            NSMutableDictionary *accelDict = [NSMutableDictionary dictionaryWithCapacity:9];
+            [accelDict setValue:@"iPhone Accelerometer" forKey:@"s_id"];
+            [accelDict setValue:[NSNumber numberWithInteger:1] forKey:@"s_t"];
+            [accelDict setValue:coord.numAccelObs forKey:@"s_ns"];
+            [accelDict setValue:coord.accel_x forKey:@"s_a0"];
+            [accelDict setValue:coord.accel_y forKey:@"s_a1"];
+            [accelDict setValue:coord.accel_z forKey:@"s_a2"];
+            [accelDict setValue:coord.ss_x forKey:@"s_s0"];
+            [accelDict setValue:coord.ss_y forKey:@"s_s1"];
+            [accelDict setValue:coord.ss_z forKey:@"s_s2"];
+            
+            [coordsDict setObject:accelDict forKey: @"sr"];
+            
             [tripDict setValue:coordsDict forKey:newDateString];
         }
+        
+        NSLog(@"Trip Dictionary: %@",tripDict);
 #elif kSaveProtocolVersion == kSaveProtocolVersion_2
         NSLog(@"saving using protocol version 2");
         
         // create a tripDict entry for each coord
         while (coord = [enumerator nextObject])
         {
-            NSMutableDictionary *coordsDict = [NSMutableDictionary dictionaryWithCapacity:7];
-            [coordsDict setValue:coord.altitude  forKey:@"alt"];
-            [coordsDict setValue:coord.latitude  forKey:@"lat"];
-            [coordsDict setValue:coord.longitude forKey:@"lon"];
-            [coordsDict setValue:coord.speed     forKey:@"spd"];
-            [coordsDict setValue:coord.hAccuracy forKey:@"hac"];
-            [coordsDict setValue:coord.vAccuracy forKey:@"vac"];
+            NSMutableDictionary *coordsDict = [NSMutableDictionary dictionaryWithCapacity:8];
+            [coordsDict setValue:coord.altitude  forKey:@"a"];  //altitude
+            [coordsDict setValue:coord.latitude  forKey:@"l"];  //latitude
+            [coordsDict setValue:coord.longitude forKey:@"n"];  //longitude
+            [coordsDict setValue:coord.speed     forKey:@"s"];  //speed
+            [coordsDict setValue:coord.hAccuracy forKey:@"h"];  //haccuracy
+            [coordsDict setValue:coord.vAccuracy forKey:@"v"];  //vaccuracy
             
             NSString *newDateString = [outputFormatter stringFromDate:coord.recorded];
-            [coordsDict setValue:newDateString forKey:@"rec"];
+            [coordsDict setValue:newDateString forKey:@"r"];    //recorded timestamp
+            
+            NSMutableDictionary *accelDict = [NSMutableDictionary dictionaryWithCapacity:9];
+            [accelDict setValue:@"iPhone Accelerometer" forKey:@"s_id"];
+            [accelDict setValue:[NSNumber numberWithInteger:1] forKey:@"s_t"];
+            [accelDict setValue:coord.numAccelObs forKey:@"s_ns"];
+            [accelDict setValue:coord.accel_x forKey:@"s_a0"];
+            [accelDict setValue:coord.accel_y forKey:@"s_a1"];
+            [accelDict setValue:coord.accel_z forKey:@"s_a2"];
+            [accelDict setValue:coord.ss_x forKey:@"s_s0"];
+            [accelDict setValue:coord.ss_y forKey:@"s_s1"];
+            [accelDict setValue:coord.ss_z forKey:@"s_s2"];
+            
+            [coordsDict setObject:accelDict forKey: @"sr"];
+            
             [tripDict setValue:coordsDict forKey:newDateString];
         }
 #else
@@ -1105,16 +1207,30 @@
         // create a tripDict entry for each coord
         while (coord = [enumerator nextObject])
         {
-            NSMutableDictionary *coordsDict = [NSMutableDictionary dictionaryWithCapacity:7];
-            [coordsDict setValue:coord.altitude  forKey:@"altitude"];
-            [coordsDict setValue:coord.latitude  forKey:@"latitude"];
-            [coordsDict setValue:coord.longitude forKey:@"longitude"];
-            [coordsDict setValue:coord.speed     forKey:@"speed"];
-            [coordsDict setValue:coord.hAccuracy forKey:@"hAccuracy"];
-            [coordsDict setValue:coord.vAccuracy forKey:@"vAccuracy"];
+            NSMutableDictionary *coordsDict = [NSMutableDictionary dictionaryWithCapacity:8];
+            [coordsDict setValue:coord.altitude  forKey:@"a"];  //altitude
+            [coordsDict setValue:coord.latitude  forKey:@"l"];  //latitude
+            [coordsDict setValue:coord.longitude forKey:@"n"];  //longitude
+            [coordsDict setValue:coord.speed     forKey:@"s"];  //speed
+            [coordsDict setValue:coord.hAccuracy forKey:@"h"];  //haccuracy
+            [coordsDict setValue:coord.vAccuracy forKey:@"v"];  //vaccuracy
             
             NSString *newDateString = [outputFormatter stringFromDate:coord.recorded];
-            [coordsDict setValue:newDateString forKey:@"recorded"];
+            [coordsDict setValue:newDateString forKey:@"r"];    //recorded timestamp
+            
+            NSMutableDictionary *accelDict = [NSMutableDictionary dictionaryWithCapacity:9];
+            [accelDict setValue:@"iPhone Accelerometer" forKey:@"s_id"];
+            [accelDict setValue:[NSNumber numberWithInteger:1] forKey:@"s_t"];
+            [accelDict setValue:coord.numAccelObs forKey:@"s_ns"];
+            [accelDict setValue:coord.accel_x forKey:@"s_a0"];
+            [accelDict setValue:coord.accel_y forKey:@"s_a1"];
+            [accelDict setValue:coord.accel_z forKey:@"s_a2"];
+            [accelDict setValue:coord.ss_x forKey:@"s_s0"];
+            [accelDict setValue:coord.ss_y forKey:@"s_s1"];
+            [accelDict setValue:coord.ss_z forKey:@"s_s2"];
+            
+            [coordsDict setObject:accelDict forKey: @"sr"];
+            
             [tripDict setValue:coordsDict forKey:newDateString];
         }
 #endif

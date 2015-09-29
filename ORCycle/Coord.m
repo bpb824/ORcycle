@@ -41,4 +41,12 @@
 @dynamic altitude;
 @dynamic trip;
 
+@dynamic accel_x;
+@dynamic accel_y;
+@dynamic accel_z;
+@dynamic ss_x;
+@dynamic ss_y;
+@dynamic ss_z;
+@dynamic numAccelObs;
+
 @end

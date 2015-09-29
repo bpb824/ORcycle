@@ -91,6 +91,7 @@
 //@synthesize consentFor18;
 @synthesize isRecording;
 @synthesize locationManager;
+@synthesize motionManager;
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -255,9 +256,11 @@
     if(appDelegate.isRecording){
         NSLog(@"BACKGROUNDED and recording"); //set location service to startUpdatingLocation
         [appDelegate.locationManager startUpdatingLocation];
+        [appDelegate.motionManager startAccelerometerUpdates];
     } else {
         NSLog(@"BACKGROUNDED and sitting idle"); //set location service to startMonitoringSignificantLocationChanges
         [appDelegate.locationManager stopUpdatingLocation];
+        [appDelegate.motionManager stopAccelerometerUpdates];
         //[appDelegate.locationManager startMonitoringSignificantLocationChanges];
     }
 }
@@ -276,6 +279,7 @@
     RenoTracksAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     //[appDelegate.locationManager stoptMonitoringSignificantLocationChanges];
     [appDelegate.locationManager startUpdatingLocation];
+    [appDelegate.motionManager startAccelerometerUpdates];
 }
 
 
@@ -375,10 +379,12 @@
     self.uniqueIDHash = nil;
     self.isRecording = nil;
     self.locationManager = nil;
+    self.motionManager = nil;
     
     [tabBarController release];
     [uniqueIDHash release];
     [locationManager release];
+    [motionManager release];
 	[window release];
     
     [managedObjectContext release];

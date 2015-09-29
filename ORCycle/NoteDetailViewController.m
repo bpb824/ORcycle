@@ -147,7 +147,7 @@
         numFields = numFields + 1;
     }
     
-    if (gpsLoc || customLoc ){
+    if ((gpsLoc  || customLoc) && [noteDelegate noteLocExists] ){
         didPickLoc = true;
     }
     
@@ -710,16 +710,37 @@
                     NSIndexPath *customIndex = [NSIndexPath indexPathForRow:1 inSection:2];
                     UITableViewCell *customCell = [infoTableView cellForRowAtIndexPath:customIndex];
                     if(cell.accessoryType == UITableViewCellAccessoryNone && customCell.accessoryType == UITableViewCellAccessoryNone) {
-                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                        gpsLoc = true;
-                        customLoc = false;
+                        if([noteDelegate noteLocExists]){
+                            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                            gpsLoc = true;
+                            customLoc = false;
+                        }else{
+                            UIAlertView *alert = [[UIAlertView alloc]
+                                                  initWithTitle:@"Null Location"
+                                                  message:@"ORcycle cannot access your GPS location. Please change your location privacy settings or select a custom location."
+                                                  delegate:nil
+                                                  cancelButtonTitle:@"Back"
+                                                  otherButtonTitles:nil];
+                            [alert show];
+                        }
                     }
                     else if (cell.accessoryType ==UITableViewCellAccessoryNone && customCell.accessoryType == UITableViewCellAccessoryCheckmark){
-                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                        customCell.accessoryType = UITableViewCellAccessoryNone;
-                        gpsLoc = true;
-                        customLoc = false;
-                        [noteDelegate revertGPSLocation];
+                        if([noteDelegate noteLocExists]){
+                            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                            customCell.accessoryType = UITableViewCellAccessoryNone;
+                            gpsLoc = true;
+                            customLoc = false;
+                            [noteDelegate revertGPSLocation];
+                        }else{
+                            UIAlertView *alert = [[UIAlertView alloc]
+                                                  initWithTitle:@"Null Location"
+                                                  message:@"ORcycle cannot access your GPS location. Please change your location privacy settings or select a custom location."
+                                                  delegate:nil
+                                                  cancelButtonTitle:@"Back"
+                                                  otherButtonTitles:nil];
+                            [alert show];
+                        }
+                        
                     }
                     else {
                         cell.accessoryType = UITableViewCellAccessoryNone;

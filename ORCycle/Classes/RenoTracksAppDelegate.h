@@ -82,7 +82,7 @@
     CMMotionManager *motionManager;
 }
 
-@property (readonly) CMMotionManager *motionManager;
+@property (nonatomic,retain) CMMotionManager *motionManager;
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;

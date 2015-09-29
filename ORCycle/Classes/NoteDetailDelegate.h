@@ -33,6 +33,8 @@
 - (void)promptEmail;
 - (void)backOut;
 
+- (BOOL)noteLocExists;
+
 - (void)didPickIsCrash:(BOOL *)boolean;
 
 - (void)didPickConflictWith:(NSString *)conflictWithString;
