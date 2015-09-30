@@ -123,6 +123,9 @@
 
 - (NSNumber *)meanOf:(NSMutableArray *)array
 {
+    
+    const float g = 9.806;
+    
     double runningTotal = 0.0;
     
     for(NSNumber *number in array)
@@ -130,11 +133,13 @@
         runningTotal += [number doubleValue];
     }
     
-    return [NSNumber numberWithDouble:(runningTotal / [array count])];
+    return [NSNumber numberWithDouble:((runningTotal * g) / [array count])];
 }
 
 - (NSNumber *)ssDiffOf:(NSMutableArray *)array
 {
+    const float g = 9.806;
+    
     if(![array count]) return nil;
     
     double mean = [[self meanOf:array] doubleValue];
@@ -147,7 +152,7 @@
         sumOfSquaredDifferences += difference * difference;
     }
     
-    return [NSNumber numberWithDouble:sumOfSquaredDifferences];
+    return [NSNumber numberWithDouble:sumOfSquaredDifferences * g ];
 }
  
 
@@ -167,7 +172,7 @@
         [zData addObject:[NSNumber numberWithDouble: accelObs.acceleration.z]];
     }
     
-    [aggData setValue: [self meanOf:xData] forKey: @"x_avg"];
+    [aggData setValue: [self meanOf:xData]  forKey: @"x_avg"];
     [aggData setValue:[self meanOf:yData] forKey: @"y_avg"];
     [aggData setValue:[self meanOf:zData] forKey: @"z_avg"];
     
@@ -600,7 +605,7 @@
     [locationManger startUpdatingLocation];
     
     self.motionManager = [self getMotionManager];
-    self.motionManager.accelerometerUpdateInterval = .2;
+    self.motionManager.accelerometerUpdateInterval = .02;
     
     [self newAccelData];
     

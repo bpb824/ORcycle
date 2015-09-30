@@ -1163,7 +1163,9 @@
             [accelDict setValue:coord.ss_y forKey:@"s_s1"];
             [accelDict setValue:coord.ss_z forKey:@"s_s2"];
             
-            [coordsDict setObject:accelDict forKey: @"sr"];
+            NSArray *accelArray = [[NSArray alloc] initWithObjects:accelDict, nil];
+            
+            [coordsDict setObject:accelArray forKey: @"sr"];
             
             [tripDict setValue:coordsDict forKey:newDateString];
         }
