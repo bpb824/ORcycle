@@ -1226,7 +1226,7 @@
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1252,7 +1252,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.pdx.cecs.orcycle;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1270,7 +1270,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "f4879f19-c743-4b88-8afc-fed1f484071a";
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "f4879f19-c743-4b88-8afc-fed1f484071a";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 			};
 			name = Distribution;
 		};
@@ -1296,7 +1296,7 @@
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Distribution;
@@ -1314,7 +1314,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 			};
 			name = Beta;
 		};
@@ -1342,7 +1342,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.pdx.cecs.orcycle;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Beta;
@@ -1359,7 +1359,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 			};
 			name = "Release Beta";
 		};
@@ -1385,7 +1385,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = edu.pdx.cecs.orcycle;
 				PRODUCT_NAME = ORcycle;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Release Beta";
@@ -1403,7 +1403,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 			};
 			name = Debug;
 		};
@@ -1419,7 +1419,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos7.0]" = "";
-				SDKROOT = iphoneos8.1;
+				SDKROOT = iphoneos9.0;
 			};
 			name = Release;
 		};
