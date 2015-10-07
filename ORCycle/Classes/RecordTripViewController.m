@@ -167,6 +167,8 @@
     
     appDelegate.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
+    appDelegate.locationManager.allowsBackgroundLocationUpdates = YES;
+    
     return appDelegate.locationManager;
 }
 
