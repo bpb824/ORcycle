@@ -130,8 +130,6 @@
     float speedCheck;
 
 	NSTimer *timer;
-    
-    NSMutableArray *accelDataHolder;
 	
 	// pointer to opacity mask, TabBar view
 	UIView *opacityMask;
@@ -149,6 +147,8 @@
     
     CLLocation *myLocation;
 	ReminderManager *reminderManager;
+    
+    NSMutableArray *accelDataHolder;
 }
 
 //@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
@@ -158,8 +158,6 @@
 @property (nonatomic, retain) UITableViewCell	*tripPurposeCell;
 @property (nonatomic, retain) UITableViewCell	*personalInfoCell;
 */
-
-@property (strong, nonatomic) CMMotionManager *motionManager;
 
 @property (nonatomic, retain) UIButton *infoButton;
 @property (nonatomic, retain) UIButton *saveButton;
@@ -174,7 +172,6 @@
 @property (nonatomic, retain) UILabel *distCounter;
 @property (nonatomic, retain) UIActionSheet *saveActionSheet;
 
-@property (nonatomic,retain) NSMutableArray *accelDataHolder;
 
 @property (assign) BOOL iSpeedCheck;
 @property (assign) BOOL speedNoteUp;
@@ -233,8 +230,19 @@
 - (void)displayUploadedTripMap;
 - (void)displayUploadedNote;
 
+//Accelerometer stuff
+
+@property (nonatomic,retain) NSMutableArray *accelDataHolder;
+
+
 //Math
 - (NSNumber *)meanOf:(NSMutableArray *)array;
 - (NSNumber *)ssDiffOf:(NSMutableArray *)array;
+
+- (NSMutableDictionary *)aggAccelData:(NSMutableArray *)accelArray;
+- (void)newAccelData;
+
+
+
 
 @end

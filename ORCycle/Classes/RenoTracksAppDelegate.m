@@ -65,8 +65,6 @@
 //	e-mail Billy Charlton at the SFCTA <billy.charlton@sfcta.org>
 
 #import <CommonCrypto/CommonDigest.h>
-
-
 #import "RenoTracksAppDelegate.h"
 #import "PersonalInfoViewController.h"
 #import "RecordTripViewController.h"
@@ -93,6 +91,7 @@
 @synthesize locationManager;
 @synthesize motionManager;
 
+
 #pragma mark -
 #pragma mark Application lifecycle
 
@@ -104,7 +103,9 @@
         //[UIApplication sharedApplication].idleTimerDisabled = NO;
         
         [self.locationManager requestAlwaysAuthorization];
-        
+    
+    [self.motionManager startAccelerometerUpdates];
+    
         [UIApplication sharedApplication].idleTimerDisabled = YES;
         
         UITabBar *tabBar = tabBarController.tabBar;
@@ -256,11 +257,11 @@
     if(appDelegate.isRecording){
         NSLog(@"BACKGROUNDED and recording"); //set location service to startUpdatingLocation
         [appDelegate.locationManager startUpdatingLocation];
-        [appDelegate.motionManager startAccelerometerUpdates];
+        //[appDelegate.motionManager startAccelerometerUpdates];
     } else {
         NSLog(@"BACKGROUNDED and sitting idle"); //set location service to startMonitoringSignificantLocationChanges
         [appDelegate.locationManager stopUpdatingLocation];
-        [appDelegate.motionManager stopAccelerometerUpdates];
+        //[appDelegate.motionManager stopAccelerometerUpdates];
         //[appDelegate.locationManager startMonitoringSignificantLocationChanges];
     }
 }
@@ -279,7 +280,7 @@
     RenoTracksAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     //[appDelegate.locationManager stoptMonitoringSignificantLocationChanges];
     [appDelegate.locationManager startUpdatingLocation];
-    [appDelegate.motionManager startAccelerometerUpdates];
+    //[appDelegate.motionManager startAccelerometerUpdates];
 }
 
 
@@ -360,13 +361,6 @@
  */
 - (NSString *)applicationDocumentsDirectory {
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-}
-
-- (CMMotionManager *)motionManager
-{
-    if (!motionManager) motionManager = [[CMMotionManager alloc] init];
-    
-    return motionManager;
 }
 
 

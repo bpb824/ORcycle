@@ -80,9 +80,9 @@
     BOOL isRecording;
     CLLocationManager *locationManager;
     CMMotionManager *motionManager;
+
 }
 
-@property (nonatomic,retain) CMMotionManager *motionManager;
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
@@ -95,6 +95,8 @@
 // added to handle location manager background service switching
 @property (nonatomic, assign) BOOL isRecording;
 @property (nonatomic, retain) CLLocationManager *locationManager;
+
+@property (nonatomic,retain) CMMotionManager *motionManager;
 
 - (NSString *)applicationDocumentsDirectory;
 - (void)initUniqueIDHash;

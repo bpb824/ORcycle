@@ -63,6 +63,7 @@
 //	e-mail Billy Charlton at the SFCTA <billy.charlton@sfcta.org>
 
 #include <AudioToolbox/AudioToolbox.h>
+#include <math.h>
 #import <QuartzCore/QuartzCore.h>
 #import "constants.h"
 #import "MapViewController.h"
@@ -92,98 +93,21 @@
 @synthesize recording, shouldUpdateCounter, userInfoSaved, iSpeedCheck, timeSpeedCheck, distSpeedCheck, speedCheck, speedNoteUp;
 @synthesize appDelegate;
 @synthesize saveActionSheet;
+
 @synthesize accelDataHolder;
 
 #pragma mark CMMotionManagerDelegate methods
 
 - (CMMotionManager *)getMotionManager
 {
-    CMMotionManager *motionManager = nil;
-    
-    appDelegate = [[UIApplication sharedApplication] delegate];
-    
-    if ([appDelegate respondsToSelector:@selector(motionManager)]) {
-        motionManager = [appDelegate motionManager];
+    if (appDelegate.motionManager != nil){
+        return appDelegate.motionManager;
+    }else{
+        appDelegate.motionManager = [[[CMMotionManager alloc]init]autorelease];
+        return appDelegate.motionManager;
     }
-    
-    return motionManager;
 }
 
-- (void)newAccelData
-{
-    NSMutableArray *emptyArray = [[NSMutableArray alloc]init];
-    self.accelDataHolder = emptyArray;
-}
-
-- (void) addAccelObs: (CMAccelerometerData *)accelObs
-{
-    [self.accelDataHolder addObject:accelObs];
-    
-}
-
-- (NSNumber *)meanOf:(NSMutableArray *)array
-{
-    
-    const float g = 9.806;
-    
-    double runningTotal = 0.0;
-    
-    for(NSNumber *number in array)
-    {
-        runningTotal += [number doubleValue];
-    }
-    
-    return [NSNumber numberWithDouble:((runningTotal * g) / [array count])];
-}
-
-- (NSNumber *)ssDiffOf:(NSMutableArray *)array
-{
-    const float g = 9.806;
-    
-    if(![array count]) return nil;
-    
-    double mean = [[self meanOf:array] doubleValue];
-    double sumOfSquaredDifferences = 0.0;
-    
-    for(NSNumber *number in array)
-    {
-        double valueOfNumber = [number doubleValue];
-        double difference = valueOfNumber - mean;
-        sumOfSquaredDifferences += difference * difference;
-    }
-    
-    return [NSNumber numberWithDouble:sumOfSquaredDifferences * g ];
-}
- 
-
-
-- (NSMutableDictionary *)aggAccelData:(NSMutableArray *)accelArray
-{
-    NSMutableDictionary *aggData = [NSMutableDictionary dictionaryWithCapacity:7];
-    
-    NSMutableArray *xData = [[NSMutableArray alloc]init];
-    NSMutableArray *yData = [[NSMutableArray alloc]init];
-    NSMutableArray *zData = [[NSMutableArray alloc]init];
-    
-    for (int i=0; i < [accelArray count];i++){
-        CMAccelerometerData *accelObs = [accelArray objectAtIndex:i];
-        [xData addObject:[NSNumber numberWithDouble: accelObs.acceleration.x]];
-        [yData addObject:[NSNumber numberWithDouble: accelObs.acceleration.y]];
-        [zData addObject:[NSNumber numberWithDouble: accelObs.acceleration.z]];
-    }
-    
-    [aggData setValue: [self meanOf:xData]  forKey: @"x_avg"];
-    [aggData setValue:[self meanOf:yData] forKey: @"y_avg"];
-    [aggData setValue:[self meanOf:zData] forKey: @"z_avg"];
-    
-    [aggData setValue: [self ssDiffOf:xData] forKey: @"x_ss"];
-    [aggData setValue:[self ssDiffOf:yData] forKey: @"y_ss"];
-    [aggData setValue:[self ssDiffOf:zData] forKey: @"z_ss"];
-    
-    [aggData setValue:[NSNumber numberWithInteger:[accelArray count]] forKey: @"numObs"];
-
-    return aggData;
-}
 
 
 #pragma mark CLLocationManagerDelegate methods
@@ -253,6 +177,90 @@
     
 }
 
+
+- (void)newAccelData
+{
+    NSMutableArray *emptyArray = [[NSMutableArray alloc]init];
+    self.accelDataHolder = emptyArray;
+}
+
+
+- (NSNumber *)meanOf:(NSMutableArray *)array
+{
+    
+    const float g = -9.806;
+    
+    double runningTotal = 0.0;
+    
+    for(NSNumber *number in array)
+    {
+        runningTotal += [number doubleValue];
+    }
+    
+    return [NSNumber numberWithDouble:((runningTotal * g) / [array count])];
+}
+
+- (NSNumber *)ssDiffOf:(NSMutableArray *)array
+{
+    const float g = -9.806;
+    
+    if(![array count]) return nil;
+    
+    double mean = [[self meanOf:array] doubleValue];
+    double sumOfSquaredDifferences = 0.0;
+    
+    for(NSNumber *number in array)
+    {
+        double valueOfNumber = [number doubleValue];
+        double difference = g*valueOfNumber - mean;
+        sumOfSquaredDifferences += difference * difference;
+    }
+    
+    return [NSNumber numberWithDouble:sumOfSquaredDifferences ];
+}
+
+
+
+- (NSMutableDictionary *)aggAccelData:(NSMutableArray *)accelArray
+{
+    NSMutableDictionary *aggData = [NSMutableDictionary dictionaryWithCapacity:7];
+    
+    if ([accelArray count]!=0){
+        NSMutableArray *xData = [[NSMutableArray alloc]init];
+        NSMutableArray *yData = [[NSMutableArray alloc]init];
+        NSMutableArray *zData = [[NSMutableArray alloc]init];
+        
+        for (int i=0; i < [accelArray count];i++){
+            CMAccelerometerData *accelObs = [accelArray objectAtIndex:i];
+            [xData addObject:[NSNumber numberWithDouble: accelObs.acceleration.x]];
+            [yData addObject:[NSNumber numberWithDouble: accelObs.acceleration.y]];
+            [zData addObject:[NSNumber numberWithDouble: accelObs.acceleration.z]];
+        }
+        
+        [aggData setValue: [self meanOf:xData]  forKey: @"x_avg"];
+        [aggData setValue:[self meanOf:yData] forKey: @"y_avg"];
+        [aggData setValue:[self meanOf:zData] forKey: @"z_avg"];
+        
+        [aggData setValue: [self ssDiffOf:xData] forKey: @"x_ss"];
+        [aggData setValue:[self ssDiffOf:yData] forKey: @"y_ss"];
+        [aggData setValue:[self ssDiffOf:zData] forKey: @"z_ss"];
+        
+        [aggData setValue:[NSNumber numberWithInteger:[accelArray count]] forKey: @"numObs"];
+    }else{
+        [aggData setValue: 0  forKey: @"x_avg"];
+        [aggData setValue:0 forKey: @"y_avg"];
+        [aggData setValue:0 forKey: @"z_avg"];
+        
+        [aggData setValue: 0 forKey: @"x_ss"];
+        [aggData setValue: 0 forKey: @"y_ss"];
+        [aggData setValue: 0 forKey: @"z_ss"];
+        
+        [aggData setValue: 0 forKey: @"numObs"];
+    }
+    return aggData;
+}
+
+
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
@@ -284,14 +292,24 @@
 	}
     
 	if ( recording )
+        
 	{
-		// add to CoreData store
-        NSMutableDictionary *aggedAccelData = [self aggAccelData:self.accelDataHolder];
-        [self newAccelData];
-        CLLocationDistance distance = [tripManager addCoord:newLocation withAccel:aggedAccelData];
-		self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
+        //CLLocationDistance distance = [tripManager addOnlyCoord:newLocation];
+        //self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
         
-        
+        CLLocationDistance distance = 0;
+        if ([appDelegate.motionManager isAccelerometerAvailable]){
+            NSMutableDictionary *aggedAccelData = [self aggAccelData:self.accelDataHolder];
+            [self newAccelData];
+            distance = [tripManager addCoord:newLocation withAccel:aggedAccelData];
+            self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
+
+        }else{
+            distance = [tripManager addOnlyCoord:newLocation];
+            self.distCounter.text = [NSString stringWithFormat:@"%.1f", distance / 1609.344];
+
+        }
+
         
         /*
         //Calory text
@@ -604,19 +622,23 @@
     
     [locationManger startUpdatingLocation];
     
-    self.motionManager = [self getMotionManager];
-    self.motionManager.accelerometerUpdateInterval = .02;
+    CMMotionManager *motionManager = [self getMotionManager];
+    
+    motionManager.accelerometerUpdateInterval = .02;
     
     [self newAccelData];
     
-    [self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
-                                             withHandler:^(CMAccelerometerData  *accelerometerData, NSError *error) {
-                                                 [self addAccelObs:accelerometerData];
-                                                 if(error){
-                                                     
-                                                     NSLog(@"%@", error);
-                                                 }
-                                             }];
+    CMAccelerometerHandler accelHandler = ^(CMAccelerometerData *accelerometerData, NSError *error)
+    {
+        [self.accelDataHolder addObject:accelerometerData];
+        if(error){
+            NSLog(@"%@", error);
+        }
+        
+    };
+    
+    [motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:accelHandler];
+
     
     appDelegate = [[UIApplication sharedApplication] delegate];
     appDelegate.isRecording = NO;
@@ -1553,6 +1575,7 @@
         
         // set recording flag so future location updates will be added as coords
         appDelegate = [[UIApplication sharedApplication] delegate];
+        
         appDelegate.isRecording = YES;
         recording = YES;
         [[NSUserDefaults standardUserDefaults] setInteger:1 forKey: @"recording"];

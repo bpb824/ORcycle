@@ -293,7 +293,7 @@
 }
 
 
-- (CLLocationDistance)addCoord:(CLLocation *)location
+- (CLLocationDistance)addOnlyCoord:(CLLocation *)location
 {
 	NSLog(@"addCoord");
 	
@@ -314,6 +314,15 @@
 	[coord setSpeed:[NSNumber numberWithDouble:location.speed]];
 	[coord setHAccuracy:[NSNumber numberWithDouble:location.horizontalAccuracy]];
 	[coord setVAccuracy:[NSNumber numberWithDouble:location.verticalAccuracy]];
+    
+    [coord setAccel_x: 0];
+    [coord setAccel_y: 0];
+    [coord setAccel_z: 0];
+    [coord setSs_x:0];
+    [coord setSs_y:0];
+    [coord setSs_z:0];
+    [coord setNumAccelObs:0];
+
 	
 	[trip addCoordsObject:coord];
 	//[coord setTrip:trip];
@@ -1155,13 +1164,50 @@
             NSMutableDictionary *accelDict = [NSMutableDictionary dictionaryWithCapacity:9];
             [accelDict setValue:@"iPhone Accelerometer" forKey:@"s_id"];
             [accelDict setValue:[NSNumber numberWithInteger:1] forKey:@"s_t"];
-            [accelDict setValue:coord.numAccelObs forKey:@"s_ns"];
-            [accelDict setValue:coord.accel_x forKey:@"s_a0"];
-            [accelDict setValue:coord.accel_y forKey:@"s_a1"];
-            [accelDict setValue:coord.accel_z forKey:@"s_a2"];
-            [accelDict setValue:coord.ss_x forKey:@"s_s0"];
-            [accelDict setValue:coord.ss_y forKey:@"s_s1"];
-            [accelDict setValue:coord.ss_z forKey:@"s_s2"];
+            
+            NSLog(@"Float value of accel x = %f", [coord.accel_x floatValue]);
+            
+            if([coord.numAccelObs floatValue] != NAN){
+                [accelDict setValue:coord.numAccelObs forKey:@"s_ns"];
+            }else{
+                [accelDict setValue:0 forKey:@"s_ns"];
+            }
+            
+            if([coord.accel_x floatValue] != NAN){
+                [accelDict setValue:coord.accel_x forKey:@"s_a0"];
+            }else{
+                [accelDict setValue:0 forKey:@"s_a0"];
+            }
+            
+            if([coord.accel_y floatValue] != NAN){
+                [accelDict setValue:coord.accel_y forKey:@"s_a1"];
+            }else{
+                [accelDict setValue:0 forKey:@"s_a1"];
+            }
+            
+            if([coord.accel_z floatValue] != NAN){
+                [accelDict setValue:coord.accel_z forKey:@"s_a2"];
+            }else{
+                [accelDict setValue:0 forKey:@"s_a2"];
+            }
+
+            if([coord.ss_x floatValue] != NAN){
+                [accelDict setValue:coord.ss_x forKey:@"s_s0"];
+            }else{
+                [accelDict setValue:0 forKey:@"s_s0"];
+            }
+            
+            if([coord.ss_y floatValue] != NAN){
+                [accelDict setValue:coord.ss_y forKey:@"s_s1"];
+            }else{
+                [accelDict setValue:0 forKey:@"s_s1"];
+            }
+            
+            if([coord.ss_z floatValue] != NAN){
+                [accelDict setValue:coord.ss_z forKey:@"s_s2"];
+            }else{
+                [accelDict setValue:0 forKey:@"s_s2"];
+            }
             
             NSArray *accelArray = [[NSArray alloc] initWithObjects:accelDict, nil];
             
