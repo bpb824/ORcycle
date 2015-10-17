@@ -223,31 +223,31 @@
         }
         
         if ([routePrefsArray[0] integerValue]==1){
-            [routePrefsString appendString:@", It is direct/fast"];
-        }
-        if ([routePrefsArray[1] integerValue]==1){
-            [routePrefsString appendString:@", It has good bicycle facilities"];
-        }
-        if ([routePrefsArray[2] integerValue]==1){
             [routePrefsString appendString:@", It is enjoyable/has nice scenery"];
         }
-        if ([routePrefsArray[3] integerValue]==1){
+        if ([routePrefsArray[1] integerValue]==1){
             [routePrefsString appendString:@", It is good for a workout"];
         }
-        if ([routePrefsArray[4] integerValue]==1){
+        if ([routePrefsArray[2] integerValue]==1){
             [routePrefsString appendString:@", It has low traffic/low speeds"];
         }
-        if ([routePrefsArray[5] integerValue]==1){
+        if ([routePrefsArray[3] integerValue]==1){
             [routePrefsString appendString:@", It has few busy intersections"];
         }
-        if ([routePrefsArray[6] integerValue]==1){
+        if ([routePrefsArray[4] integerValue]==1){
+            [routePrefsString appendString:@", It has good bicycle facilities"];
+        }
+        if ([routePrefsArray[5] integerValue]==1){
             [routePrefsString appendString:@", It has few/easy hills"];
         }
-        if ([routePrefsArray[7] integerValue]==1){
+        if ([routePrefsArray[6] integerValue]==1){
             [routePrefsString appendString:@", It has other riders/people"];
         }
-        if ([routePrefsArray[8] integerValue]==1){
+        if ([routePrefsArray[7] integerValue]==1){
             [routePrefsString appendString:@", It is good for families/kids"];
+        }
+        if ([routePrefsArray[8] integerValue]==1){
+            [routePrefsString appendString:@", It is direct/fast"];
         }
         if ([routePrefsArray[9] integerValue]==1){
             [routePrefsString appendString:@", I do not know/have another route"];

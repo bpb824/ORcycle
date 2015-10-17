@@ -202,7 +202,7 @@
     return [NSNumber numberWithDouble:((runningTotal * g) / [array count])];
 }
 
-- (NSNumber *)ssDiffOf:(NSMutableArray *)array
+- (NSNumber *)stdev:(NSMutableArray *)array
 {
     const float g = -9.806;
     
@@ -218,7 +218,7 @@
         sumOfSquaredDifferences += difference * difference;
     }
     
-    return [NSNumber numberWithDouble:sumOfSquaredDifferences ];
+    return [NSNumber numberWithDouble:sqrt(sumOfSquaredDifferences/ [array count]) ];
 }
 
 
@@ -243,9 +243,9 @@
         [aggData setValue:[self meanOf:yData] forKey: @"y_avg"];
         [aggData setValue:[self meanOf:zData] forKey: @"z_avg"];
         
-        [aggData setValue: [self ssDiffOf:xData] forKey: @"x_ss"];
-        [aggData setValue:[self ssDiffOf:yData] forKey: @"y_ss"];
-        [aggData setValue:[self ssDiffOf:zData] forKey: @"z_ss"];
+        [aggData setValue: [self stdev:xData] forKey: @"x_ss"];
+        [aggData setValue:[self stdev:yData] forKey: @"y_ss"];
+        [aggData setValue:[self stdev:zData] forKey: @"z_ss"];
         
         [aggData setValue:[NSNumber numberWithInteger:[accelArray count]] forKey: @"numObs"];
     }else{
@@ -1549,57 +1549,92 @@
 - (IBAction)start:(UIButton *)sender
 {
     
-    if(recording == NO)
-    {
-        NSLog(@"start");
+    if ([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusAvailable) {
         
-        // start the timer if needed
-        if ( timer == nil )
+        NSLog(@"Background updates are available for the app.");
+        
+        if(recording == NO)
         {
-			[self resetCounter];
-			timer = [NSTimer scheduledTimerWithTimeInterval:kCounterTimeInterval
-													 target:self selector:@selector(updateCounter:)
-												   userInfo:[self newTripTimerUserInfo] repeats:YES];
+            NSLog(@"start");
+            
+            // start the timer if needed
+            if ( timer == nil )
+            {
+                [self resetCounter];
+                timer = [NSTimer scheduledTimerWithTimeInterval:kCounterTimeInterval
+                                                         target:self selector:@selector(updateCounter:)
+                                                       userInfo:[self newTripTimerUserInfo] repeats:YES];
+            }
+            
+            UIImage *buttonImage = [[UIImage imageNamed:@"redButton.png"]
+                                    resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+            UIImage *buttonImageHighlight = [[UIImage imageNamed:@"redButtonHighlight.png"]
+                                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+            
+            [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+            [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+            [startButton setTitleColor:plainWhite forState:UIControlStateNormal];
+            [startButton setTitle:@"Finish" forState:UIControlStateNormal];
+            [startButton.layer setCornerRadius:5.0f];
+            startButton.clipsToBounds = YES;
+            startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
+            
+            // set recording flag so future location updates will be added as coords
+            appDelegate = [[UIApplication sharedApplication] delegate];
+            
+            appDelegate.isRecording = YES;
+            recording = YES;
+            [[NSUserDefaults standardUserDefaults] setInteger:1 forKey: @"recording"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self newAccelData];
+            
+            // set flag to update counter
+            shouldUpdateCounter = YES;
         }
-        
-        UIImage *buttonImage = [[UIImage imageNamed:@"redButton.png"]
-                                resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-        UIImage *buttonImageHighlight = [[UIImage imageNamed:@"redButtonHighlight.png"]
-                                         resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+        // do the saving
+        else
+        {
+            NSLog(@"User Press Save Button");
+            saveActionSheet = [[UIActionSheet alloc]
+                               initWithTitle:@""
+                               delegate:self
+                               cancelButtonTitle:@"Continue"
+                               destructiveButtonTitle:@"Discard"
+                               otherButtonTitles:@"Save",nil];
+            //[saveActionSheet showInView:self.view];
+            [saveActionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        }
 
-        [startButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        [startButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-        [startButton setTitleColor:plainWhite forState:UIControlStateNormal];
-        [startButton setTitle:@"Finish" forState:UIControlStateNormal];
-        [startButton.layer setCornerRadius:5.0f];
-        startButton.clipsToBounds = YES;
-        startButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
         
-        // set recording flag so future location updates will be added as coords
-        appDelegate = [[UIApplication sharedApplication] delegate];
-        
-        appDelegate.isRecording = YES;
-        recording = YES;
-        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey: @"recording"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        // set flag to update counter
-        shouldUpdateCounter = YES;
-    }
-    // do the saving
-    else
+    }else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied)
     {
-        NSLog(@"User Press Save Button");
-        saveActionSheet = [[UIActionSheet alloc]
-                           initWithTitle:@""
-                           delegate:self
-                           cancelButtonTitle:@"Continue"
-                           destructiveButtonTitle:@"Discard"
-                           otherButtonTitles:@"Save",nil];
-        //[saveActionSheet showInView:self.view];
-        [saveActionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        NSLog(@"The user explicitly disabled background behavior for this app or for the whole system.");
+        
+        UIAlertView *denied = [[UIAlertView alloc]
+                              initWithTitle:@"Background Refresh Unavailable"
+                              message:@"Please enable background app refresh to record a trip (Settings>General>Background App Refresh>ORcycle)"
+                              delegate:self
+                              cancelButtonTitle:@"Okay"
+                              otherButtonTitles:nil];
+        
+        [denied show];
+        
+    }else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted)
+    {
+        NSLog(@"Background updates are unavailable and the user cannot enable them again. For example, this status can occur when parental controls are in effect for the current user.");
+        
+        UIAlertView *denied = [[UIAlertView alloc]
+                               initWithTitle:@"Background Refresh Unavailable"
+                               message:@"Please enable background app refresh to record a trip (Settings>General>Background App Refresh>ORcycle)"
+                               delegate:self
+                               cancelButtonTitle:@"Okay"
+                               otherButtonTitles:nil];
+        
+        [denied show];
     }
-	
+    
+    
 }
 - (void)save
 {

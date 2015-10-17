@@ -1091,6 +1091,15 @@
 
 - (void)saveTrip
 {
+    NSNumberFormatter *roundSeven = [[NSNumberFormatter alloc]init];
+    [roundSeven setMaximumFractionDigits:7];
+    
+    NSNumberFormatter *roundTwo = [[NSNumberFormatter alloc]init];
+    [roundTwo setMaximumFractionDigits:2];
+    
+    NSNumberFormatter *roundOne = [[NSNumberFormatter alloc]init];
+    [roundOne setMaximumFractionDigits:1];
+    
     if ([coords count] >=1){
         NSLog(@"about to save trip with %lu coords...", (unsigned long)[coords count]);
         
@@ -1151,10 +1160,10 @@
         while (coord = [enumerator nextObject])
         {
             NSMutableDictionary *coordsDict = [NSMutableDictionary dictionaryWithCapacity:8];
-            [coordsDict setValue:coord.altitude  forKey:@"a"];  //altitude
-            [coordsDict setValue:coord.latitude  forKey:@"l"];  //latitude
-            [coordsDict setValue:coord.longitude forKey:@"n"];  //longitude
-            [coordsDict setValue:coord.speed     forKey:@"s"];  //speed
+            [coordsDict setValue: [roundOne stringFromNumber:coord.altitude ]  forKey:@"a"];  //altitude
+            [coordsDict setValue:[roundSeven stringFromNumber:coord.latitude ]  forKey:@"l"];  //latitude
+            [coordsDict setValue:[roundSeven stringFromNumber:coord.longitude] forKey:@"n"];  //longitude
+            [coordsDict setValue:[roundOne stringFromNumber:coord.speed]     forKey:@"s"];  //speed
             [coordsDict setValue:coord.hAccuracy forKey:@"h"];  //haccuracy
             [coordsDict setValue:coord.vAccuracy forKey:@"v"];  //vaccuracy
             
@@ -1174,37 +1183,37 @@
             }
             
             if([coord.accel_x floatValue] != NAN){
-                [accelDict setValue:coord.accel_x forKey:@"s_a0"];
+                [accelDict setValue:[roundTwo stringFromNumber:coord.accel_x] forKey:@"s_a0"];
             }else{
                 [accelDict setValue:0 forKey:@"s_a0"];
             }
             
             if([coord.accel_y floatValue] != NAN){
-                [accelDict setValue:coord.accel_y forKey:@"s_a1"];
+                [accelDict setValue:[roundTwo stringFromNumber:coord.accel_y] forKey:@"s_a1"];
             }else{
                 [accelDict setValue:0 forKey:@"s_a1"];
             }
             
             if([coord.accel_z floatValue] != NAN){
-                [accelDict setValue:coord.accel_z forKey:@"s_a2"];
+                [accelDict setValue:[roundTwo stringFromNumber:coord.accel_z] forKey:@"s_a2"];
             }else{
                 [accelDict setValue:0 forKey:@"s_a2"];
             }
 
             if([coord.ss_x floatValue] != NAN){
-                [accelDict setValue:coord.ss_x forKey:@"s_s0"];
+                [accelDict setValue:[roundTwo stringFromNumber:coord.ss_x] forKey:@"s_s0"];
             }else{
                 [accelDict setValue:0 forKey:@"s_s0"];
             }
             
             if([coord.ss_y floatValue] != NAN){
-                [accelDict setValue:coord.ss_y forKey:@"s_s1"];
+                [accelDict setValue:[roundTwo stringFromNumber:coord.ss_y] forKey:@"s_s1"];
             }else{
                 [accelDict setValue:0 forKey:@"s_s1"];
             }
             
             if([coord.ss_z floatValue] != NAN){
-                [accelDict setValue:coord.ss_z forKey:@"s_s2"];
+                [accelDict setValue:[roundTwo stringFromNumber:coord.ss_z] forKey:@"s_s2"];
             }else{
                 [accelDict setValue:0 forKey:@"s_s2"];
             }
@@ -1256,7 +1265,7 @@
         while (coord = [enumerator nextObject])
         {
             NSMutableDictionary *coordsDict = [NSMutableDictionary dictionaryWithCapacity:8];
-            [coordsDict setValue:coord.altitude  forKey:@"a"];  //altitude
+            [coordsDict setValue: coord.altitude  forKey:@"a"];  //altitude
             [coordsDict setValue:coord.latitude  forKey:@"l"];  //latitude
             [coordsDict setValue:coord.longitude forKey:@"n"];  //longitude
             [coordsDict setValue:coord.speed     forKey:@"s"];  //speed
