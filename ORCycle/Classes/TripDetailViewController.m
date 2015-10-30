@@ -141,7 +141,7 @@
     routeComfortArray = [[NSArray alloc] initWithObjects: @" ", @"Very Good (even for families/children)" , @"Good (for most riders)", @"Average", @"Bad (only for confident riders)", @"Very Bad (unacceptable for most riders)", nil];
     routeSafetyArray = [[NSArray alloc] initWithObjects:@" ", @"Safe/comfortable for families, children, or new riders", @"Safe/comfortable for most riders", @"Safe/comfortable for the average confident rider", @"Only for the highly experienced and/or confident riders (not neccesarily comfortable)", @"Unacceptable", nil];
     ridePassengersArray = [[NSArray alloc] initWithObjects:@" ", @"Alone", @"With a child under 2", @"With a child between 2 and 10", @"With a child/teen over 10", @"With 1 adult", @"With 2+ adults", nil];
-    rideSpecialArray = [[NSArray alloc] initWithObjects: @"None",@"Child seat(s)", @"Electric-assist", @"The cargo area", @"Other",nil];
+    rideSpecialArray = [[NSArray alloc] initWithObjects: @"None",@"Child seat(s)", @"Electric assist", @"The cargo area", @"Other",nil];
     rideConflictArray = [[NSArray alloc] initWithObjects:@" ", @"I have had a crash/accident", @"I have had a near crash/accident", @"I did not have a near crash/accident, but did not feel safe", @"I did feel safe", nil];
     routeStressorsArray = [[NSArray alloc] initWithObjects: @" ", @"Not concerned",@"Auto traffic", @"Large commercial vehicles (trucks)", @"Public transportation (e.g. buses, light rail)", @"Parked vehicles (being doored)", @"Other cyclists", @"Pedestrians", @"Other", nil];
     

@@ -219,7 +219,7 @@
 		D95843101B1EA2EE00F1E646 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D958430F1B1EA2EE00F1E646 /* AssetsLibrary.framework */; };
 		D964C0491B32237200ACA930 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D964C0481B32237200ACA930 /* libz.dylib */; };
 		D980AC371B83EFC4009C9BDD /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D980AC361B83EFC4009C9BDD /* CoreMotion.framework */; };
-		D9C9AE5C1BBB17740062F1BC /* 6to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9C9AE5B1BBB17740062F1BC /* 6to7.xcmappingmodel */; settings = {ASSET_TAGS = (); }; };
+		D9C9AE5C1BBB17740062F1BC /* 6to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9C9AE5B1BBB17740062F1BC /* 6to7.xcmappingmodel */; };
 		D9DB91AB1B17651E00C9D8BF /* 1to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A61B17651E00C9D8BF /* 1to7.xcmappingmodel */; };
 		D9DB91AC1B17651E00C9D8BF /* 2to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A71B17651E00C9D8BF /* 2to7.xcmappingmodel */; };
 		D9DB91AD1B17651E00C9D8BF /* 3to7.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D9DB91A81B17651E00C9D8BF /* 3to7.xcmappingmodel */; };

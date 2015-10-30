@@ -245,7 +245,7 @@
     /*
     riderHistoryArray = [[NSArray alloc]initWithObjects: @" ", @"Since childhood", @"Several years", @"One year or less", @"Just trying it out / just started", nil];
      */
-    bikeTypesArray = [[NSArray alloc]initWithObjects:@" ",@"Commuter (with gears)", @"Commuter (single speed)", @"Racing or road", @"Trail, cyclecross, or mountain", @"Cargo bike", @"Electric-assist", @"Other", nil];
+    bikeTypesArray = [[NSArray alloc]initWithObjects:@" ",@"Commuter (with gears)", @"Commuter (single speed)", @"Racing or road", @"Trail, cyclecross, or mountain", @"Cargo bike", @"Electric assist", @"Other", nil];
     
     bikeTypesSelectedRows = [[NSMutableArray alloc] init];
     
@@ -1376,7 +1376,7 @@
 					cell.textLabel.text = @"Cargo bike";
                     break;
                 case 5:
-					cell.textLabel.text = @"Electric-assist";
+					cell.textLabel.text = @"Electric assist";
                     break;
                 case 6:
                     if (user.otherBikeTypes != NULL){
